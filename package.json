@@ -1,0 +1,19 @@
+{
+  "name": "gen-m-momentos",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "@fontsource/open-sans": "^5.3.0",
+    "astro": "^7.3.4",
+    "sharp": "^0.35.4"
+  }
+}

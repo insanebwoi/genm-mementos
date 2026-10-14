@@ -1,0 +1,596 @@
+---
+// Clean, pure-vector animated isometric robotic crane assembling blocks
+---
+
+<div class="scene-container">
+  <svg
+    class="robot-arm-svg"
+    viewBox="0 0 540 380"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Animated robotic crane assembling modular blocks"
+  >
+    <defs>
+      <!-- Gradients for realistic isometric shading -->
+      <!-- Tray Gradients -->
+      <linearGradient id="trayTopGrad" x1="120" y1="180" x2="300" y2="290" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#eff6ff" stop-opacity="0.95" />
+        <stop offset="100%" stop-color="#dbeafe" stop-opacity="0.85" />
+      </linearGradient>
+      
+      <linearGradient id="trayRimGrad" x1="60" y1="230" x2="260" y2="300" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#2563eb" />
+        <stop offset="100%" stop-color="#1d4ed8" />
+      </linearGradient>
+
+      <!-- Robotic Arm Gradients -->
+      <linearGradient id="armMainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#3b82f6" />
+        <stop offset="60%" stop-color="#1d4ed8" />
+        <stop offset="100%" stop-color="#1e3a8a" />
+      </linearGradient>
+
+      <linearGradient id="forearmGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#2563eb" />
+        <stop offset="50%" stop-color="#3b82f6" />
+        <stop offset="100%" stop-color="#1d4ed8" />
+      </linearGradient>
+
+      <linearGradient id="glowPivotGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ffffff" />
+        <stop offset="50%" stop-color="#93c5fd" />
+        <stop offset="100%" stop-color="#3b82f6" />
+      </linearGradient>
+
+      <!-- Cube Gradients (Blue) -->
+      <linearGradient id="cubeBlueTop" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#60a5fa" />
+        <stop offset="100%" stop-color="#3b82f6" />
+      </linearGradient>
+      <linearGradient id="cubeBlueLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#2563eb" />
+        <stop offset="100%" stop-color="#1d4ed8" />
+      </linearGradient>
+      <linearGradient id="cubeBlueRight" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#1e40af" />
+        <stop offset="100%" stop-color="#1e3a8a" />
+      </linearGradient>
+
+      <!-- Cube Gradients (White) -->
+      <linearGradient id="cubeWhiteTop" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ffffff" />
+        <stop offset="100%" stop-color="#f8fafc" />
+      </linearGradient>
+      <linearGradient id="cubeWhiteLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#f1f5f9" />
+        <stop offset="100%" stop-color="#e2e8f0" />
+      </linearGradient>
+      <linearGradient id="cubeWhiteRight" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#cbd5e1" />
+        <stop offset="100%" stop-color="#94a3b8" />
+      </linearGradient>
+
+      <!-- Pedestal Gradient -->
+      <linearGradient id="pedestalTop" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ffffff" />
+        <stop offset="100%" stop-color="#f1f5f9" />
+      </linearGradient>
+      <linearGradient id="pedestalLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#e2e8f0" />
+        <stop offset="100%" stop-color="#cbd5e1" />
+      </linearGradient>
+      <linearGradient id="pedestalRight" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#94a3b8" />
+        <stop offset="100%" stop-color="#64748b" />
+      </linearGradient>
+
+      <!-- Filters -->
+      <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="4" result="blur" />
+        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+      </filter>
+
+      <filter id="shadowBlur" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="6" />
+      </filter>
+    </defs>
+
+    <!-- ════════ 1. Ambient Shadows on Floor ════════ -->
+    <ellipse cx="270" cy="305" rx="200" ry="42" fill="rgba(15, 23, 42, 0.06)" filter="url(#shadowBlur)" />
+    <!-- Tray Specific Contact Shadow -->
+    <ellipse cx="180" cy="275" rx="115" ry="32" fill="rgba(37, 99, 235, 0.12)" filter="url(#shadowBlur)" />
+    <!-- Robot Base Contact Shadow -->
+    <ellipse cx="360" cy="255" rx="75" ry="24" fill="rgba(15, 23, 42, 0.14)" filter="url(#shadowBlur)" />
+
+    <!-- ════════ 2. Isometric Assembly Tablet / Tray (Left) ════════ -->
+    <g class="isometric-tray">
+      <!-- Tray Bottom Rim (Thickness) -->
+      <path
+        d="M 64,228 
+           C 64,242 74,258 92,268 
+           L 186,316 
+           C 200,323 218,323 232,316 
+           L 294,284 
+           C 304,279 308,272 308,266 
+           L 308,252
+           L 226,298
+           C 214,305 198,305 186,298
+           L 84,244
+           C 72,238 64,232 64,228 Z"
+        fill="url(#trayRimGrad)"
+      />
+
+      <!-- Tray Glass Surface -->
+      <path
+        d="M 88,212 
+           C 74,204 74,192 88,184 
+           L 186,132 
+           C 200,125 218,125 232,132 
+           L 294,166 
+           C 308,174 308,186 294,194 
+           L 232,228 
+           C 218,236 200,236 186,228 Z"
+        transform="translate(4, 38)"
+        fill="url(#trayTopGrad)"
+        stroke="rgba(255, 255, 255, 0.8)"
+        stroke-width="1.5"
+      />
+
+      <!-- Tray Inner Raised Border Accent -->
+      <path
+        d="M 72,224 C 66,218 70,210 82,204 L 184,152 C 196,146 214,146 226,152 L 292,186"
+        fill="none"
+        stroke="#2563eb"
+        stroke-width="5"
+        stroke-linecap="round"
+      />
+
+      <!-- Subtle Grid Lines on Tray -->
+      <g stroke="#93c5fd" stroke-width="1" stroke-dasharray="3 3" opacity="0.6">
+        <path d="M 130,215 L 235,270" />
+        <path d="M 160,200 L 265,255" />
+        <path d="M 165,260 L 225,230" />
+        <path d="M 195,245 L 255,215" />
+      </g>
+
+      <!-- Pre-assembled Blocks on the Tray -->
+      <!-- Cube 1 on Tray (Blue) -->
+      <g class="tray-cube cube-pos-1">
+        <!-- Top -->
+        <polygon points="152,226 168,218 184,226 168,234" fill="url(#cubeBlueTop)" />
+        <!-- Left -->
+        <polygon points="152,226 168,234 168,250 152,242" fill="url(#cubeBlueLeft)" />
+        <!-- Right -->
+        <polygon points="168,234 184,226 184,242 168,250" fill="url(#cubeBlueRight)" />
+      </g>
+
+      <!-- Cube 2 on Tray (White) -->
+      <g class="tray-cube cube-pos-2">
+        <polygon points="168,234 184,226 200,234 184,242" fill="url(#cubeWhiteTop)" />
+        <polygon points="168,234 184,242 184,258 168,250" fill="url(#cubeWhiteLeft)" />
+        <polygon points="184,242 200,234 200,250 184,258" fill="url(#cubeWhiteRight)" />
+      </g>
+
+      <!-- Cube 3 on Tray (Blue) -->
+      <g class="tray-cube cube-pos-3">
+        <polygon points="184,218 200,210 216,218 200,226" fill="url(#cubeBlueTop)" />
+        <polygon points="184,218 200,226 200,242 184,234" fill="url(#cubeBlueLeft)" />
+        <polygon points="200,226 216,218 216,234 200,242" fill="url(#cubeBlueRight)" />
+      </g>
+
+      <!-- Active Target Slot Guide Grid on Tray -->
+      <g class="target-slot-marker">
+        <polygon
+          points="184,242 200,234 216,242 200,250"
+          fill="rgba(37, 99, 235, 0.15)"
+          stroke="#2563eb"
+          stroke-width="1.5"
+          stroke-dasharray="2 2"
+        />
+        <!-- Alignment Laser Crosshair -->
+        <circle cx="200" cy="242" r="3" fill="#0ea5e9" filter="url(#softGlow)" />
+      </g>
+
+      <!-- Cube being placed by the arm (synchronized animation) -->
+      <g class="placed-cube-anim">
+        <polygon points="184,242 200,234 216,242 200,250" fill="url(#cubeBlueTop)" />
+        <polygon points="184,242 200,250 200,266 184,258" fill="url(#cubeBlueLeft)" />
+        <polygon points="200,250 216,242 216,258 200,266" fill="url(#cubeBlueRight)" />
+        <!-- Placement Sparkle Halo -->
+        <circle class="placement-sparkle" cx="200" cy="242" r="18" fill="none" stroke="#38bdf8" stroke-width="2" />
+      </g>
+    </g>
+
+    <!-- ════════ 3. Material Stock Pile (Lower Right) ════════ -->
+    <g class="stock-pile">
+      <!-- Base cubes in stack -->
+      <!-- White stack cube -->
+      <g transform="translate(390, 260)">
+        <polygon points="0,-10 14,-17 28,-10 14,-3" fill="url(#cubeWhiteTop)" />
+        <polygon points="0,-10 14,-3 14,11 0,4" fill="url(#cubeWhiteLeft)" />
+        <polygon points="14,-3 28,-10 28,4 14,11" fill="url(#cubeWhiteRight)" />
+      </g>
+      <!-- Blue stack cube -->
+      <g transform="translate(404, 253)">
+        <polygon points="0,-10 14,-17 28,-10 14,-3" fill="url(#cubeBlueTop)" />
+        <polygon points="0,-10 14,-3 14,11 0,4" fill="url(#cubeBlueLeft)" />
+        <polygon points="14,-3 28,-10 28,4 14,11" fill="url(#cubeBlueRight)" />
+      </g>
+      <!-- Top blue cube on stack -->
+      <g transform="translate(397, 243)">
+        <polygon points="0,-10 14,-17 28,-10 14,-3" fill="url(#cubeBlueTop)" />
+        <polygon points="0,-10 14,-3 14,11 0,4" fill="url(#cubeBlueLeft)" />
+        <polygon points="14,-3 28,-10 28,4 14,11" fill="url(#cubeBlueRight)" />
+      </g>
+
+      <!-- Scattered loose cubes on floor -->
+      <!-- Left loose cube -->
+      <g transform="translate(95, 290)">
+        <polygon points="0,-8 11,-14 22,-8 11,-2" fill="url(#cubeBlueTop)" />
+        <polygon points="0,-8 11,-2 11,10 0,4" fill="url(#cubeBlueLeft)" />
+        <polygon points="11,-2 22,-8 22,4 11,10" fill="url(#cubeBlueRight)" />
+      </g>
+
+      <!-- Center foreground loose cube -->
+      <g transform="translate(290, 318)">
+        <polygon points="0,-8 11,-14 22,-8 11,-2" fill="url(#cubeBlueTop)" />
+        <polygon points="0,-8 11,-2 11,10 0,4" fill="url(#cubeBlueLeft)" />
+        <polygon points="11,-2 22,-8 22,4 11,10" fill="url(#cubeBlueRight)" />
+      </g>
+
+      <!-- Extra white block by stack -->
+      <g transform="translate(350, 275)">
+        <polygon points="0,-7 10,-12 20,-7 10,-2" fill="url(#cubeWhiteTop)" />
+        <polygon points="0,-7 10,-2 10,8 0,3" fill="url(#cubeWhiteLeft)" />
+        <polygon points="10,-2 20,-7 20,3 10,8" fill="url(#cubeWhiteRight)" />
+      </g>
+    </g>
+
+    <!-- ════════ 4. Robotic Arm Pedestal (Base Platform) ════════ -->
+    <g class="robot-pedestal">
+      <!-- White/Glass Isometric Pedestal Block -->
+      <polygon points="320,205 370,180 420,205 370,230" fill="url(#pedestalTop)" stroke="#ffffff" stroke-width="1.5" />
+      <polygon points="320,205 370,230 370,252 320,227" fill="url(#pedestalLeft)" />
+      <polygon points="370,230 420,205 420,227 370,252" fill="url(#pedestalRight)" />
+
+      <!-- Turret Base Mount (Cylindrical Swivel Base) -->
+      <ellipse cx="370" cy="200" rx="34" ry="17" fill="#1e3a8a" />
+      <ellipse cx="370" cy="195" rx="30" ry="15" fill="#2563eb" />
+      <ellipse cx="370" cy="191" rx="22" ry="11" fill="#3b82f6" />
+      <circle cx="370" cy="191" r="10" fill="#1d4ed8" />
+    </g>
+
+    <!-- ════════ 5. ANIMATED ROBOTIC CRANE MECHANISM ════════ -->
+    <!-- The whole upper arm rig articulates realistically -->
+    <g class="crane-articulated-rig">
+
+      <!-- Base Boom / Lower Arm Link (Rotates slightly at base pivot 370, 191) -->
+      <g class="lower-boom-assembly">
+        <!-- Structural Robotic Beam -->
+        <path
+          d="M 358,191 
+             L 340,118 
+             C 338,106 348,96 360,96 
+             L 374,96 
+             C 386,96 394,106 392,118 
+             L 380,191 Z"
+          fill="url(#armMainGrad)"
+        />
+
+        <!-- Translucent glass styling strip on lower arm -->
+        <path
+          d="M 364,185 L 352,122 C 350,114 356,108 364,108 L 368,108 C 376,108 380,114 378,122 L 374,185 Z"
+          fill="rgba(255, 255, 255, 0.28)"
+        />
+
+        <!-- High-tech Main Elbow Joint (Pivot at 366, 108) -->
+        <circle cx="366" cy="108" r="19" fill="#1e3a8a" />
+        <circle cx="366" cy="108" r="15" fill="url(#glowPivotGrad)" />
+        <circle cx="366" cy="108" r="8" fill="#ffffff" filter="url(#softGlow)" />
+        <!-- Glowing LED Core Indicator -->
+        <circle cx="366" cy="108" r="4" fill="#0ea5e9" class="pivot-led-blink" />
+
+        <!-- Upper Forearm Assembly (Pivots from elbow 366, 108 towards target) -->
+        <g class="forearm-assembly">
+          <!-- Forearm Beam extending horizontally/downward -->
+          <path
+            d="M 366,100 
+               L 204,78 
+               C 192,76 184,86 186,98 
+               L 188,104 
+               C 190,114 200,120 210,118 
+               L 366,116 Z"
+            fill="url(#forearmGrad)"
+          />
+
+          <!-- Metallic Accent Trim on Forearm -->
+          <path d="M 350,105 L 214,88" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.8" />
+
+          <!-- Hydraulic Piston Assist Rod -->
+          <line x1="340" y1="120" x2="260" y2="105" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" />
+          <line x1="310" y1="115" x2="260" y2="105" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" />
+
+          <!-- Wrist Head / Cable Reel Drum (at 198, 96) -->
+          <g class="wrist-drum">
+            <ellipse cx="198" cy="96" rx="14" ry="9" fill="#1e3a8a" />
+            <ellipse cx="198" cy="92" rx="12" ry="7" fill="#3b82f6" />
+            <circle cx="198" cy="92" r="5" fill="#ffffff" />
+            
+            <!-- Laser Guide Spot pointing downward -->
+            <path d="M 198,96 L 200,240" stroke="rgba(14, 165, 233, 0.25)" stroke-width="1.5" stroke-dasharray="4 4" class="laser-beam" />
+          </g>
+
+          <!-- ════ Cable, Gripper & Carried Cube Assembly ════ -->
+          <!-- This sub-assembly lowers and raises along the vertical axis -->
+          <g class="cable-and-payload">
+            <!-- Steel Cable Wire -->
+            <line x1="198" y1="96" x2="198" y2="200" stroke="#64748b" stroke-width="2" class="extendable-cable" />
+
+            <!-- Gripper Magnetic Head -->
+            <g class="gripper-head" transform="translate(198, 200)">
+              <!-- Gripper mount collar -->
+              <ellipse cx="0" cy="0" rx="9" ry="4" fill="#1e3a8a" />
+              <rect x="-6" y="-3" width="12" height="6" rx="2" fill="#2563eb" />
+              <circle cx="0" cy="0" r="3" fill="#38bdf8" filter="url(#softGlow)" />
+
+              <!-- Magnetic Gripper Claws -->
+              <path d="M -8,0 L -8,12 L -5,14" fill="none" stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M 8,0 L 8,12 L 5,14" fill="none" stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round" />
+
+              <!-- The Isometric Blue Cube held by the Gripper -->
+              <g class="carried-cube" transform="translate(0, 14)">
+                <!-- Top Face -->
+                <polygon points="-16,-9 0,-18 16,-9 0,0" fill="url(#cubeBlueTop)" />
+                <!-- Left Face -->
+                <polygon points="-16,-9 0,0 0,18 -16,9" fill="url(#cubeBlueLeft)" />
+                <!-- Right Face -->
+                <polygon points="0,0 16,-9 16,9 0,18" fill="url(#cubeBlueRight)" />
+                <!-- Grip Contact Glow Dots -->
+                <circle cx="-6" cy="-4" r="2" fill="#38bdf8" />
+                <circle cx="6" cy="-4" r="2" fill="#38bdf8" />
+              </g>
+            </g>
+          </g> <!-- end cable-and-payload -->
+
+        </g> <!-- end forearm-assembly -->
+
+      </g> <!-- end lower-boom-assembly -->
+
+    </g> <!-- end crane-articulated-rig -->
+
+  </svg>
+</div>
+
+<style>
+  .scene-container {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    user-select: none;
+  }
+
+  .robot-arm-svg {
+    width: 100%;
+    height: auto;
+    max-height: 310px;
+    display: block;
+    overflow: visible;
+    filter: drop-shadow(0 14px 28px rgba(37, 99, 235, 0.08));
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     AUTHENTIC ROBOTIC CRANE MECHANICAL ANIMATION CYCLE (5s loop)
+     0% - 20%: Arm hovers and lowers block toward target slot
+     20% - 35%: Cube docks into grid with flash & pulse
+     35% - 50%: Cable retracts back up
+     50% - 70%: Arm swings back, picks up new block from reserve
+     70% - 85%: Arm lifts up with new block
+     85% - 100%: Arm returns to center ready to deposit
+     ═══════════════════════════════════════════════════════════ */
+
+  /* 1. Whole Crane Gentle Breathing & Levitation */
+  .crane-articulated-rig {
+    transform-origin: 370px 191px;
+    animation: craneSway 5s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  }
+
+  @keyframes craneSway {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-1.8deg) translateY(-2px);
+    }
+    60% {
+      transform: rotate(2.2deg) translateY(0px);
+    }
+    85% {
+      transform: rotate(-0.5deg) translateY(-1px);
+    }
+  }
+
+  /* 2. Forearm Articulation (Extending & Flexing) */
+  .forearm-assembly {
+    transform-origin: 366px 108px;
+    animation: forearmArticulate 5s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  }
+
+  @keyframes forearmArticulate {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    20% {
+      transform: rotate(2.4deg);
+    }
+    38% {
+      transform: rotate(-3.5deg);
+    }
+    65% {
+      transform: rotate(-5deg);
+    }
+    85% {
+      transform: rotate(1deg);
+    }
+  }
+
+  /* 3. Cable & Payload Lowering / Retracting Motion */
+  .cable-and-payload {
+    transform-origin: 198px 96px;
+    animation: cablePlunge 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes cablePlunge {
+    /* Starting position hovering above tray */
+    0% {
+      transform: translateY(-8px);
+    }
+    /* Lowering down to touch the grid */
+    18%, 28% {
+      transform: translateY(28px);
+    }
+    /* Retracting high after placement */
+    40%, 65% {
+      transform: translateY(-38px);
+    }
+    /* Lowering slightly to collect next cube */
+    75% {
+      transform: translateY(-16px);
+    }
+    /* Lifting up and returning */
+    88%, 100% {
+      transform: translateY(-8px);
+    }
+  }
+
+  /* 4. Carried Cube Visibility / Docking Sync */
+  .carried-cube {
+    animation: carriedCubeVisibility 5s ease-in-out infinite;
+  }
+
+  @keyframes carriedCubeVisibility {
+    0%, 22% {
+      opacity: 1;
+      transform: translate(0, 14px) scale(1);
+    }
+    /* When placed, carried cube vanishes as it attaches to board */
+    24%, 68% {
+      opacity: 0;
+      transform: translate(0, 14px) scale(0.9);
+    }
+    /* Picked up from reserve and reappears */
+    70%, 100% {
+      opacity: 1;
+      transform: translate(0, 14px) scale(1);
+    }
+  }
+
+  /* 5. Placed Cube on the Tray (Appears & Pulses on Assembly) */
+  .placed-cube-anim {
+    animation: placedCubeAppear 5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+
+  @keyframes placedCubeAppear {
+    0%, 20% {
+      opacity: 0;
+      transform: scale(0.85);
+      transform-origin: 200px 242px;
+    }
+    23% {
+      opacity: 1;
+      transform: scale(1.06);
+      transform-origin: 200px 242px;
+    }
+    26%, 66% {
+      opacity: 1;
+      transform: scale(1);
+      transform-origin: 200px 242px;
+    }
+    /* Resets for the next loop */
+    69%, 100% {
+      opacity: 0;
+      transform: scale(0.85);
+      transform-origin: 200px 242px;
+    }
+  }
+
+  /* 6. Placement Sparkle Ring */
+  .placement-sparkle {
+    transform-origin: 200px 242px;
+    animation: sparkleBurst 5s ease-out infinite;
+  }
+
+  @keyframes sparkleBurst {
+    0%, 21% {
+      opacity: 0;
+      transform: scale(0.2);
+    }
+    23% {
+      opacity: 0.9;
+      transform: scale(1.3);
+    }
+    30% {
+      opacity: 0;
+      transform: scale(2.2);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.2);
+    }
+  }
+
+  /* 7. Alignment Target Slot Pulse */
+  .target-slot-marker polygon {
+    animation: targetSlotPulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes targetSlotPulse {
+    0%, 100% {
+      fill: rgba(37, 99, 235, 0.12);
+      stroke-opacity: 0.5;
+    }
+    50% {
+      fill: rgba(14, 165, 233, 0.3);
+      stroke-opacity: 1;
+    }
+  }
+
+  /* 8. Laser Beam Sweep */
+  .laser-beam {
+    animation: laserScan 2.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes laserScan {
+    0% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 0.65;
+    }
+  }
+
+  /* 9. Elbow Pivot LED Pulse */
+  .pivot-led-blink {
+    animation: ledPulse 1.8s ease-in-out infinite alternate;
+  }
+
+  @keyframes ledPulse {
+    0% {
+      opacity: 0.5;
+      fill: #3b82f6;
+    }
+    100% {
+      opacity: 1;
+      fill: #38bdf8;
+      filter: drop-shadow(0 0 6px #38bdf8);
+    }
+  }
+
+  /* 10. Subtle Interactive Micro-tilt */
+  .scene-container:hover .crane-articulated-rig {
+    filter: drop-shadow(0 8px 16px rgba(14, 165, 233, 0.2));
+  }
+</style>

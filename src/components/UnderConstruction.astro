@@ -1,0 +1,271 @@
+---
+import RoboticArmScene from './RoboticArmScene.astro';
+
+interface Props {
+  title?: string;
+  message?: string;
+  submessage?: string;
+  badgeText?: string;
+}
+
+const {
+  title = "Page Under Construction",
+  message = "The development of new functions is stepping up, and it is expected to be online soon.",
+  submessage = "Please be patient.",
+  badgeText = "ONLINE SOON"
+} = Astro.props;
+---
+
+<div class="under-construction-stage">
+  <div class="under-construction-card">
+    
+    <!-- Live Online Soon Status Badge -->
+    <div class="online-status-badge">
+      <span class="radar-ping-wrap">
+        <span class="radar-halo"></span>
+        <span class="radar-core"></span>
+      </span>
+      <span class="badge-label">{badgeText}</span>
+    </div>
+
+    <!-- Authentic Animated Isometric Robotic Crane Scene -->
+    <div class="interactive-scene-wrapper">
+      <RoboticArmScene />
+    </div>
+
+    <!-- Heading with Animated Ellipsis -->
+    <h1 class="stage-title">
+      <span>{title}</span><span class="animated-dots"><span>.</span><span>.</span><span>.</span></span>
+    </h1>
+
+    <!-- Sleek Animated Construction Progress Bar -->
+    <div class="progress-container" aria-label="Development progress in motion">
+      <div class="progress-track">
+        <div class="progress-fill">
+          <div class="progress-shimmer"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Explanatory Subtitle -->
+    <p class="stage-desc">
+      {message}
+      <br />
+      {submessage}
+    </p>
+
+  </div>
+</div>
+
+<style>
+  :root {
+    --page-bg: #f8f9fb;
+    --title-color: #11141a;
+    --desc-color: #555963;
+    --accent-blue: #2563eb;
+    --accent-cyan: #0ea5e9;
+  }
+
+  .under-construction-stage {
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--page-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+    box-sizing: border-box;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .under-construction-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 580px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ─── Online Soon Live Radar Badge ─── */
+  .online-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px 6px 10px;
+    background: #ffffff;
+    border: 1px solid rgba(37, 99, 235, 0.16);
+    border-radius: 999px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);
+    animation: fadeInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .radar-ping-wrap {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .radar-halo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    opacity: 0.75;
+    animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .radar-core {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    box-shadow: 0 0 8px rgba(37, 99, 235, 0.6);
+  }
+
+  .badge-label {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+  }
+
+  /* ─── Interactive Scene Wrapper ─── */
+  .interactive-scene-wrapper {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ─── Stage Title & Animated Dots ─── */
+  .stage-title {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(1.32rem, 2.6vw, 1.55rem);
+    font-weight: 600;
+    color: var(--title-color);
+    margin: 0 0 14px 0;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+  }
+
+  .animated-dots {
+    display: inline-flex;
+    margin-left: 2px;
+  }
+
+  .animated-dots span {
+    animation: blinkDot 1.4s infinite;
+    opacity: 0;
+  }
+
+  .animated-dots span:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .animated-dots span:nth-child(2) {
+    animation-delay: 0.35s;
+  }
+  .animated-dots span:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  /* ─── Animated Progress Motion Track ─── */
+  .progress-container {
+    width: 100%;
+    max-width: 240px;
+    margin: 4px auto 18px;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-fill {
+    width: 68%;
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6 0%, #0ea5e9 100%);
+    border-radius: 999px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-shimmer {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    animation: shimmerSlide 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  /* ─── Stage Description ─── */
+  .stage-desc {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(0.86rem, 1.8vw, 0.94rem);
+    color: var(--desc-color);
+    line-height: 1.65;
+    margin: 0;
+    font-weight: 400;
+    max-width: 480px;
+  }
+
+  /* ─── Keyframe Animations ─── */
+  @keyframes ping {
+    75%, 100% {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  @keyframes blinkDot {
+    0%, 20% {
+      opacity: 0;
+    }
+    40%, 100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes shimmerSlide {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

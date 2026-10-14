@@ -1,0 +1,397 @@
+/* GEN M Merchandise - Global Styles */
+
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/manrope';
+
+/* Neoverse Sans — the rounded techno face from the GEN M lockup.
+   Secondary English type: labels, navigation, pills, buttons, metadata. */
+@font-face {
+  font-family: 'Neoverse';
+  src: url('/fonts/neoverse-sans-medium.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+/* FKL Dhikk — Malayalam headline/branding typeface for poster captions */
+@font-face {
+  font-family: 'FKL Dhikk';
+  src: url('/fonts/FKL_Dhikk_Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --bg: #fbfbfd;
+  --text: #1d1d1f;
+  --text-muted: #6e6e73;
+  --text-dim: #86868b;
+  --line: rgba(0, 0, 0, 0.08);
+
+  --periwinkle: #4f56c7;
+  --periwinkle-light: #6366f1;
+  --cream: #e7eeac;
+  --white: #ffffff;
+  --dark: #111827;
+
+  --display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+  --body: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
+  --label: 'Neoverse', var(--display);
+
+  --r-lg: 28px;
+  --r: 20px;
+  --r-sm: 14px;
+  --gutter: 16px;
+  --max: 1440px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --nav-h: 72px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 32px;
+  }
+}
+@media (min-width: 1200px) {
+  :root {
+    --gutter: 48px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scrollbar-color: rgb(245 244 236 / 0.2) transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom));
+}
+@media (min-width: 900px) {
+  body {
+    padding-bottom: 0;
+  }
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+::selection {
+  background: var(--yellow);
+  color: var(--navy);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ───────── Background atmosphere ───────── */
+.atmos {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60vmax 50vmax at 85% -10%, rgb(255 255 255 / 0.12), transparent 60%),
+    radial-gradient(50vmax 40vmax at -10% 30%, rgb(var(--ink-rgb) / 0.3), transparent 65%),
+    radial-gradient(40vmax 30vmax at 60% 110%, rgb(var(--cream-rgb) / 0.1), transparent 70%),
+    linear-gradient(180deg, #5f67b9 0%, #535ba9 100%);
+}
+.atmos::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(245 244 236 / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(245 244 236 / 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 10%, transparent 70%);
+}
+.atmos::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+}
+
+/* ───────── Layout ───────── */
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.section {
+  padding-block: clamp(36px, 5.5vw, 76px);
+}
+
+/* ───────── Buttons ───────── */
+.btn {
+  --bg: var(--surface-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: var(--bg);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s, scale 0.2s var(--ease), translate 0.35s var(--ease);
+  border: 1px solid transparent;
+}
+.btn svg {
+  width: 18px;
+  height: 18px;
+}
+.btn:active {
+  scale: 0.97;
+}
+.btn-primary {
+  --bg: var(--yellow);
+  color: var(--navy);
+}
+.btn-primary:hover {
+  --bg: #f1f6c6;
+}
+.btn-ghost {
+  --bg: transparent;
+  border-color: rgb(245 244 236 / 0.2);
+}
+.btn-ghost:hover {
+  --bg: var(--surface-2);
+}
+.btn-sm {
+  height: 42px;
+  padding: 0 18px;
+  font-size: 14px;
+}
+.icon-btn {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgb(var(--ink-rgb) / 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgb(245 244 236 / 0.14);
+  transition: background 0.2s, color 0.2s, scale 0.2s var(--ease);
+}
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
+}
+.icon-btn:hover {
+  background: var(--yellow);
+  color: var(--navy);
+}
+.icon-btn:active {
+  scale: 0.92;
+}
+.icon-btn[aria-pressed='true'] {
+  color: var(--coral);
+}
+.icon-btn[aria-pressed='true'] svg {
+  fill: currentColor;
+}
+.icon-btn[aria-pressed='true']:hover {
+  color: var(--coral);
+  background: var(--white);
+}
+
+/* ───────── Pills ───────── */
+.pills {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  padding-block: 2px;
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent);
+}
+.pills::-webkit-scrollbar {
+  display: none;
+}
+.pill {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--muted);
+  scroll-snap-align: start;
+  transition: background 0.25s var(--ease), color 0.25s, border-color 0.25s, scale 0.2s var(--ease);
+  white-space: nowrap;
+}
+.pill:hover {
+  color: var(--text);
+  border-color: rgb(245 244 236 / 0.22);
+}
+.pill:active {
+  scale: 0.95;
+}
+.pill[aria-pressed='true'],
+.pill[aria-current='page'] {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--navy);
+}
+.pill .n {
+  font-family: var(--display);
+  font-size: 11px;
+  opacity: 0.55;
+}
+
+/* ───────── Kicker ───────── */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--yellow);
+}
+.kicker::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ───────── Unofficial badge ───────── */
+.unofficial {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  white-space: nowrap;
+}
+.unofficial::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--coral);
+}
+
+/* "GEN M" is never set in Neoverse. */
+.gm {
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Secondary type: Neoverse */
+.kicker,
+.nav a,
+.tabbar a,
+.pill,
+.btn,
+.chip,
+.unofficial,
+.brand small,
+.link-more,
+.card-text p,
+.foot-sub,
+.foot-links,
+.dl-opt small,
+.sheet-note,
+.toast {
+  font-family: var(--label);
+  font-weight: 500;
+}
+.kicker,
+.unofficial,
+.brand small,
+.foot-sub {
+  letter-spacing: 0.08em;
+}
+.btn,
+.pill,
+.nav a,
+.chip {
+  letter-spacing: 0.01em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
