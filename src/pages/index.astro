@@ -663,7 +663,10 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
 
         <div class="footer-bottom-line">
           <p>© 2026 GEN M • Muslim Students Movement (MSM Kerala). 13 Official Merchandise Pieces.</p>
-          <a href="#site-header" class="footer-top-link">Back to top ↑</a>
+          <div class="footer-bottom-actions">
+            <a href="/dashboard" class="footer-admin-link">Staff Login & Operations Dashboard →</a>
+            <a href="#site-header" class="footer-top-link">Back to top ↑</a>
+          </div>
         </div>
       </div>
     </footer>
@@ -1765,6 +1768,25 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
 
   .footer-top-link:hover {
     color: #ffffff;
+  }
+
+  .footer-bottom-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .footer-admin-link {
+    color: #cbd5e1;
+    font-size: 0.84rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .footer-admin-link:hover {
+    color: #E7EEAC;
   }
 
 
