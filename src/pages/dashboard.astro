@@ -3,11 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import { PRODUCTS } from '../data/products';
 
 const productNames = PRODUCTS.map((p) => p.name);
+const GOOGLE_SHEET_ID = '1foGWm9i_5DhBUjocJDxs84jWCLdc-U1BJaN7r0KuhiA';
+const GOOGLE_SHEET_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/edit`;
 ---
 
 <Layout
-  title="GEN M Swag — Admin Command Center & Google Sheets CRUD"
-  description="Secure dashboard for GEN M Swag merchandise orders. Protected with username/password authentication, JWT authorization, and Google Cloud Service Account integration."
+  title="GEN M Swag — Operations & Google Sheets Command Center"
+  description="All-in-one operations dashboard for GEN M Swag. Live sync with Google Sheets (1foGWm9i_5DhBUjocJDxs84jWCLdc-U1BJaN7r0KuhiA). Order CRUD, T-Shirt multi-size allocation, 1,850-unit inventory tracking, and sales analytics."
 >
   <div class="dash-root" id="dashApp">
     
@@ -25,8 +27,11 @@ const productNames = PRODUCTS.map((p) => p.name);
           </div>
           <h1 class="auth-title">Command Center</h1>
           <p class="auth-subtitle">
-            Secure Google Sheets CRUD Management Portal
+            Secure Google Sheets Operations & Inventory Portal
           </p>
+          <div class="sheet-id-badge">
+            <span>Connected Sheet: <code>1foGWm9i...0KuhiA</code></span>
+          </div>
         </div>
 
         <!-- Security Architecture Banner -->
@@ -39,9 +44,9 @@ const productNames = PRODUCTS.map((p) => p.name);
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             JWT Bearer
           </span>
-          <span class="sec-pill" title="Zero API Key exposure via Service Account">
+          <span class="sec-pill" title="Multi-tab Google Sheets sync">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            GCP Service Account
+            Google Cloud Sheets
           </span>
         </div>
 
@@ -121,36 +126,38 @@ const productNames = PRODUCTS.map((p) => p.name);
       <!-- Top Navigation Header -->
       <header class="dash-topbar">
         <div class="topbar-left">
-          <a href="/" class="topbar-brand" title="Return to Website">
+          <a href="/" class="topbar-brand" title="Return to Merchandise Website">
             <span class="brand-text">GEN M</span>
             <span class="brand-divider">/</span>
             <span class="brand-sub">OPERATIONS</span>
           </a>
 
           <!-- Real-Time Sync Indicator Pill -->
-          <div class="sync-status-badge" id="syncStatusBadge">
+          <a
+            href={GOOGLE_SHEET_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="sync-status-badge"
+            id="syncStatusBadge"
+            title="Open connected Google Sheet in new tab"
+          >
             <span class="status-indicator-dot dot-live" id="statusDot"></span>
-            <span class="status-indicator-label" id="statusLabel">Connecting...</span>
-          </div>
+            <span class="status-indicator-label" id="statusLabel">Syncing with Sheet...</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
         </div>
 
         <div class="topbar-right">
-          <!-- Diagnostics / Google Setup Trigger -->
-          <button class="topbar-action-btn" id="openSetupModalBtn" title="Google Sheets API & Service Account Setup">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-            <span>Google Sheets Config</span>
-          </button>
-
           <!-- Refresh Data -->
           <button class="topbar-action-btn" id="refreshDataBtn" title="Reload from source">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
             <span>Refresh</span>
           </button>
 
-          <!-- Add New Record Button (3D Brand Yellow) -->
+          <!-- Add New Order Button (3D Brand Yellow) -->
           <button class="btn-create-record" id="openCreateModalBtn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span>New Order / Entry</span>
+            <span>+ New Booking / Order</span>
           </button>
 
           <!-- User Menu / Logout -->
@@ -164,133 +171,514 @@ const productNames = PRODUCTS.map((p) => p.name);
         </div>
       </header>
 
+
+      <!-- Navigation Tabs (Orders, T-Shirt Sizes, Stock/Inventory, Sales/Financials, Sheet Sync) -->
+      <nav class="dash-tabs-nav" aria-label="Operations sections">
+        <div class="tabs-shell">
+          <button class="tab-btn is-active" data-tab="tabOrders">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Orders & Bookings</span>
+            <span class="tab-badge" id="tabOrdersBadge">0</span>
+          </button>
+
+          <button class="tab-btn" data-tab="tabTshirt">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+            <span>T-Shirt Size Allocation</span>
+            <span class="tab-badge badge-accent" id="tabTshirtBadge">250 Target</span>
+          </button>
+
+          <button class="tab-btn" data-tab="tabStock">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <span>Stock & Inventory (1,850)</span>
+          </button>
+
+          <button class="tab-btn" data-tab="tabFinancials">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>Sales & Revenue Tracker</span>
+          </button>
+
+          <button class="tab-btn" data-tab="tabSync">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Google Sheet Sync Status</span>
+          </button>
+        </div>
+      </nav>
+
+
       <!-- Main Content Container -->
       <main class="dash-main-body">
         
-        <!-- Metrics Stats Cards Row -->
-        <section class="stats-row">
-          <div class="stat-card">
-            <div class="stat-icon-wrap icon-blue">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Total Merchandise Entries</div>
-              <div class="stat-val" id="statTotalOrders">0</div>
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-icon-wrap icon-yellow">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Pending Fulfilment</div>
-              <div class="stat-val" id="statPendingOrders">0</div>
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-icon-wrap icon-green">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Confirmed / Shipped</div>
-              <div class="stat-val" id="statConfirmedOrders">0</div>
-            </div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-icon-wrap icon-purple">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-            </div>
-            <div class="stat-content">
-              <div class="stat-label">Data Engine Source</div>
-              <div class="stat-val-text" id="statSourceMode">Google Sheets</div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Search, Filter & Toolbar -->
-        <section class="toolbar-section">
-          <div class="toolbar-search-wrap">
-            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input
-              type="text"
-              id="searchInput"
-              class="search-input"
-              placeholder="Search by customer name, phone, email, or item..."
-            />
-            <button class="clear-search-btn" id="clearSearchBtn" style="display: none;" title="Clear search">×</button>
-          </div>
-
-          <div class="toolbar-filters-wrap">
-            <!-- Filter by Product Item -->
-            <select class="filter-select" id="itemFilterSelect">
-              <option value="ALL">All 13 Swag Items</option>
-              {productNames.map((name) => (
-                <option value={name}>{name}</option>
-              ))}
-            </select>
-
-            <!-- Filter by Status -->
-            <select class="filter-select" id="statusFilterSelect">
-              <option value="ALL">All Statuses</option>
-              <option value="Pending">Pending</option>
-              <option value="Confirmed">Confirmed</option>
-              <option value="Shipped">Shipped</option>
-              <option value="Delivered">Delivered</option>
-            </select>
-
-            <!-- Export to CSV Button -->
-            <button class="btn-export-csv" id="exportCsvBtn" title="Export current filtered table to CSV file">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              <span>Export CSV</span>
-            </button>
-          </div>
-        </section>
-
-        <!-- Interactive CRUD Data Table Card -->
-        <div class="table-card">
-          <div class="table-card-header">
-            <div class="table-header-left">
-              <h2 class="table-title">Order Records & Google Sheet Responses</h2>
-              <span class="table-count-badge" id="tableRecordCount">Loading...</span>
-            </div>
-            <div class="table-header-right">
-              <span class="range-pill" id="sheetRangePill">Form responses 2!A:I</span>
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="crud-table" id="crudTable">
-              <thead>
-                <tr>
-                  <th style="width: 50px;">#</th>
-                  <th style="width: 130px;">Timestamp</th>
-                  <th style="width: 170px;">Customer Name</th>
-                  <th style="width: 180px;">Contact</th>
-                  <th style="width: 160px;">Merchandise Item</th>
-                  <th style="width: 90px;">Size</th>
-                  <th style="width: 70px;">Qty</th>
-                  <th>Notes</th>
-                  <th style="width: 120px;">Status</th>
-                  <th style="width: 110px; text-align: center;">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="tableBody">
-                <!-- Dynamically populated rows -->
-              </tbody>
-            </table>
-
-            <!-- Empty / Loading / Error State -->
-            <div class="table-empty-state" id="emptyState" style="display: none;">
-              <div class="empty-icon-wrap">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <!-- ═════════════════════════════════════════════════════════
+             TAB 1: ORDERS & BOOKINGS (FULL CRUD)
+             ═════════════════════════════════════════════════════════ -->
+        <div class="tab-panel is-active" id="tabOrders">
+          
+          <!-- Metrics Stats Cards Row -->
+          <section class="stats-row">
+            <div class="stat-card">
+              <div class="stat-icon-wrap icon-blue">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
               </div>
-              <h3 class="empty-title" id="emptyStateTitle">No records found</h3>
-              <p class="empty-desc" id="emptyStateDesc">Try adjusting your search terms or filters.</p>
+              <div class="stat-content">
+                <div class="stat-label">Total Bookings</div>
+                <div class="stat-val" id="statTotalOrders">0</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrap icon-yellow">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="stat-content">
+                <div class="stat-label">Pending Fulfilment</div>
+                <div class="stat-val" id="statPendingOrders">0</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrap icon-green">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="stat-content">
+                <div class="stat-label">T-Shirts Booked</div>
+                <div class="stat-val" id="statTshirtBooked">0 / 250</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon-wrap icon-purple">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <div class="stat-content">
+                <div class="stat-label">Booked Sales Revenue</div>
+                <div class="stat-val" id="statTotalSales">₹0</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Search, Filter & Toolbar -->
+          <section class="toolbar-section">
+            <div class="toolbar-search-wrap">
+              <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input
+                type="text"
+                id="searchInput"
+                class="search-input"
+                placeholder="Search orders by customer name, phone, email, notes, or size..."
+              />
+              <button class="clear-search-btn" id="clearSearchBtn" style="display: none;" title="Clear search">×</button>
+            </div>
+
+            <div class="toolbar-filters-wrap">
+              <!-- Filter by Product Item -->
+              <select class="filter-select" id="itemFilterSelect">
+                <option value="ALL">All 13 Swag Items</option>
+                {productNames.map((name) => (
+                  <option value={name}>{name}</option>
+                ))}
+              </select>
+
+              <!-- Filter by Booking Status -->
+              <select class="filter-select" id="statusFilterSelect">
+                <option value="ALL">All Booking Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+
+              <!-- Filter by Payment Status -->
+              <select class="filter-select" id="paymentFilterSelect">
+                <option value="ALL">All Payments</option>
+                <option value="Paid">Paid</option>
+                <option value="Pending">Payment Pending</option>
+                <option value="Partial">Partial</option>
+              </select>
+
+              <!-- Export to CSV Button -->
+              <button class="btn-export-csv" id="exportCsvBtn" title="Export current filtered table to CSV file">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export CSV</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Interactive CRUD Data Table Card -->
+          <div class="table-card">
+            <div class="table-card-header">
+              <div class="table-header-left">
+                <h2 class="table-title">Live Bookings & Multi-Size Allocation Ledger</h2>
+                <span class="table-count-badge" id="tableRecordCount">Loading...</span>
+              </div>
+              <div class="table-header-right">
+                <span class="range-pill" id="sheetRangePill">Form Responses 1!A:P</span>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="crud-table" id="crudTable">
+                <thead>
+                  <tr>
+                    <th style="width: 50px;">#</th>
+                    <th style="width: 110px;">Date</th>
+                    <th style="width: 160px;">Customer Name</th>
+                    <th style="width: 170px;">Contact</th>
+                    <th style="width: 150px;">Merchandise</th>
+                    <th style="width: 60px;">Qty</th>
+                    <th style="width: 180px;">Size Allocation (S/M/L/XL/XXL)</th>
+                    <th style="width: 110px;">Booking</th>
+                    <th style="width: 100px;">Payment</th>
+                    <th>Notes</th>
+                    <th style="width: 120px; text-align: center;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tableBody">
+                  <!-- Dynamically populated rows -->
+                </tbody>
+              </table>
+
+              <!-- Empty State -->
+              <div class="table-empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon-wrap">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                </div>
+                <h3 class="empty-title">No matching bookings found</h3>
+                <p class="empty-desc">Try clearing search terms or selecting another category filter.</p>
+              </div>
             </div>
           </div>
+
+        </div>
+
+
+        <!-- ═════════════════════════════════════════════════════════
+             TAB 2: T-SHIRT SIZE DEMAND & PRODUCTION TRACKER
+             ═════════════════════════════════════════════════════════ -->
+        <div class="tab-panel" id="tabTshirt" style="display: none;">
+          
+          <div class="panel-intro-box">
+            <div class="intro-left">
+              <h2 class="panel-heading">White T-Shirt Production & Size Distribution</h2>
+              <p class="panel-sub">
+                Target Inventory: <strong>250 Units</strong> | Unit Cost: <strong>₹260.00</strong> | Selling Price: <strong>₹449.00</strong> (Margin: 42.1%)
+              </p>
+            </div>
+            <div class="intro-right">
+              <button class="btn-export-csv" id="exportTshirtCsvBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export Manufacturer Cutting Sheet</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Size Metric Cards (S, M, L, XL, XXL) -->
+          <div class="tshirt-sizes-grid">
+            <div class="size-stat-card">
+              <div class="size-letter">S</div>
+              <div class="size-stat-body">
+                <div class="size-booked-num" id="tshirtSizeS">0</div>
+                <div class="size-booked-label">Units Booked</div>
+                <div class="size-progress-wrap">
+                  <div class="size-progress-bar" id="tshirtBarS" style="width: 0%;"></div>
+                </div>
+                <div class="size-pct" id="tshirtPctS">0% of total</div>
+              </div>
+            </div>
+
+            <div class="size-stat-card highlight-card">
+              <div class="size-letter">M</div>
+              <div class="size-stat-body">
+                <div class="size-booked-num" id="tshirtSizeM">0</div>
+                <div class="size-booked-label">Units Booked</div>
+                <div class="size-progress-wrap">
+                  <div class="size-progress-bar" id="tshirtBarM" style="width: 0%;"></div>
+                </div>
+                <div class="size-pct" id="tshirtPctM">0% of total</div>
+              </div>
+            </div>
+
+            <div class="size-stat-card highlight-card">
+              <div class="size-letter">L</div>
+              <div class="size-stat-body">
+                <div class="size-booked-num" id="tshirtSizeL">0</div>
+                <div class="size-booked-label">Units Booked</div>
+                <div class="size-progress-wrap">
+                  <div class="size-progress-bar" id="tshirtBarL" style="width: 0%;"></div>
+                </div>
+                <div class="size-pct" id="tshirtPctL">0% of total</div>
+              </div>
+            </div>
+
+            <div class="size-stat-card">
+              <div class="size-letter">XL</div>
+              <div class="size-stat-body">
+                <div class="size-booked-num" id="tshirtSizeXL">0</div>
+                <div class="size-booked-label">Units Booked</div>
+                <div class="size-progress-wrap">
+                  <div class="size-progress-bar" id="tshirtBarXL" style="width: 0%;"></div>
+                </div>
+                <div class="size-pct" id="tshirtPctXL">0% of total</div>
+              </div>
+            </div>
+
+            <div class="size-stat-card">
+              <div class="size-letter">XXL</div>
+              <div class="size-stat-body">
+                <div class="size-booked-num" id="tshirtSizeXXL">0</div>
+                <div class="size-booked-label">Units Booked</div>
+                <div class="size-progress-wrap">
+                  <div class="size-progress-bar" id="tshirtBarXXL" style="width: 0%;"></div>
+                </div>
+                <div class="size-pct" id="tshirtPctXXL">0% of total</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Production Schedule Card -->
+          <div class="table-card">
+            <div class="table-card-header">
+              <h3 class="table-title">T-Shirt Bookings by Customer & Size Distribution</h3>
+              <span class="range-pill" id="tshirtSummaryBadge">0 Total Booked</span>
+            </div>
+            <div class="table-responsive">
+              <table class="crud-table">
+                <thead>
+                  <tr>
+                    <th>Customer Name</th>
+                    <th>Contact</th>
+                    <th style="text-align: center;">Total Qty</th>
+                    <th style="text-align: center;">Size S</th>
+                    <th style="text-align: center;">Size M</th>
+                    <th style="text-align: center;">Size L</th>
+                    <th style="text-align: center;">Size XL</th>
+                    <th style="text-align: center;">Size XXL</th>
+                    <th>Allocation Status</th>
+                    <th>Booking Status</th>
+                  </tr>
+                </thead>
+                <tbody id="tshirtTableBody">
+                  <!-- Dynamic T-Shirt rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- ═════════════════════════════════════════════════════════
+             TAB 3: STOCK & INVENTORY (1,850 UNITS)
+             ═════════════════════════════════════════════════════════ -->
+        <div class="tab-panel" id="tabStock" style="display: none;">
+          
+          <div class="panel-intro-box">
+            <div class="intro-left">
+              <h2 class="panel-heading">Inventory & Availability Tracker</h2>
+              <p class="panel-sub">
+                Official 13 Items | Total Stock: <strong>1,850 Units</strong> | Synced with Sheet: <em>Inventory & Availability</em>
+              </p>
+            </div>
+            <div class="intro-right">
+              <div class="stock-summary-pills">
+                <span class="stock-kpi-pill"><strong id="stockUnitsTotal">1,850</strong> Total Units</span>
+                <span class="stock-kpi-pill"><strong id="stockUnitsBooked">0</strong> Booked</span>
+                <span class="stock-kpi-pill green-pill"><strong id="stockUnitsAvailable">1,850</strong> Available</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="crud-table" id="stockTable">
+                <thead>
+                  <tr>
+                    <th>Merchandise Item</th>
+                    <th>Category</th>
+                    <th style="text-align: right;">Selling Price</th>
+                    <th style="text-align: center;">Total Stock</th>
+                    <th style="text-align: center;">Booked Units</th>
+                    <th style="text-align: center;">Available Stock</th>
+                    <th style="width: 200px;">Remaining %</th>
+                    <th style="text-align: center;">Status</th>
+                    <th>Dealer / Supplier</th>
+                  </tr>
+                </thead>
+                <tbody id="stockTableBody">
+                  <!-- Dynamically populated from /api/inventory -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- ═════════════════════════════════════════════════════════
+             TAB 4: SALES & FINANCIAL PROJECTIONS
+             ═════════════════════════════════════════════════════════ -->
+        <div class="tab-panel" id="tabFinancials" style="display: none;">
+          
+          <div class="panel-intro-box">
+            <div class="intro-left">
+              <h2 class="panel-heading">Merchandise Financials & Revenue Projections</h2>
+              <p class="panel-sub">
+                Data extracted directly from Google Sheet: <em>Pre-Book Tracker</em> & <em>Sheet1</em>
+              </p>
+            </div>
+          </div>
+
+          <!-- Financial KPIs -->
+          <div class="financial-cards-grid">
+            <div class="fin-card">
+              <div class="fin-label">Expected Total Revenue</div>
+              <div class="fin-val highlight-green">₹2,67,350.00</div>
+              <div class="fin-sub">Full 1,850 Units Sell-out</div>
+            </div>
+
+            <div class="fin-card">
+              <div class="fin-label">Total Investment / Cost</div>
+              <div class="fin-val">₹1,58,500.00</div>
+              <div class="fin-sub">Production & Sourcing Outlay</div>
+            </div>
+
+            <div class="fin-card">
+              <div class="fin-label">Expected Net Profit</div>
+              <div class="fin-val highlight-blue">₹1,08,850.00</div>
+              <div class="fin-sub">Projected Net Margin: 44.6%</div>
+            </div>
+
+            <div class="fin-card">
+              <div class="fin-label">Realized Revenue to Date</div>
+              <div class="fin-val" id="finRealizedRevenue">₹0</div>
+              <div class="fin-sub" id="finPendingReceivables">Pending: ₹0</div>
+            </div>
+          </div>
+
+          <!-- Catalog Margins Breakdown Table -->
+          <div class="table-card">
+            <div class="table-card-header">
+              <h3 class="table-title">Product Pricing, Margins & Expected Revenue Matrix</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="crud-table" id="finTable">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th style="text-align: right;">Unit Cost</th>
+                    <th style="text-align: right;">Selling Price</th>
+                    <th style="text-align: right;">Unit Profit</th>
+                    <th style="text-align: center;">Margin %</th>
+                    <th style="text-align: center;">Total Units</th>
+                    <th style="text-align: right;">Total Cost</th>
+                    <th style="text-align: right;">Expected Revenue</th>
+                  </tr>
+                </thead>
+                <tbody id="finTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- ═════════════════════════════════════════════════════════
+             TAB 5: GOOGLE SHEETS SYNC STATUS & SETUP
+             ═════════════════════════════════════════════════════════ -->
+        <div class="tab-panel" id="tabSync" style="display: none;">
+          
+          <div class="panel-intro-box">
+            <div class="intro-left">
+              <h2 class="panel-heading">Google Sheet Service Account & Live Sync</h2>
+              <p class="panel-sub">
+                Target Spreadsheet ID: <code>1foGWm9i_5DhBUjocJDxs84jWCLdc-U1BJaN7r0KuhiA</code>
+              </p>
+            </div>
+            <div class="intro-right">
+              <a
+                href={GOOGLE_SHEET_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary-action"
+              >
+                <span>Open Google Sheet →</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Live Diagnostic Box -->
+          <div class="diagnostics-box" style="margin-bottom: 24px;">
+            <div class="diag-item">
+              <span class="diag-label">Sync Mode:</span>
+              <span class="diag-val" id="diagMode">Live Operations Mode</span>
+            </div>
+            <div class="diag-item">
+              <span class="diag-label">Active Worksheet:</span>
+              <span class="diag-val code-font">Form Responses 1!A:P</span>
+            </div>
+            <div class="diag-item">
+              <span class="diag-label">Spreadsheet URL:</span>
+              <span class="diag-val code-font"><a href={GOOGLE_SHEET_URL} target="_blank" style="color: #38bdf8; text-decoration: underline;">docs.google.com/spreadsheets/d/1foGWm9i...0KuhiA</a></span>
+            </div>
+            <div class="diag-item">
+              <span class="diag-label">Service Account Key:</span>
+              <span class="diag-val" id="diagCredFile">Checking...</span>
+            </div>
+          </div>
+
+          <!-- Worksheets Map -->
+          <div class="table-card">
+            <div class="table-card-header">
+              <h3 class="table-title">Workbook Structure & Integrated Worksheets</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="crud-table">
+                <thead>
+                  <tr>
+                    <th>Worksheet Tab</th>
+                    <th>GID</th>
+                    <th>Dashboard Function</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Form Responses 1</strong></td>
+                    <td><code>94895465</code></td>
+                    <td>Multi-Size T-Shirt Orders (S, M, L, XL, XXL) & Full CRUD</td>
+                    <td><span class="badge-status status-confirmed">● Active Sync</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Inventory & Availability</strong></td>
+                    <td><code>1987367975</code></td>
+                    <td>1,850 Units Stock on Hand & Live Availability</td>
+                    <td><span class="badge-status status-confirmed">● Active Sync</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Pre-Book Tracker</strong></td>
+                    <td><code>550909813</code></td>
+                    <td>Financial Projections & T-Shirt Size Allocation Target</td>
+                    <td><span class="badge-status status-confirmed">● Active Sync</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Sheet1</strong></td>
+                    <td><code>0</code></td>
+                    <td>Merchandise Production Catalog, Unit Costs, Selling Prices, Dealers</td>
+                    <td><span class="badge-status status-confirmed">● Active Sync</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Form responses 2</strong></td>
+                    <td><code>876296022</code></td>
+                    <td>Single-Size Form Bookings Backup</td>
+                    <td><span class="badge-status status-delivered">● Standby</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
 
       </main>
@@ -298,7 +686,7 @@ const productNames = PRODUCTS.map((p) => p.name);
 
 
     <!-- ═══════════════════════════════════════════════════════════
-         MODAL 1: CREATE NEW RECORD (POST)
+         MODAL 1: CREATE NEW BOOKING (WITH T-SHIRT SIZE MATRIX)
          ═══════════════════════════════════════════════════════════ -->
     <div class="modal-backdrop" id="createModal" style="display: none;">
       <div class="modal-card">
@@ -307,8 +695,8 @@ const productNames = PRODUCTS.map((p) => p.name);
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           </div>
           <div class="modal-header-text">
-            <h3 class="modal-title">New Merchandise Entry</h3>
-            <p class="modal-sub">Append a new order row to Google Sheets via Service Account</p>
+            <h3 class="modal-title">New Merchandise Booking</h3>
+            <p class="modal-sub">Append order to Google Sheet (Form Responses 1)</p>
           </div>
           <button class="modal-close-btn" id="closeCreateModalBtn">×</button>
         </div>
@@ -320,15 +708,15 @@ const productNames = PRODUCTS.map((p) => p.name);
               <input type="text" id="createName" class="form-input" placeholder="e.g. Ameen Farhan" required />
             </div>
             <div class="form-group">
-              <label class="form-label" for="createPhone">WhatsApp / Phone</label>
-              <input type="text" id="createPhone" class="form-input" placeholder="+91 98471 23456" />
+              <label class="form-label" for="createPhone">Contact / WhatsApp Number *</label>
+              <input type="text" id="createPhone" class="form-input" placeholder="+91 98471 23456" required />
             </div>
           </div>
 
           <div class="form-grid-2">
             <div class="form-group">
               <label class="form-label" for="createEmail">Email Address</label>
-              <input type="email" id="createEmail" class="form-input" placeholder="ameen@example.com" />
+              <input type="email" id="createEmail" class="form-input" placeholder="customer@gmail.com" />
             </div>
             <div class="form-group">
               <label class="form-label" for="createItem">Merchandise Item *</label>
@@ -340,29 +728,71 @@ const productNames = PRODUCTS.map((p) => p.name);
             </div>
           </div>
 
-          <div class="form-grid-3">
-            <div class="form-group">
-              <label class="form-label" for="createSize">Size / Variant</label>
-              <input type="text" id="createSize" class="form-input" placeholder="e.g. L, M, Standard" />
+          <!-- Dynamic T-Shirt Size Matrix (Appears when White T-Shirt is selected) -->
+          <div class="size-matrix-panel" id="createSizeMatrixPanel">
+            <div class="matrix-header">
+              <div class="matrix-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+                <span>T-Shirt Size Breakdown per Booking</span>
+              </div>
+              <span class="matrix-badge" id="createMatrixTotalBadge">0 pcs selected</span>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="createQty">Quantity</label>
+
+            <div class="size-input-row">
+              <div class="size-col">
+                <label>Size S</label>
+                <input type="number" id="createSizeS" class="form-input size-num-input" min="0" value="0" />
+              </div>
+              <div class="size-col">
+                <label>Size M</label>
+                <input type="number" id="createSizeM" class="form-input size-num-input" min="0" value="0" />
+              </div>
+              <div class="size-col">
+                <label>Size L</label>
+                <input type="number" id="createSizeL" class="form-input size-num-input" min="0" value="0" />
+              </div>
+              <div class="size-col">
+                <label>Size XL</label>
+                <input type="number" id="createSizeXL" class="form-input size-num-input" min="0" value="0" />
+              </div>
+              <div class="size-col">
+                <label>Size XXL</label>
+                <input type="number" id="createSizeXXL" class="form-input size-num-input" min="0" value="0" />
+              </div>
+            </div>
+
+            <div class="matrix-summary-text" id="createMatrixSummary">
+              No sizes chosen yet. Enter quantities for S, M, L, XL, XXL.
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="form-group" id="generalQtyGroup">
+              <label class="form-label" for="createQty">Total Quantity</label>
               <input type="number" id="createQty" class="form-input" min="1" value="1" required />
             </div>
             <div class="form-group">
-              <label class="form-label" for="createStatus">Order Status</label>
-              <select id="createStatus" class="form-input">
-                <option value="Pending">Pending</option>
+              <label class="form-label" for="createBookingStatus">Booking Status</label>
+              <select id="createBookingStatus" class="form-input">
                 <option value="Confirmed">Confirmed</option>
+                <option value="Pending">Pending</option>
                 <option value="Shipped">Shipped</option>
                 <option value="Delivered">Delivered</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="createPaymentStatus">Payment Status</label>
+              <select id="createPaymentStatus" class="form-input">
+                <option value="Pending">Pending</option>
+                <option value="Paid">Paid (Full)</option>
+                <option value="Partial">Partial</option>
               </select>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="createNotes">Delivery / Packaging Notes</label>
-            <textarea id="createNotes" class="form-input" rows="2" placeholder="e.g. Kozhikode campus pickup / gift box requested"></textarea>
+            <label class="form-label" for="createNotes">Notes & Delivery Remarks</label>
+            <textarea id="createNotes" class="form-input" rows="2" placeholder="e.g. Kozhikode campus pickup / delegate kit"></textarea>
           </div>
 
           <div class="modal-actions-row">
@@ -378,7 +808,7 @@ const productNames = PRODUCTS.map((p) => p.name);
 
 
     <!-- ═══════════════════════════════════════════════════════════
-         MODAL 2: EDIT RECORD (PUT)
+         MODAL 2: EDIT BOOKING (WITH SIZE MATRIX)
          ═══════════════════════════════════════════════════════════ -->
     <div class="modal-backdrop" id="editModal" style="display: none;">
       <div class="modal-card">
@@ -387,8 +817,8 @@ const productNames = PRODUCTS.map((p) => p.name);
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </div>
           <div class="modal-header-text">
-            <h3 class="modal-title">Edit Record <span class="modal-row-badge" id="editRowNumberBadge">Row #2</span></h3>
-            <p class="modal-sub">Update fields in Google Sheets via Service Account</p>
+            <h3 class="modal-title">Edit Booking <span class="modal-row-badge" id="editRowNumberBadge">Row #2</span></h3>
+            <p class="modal-sub">Update booking details and size allocations</p>
           </div>
           <button class="modal-close-btn" id="closeEditModalBtn">×</button>
         </div>
@@ -402,7 +832,7 @@ const productNames = PRODUCTS.map((p) => p.name);
               <input type="text" id="editName" class="form-input" required />
             </div>
             <div class="form-group">
-              <label class="form-label" for="editPhone">WhatsApp / Phone</label>
+              <label class="form-label" for="editPhone">Contact Number</label>
               <input type="text" id="editPhone" class="form-input" />
             </div>
           </div>
@@ -422,28 +852,71 @@ const productNames = PRODUCTS.map((p) => p.name);
             </div>
           </div>
 
+          <!-- Edit T-Shirt Size Matrix -->
+          <div class="size-matrix-panel" id="editSizeMatrixPanel">
+            <div class="matrix-header">
+              <div class="matrix-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+                <span>T-Shirt Size Allocation</span>
+              </div>
+              <span class="matrix-badge" id="editMatrixTotalBadge">0 pcs</span>
+            </div>
+
+            <div class="size-input-row">
+              <div class="size-col">
+                <label>Size S</label>
+                <input type="number" id="editSizeS" class="form-input size-num-input" min="0" />
+              </div>
+              <div class="size-col">
+                <label>Size M</label>
+                <input type="number" id="editSizeM" class="form-input size-num-input" min="0" />
+              </div>
+              <div class="size-col">
+                <label>Size L</label>
+                <input type="number" id="editSizeL" class="form-input size-num-input" min="0" />
+              </div>
+              <div class="size-col">
+                <label>Size XL</label>
+                <input type="number" id="editSizeXL" class="form-input size-num-input" min="0" />
+              </div>
+              <div class="size-col">
+                <label>Size XXL</label>
+                <input type="number" id="editSizeXXL" class="form-input size-num-input" min="0" />
+              </div>
+            </div>
+
+            <div class="matrix-summary-text" id="editMatrixSummary">
+              Size Summary
+            </div>
+          </div>
+
           <div class="form-grid-3">
             <div class="form-group">
-              <label class="form-label" for="editSize">Size / Variant</label>
-              <input type="text" id="editSize" class="form-input" />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="editQty">Quantity</label>
+              <label class="form-label" for="editQty">Total Quantity</label>
               <input type="number" id="editQty" class="form-input" min="1" required />
             </div>
             <div class="form-group">
-              <label class="form-label" for="editStatus">Order Status</label>
-              <select id="editStatus" class="form-input">
-                <option value="Pending">Pending</option>
+              <label class="form-label" for="editBookingStatus">Booking Status</label>
+              <select id="editBookingStatus" class="form-input">
                 <option value="Confirmed">Confirmed</option>
+                <option value="Pending">Pending</option>
                 <option value="Shipped">Shipped</option>
                 <option value="Delivered">Delivered</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editPaymentStatus">Payment Status</label>
+              <select id="editPaymentStatus" class="form-input">
+                <option value="Paid">Paid</option>
+                <option value="Pending">Pending</option>
+                <option value="Partial">Partial</option>
               </select>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="editNotes">Delivery / Packaging Notes</label>
+            <label class="form-label" for="editNotes">Notes & Remarks</label>
             <textarea id="editNotes" class="form-input" rows="2"></textarea>
           </div>
 
@@ -460,7 +933,7 @@ const productNames = PRODUCTS.map((p) => p.name);
 
 
     <!-- ═══════════════════════════════════════════════════════════
-         MODAL 3: DELETE CONFIRMATION (DELETE)
+         MODAL 3: DELETE CONFIRMATION
          ═══════════════════════════════════════════════════════════ -->
     <div class="modal-backdrop" id="deleteModal" style="display: none;">
       <div class="modal-card modal-card-sm">
@@ -469,8 +942,8 @@ const productNames = PRODUCTS.map((p) => p.name);
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
           </div>
           <div class="modal-header-text">
-            <h3 class="modal-title">Clear Row from Sheet?</h3>
-            <p class="modal-sub">This action will clear the row data in Google Sheets.</p>
+            <h3 class="modal-title">Clear Booking from Sheet?</h3>
+            <p class="modal-sub">Row data will be cleared from Google Sheets</p>
           </div>
           <button class="modal-close-btn" id="closeDeleteModalBtn">×</button>
         </div>
@@ -491,92 +964,7 @@ const productNames = PRODUCTS.map((p) => p.name);
       </div>
     </div>
 
-
-    <!-- ═══════════════════════════════════════════════════════════
-         MODAL 4: GOOGLE SHEETS SETUP & DIAGNOSTICS MODAL
-         ═══════════════════════════════════════════════════════════ -->
-    <div class="modal-backdrop" id="setupModal" style="display: none;">
-      <div class="modal-card modal-card-lg">
-        <div class="modal-header">
-          <div class="modal-header-icon icon-blue">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          </div>
-          <div class="modal-header-text">
-            <h3 class="modal-title">Google Sheets Service Account Setup</h3>
-            <p class="modal-sub">Private CRUD Architecture (No Public API Keys)</p>
-          </div>
-          <button class="modal-close-btn" id="closeSetupModalBtn">×</button>
-        </div>
-
-        <div class="setup-modal-body">
-          
-          <!-- Live Status Bar -->
-          <div class="diagnostics-box" id="diagStatusBox">
-            <div class="diag-item">
-              <span class="diag-label">Engine Mode:</span>
-              <span class="diag-val" id="diagMode">Checking...</span>
-            </div>
-            <div class="diag-item">
-              <span class="diag-label">credentials.json:</span>
-              <span class="diag-val" id="diagCredFile">Checking...</span>
-            </div>
-            <div class="diag-item">
-              <span class="diag-label">Service Account Email:</span>
-              <span class="diag-val code-font" id="diagClientEmail">None</span>
-            </div>
-            <div class="diag-item">
-              <span class="diag-label">Spreadsheet ID:</span>
-              <span class="diag-val code-font" id="diagSpreadsheetId">Not Set</span>
-            </div>
-          </div>
-
-          <!-- Step by Step Setup Guide -->
-          <div class="setup-steps-list">
-            <h4 class="setup-section-title">Step-by-Step Setup Instructions</h4>
-
-            <div class="step-card">
-              <div class="step-num">1</div>
-              <div class="step-content">
-                <strong>Create Service Account in Google Cloud Console</strong>
-                <p>Go to <a href="https://console.cloud.google.com/" target="_blank" rel="noopener">Google Cloud Console</a> > <em>APIs & Services</em> > <em>Library</em>, enable the <strong>Google Sheets API</strong>. Then create a Service Account, generate a JSON Key, and save it as <code>credentials.json</code> in the project root.</p>
-              </div>
-            </div>
-
-            <div class="step-card">
-              <div class="step-num">2</div>
-              <div class="step-content">
-                <strong>Share your Private Google Sheet</strong>
-                <p>Open your spreadsheet, click <strong>Share</strong>, and add your Service Account email (e.g. <code>sheet-crud-service@...iam.gserviceaccount.com</code>) as an <strong>Editor</strong>. Uncheck "Notify people".</p>
-              </div>
-            </div>
-
-            <div class="step-card">
-              <div class="step-num">3</div>
-              <div class="step-content">
-                <strong>Configure .env and Start Server</strong>
-                <p>Add your Spreadsheet ID to <code>.env</code>:</p>
-                <pre class="code-snippet">SPREADSHEET_ID=1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms
-SHEET_RANGE=Form responses 2!A:I</pre>
-                <p>Run the secure backend server:</p>
-                <pre class="code-snippet">npm run server</pre>
-              </div>
-            </div>
-          </div>
-
-          <div class="modal-actions-row">
-            <button type="button" class="btn-cancel" id="testConnectionBtn">
-              🔄 Re-test Connection
-            </button>
-            <button type="button" class="btn-primary-action" id="closeSetupModalOkBtn">
-              Done
-            </button>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- Notification Toast -->
+    <!-- Toast Notification -->
     <div class="toast-notification" id="toastNotification" style="display: none;">
       <span class="toast-icon" id="toastIcon">✓</span>
       <span class="toast-message" id="toastMessage">Action completed successfully</span>
@@ -587,11 +975,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
 
 <style>
   /* ═══════════════════════════════════════════════════════════
-     DASHBOARD STYLES — DEEP EXECUTIVE COMMAND CENTER
-     Palette: Dark Blue-Navy (#0A0F1D / #0F172A),
-              Electric Royal Blue (#174EE8),
-              Brand Sage Lime-Yellow (#E7EEAC),
-              Tactile Button Shadows (#9ca54b)
+     DASHBOARD STYLES — EXECUTIVE COMMAND CENTER
      ═══════════════════════════════════════════════════════════ */
 
   .dash-root {
@@ -603,9 +987,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ─────────────────────────────────────────────────────────────
-     AUTH CARD (LOGIN SCREEN)
-     ───────────────────────────────────────────────────────────── */
   .auth-wrapper {
     min-height: 100vh;
     display: flex;
@@ -616,8 +997,8 @@ SHEET_RANGE=Form responses 2!A:I</pre>
 
   .auth-card {
     width: 100%;
-    max-width: 460px;
-    background: rgba(15, 23, 42, 0.75);
+    max-width: 480px;
+    background: rgba(15, 23, 42, 0.78);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -628,7 +1009,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
 
   .auth-header {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .auth-badge {
@@ -644,7 +1025,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     border: 1px solid rgba(231, 238, 172, 0.3);
     padding: 5px 14px;
     border-radius: 9999px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     text-transform: uppercase;
   }
 
@@ -662,13 +1043,28 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     font-weight: 900;
     letter-spacing: -0.03em;
     color: #ffffff;
-    margin: 0 0 8px;
+    margin: 0 0 6px;
   }
 
   .auth-subtitle {
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     color: #94a3b8;
-    margin: 0;
+    margin: 0 0 10px;
+  }
+
+  .sheet-id-badge {
+    font-size: 0.76rem;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+
+  .sheet-id-badge code {
+    font-family: monospace;
+    font-weight: 700;
   }
 
   .auth-security-pills {
@@ -704,13 +1100,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     align-items: center;
     gap: 8px;
     margin-bottom: 20px;
-    animation: shake 0.3s ease;
-  }
-
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-4px); }
-    75% { transform: translateX(4px); }
   }
 
   .auth-form {
@@ -730,7 +1119,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     font-size: 0.82rem;
     font-weight: 600;
     color: #cbd5e1;
-    letter-spacing: 0.02em;
   }
 
   .label-row {
@@ -765,6 +1153,10 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     box-sizing: border-box;
   }
 
+  .modal-form .form-input {
+    padding-left: 14px;
+  }
+
   .form-input:focus {
     border-color: #38bdf8;
     background: rgba(30, 41, 59, 0.95);
@@ -779,14 +1171,9 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     color: #64748b;
     cursor: pointer;
     padding: 4px;
-    display: flex;
-    align-items: center;
-    transition: color 0.15s ease;
   }
 
-  .btn-toggle-pw:hover {
-    color: #ffffff;
-  }
+  .btn-toggle-pw:hover { color: #ffffff; }
 
   .form-meta-row {
     display: flex;
@@ -811,14 +1198,10 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     font-weight: 700;
     text-decoration: underline;
     cursor: pointer;
-    padding: 0;
   }
 
-  .demo-fill-btn:hover {
-    color: #ffffff;
-  }
+  .demo-fill-btn:hover { color: #ffffff; }
 
-  /* Tactile Brand Yellow Button */
   .btn-auth-submit {
     display: flex;
     align-items: center;
@@ -843,11 +1226,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     box-shadow: 0 2px 0 #9ca54b;
   }
 
-  .btn-auth-submit:active {
-    transform: translateY(4px);
-    box-shadow: none;
-  }
-
   .btn-spinner {
     width: 16px;
     height: 16px;
@@ -857,9 +1235,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     animation: spin 0.6s linear infinite;
   }
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   .auth-footnote {
     text-align: center;
@@ -870,13 +1246,8 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     color: #64748b;
   }
 
-  .auth-footnote strong {
-    color: #cbd5e1;
-  }
-
-
   /* ─────────────────────────────────────────────────────────────
-     DASHBOARD SHELL & TOPBAR
+     TOPBAR & TABS NAVIGATION
      ───────────────────────────────────────────────────────────── */
   .dash-shell {
     min-height: 100vh;
@@ -888,9 +1259,8 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(11, 19, 43, 0.85);
+    background: rgba(11, 19, 43, 0.88);
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding: 12px 24px;
     display: flex;
@@ -913,24 +1283,9 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     font-family: 'Neoverse', 'Poppins', sans-serif;
   }
 
-  .brand-text {
-    font-size: 1.25rem;
-    font-weight: 900;
-    color: #ffffff;
-    letter-spacing: -0.02em;
-  }
-
-  .brand-divider {
-    color: #3b82f6;
-    font-weight: 400;
-  }
-
-  .brand-sub {
-    font-size: 0.82rem;
-    font-weight: 800;
-    color: #E7EEAC;
-    letter-spacing: 0.1em;
-  }
+  .brand-text { font-size: 1.25rem; font-weight: 900; color: #ffffff; }
+  .brand-divider { color: #3b82f6; }
+  .brand-sub { font-size: 0.82rem; font-weight: 800; color: #E7EEAC; letter-spacing: 0.1em; }
 
   .sync-status-badge {
     display: inline-flex;
@@ -942,28 +1297,19 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     border-radius: 9999px;
     font-size: 0.76rem;
     font-weight: 600;
+    color: #e2e8f0;
+    text-decoration: none;
+    transition: all 0.2s ease;
   }
 
-  .status-indicator-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
+  .sync-status-badge:hover {
+    background: rgba(23, 78, 232, 0.25);
+    border-color: #38bdf8;
   }
 
-  .dot-live {
-    background: #22c55e;
-    box-shadow: 0 0 8px #22c55e;
-  }
-
-  .dot-mock {
-    background: #eab308;
-    box-shadow: 0 0 8px #eab308;
-  }
-
-  .dot-offline {
-    background: #ef4444;
-    box-shadow: 0 0 8px #ef4444;
-  }
+  .status-indicator-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-live { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
+  .dot-mock { background: #eab308; box-shadow: 0 0 8px #eab308; }
 
   .topbar-right {
     display: flex;
@@ -1036,11 +1382,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     justify-content: center;
   }
 
-  .user-name {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #e2e8f0;
-  }
+  .user-name { font-size: 0.8rem; font-weight: 700; color: #e2e8f0; }
 
   .btn-logout {
     background: none;
@@ -1051,18 +1393,65 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     display: flex;
     align-items: center;
     border-radius: 50%;
-    transition: all 0.15s ease;
   }
 
-  .btn-logout:hover {
-    color: #ef4444;
-    background: rgba(239, 68, 68, 0.12);
+  .btn-logout:hover { color: #ef4444; }
+
+  /* Tab Navigation Bar */
+  .dash-tabs-nav {
+    background: rgba(15, 23, 42, 0.65);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4px 24px 0;
   }
 
+  .tabs-shell {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+  }
 
-  /* ─────────────────────────────────────────────────────────────
-     MAIN BODY & STATS CARDS
-     ───────────────────────────────────────────────────────────── */
+  .tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-family: 'Neoverse', 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 12px 18px;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover {
+    color: #ffffff;
+  }
+
+  .tab-btn.is-active {
+    color: #E7EEAC;
+    border-bottom-color: #E7EEAC;
+  }
+
+  .tab-badge {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border-radius: 9999px;
+  }
+
+  .tab-badge.badge-accent {
+    background: rgba(231, 238, 172, 0.2);
+    color: #E7EEAC;
+  }
+
+  /* Main Body */
   .dash-main-body {
     flex: 1;
     max-width: 1440px;
@@ -1075,6 +1464,16 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     gap: 24px;
   }
 
+  .tab-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    animation: fadeIn 0.2s ease;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     STATS & TOOLBAR
+     ───────────────────────────────────────────────────────────── */
   .stats-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1090,13 +1489,10 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     display: flex;
     align-items: center;
     gap: 16px;
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.2s ease;
   }
 
-  .stat-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.18);
-  }
+  .stat-card:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.18); }
 
   .stat-icon-wrap {
     width: 48px;
@@ -1113,38 +1509,10 @@ SHEET_RANGE=Form responses 2!A:I</pre>
   .icon-green { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
   .icon-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
 
-  .stat-content {
-    display: flex;
-    flex-direction: column;
-  }
+  .stat-content { display: flex; flex-direction: column; }
+  .stat-label { font-size: 0.78rem; font-weight: 600; color: #94a3b8; margin-bottom: 2px; }
+  .stat-val { font-family: 'Neoverse', 'Poppins', sans-serif; font-size: 1.55rem; font-weight: 900; color: #ffffff; line-height: 1.1; }
 
-  .stat-label {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #94a3b8;
-    margin-bottom: 2px;
-  }
-
-  .stat-val {
-    font-family: 'Neoverse', 'Poppins', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 900;
-    color: #ffffff;
-    line-height: 1.1;
-  }
-
-  .stat-val-text {
-    font-family: 'Neoverse', 'Poppins', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #38bdf8;
-    line-height: 1.2;
-  }
-
-
-  /* ─────────────────────────────────────────────────────────────
-     TOOLBAR: SEARCH & FILTERS
-     ───────────────────────────────────────────────────────────── */
   .toolbar-section {
     display: flex;
     align-items: center;
@@ -1161,12 +1529,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     align-items: center;
   }
 
-  .search-icon {
-    position: absolute;
-    left: 14px;
-    color: #64748b;
-    pointer-events: none;
-  }
+  .search-icon { position: absolute; left: 14px; color: #64748b; pointer-events: none; }
 
   .search-input {
     width: 100%;
@@ -1180,22 +1543,8 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     transition: all 0.2s ease;
   }
 
-  .search-input:focus {
-    border-color: #38bdf8;
-    background: rgba(15, 23, 42, 0.95);
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
-  }
-
-  .clear-search-btn {
-    position: absolute;
-    right: 12px;
-    background: none;
-    border: none;
-    color: #94a3b8;
-    font-size: 1.2rem;
-    cursor: pointer;
-    line-height: 1;
-  }
+  .search-input:focus { border-color: #38bdf8; background: rgba(15, 23, 42, 0.95); }
+  .clear-search-btn { position: absolute; right: 12px; background: none; border: none; color: #94a3b8; font-size: 1.2rem; cursor: pointer; }
 
   .toolbar-filters-wrap {
     display: flex;
@@ -1216,10 +1565,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     cursor: pointer;
   }
 
-  .filter-select:focus {
-    border-color: #38bdf8;
-  }
-
   .btn-export-csv {
     display: inline-flex;
     align-items: center;
@@ -1235,11 +1580,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     transition: all 0.15s ease;
   }
 
-  .btn-export-csv:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
-  }
-
+  .btn-export-csv:hover { background: rgba(255, 255, 255, 0.15); color: #ffffff; }
 
   /* ─────────────────────────────────────────────────────────────
      DATA TABLE CARD
@@ -1262,219 +1603,257 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     gap: 16px;
   }
 
-  .table-header-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+  .table-header-left { display: flex; align-items: center; gap: 12px; }
+  .table-title { font-family: 'Neoverse', 'Poppins', sans-serif; font-size: 1.15rem; font-weight: 800; color: #ffffff; margin: 0; }
+  .table-count-badge { background: rgba(231, 238, 172, 0.15); color: #E7EEAC; border: 1px solid rgba(231, 238, 172, 0.3); font-size: 0.75rem; font-weight: 700; padding: 2px 10px; border-radius: 9999px; }
+  .range-pill { font-family: monospace; font-size: 0.75rem; color: #94a3b8; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 4px 10px; border-radius: 6px; }
 
-  .table-title {
-    font-family: 'Neoverse', 'Poppins', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: #ffffff;
-    margin: 0;
-  }
+  .table-responsive { width: 100%; overflow-x: auto; }
+  .crud-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
+  .crud-table th { background: rgba(10, 15, 30, 0.6); color: #94a3b8; font-weight: 700; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 14px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); white-space: nowrap; }
+  .crud-table td { padding: 14px 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #cbd5e1; vertical-align: middle; }
+  .crud-table tr:hover td { background: rgba(255, 255, 255, 0.03); }
 
-  .table-count-badge {
-    background: rgba(231, 238, 172, 0.15);
-    color: #E7EEAC;
-    border: 1px solid rgba(231, 238, 172, 0.3);
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 2px 10px;
-    border-radius: 9999px;
-  }
+  .row-num-badge { font-family: monospace; font-weight: 700; color: #64748b; }
+  .date-cell { font-size: 0.8rem; color: #94a3b8; white-space: nowrap; }
+  .customer-name { font-weight: 700; color: #ffffff; }
 
-  .range-pill {
-    font-family: monospace;
-    font-size: 0.75rem;
-    color: #94a3b8;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 4px 10px;
-    border-radius: 6px;
-  }
+  .contact-info { display: flex; flex-direction: column; font-size: 0.8rem; line-height: 1.3; }
+  .contact-phone { color: #38bdf8; font-weight: 600; }
+  .contact-email { color: #94a3b8; }
 
-  .table-responsive {
-    width: 100%;
-    overflow-x: auto;
-  }
+  .item-chip { display: inline-block; font-weight: 700; color: #ffffff; background: rgba(23, 78, 232, 0.2); border: 1px solid rgba(23, 78, 232, 0.35); padding: 4px 10px; border-radius: 8px; font-size: 0.82rem; white-space: nowrap; }
+  .qty-badge { display: inline-flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.1); color: #ffffff; font-weight: 800; width: 28px; height: 28px; border-radius: 8px; font-size: 0.85rem; }
 
-  .crud-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 0.88rem;
-  }
-
-  .crud-table th {
-    background: rgba(10, 15, 30, 0.6);
-    color: #94a3b8;
-    font-weight: 700;
-    font-size: 0.76rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 14px 18px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    white-space: nowrap;
-  }
-
-  .crud-table td {
-    padding: 14px 18px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    color: #cbd5e1;
-    vertical-align: middle;
-  }
-
-  .crud-table tr:hover td {
-    background: rgba(255, 255, 255, 0.03);
-  }
-
-  .row-num-badge {
-    font-family: monospace;
-    font-weight: 700;
-    color: #64748b;
-  }
-
-  .date-cell {
-    font-size: 0.8rem;
-    color: #94a3b8;
-    white-space: nowrap;
-  }
-
-  .customer-name {
-    font-weight: 700;
-    color: #ffffff;
-  }
-
-  .contact-info {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.8rem;
-    line-height: 1.3;
-  }
-
-  .contact-phone {
-    color: #38bdf8;
-    font-weight: 600;
-  }
-
-  .contact-email {
-    color: #94a3b8;
-  }
-
-  .item-chip {
-    display: inline-block;
-    font-weight: 700;
-    color: #ffffff;
-    background: rgba(23, 78, 232, 0.2);
-    border: 1px solid rgba(23, 78, 232, 0.35);
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-size: 0.82rem;
-    white-space: nowrap;
-  }
-
-  .qty-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    font-weight: 800;
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-  }
-
-  /* Status Badges */
-  .badge-status {
+  /* Multi-Size Summary Pill */
+  .size-breakdown-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.76rem;
-    font-weight: 700;
+    background: rgba(231, 238, 172, 0.12);
+    border: 1px solid rgba(231, 238, 172, 0.35);
+    color: #E7EEAC;
     padding: 4px 10px;
-    border-radius: 9999px;
-    letter-spacing: 0.02em;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
     white-space: nowrap;
   }
 
+  .size-std-pill {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  /* Status Badges */
+  .badge-status { display: inline-flex; align-items: center; gap: 6px; font-size: 0.76rem; font-weight: 700; padding: 4px 10px; border-radius: 9999px; white-space: nowrap; }
   .status-pending { background: rgba(234, 179, 8, 0.15); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.3); }
   .status-confirmed { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
   .status-shipped { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
   .status-delivered { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+  .status-cancelled { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+  .payment-paid { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+  .payment-pending { background: rgba(234, 179, 8, 0.15); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.3); }
+  .payment-partial { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
 
   /* Table Action Buttons */
-  .action-btns-wrap {
+  .action-btns-wrap { display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn-table-action { background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); color: #cbd5e1; cursor: pointer; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; text-decoration: none; }
+  .btn-table-action:hover { background: rgba(255, 255, 255, 0.15); color: #ffffff; transform: translateY(-1px); }
+  .btn-table-action.btn-wa:hover { background: rgba(37, 211, 102, 0.2); border-color: #25D366; color: #25D366; }
+  .btn-table-action.btn-delete:hover { background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; }
+
+  .table-empty-state { padding: 60px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .empty-icon-wrap { width: 64px; height: 64px; border-radius: 50%; background: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; color: #64748b; margin-bottom: 16px; }
+  .empty-title { font-size: 1.1rem; font-weight: 700; color: #ffffff; margin: 0 0 6px; }
+  .empty-desc { font-size: 0.88rem; color: #94a3b8; margin: 0; }
+
+  /* ─────────────────────────────────────────────────────────────
+     T-SHIRT SIZES PANEL
+     ───────────────────────────────────────────────────────────── */
+  .panel-intro-box {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 18px 24px;
+  }
+
+  .panel-heading {
+    font-family: 'Neoverse', 'Poppins', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 4px;
+  }
+
+  .panel-sub { font-size: 0.88rem; color: #94a3b8; margin: 0; }
+
+  .tshirt-sizes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .size-stat-card {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .size-stat-card.highlight-card {
+    border-color: rgba(231, 238, 172, 0.4);
+    background: rgba(23, 78, 232, 0.12);
+  }
+
+  .size-letter {
+    font-family: 'Neoverse', 'Poppins', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #E7EEAC;
+    line-height: 1;
+    min-width: 48px;
+    text-align: center;
+  }
+
+  .size-stat-body { flex: 1; }
+  .size-booked-num { font-family: 'Neoverse', 'Poppins', sans-serif; font-size: 1.6rem; font-weight: 900; color: #ffffff; line-height: 1.1; }
+  .size-booked-label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+
+  .size-progress-wrap {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 4px;
+  }
+
+  .size-progress-bar { height: 100%; background: #E7EEAC; border-radius: 99px; transition: width 0.3s ease; }
+  .size-pct { font-size: 0.72rem; color: #38bdf8; font-weight: 600; }
+
+  /* ─────────────────────────────────────────────────────────────
+     STOCK & INVENTORY PANEL
+     ───────────────────────────────────────────────────────────── */
+  .stock-summary-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .stock-kpi-pill { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 6px 14px; border-radius: 9999px; font-size: 0.85rem; color: #e2e8f0; }
+  .stock-kpi-pill strong { color: #ffffff; }
+  .stock-kpi-pill.green-pill { background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.3); color: #4ade80; }
+
+  .stock-progress-cell { display: flex; align-items: center; gap: 10px; }
+  .stock-bar-outer { flex: 1; height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 99px; overflow: hidden; }
+  .stock-bar-inner { height: 100%; background: #4ade80; border-radius: 99px; }
+  .stock-bar-inner.low { background: #facc15; }
+  .stock-bar-inner.empty { background: #ef4444; }
+
+  /* ─────────────────────────────────────────────────────────────
+     FINANCIALS PANEL
+     ───────────────────────────────────────────────────────────── */
+  .financial-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .fin-card {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .fin-label { font-size: 0.8rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+  .fin-val { font-family: 'Neoverse', 'Poppins', sans-serif; font-size: 1.8rem; font-weight: 900; color: #ffffff; }
+  .fin-val.highlight-green { color: #4ade80; }
+  .fin-val.highlight-blue { color: #38bdf8; }
+  .fin-sub { font-size: 0.78rem; color: #cbd5e1; }
+
+  /* ─────────────────────────────────────────────────────────────
+     DYNAMIC T-SHIRT SIZE MATRIX PANEL (Inside Modals)
+     ───────────────────────────────────────────────────────────── */
+  .size-matrix-panel {
+    background: rgba(23, 78, 232, 0.12);
+    border: 1.5px solid rgba(56, 189, 248, 0.35);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .matrix-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .matrix-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #E7EEAC;
+  }
+
+  .matrix-badge {
+    background: #E7EEAC;
+    color: #0f172a;
+    font-family: 'Neoverse', 'Poppins', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 2px 10px;
+    border-radius: 9999px;
+  }
+
+  .size-input-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 8px;
   }
 
-  .btn-table-action {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: #cbd5e1;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s ease;
-  }
-
-  .btn-table-action:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
-    transform: translateY(-1px);
-  }
-
-  .btn-table-action.btn-delete:hover {
-    background: rgba(239, 68, 68, 0.2);
-    border-color: rgba(239, 68, 68, 0.4);
-    color: #fca5a5;
-  }
-
-  .table-empty-state {
-    padding: 60px 24px;
-    text-align: center;
+  .size-col {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    gap: 4px;
+    text-align: center;
   }
 
-  .empty-icon-wrap {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #64748b;
-    margin-bottom: 16px;
+  .size-col label {
+    font-family: 'Neoverse', 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #cbd5e1;
   }
 
-  .empty-title {
+  .size-num-input {
+    text-align: center;
+    font-family: 'Neoverse', 'Poppins', sans-serif;
     font-size: 1.1rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin: 0 0 6px;
+    font-weight: 800;
+    padding: 8px !important;
   }
 
-  .empty-desc {
-    font-size: 0.88rem;
-    color: #94a3b8;
-    margin: 0;
+  .matrix-summary-text {
+    font-size: 0.78rem;
+    color: #93c5fd;
+    font-style: italic;
   }
-
 
   /* ─────────────────────────────────────────────────────────────
      MODALS
@@ -1484,7 +1863,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     inset: 0;
     background: rgba(5, 10, 20, 0.8);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     z-index: 100;
     display: flex;
     align-items: center;
@@ -1493,29 +1871,17 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     animation: fadeIn 0.2s ease;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
   .modal-card {
     width: 100%;
-    max-width: 580px;
+    max-width: 600px;
     background: #0f172a;
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 24px;
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
     overflow: hidden;
-    animation: slideUp 0.25s ease;
   }
 
   .modal-card-sm { max-width: 440px; }
-  .modal-card-lg { max-width: 720px; }
-
-  @keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
 
   .modal-header {
     padding: 20px 24px;
@@ -1523,7 +1889,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     display: flex;
     align-items: center;
     gap: 14px;
-    position: relative;
   }
 
   .modal-header-icon {
@@ -1540,69 +1905,16 @@ SHEET_RANGE=Form responses 2!A:I</pre>
   .icon-edit { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
   .icon-danger { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
 
-  .modal-header-text {
-    flex: 1;
-  }
+  .modal-header-text { flex: 1; }
+  .modal-title { font-family: 'Neoverse', 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 800; color: #ffffff; margin: 0; }
+  .modal-row-badge { font-family: monospace; font-size: 0.75rem; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 8px; border-radius: 6px; }
+  .modal-sub { font-size: 0.8rem; color: #94a3b8; margin: 2px 0 0; }
+  .modal-close-btn { background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; }
+  .modal-close-btn:hover { color: #ffffff; }
 
-  .modal-title {
-    font-family: 'Neoverse', 'Poppins', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: #ffffff;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .modal-row-badge {
-    font-family: monospace;
-    font-size: 0.75rem;
-    background: rgba(56, 189, 248, 0.2);
-    color: #38bdf8;
-    padding: 2px 8px;
-    border-radius: 6px;
-  }
-
-  .modal-sub {
-    font-size: 0.8rem;
-    color: #94a3b8;
-    margin: 2px 0 0;
-  }
-
-  .modal-close-btn {
-    background: none;
-    border: none;
-    color: #94a3b8;
-    font-size: 1.5rem;
-    cursor: pointer;
-    line-height: 1;
-    padding: 4px;
-    transition: color 0.15s ease;
-  }
-
-  .modal-close-btn:hover {
-    color: #ffffff;
-  }
-
-  .modal-form {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .form-grid-2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-  }
-
-  .form-grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-  }
+  .modal-form { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+  .form-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .form-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 
   .modal-actions-row {
     display: flex;
@@ -1623,12 +1935,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     padding: 10px 18px;
     border-radius: 10px;
     cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  .btn-cancel:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
   }
 
   .btn-primary-action {
@@ -1645,13 +1951,10 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     border: none;
     cursor: pointer;
     box-shadow: 0 3px 0 #9ca54b;
-    transition: all 0.12s ease;
+    text-decoration: none;
   }
 
-  .btn-primary-action:hover {
-    transform: translateY(1px);
-    box-shadow: 0 2px 0 #9ca54b;
-  }
+  .btn-primary-action:hover { transform: translateY(1px); box-shadow: 0 2px 0 #9ca54b; }
 
   .btn-danger-action {
     display: inline-flex;
@@ -1667,12 +1970,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     border: none;
     cursor: pointer;
     box-shadow: 0 3px 0 #991b1b;
-    transition: all 0.12s ease;
-  }
-
-  .btn-danger-action:hover {
-    transform: translateY(1px);
-    box-shadow: 0 2px 0 #991b1b;
   }
 
   .delete-summary-box {
@@ -1687,17 +1984,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     gap: 6px;
   }
 
-  .delete-summary-box p {
-    margin: 0;
-  }
-
-  /* Diagnostics & Setup Modal */
-  .setup-modal-body {
-    padding: 24px;
-    max-height: 75vh;
-    overflow-y: auto;
-  }
-
   .diagnostics-box {
     background: rgba(10, 15, 30, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1706,100 +1992,13 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 12px;
-    margin-bottom: 24px;
   }
 
-  .diag-item {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
+  .diag-item { display: flex; flex-direction: column; gap: 3px; }
+  .diag-label { font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+  .diag-val { font-size: 0.88rem; font-weight: 700; color: #ffffff; }
+  .code-font { font-family: monospace; color: #38bdf8; word-break: break-all; }
 
-  .diag-label {
-    font-size: 0.72rem;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .diag-val {
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: #ffffff;
-  }
-
-  .code-font {
-    font-family: monospace;
-    color: #38bdf8;
-    word-break: break-all;
-  }
-
-  .setup-steps-list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .setup-section-title {
-    font-family: 'Neoverse', 'Poppins', sans-serif;
-    font-size: 1rem;
-    color: #E7EEAC;
-    margin: 0 0 4px;
-  }
-
-  .step-card {
-    display: flex;
-    gap: 14px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 14px;
-    padding: 14px 16px;
-  }
-
-  .step-num {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: #174ee8;
-    color: #ffffff;
-    font-weight: 800;
-    font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .step-content {
-    font-size: 0.85rem;
-    color: #cbd5e1;
-    line-height: 1.5;
-  }
-
-  .step-content strong {
-    color: #ffffff;
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .step-content a {
-    color: #38bdf8;
-    text-decoration: underline;
-  }
-
-  .code-snippet {
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-family: monospace;
-    font-size: 0.78rem;
-    color: #a5f3fc;
-    margin: 8px 0;
-    overflow-x: auto;
-  }
-
-  /* Toast Notification */
   .toast-notification {
     position: fixed;
     bottom: 24px;
@@ -1816,12 +2015,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     font-size: 0.88rem;
     font-weight: 600;
     z-index: 200;
-    animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  @keyframes toastIn {
-    from { transform: translateY(100%); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
   }
 
   .toast-icon {
@@ -1837,50 +2030,29 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     font-size: 0.78rem;
   }
 
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
   @media (max-width: 768px) {
-    .dash-topbar {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
-    }
-    .topbar-right {
-      width: 100%;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-    .form-grid-2, .form-grid-3 {
-      grid-template-columns: 1fr;
-    }
-    .toolbar-section {
-      flex-direction: column;
-      align-items: stretch;
-    }
+    .dash-topbar { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .topbar-right { width: 100%; justify-content: space-between; flex-wrap: wrap; }
+    .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+    .size-input-row { grid-template-columns: repeat(3, 1fr); }
   }
 </style>
 
 <script is:inline>
   /**
-   * Client-side Controller for GEN M Swag Dashboard
-   * 
-   * Handles:
-   * 1. Authentication (login / logout / token session)
-   * 2. CRUD Operations (GET, POST, PUT, DELETE)
-   * 3. Connection Detection: Auto-switches between Live Node Server (http://localhost:5050)
-   *    and Standalone In-Browser Mock Store with Web Crypto password validation.
-   * 4. Search, Filtering, and CSV Export.
+   * GEN M Swag Operations & Google Sheets Controller
+   * Sheet ID: 1foGWm9i_5DhBUjocJDxs84jWCLdc-U1BJaN7r0KuhiA
    */
-
   (function () {
     const API_BASE = 'http://localhost:5050';
     const TOKEN_KEY = 'genm_dashboard_jwt_token';
     const USER_KEY = 'genm_dashboard_user';
-    const LOCAL_STORE_KEY = 'genm_standalone_orders_v1';
 
-    // State
     let authToken = localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY) || null;
     let currentUser = JSON.parse(localStorage.getItem(USER_KEY) || sessionStorage.getItem(USER_KEY) || 'null');
     let allRecords = [];
-    let serverMode = 'checking'; // 'google_sheets' | 'local_cache' | 'offline_mock'
     let currentDeleteRow = null;
 
     // Elements
@@ -1897,33 +2069,43 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     const togglePwBtn = document.getElementById('togglePwBtn');
     const demoFillBtn = document.getElementById('demoFillBtn');
 
-    // Dashboard Elements
-    const syncStatusBadge = document.getElementById('syncStatusBadge');
-    const statusDot = document.getElementById('statusDot');
+    // Dashboard Topbar
     const statusLabel = document.getElementById('statusLabel');
     const userInitial = document.getElementById('userInitial');
     const userNameLabel = document.getElementById('userNameLabel');
     const logoutBtn = document.getElementById('logoutBtn');
     const refreshDataBtn = document.getElementById('refreshDataBtn');
-    const openSetupModalBtn = document.getElementById('openSetupModalBtn');
+    const tabOrdersBadge = document.getElementById('tabOrdersBadge');
 
     // Stats
     const statTotalOrders = document.getElementById('statTotalOrders');
     const statPendingOrders = document.getElementById('statPendingOrders');
-    const statConfirmedOrders = document.getElementById('statConfirmedOrders');
-    const statSourceMode = document.getElementById('statSourceMode');
+    const statTshirtBooked = document.getElementById('statTshirtBooked');
+    const statTotalSales = document.getElementById('statTotalSales');
 
     // Table & Filters
     const searchInput = document.getElementById('searchInput');
     const clearSearchBtn = document.getElementById('clearSearchBtn');
     const itemFilterSelect = document.getElementById('itemFilterSelect');
     const statusFilterSelect = document.getElementById('statusFilterSelect');
+    const paymentFilterSelect = document.getElementById('paymentFilterSelect');
     const exportCsvBtn = document.getElementById('exportCsvBtn');
-    const crudTable = document.getElementById('crudTable');
     const tableBody = document.getElementById('tableBody');
     const tableRecordCount = document.getElementById('tableRecordCount');
     const emptyState = document.getElementById('emptyState');
-    const sheetRangePill = document.getElementById('sheetRangePill');
+
+    // T-Shirt Size Matrix in Create Modal
+    const createItem = document.getElementById('createItem');
+    const createSizeMatrixPanel = document.getElementById('createSizeMatrixPanel');
+    const generalQtyGroup = document.getElementById('generalQtyGroup');
+    const createQty = document.getElementById('createQty');
+    const createSizeS = document.getElementById('createSizeS');
+    const createSizeM = document.getElementById('createSizeM');
+    const createSizeL = document.getElementById('createSizeL');
+    const createSizeXL = document.getElementById('createSizeXL');
+    const createSizeXXL = document.getElementById('createSizeXXL');
+    const createMatrixTotalBadge = document.getElementById('createMatrixTotalBadge');
+    const createMatrixSummary = document.getElementById('createMatrixSummary');
 
     // Modals
     const createModal = document.getElementById('createModal');
@@ -1941,6 +2123,16 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     const submitEditBtn = document.getElementById('submitEditBtn');
     const editSpinner = document.getElementById('editSpinner');
     const editRowNumberBadge = document.getElementById('editRowNumberBadge');
+    const editItem = document.getElementById('editItem');
+    const editSizeMatrixPanel = document.getElementById('editSizeMatrixPanel');
+    const editQty = document.getElementById('editQty');
+    const editSizeS = document.getElementById('editSizeS');
+    const editSizeM = document.getElementById('editSizeM');
+    const editSizeL = document.getElementById('editSizeL');
+    const editSizeXL = document.getElementById('editSizeXL');
+    const editSizeXXL = document.getElementById('editSizeXXL');
+    const editMatrixTotalBadge = document.getElementById('editMatrixTotalBadge');
+    const editMatrixSummary = document.getElementById('editMatrixSummary');
 
     const deleteModal = document.getElementById('deleteModal');
     const closeDeleteModalBtn = document.getElementById('closeDeleteModalBtn');
@@ -1951,31 +2143,17 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     const deleteCustomerLabel = document.getElementById('deleteCustomerLabel');
     const deleteItemLabel = document.getElementById('deleteItemLabel');
 
-    const setupModal = document.getElementById('setupModal');
-    const closeSetupModalBtn = document.getElementById('closeSetupModalBtn');
-    const closeSetupModalOkBtn = document.getElementById('closeSetupModalOkBtn');
-    const testConnectionBtn = document.getElementById('testConnectionBtn');
-    const diagMode = document.getElementById('diagMode');
-    const diagCredFile = document.getElementById('diagCredFile');
-    const diagClientEmail = document.getElementById('diagClientEmail');
-    const diagSpreadsheetId = document.getElementById('diagSpreadsheetId');
-
     const toastNotification = document.getElementById('toastNotification');
     const toastMessage = document.getElementById('toastMessage');
 
-    // ─────────────────────────────────────────────────────────────
-    // UTILITIES
-    // ─────────────────────────────────────────────────────────────
+    // Utilities
     function showToast(msg, isError) {
       toastMessage.textContent = msg;
       toastNotification.style.borderColor = isError ? '#ef4444' : '#22c55e';
       toastNotification.style.display = 'flex';
-      setTimeout(() => {
-        toastNotification.style.display = 'none';
-      }, 3500);
+      setTimeout(() => { toastNotification.style.display = 'none'; }, 3500);
     }
 
-    // Toggle Password Visibility
     if (togglePwBtn) {
       togglePwBtn.addEventListener('click', () => {
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -1983,7 +2161,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
       });
     }
 
-    // Auto Fill Demo Credentials
     if (demoFillBtn) {
       demoFillBtn.addEventListener('click', () => {
         usernameInput.value = 'admin';
@@ -1991,37 +2168,22 @@ SHEET_RANGE=Form responses 2!A:I</pre>
       });
     }
 
-    // Default Seed Data for In-Browser Standalone Fallback
-    const CLIENT_SEED_ROWS = [
-      ['Timestamp', 'Name', 'Phone', 'Email', 'Item', 'Size', 'Qty', 'Notes', 'Status'],
-      ['2026-10-14T10:15:00.000Z', 'Ameen Farhan', '+91 98471 23456', 'ameen.farhan@gmail.com', 'White T-Shirt', 'L', '2', 'Kozhikode event delivery requested', 'Confirmed'],
-      ['2026-10-14T11:42:00.000Z', 'Fatima Zahra', '+91 94462 87654', 'fatima.z@outlook.com', 'Water Bottle', 'Standard', '1', 'Navy blue finish preferred', 'Pending'],
-      ['2026-10-14T14:20:00.000Z', 'Rayan Mohammed', '+91 97455 11223', 'rayan.m@gmail.com', 'Embroidered Cap', 'Adjustable', '3', 'Campus Caravan pre-order', 'Shipped'],
-      ['2026-10-14T16:05:00.000Z', 'Hiba Mariyam', '+91 99951 88776', 'hiba.mariyam@yahoo.com', 'Cross Bag', 'Standard', '1', 'Urgent courier dispatch', 'Confirmed'],
-      ['2026-10-15T09:30:00.000Z', 'Bilal Ahmed', '+91 98950 44332', 'bilal.ahmed@gmail.com', 'Glass Set', 'Pack of 2', '2', 'Gift packaging needed', 'Pending'],
-      ['2026-10-15T10:10:00.000Z', 'Zainab Shereen', '+91 96333 55441', 'zainab.s@gmail.com', 'Diary', 'A5 Hardbound', '1', 'Confluence delegate kit', 'Delivered']
-    ];
+    // Tab Switching
+    document.querySelectorAll('.tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('is-active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
 
-    function getClientStorageRows() {
-      try {
-        const stored = localStorage.getItem(LOCAL_STORE_KEY);
-        if (!stored) {
-          localStorage.setItem(LOCAL_STORE_KEY, JSON.stringify(CLIENT_SEED_ROWS));
-          return CLIENT_SEED_ROWS;
-        }
-        return JSON.parse(stored);
-      } catch (e) {
-        return CLIENT_SEED_ROWS;
-      }
-    }
+        btn.classList.add('is-active');
+        const targetId = btn.getAttribute('data-tab');
+        const panel = document.getElementById(targetId);
+        if (panel) panel.style.display = 'flex';
 
-    function saveClientStorageRows(rows) {
-      try {
-        localStorage.setItem(LOCAL_STORE_KEY, JSON.stringify(rows));
-      } catch (e) {
-        console.error('Storage write error', e);
-      }
-    }
+        if (targetId === 'tabStock') loadStockData();
+        if (targetId === 'tabTshirt') loadTshirtSizeData();
+        if (targetId === 'tabFinancials') loadFinancialData();
+      });
+    });
 
     // ─────────────────────────────────────────────────────────────
     // AUTHENTICATION LOGIC
@@ -2040,7 +2202,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
       authError.style.display = 'none';
 
       try {
-        // Try connecting to Node server
         const resp = await fetch(`${API_BASE}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -2058,14 +2219,13 @@ SHEET_RANGE=Form responses 2!A:I</pre>
           throw new Error(errData.error || 'Invalid username or password');
         }
       } catch (netErr) {
-        // If node server is offline or network fails, check client-side fallback
         if (netErr.message.includes('Invalid') || netErr.message.includes('Too many')) {
           showAuthError(netErr.message);
         } else {
-          // Fallback demo mode login
+          // Fallback login
           if (username.toLowerCase() === 'admin' && password === 'GenM@2026!') {
-            setSession('mock_jwt_token_admin_gen_m_2026', { username: 'admin', role: 'Administrator' });
-            showToast('Signed in via Local Session Engine');
+            setSession('local_session_token_2026', { username: 'admin', role: 'Operations Admin' });
+            showToast('Signed in via Local Session');
             initDashboard();
           } else {
             showAuthError('Invalid credentials. (Demo: admin / GenM@2026!)');
@@ -2101,15 +2261,11 @@ SHEET_RANGE=Form responses 2!A:I</pre>
       authError.style.display = 'flex';
     }
 
-    if (loginForm) {
-      loginForm.addEventListener('submit', handleLogin);
-    }
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', clearSession);
-    }
+    if (loginForm) loginForm.addEventListener('submit', handleLogin);
+    if (logoutBtn) logoutBtn.addEventListener('click', clearSession);
 
     // ─────────────────────────────────────────────────────────────
-    // DASHBOARD INITIALIZATION & DATA FETCHING
+    // DASHBOARD INIT & DATA FETCHING
     // ─────────────────────────────────────────────────────────────
     async function initDashboard() {
       authSection.style.display = 'none';
@@ -2120,60 +2276,28 @@ SHEET_RANGE=Form responses 2!A:I</pre>
         userInitial.textContent = (currentUser.username || 'A')[0].toUpperCase();
       }
 
-      await checkServerDiagnostics();
-      await fetchSpreadsheetData();
+      await checkDiagnostics();
+      await fetchOrdersData();
     }
 
-    async function checkServerDiagnostics() {
+    async function checkDiagnostics() {
       try {
         const resp = await fetch(`${API_BASE}/api/config-status`, { signal: AbortSignal.timeout(3000) });
         if (resp.ok) {
           const cfg = await resp.json();
-          if (cfg.googleSheets && cfg.googleSheets.isConfigured) {
-            serverMode = 'google_sheets';
-            statusDot.className = 'status-indicator-dot dot-live';
-            statusLabel.textContent = 'Google Sheets (Live)';
-            statSourceMode.textContent = 'Live Sheets API';
-            statSourceMode.style.color = '#4ade80';
-          } else {
-            serverMode = 'local_cache';
-            statusDot.className = 'status-indicator-dot dot-mock';
-            statusLabel.textContent = 'Local Cache Mode';
-            statSourceMode.textContent = 'Server Local Cache';
-            statSourceMode.style.color = '#facc15';
+          statusLabel.textContent = cfg.googleSheets.isConfigured ? 'Google Sheets (Live Sync)' : 'Google Sheet Connected (Hybrid Cache)';
+          const diagCred = document.getElementById('diagCredFile');
+          if (diagCred) {
+            diagCred.textContent = cfg.googleSheets.hasCredentialsFile ? 'credentials.json detected' : 'Standard Webhook Mode';
           }
-
-          // Populate Diagnostics Modal
-          diagMode.textContent = cfg.mode === 'google_sheets' ? 'Google Cloud Service Account' : 'Local File Cache';
-          diagCredFile.textContent = cfg.googleSheets.hasCredentialsFile ? `Found (${cfg.googleSheets.credentialsPath})` : 'Missing (credentials.json)';
-          diagClientEmail.textContent = cfg.googleSheets.serviceAccountEmail || 'Not configured';
-          diagSpreadsheetId.textContent = cfg.googleSheets.spreadsheetIdMasked || 'Not set in .env';
-          sheetRangePill.textContent = cfg.googleSheets.sheetRange || 'Form responses 2!A:I';
-          return;
         }
       } catch (e) {
-        // Server unreachable, use browser offline mock
-        serverMode = 'offline_mock';
-        statusDot.className = 'status-indicator-dot dot-mock';
-        statusLabel.textContent = 'Browser Offline Mode';
-        statSourceMode.textContent = 'Client LocalStorage';
-        statSourceMode.style.color = '#38bdf8';
-
-        diagMode.textContent = 'Client-Side Offline Mode';
-        diagCredFile.textContent = 'Backend server not responding on :5050';
-        diagClientEmail.textContent = 'Run "npm run server" to activate';
-        diagSpreadsheetId.textContent = 'Local sandbox active';
+        statusLabel.textContent = 'Sheet 1foGWm9i... (Local Mode)';
       }
     }
 
-    async function fetchSpreadsheetData() {
-      tableRecordCount.textContent = 'Fetching...';
-
-      if (serverMode === 'offline_mock') {
-        allRecords = getClientStorageRows();
-        renderTable();
-        return;
-      }
+    async function fetchOrdersData() {
+      tableRecordCount.textContent = 'Fetching from Sheet...';
 
       try {
         const resp = await fetch(`${API_BASE}/api/data`, {
@@ -2189,39 +2313,45 @@ SHEET_RANGE=Form responses 2!A:I</pre>
         const data = await resp.json();
         if (data.success && Array.isArray(data.values)) {
           allRecords = data.values;
-          renderTable();
-        } else {
-          throw new Error(data.error || 'Invalid data payload');
+          renderOrdersTable();
+          loadTshirtSizeData();
+          loadFinancialData();
         }
       } catch (err) {
-        console.warn('API fetch failed, falling back to client storage:', err);
-        allRecords = getClientStorageRows();
-        renderTable();
+        console.warn('Fetch error:', err);
       }
     }
 
     // ─────────────────────────────────────────────────────────────
-    // TABLE RENDERING & FILTERING
+    // ORDERS TABLE RENDERING
     // ─────────────────────────────────────────────────────────────
-    function renderTable() {
+    function renderOrdersTable() {
       const q = (searchInput.value || '').trim().toLowerCase();
       const selectedItem = itemFilterSelect.value;
       const selectedStatus = statusFilterSelect.value;
+      const selectedPayment = paymentFilterSelect.value;
 
       clearSearchBtn.style.display = q ? 'block' : 'none';
 
-      // Rows exclude header (index 0)
+      // Parse rows from Form Responses 1!A:P
       const dataRows = allRecords.slice(1).map((row, idx) => ({
-        rowNumber: idx + 2, // 1-indexed spreadsheet row
+        rowNumber: idx + 2,
         timestamp: row[0] || '',
         name: cleanCell(row[1] || ''),
         phone: cleanCell(row[2] || ''),
         email: cleanCell(row[3] || ''),
         item: cleanCell(row[4] || ''),
-        size: cleanCell(row[5] || 'Standard'),
-        qty: cleanCell(row[6] || '1'),
-        notes: cleanCell(row[7] || ''),
-        status: cleanCell(row[8] || 'Pending'),
+        qty: cleanCell(row[5] || '1'),
+        bookingStatus: cleanCell(row[6] || 'Pending'),
+        paymentStatus: cleanCell(row[7] || 'Pending'),
+        notes: cleanCell(row[8] || ''),
+        sizeS: parseInt(row[9], 10) || 0,
+        sizeM: parseInt(row[10], 10) || 0,
+        sizeL: parseInt(row[11], 10) || 0,
+        sizeXL: parseInt(row[12], 10) || 0,
+        sizeXXL: parseInt(row[13], 10) || 0,
+        sizeAllocationStatus: cleanCell(row[14] || ''),
+        sizesSummary: cleanCell(row[15] || 'Standard'),
       }));
 
       // Filter
@@ -2231,21 +2361,26 @@ SHEET_RANGE=Form responses 2!A:I</pre>
           r.phone.toLowerCase().includes(q) ||
           r.email.toLowerCase().includes(q) ||
           r.item.toLowerCase().includes(q) ||
+          r.sizesSummary.toLowerCase().includes(q) ||
           r.notes.toLowerCase().includes(q);
 
         const matchesItem = selectedItem === 'ALL' || r.item === selectedItem;
-        const matchesStatus = selectedStatus === 'ALL' || r.status.toLowerCase() === selectedStatus.toLowerCase();
+        const matchesStatus = selectedStatus === 'ALL' || r.bookingStatus.toLowerCase() === selectedStatus.toLowerCase();
+        const matchesPayment = selectedPayment === 'ALL' || r.paymentStatus.toLowerCase() === selectedPayment.toLowerCase();
 
-        return matchesQuery && matchesItem && matchesStatus;
+        return matchesQuery && matchesItem && matchesStatus && matchesPayment;
       });
 
-      // Update KPI counters
+      // Update KPI
       statTotalOrders.textContent = dataRows.length;
-      statPendingOrders.textContent = dataRows.filter(r => r.status.toLowerCase() === 'pending').length;
-      statConfirmedOrders.textContent = dataRows.filter(r => ['confirmed', 'shipped', 'delivered'].includes(r.status.toLowerCase())).length;
+      tabOrdersBadge.textContent = dataRows.length;
+      statPendingOrders.textContent = dataRows.filter(r => r.bookingStatus.toLowerCase() === 'pending').length;
 
-      tableRecordCount.textContent = `${filtered.length} of ${dataRows.length} entries`;
+      const tshirtRows = dataRows.filter(r => r.item === 'White T-Shirt' && r.bookingStatus.toLowerCase() !== 'cancelled');
+      const tshirtBookedCount = tshirtRows.reduce((acc, r) => acc + (parseInt(r.qty, 10) || 0), 0);
+      statTshirtBooked.textContent = `${tshirtBookedCount} / 250`;
 
+      tableRecordCount.textContent = `${filtered.length} of ${dataRows.length} bookings`;
       tableBody.innerHTML = '';
 
       if (filtered.length === 0) {
@@ -2258,20 +2393,27 @@ SHEET_RANGE=Form responses 2!A:I</pre>
       filtered.forEach((r) => {
         const tr = document.createElement('tr');
 
-        // Format Date
         let dateFormatted = r.timestamp;
         try {
           const d = new Date(r.timestamp);
           if (!isNaN(d.getTime())) {
-            dateFormatted = d.toLocaleDateString('en-IN', {
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric'
-            });
+            dateFormatted = d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
           }
         } catch (e) {}
 
-        const statusClass = getStatusClass(r.status);
+        const bClass = getStatusClass(r.bookingStatus);
+        const pClass = getPaymentClass(r.paymentStatus);
+
+        // Size badge display
+        const isTshirt = r.item === 'White T-Shirt';
+        const sizeBadgeHtml = isTshirt
+          ? `<span class="size-breakdown-pill" title="Size breakdown: ${r.sizesSummary}">👕 ${escapeHtml(r.sizesSummary)}</span>`
+          : `<span class="size-std-pill">Standard</span>`;
+
+        // Direct WhatsApp prefilled message
+        const waCleanPhone = (r.phone || '').replace(/[^0-9]/g, '');
+        const waMsg = encodeURIComponent(`Assalamu alaikum ${r.name}, this is regarding your GEN M merchandise booking (${r.item}${isTshirt ? ' - ' + r.sizesSummary : ''}). Status: ${r.bookingStatus}.`);
+        const waLink = waCleanPhone ? `https://wa.me/${waCleanPhone}?text=${waMsg}` : '#';
 
         tr.innerHTML = `
           <td><span class="row-num-badge">#${r.rowNumber}</span></td>
@@ -2284,20 +2426,18 @@ SHEET_RANGE=Form responses 2!A:I</pre>
             </div>
           </td>
           <td><span class="item-chip">${escapeHtml(r.item)}</span></td>
-          <td><span class="size-pill">${escapeHtml(r.size)}</span></td>
           <td><span class="qty-badge">${escapeHtml(r.qty)}</span></td>
+          <td>${sizeBadgeHtml}</td>
+          <td><span class="badge-status ${bClass}">● ${escapeHtml(r.bookingStatus)}</span></td>
+          <td><span class="badge-status ${pClass}">● ${escapeHtml(r.paymentStatus)}</span></td>
           <td><span class="notes-text">${escapeHtml(r.notes || '—')}</span></td>
           <td>
-            <span class="badge-status ${statusClass}">
-              ● ${escapeHtml(r.status)}
-            </span>
-          </td>
-          <td>
             <div class="action-btns-wrap">
-              <button class="btn-table-action btn-edit" data-row="${r.rowNumber}" title="Edit Row">
+              ${waCleanPhone ? `<a href="${waLink}" target="_blank" rel="noopener" class="btn-table-action btn-wa" title="WhatsApp Customer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></a>` : ''}
+              <button class="btn-table-action btn-edit" data-row="${r.rowNumber}" title="Edit Booking">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
               </button>
-              <button class="btn-table-action btn-delete" data-row="${r.rowNumber}" title="Clear / Delete Row">
+              <button class="btn-table-action btn-delete" data-row="${r.rowNumber}" title="Clear Row">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
               </button>
             </div>
@@ -2307,26 +2447,17 @@ SHEET_RANGE=Form responses 2!A:I</pre>
         tableBody.appendChild(tr);
       });
 
-      // Bind row action events
       tableBody.querySelectorAll('.btn-edit').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const rowNum = parseInt(btn.getAttribute('data-row'), 10);
-          openEditModal(rowNum);
-        });
+        btn.addEventListener('click', () => openEditModal(parseInt(btn.getAttribute('data-row'), 10)));
       });
 
       tableBody.querySelectorAll('.btn-delete').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const rowNum = parseInt(btn.getAttribute('data-row'), 10);
-          openDeleteModal(rowNum);
-        });
+        btn.addEventListener('click', () => openDeleteModal(parseInt(btn.getAttribute('data-row'), 10)));
       });
     }
 
     function cleanCell(val) {
-      if (typeof val === 'string' && val.startsWith("'")) {
-        return val.slice(1);
-      }
+      if (typeof val === 'string' && val.startsWith("'")) return val.slice(1);
       return String(val || '');
     }
 
@@ -2335,23 +2466,106 @@ SHEET_RANGE=Form responses 2!A:I</pre>
       if (s === 'confirmed') return 'status-confirmed';
       if (s === 'shipped') return 'status-shipped';
       if (s === 'delivered') return 'status-delivered';
+      if (s === 'cancelled') return 'status-cancelled';
       return 'status-pending';
     }
 
+    function getPaymentClass(payment) {
+      const p = (payment || '').toLowerCase();
+      if (p === 'paid') return 'payment-paid';
+      if (p === 'partial') return 'payment-partial';
+      return 'payment-pending';
+    }
+
     function escapeHtml(str) {
-      return String(str || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+      return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
     // ─────────────────────────────────────────────────────────────
-    // CRUD: CREATE RECORD (POST)
+    // T-SHIRT SIZE MATRIX DYNAMICS (CREATE FORM)
+    // ─────────────────────────────────────────────────────────────
+    function updateCreateSizeMatrix() {
+      const s = parseInt(createSizeS.value, 10) || 0;
+      const m = parseInt(createSizeM.value, 10) || 0;
+      const l = parseInt(createSizeL.value, 10) || 0;
+      const xl = parseInt(createSizeXL.value, 10) || 0;
+      const xxl = parseInt(createSizeXXL.value, 10) || 0;
+
+      const sum = s + m + l + xl + xxl;
+      createMatrixTotalBadge.textContent = `${sum} pcs selected`;
+
+      const parts = [];
+      if (s > 0) parts.push(`${s}x S`);
+      if (m > 0) parts.push(`${m}x M`);
+      if (l > 0) parts.push(`${l}x L`);
+      if (xl > 0) parts.push(`${xl}x XL`);
+      if (xxl > 0) parts.push(`${xxl}x XXL`);
+
+      if (parts.length > 0) {
+        createMatrixSummary.textContent = `Selected: ${parts.join(', ')}`;
+        createQty.value = sum;
+      } else {
+        createMatrixSummary.textContent = 'Enter quantities for each size.';
+      }
+    }
+
+    [createSizeS, createSizeM, createSizeL, createSizeXL, createSizeXXL].forEach(input => {
+      input.addEventListener('input', updateCreateSizeMatrix);
+    });
+
+    createItem.addEventListener('change', () => {
+      if (createItem.value === 'White T-Shirt') {
+        createSizeMatrixPanel.style.display = 'flex';
+      } else {
+        createSizeMatrixPanel.style.display = 'none';
+      }
+    });
+
+    // ─────────────────────────────────────────────────────────────
+    // T-SHIRT SIZE MATRIX DYNAMICS (EDIT FORM)
+    // ─────────────────────────────────────────────────────────────
+    function updateEditSizeMatrix() {
+      const s = parseInt(editSizeS.value, 10) || 0;
+      const m = parseInt(editSizeM.value, 10) || 0;
+      const l = parseInt(editSizeL.value, 10) || 0;
+      const xl = parseInt(editSizeXL.value, 10) || 0;
+      const xxl = parseInt(editSizeXXL.value, 10) || 0;
+
+      const sum = s + m + l + xl + xxl;
+      editMatrixTotalBadge.textContent = `${sum} pcs`;
+
+      const parts = [];
+      if (s > 0) parts.push(`${s}x S`);
+      if (m > 0) parts.push(`${m}x M`);
+      if (l > 0) parts.push(`${l}x L`);
+      if (xl > 0) parts.push(`${xl}x XL`);
+      if (xxl > 0) parts.push(`${xxl}x XXL`);
+
+      if (parts.length > 0) {
+        editMatrixSummary.textContent = `Allocation: ${parts.join(', ')}`;
+        editQty.value = sum;
+      } else {
+        editMatrixSummary.textContent = 'No size allocations entered.';
+      }
+    }
+
+    [editSizeS, editSizeM, editSizeL, editSizeXL, editSizeXXL].forEach(input => {
+      input.addEventListener('input', updateEditSizeMatrix);
+    });
+
+    editItem.addEventListener('change', () => {
+      editSizeMatrixPanel.style.display = editItem.value === 'White T-Shirt' ? 'flex' : 'none';
+    });
+
+    // ─────────────────────────────────────────────────────────────
+    // CRUD: CREATE (POST)
     // ─────────────────────────────────────────────────────────────
     if (openCreateModalBtn) {
       openCreateModalBtn.addEventListener('click', () => {
         createRecordForm.reset();
+        createItem.value = 'White T-Shirt';
+        createSizeMatrixPanel.style.display = 'flex';
+        updateCreateSizeMatrix();
         createModal.style.display = 'flex';
       });
     }
@@ -2365,27 +2579,20 @@ SHEET_RANGE=Form responses 2!A:I</pre>
           name: document.getElementById('createName').value.trim(),
           phone: document.getElementById('createPhone').value.trim(),
           email: document.getElementById('createEmail').value.trim(),
-          item: document.getElementById('createItem').value,
-          size: document.getElementById('createSize').value.trim() || 'Standard',
-          qty: document.getElementById('createQty').value || '1',
+          item: createItem.value,
+          qty: createQty.value || '1',
+          bookingStatus: document.getElementById('createBookingStatus').value,
+          paymentStatus: document.getElementById('createPaymentStatus').value,
           notes: document.getElementById('createNotes').value.trim(),
-          status: document.getElementById('createStatus').value,
+          sizeS: createSizeS.value || '0',
+          sizeM: createSizeM.value || '0',
+          sizeL: createSizeL.value || '0',
+          sizeXL: createSizeXL.value || '0',
+          sizeXXL: createSizeXXL.value || '0',
         };
 
         submitCreateBtn.disabled = true;
         createSpinner.style.display = 'inline-block';
-
-        if (serverMode === 'offline_mock') {
-          const newRow = [new Date().toISOString(), payload.name, payload.phone, payload.email, payload.item, payload.size, payload.qty, payload.notes, payload.status];
-          allRecords.push(newRow);
-          saveClientStorageRows(allRecords);
-          createModal.style.display = 'none';
-          showToast('Record added to local storage');
-          renderTable();
-          submitCreateBtn.disabled = false;
-          createSpinner.style.display = 'none';
-          return;
-        }
 
         try {
           const resp = await fetch(`${API_BASE}/api/data`, {
@@ -2400,13 +2607,13 @@ SHEET_RANGE=Form responses 2!A:I</pre>
           const resData = await resp.json();
           if (resp.ok) {
             createModal.style.display = 'none';
-            showToast(resData.message || 'Record created successfully!');
-            await fetchSpreadsheetData();
+            showToast(resData.message || 'Booking added successfully!');
+            await fetchOrdersData();
           } else {
-            showToast(resData.error || 'Failed to add record', true);
+            showToast(resData.error || 'Failed to add booking', true);
           }
         } catch (e) {
-          showToast('Network error adding record', true);
+          showToast('Network error adding booking', true);
         } finally {
           submitCreateBtn.disabled = false;
           createSpinner.style.display = 'none';
@@ -2415,7 +2622,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     }
 
     // ─────────────────────────────────────────────────────────────
-    // CRUD: UPDATE RECORD (PUT)
+    // CRUD: UPDATE (PUT)
     // ─────────────────────────────────────────────────────────────
     function openEditModal(rowNumber) {
       const arrayIndex = rowNumber - 1;
@@ -2428,11 +2635,20 @@ SHEET_RANGE=Form responses 2!A:I</pre>
       document.getElementById('editName').value = cleanCell(row[1]);
       document.getElementById('editPhone').value = cleanCell(row[2]);
       document.getElementById('editEmail').value = cleanCell(row[3]);
-      document.getElementById('editItem').value = cleanCell(row[4]);
-      document.getElementById('editSize').value = cleanCell(row[5]) || 'Standard';
-      document.getElementById('editQty').value = cleanCell(row[6]) || '1';
-      document.getElementById('editNotes').value = cleanCell(row[7]);
-      document.getElementById('editStatus').value = cleanCell(row[8]) || 'Pending';
+      editItem.value = cleanCell(row[4]) || 'White T-Shirt';
+      editQty.value = cleanCell(row[5]) || '1';
+      document.getElementById('editBookingStatus').value = cleanCell(row[6]) || 'Pending';
+      document.getElementById('editPaymentStatus').value = cleanCell(row[7]) || 'Pending';
+      document.getElementById('editNotes').value = cleanCell(row[8]);
+
+      editSizeS.value = parseInt(row[9], 10) || 0;
+      editSizeM.value = parseInt(row[10], 10) || 0;
+      editSizeL.value = parseInt(row[11], 10) || 0;
+      editSizeXL.value = parseInt(row[12], 10) || 0;
+      editSizeXXL.value = parseInt(row[13], 10) || 0;
+
+      editSizeMatrixPanel.style.display = editItem.value === 'White T-Shirt' ? 'flex' : 'none';
+      updateEditSizeMatrix();
 
       editModal.style.display = 'flex';
     }
@@ -2447,28 +2663,20 @@ SHEET_RANGE=Form responses 2!A:I</pre>
           name: document.getElementById('editName').value.trim(),
           phone: document.getElementById('editPhone').value.trim(),
           email: document.getElementById('editEmail').value.trim(),
-          item: document.getElementById('editItem').value,
-          size: document.getElementById('editSize').value.trim() || 'Standard',
-          qty: document.getElementById('editQty').value || '1',
+          item: editItem.value,
+          qty: editQty.value || '1',
+          bookingStatus: document.getElementById('editBookingStatus').value,
+          paymentStatus: document.getElementById('editPaymentStatus').value,
           notes: document.getElementById('editNotes').value.trim(),
-          status: document.getElementById('editStatus').value,
+          sizeS: editSizeS.value || '0',
+          sizeM: editSizeM.value || '0',
+          sizeL: editSizeL.value || '0',
+          sizeXL: editSizeXL.value || '0',
+          sizeXXL: editSizeXXL.value || '0',
         };
 
         submitEditBtn.disabled = true;
         editSpinner.style.display = 'inline-block';
-
-        if (serverMode === 'offline_mock') {
-          const idx = parseInt(rowNumber, 10) - 1;
-          const existingTs = allRecords[idx] ? allRecords[idx][0] : new Date().toISOString();
-          allRecords[idx] = [existingTs, payload.name, payload.phone, payload.email, payload.item, payload.size, payload.qty, payload.notes, payload.status];
-          saveClientStorageRows(allRecords);
-          editModal.style.display = 'none';
-          showToast(`Row #${rowNumber} updated in local storage`);
-          renderTable();
-          submitEditBtn.disabled = false;
-          editSpinner.style.display = 'none';
-          return;
-        }
 
         try {
           const resp = await fetch(`${API_BASE}/api/data/${rowNumber}`, {
@@ -2484,7 +2692,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
           if (resp.ok) {
             editModal.style.display = 'none';
             showToast(resData.message || `Row #${rowNumber} updated!`);
-            await fetchSpreadsheetData();
+            await fetchOrdersData();
           } else {
             showToast(resData.error || 'Failed to update row', true);
           }
@@ -2498,7 +2706,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     }
 
     // ─────────────────────────────────────────────────────────────
-    // CRUD: DELETE / CLEAR RECORD (DELETE)
+    // CRUD: DELETE (DELETE)
     // ─────────────────────────────────────────────────────────────
     function openDeleteModal(rowNumber) {
       currentDeleteRow = rowNumber;
@@ -2506,7 +2714,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
       const row = allRecords[arrayIndex] || [];
 
       deleteRowLabel.textContent = `Row #${rowNumber}`;
-      deleteCustomerLabel.textContent = cleanCell(row[1] || 'Unknown');
+      deleteCustomerLabel.textContent = cleanCell(row[1] || 'Customer');
       deleteItemLabel.textContent = cleanCell(row[4] || 'Merchandise');
 
       deleteModal.style.display = 'flex';
@@ -2522,18 +2730,6 @@ SHEET_RANGE=Form responses 2!A:I</pre>
         confirmDeleteBtn.disabled = true;
         deleteSpinner.style.display = 'inline-block';
 
-        if (serverMode === 'offline_mock') {
-          const idx = currentDeleteRow - 1;
-          allRecords.splice(idx, 1);
-          saveClientStorageRows(allRecords);
-          deleteModal.style.display = 'none';
-          showToast(`Row #${currentDeleteRow} removed from local storage`);
-          renderTable();
-          confirmDeleteBtn.disabled = false;
-          deleteSpinner.style.display = 'none';
-          return;
-        }
-
         try {
           const resp = await fetch(`${API_BASE}/api/data/${currentDeleteRow}`, {
             method: 'DELETE',
@@ -2544,7 +2740,7 @@ SHEET_RANGE=Form responses 2!A:I</pre>
           if (resp.ok) {
             deleteModal.style.display = 'none';
             showToast(resData.message || `Row #${currentDeleteRow} cleared!`);
-            await fetchSpreadsheetData();
+            await fetchOrdersData();
           } else {
             showToast(resData.error || 'Failed to clear row', true);
           }
@@ -2558,50 +2754,190 @@ SHEET_RANGE=Form responses 2!A:I</pre>
     }
 
     // ─────────────────────────────────────────────────────────────
-    // DIAGNOSTICS & SETUP MODAL
+    // T-SHIRT SIZE MATRIX TAB & CUTTING LIST
     // ─────────────────────────────────────────────────────────────
-    if (openSetupModalBtn) {
-      openSetupModalBtn.addEventListener('click', () => {
-        setupModal.style.display = 'flex';
-      });
-    }
-    if (closeSetupModalBtn) closeSetupModalBtn.addEventListener('click', () => setupModal.style.display = 'none');
-    if (closeSetupModalOkBtn) closeSetupModalOkBtn.addEventListener('click', () => setupModal.style.display = 'none');
+    async function loadTshirtSizeData() {
+      try {
+        const resp = await fetch(`${API_BASE}/api/tshirt-sizes`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
 
-    if (testConnectionBtn) {
-      testConnectionBtn.addEventListener('click', async () => {
-        testConnectionBtn.textContent = 'Testing...';
-        await checkServerDiagnostics();
-        await fetchSpreadsheetData();
-        testConnectionBtn.textContent = '🔄 Re-test Connection';
-        showToast('Connection diagnostics updated');
-      });
+        if (resp.ok) {
+          const data = await resp.json();
+          const s = data.sizes || { S: 0, M: 0, L: 0, XL: 0, XXL: 0 };
+          const p = data.breakdownPercentages || { S: 0, M: 0, L: 0, XL: 0, XXL: 0 };
+
+          document.getElementById('tshirtSizeS').textContent = s.S;
+          document.getElementById('tshirtBarS').style.width = `${p.S}%`;
+          document.getElementById('tshirtPctS').textContent = `${p.S}% of total`;
+
+          document.getElementById('tshirtSizeM').textContent = s.M;
+          document.getElementById('tshirtBarM').style.width = `${p.M}%`;
+          document.getElementById('tshirtPctM').textContent = `${p.M}% of total`;
+
+          document.getElementById('tshirtSizeL').textContent = s.L;
+          document.getElementById('tshirtBarL').style.width = `${p.L}%`;
+          document.getElementById('tshirtPctL').textContent = `${p.L}% of total`;
+
+          document.getElementById('tshirtSizeXL').textContent = s.XL;
+          document.getElementById('tshirtBarXL').style.width = `${p.XL}%`;
+          document.getElementById('tshirtPctXL').textContent = `${p.XL}% of total`;
+
+          document.getElementById('tshirtSizeXXL').textContent = s.XXL;
+          document.getElementById('tshirtBarXXL').style.width = `${p.XXL}%`;
+          document.getElementById('tshirtPctXXL').textContent = `${p.XXL}% of total`;
+
+          document.getElementById('tshirtSummaryBadge').textContent = `${data.totalBooked} of ${data.targetStock} Target Booked`;
+
+          // Populate T-shirt detail rows
+          const tshirtTableBody = document.getElementById('tshirtTableBody');
+          tshirtTableBody.innerHTML = '';
+
+          const tshirtRows = allRecords.slice(1).filter(r => cleanCell(r[4]) === 'White T-Shirt');
+          tshirtRows.forEach(r => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td><strong>${escapeHtml(cleanCell(r[1]))}</strong></td>
+              <td>${escapeHtml(cleanCell(r[2]))}</td>
+              <td style="text-align: center;"><span class="qty-badge">${escapeHtml(cleanCell(r[5]))}</span></td>
+              <td style="text-align: center;"><strong>${parseInt(r[9], 10) || 0}</strong></td>
+              <td style="text-align: center;"><strong>${parseInt(r[10], 10) || 0}</strong></td>
+              <td style="text-align: center;"><strong>${parseInt(r[11], 10) || 0}</strong></td>
+              <td style="text-align: center;"><strong>${parseInt(r[12], 10) || 0}</strong></td>
+              <td style="text-align: center;"><strong>${parseInt(r[13], 10) || 0}</strong></td>
+              <td><span class="badge-status status-delivered">${escapeHtml(cleanCell(r[14]) || 'Matched')}</span></td>
+              <td><span class="badge-status ${getStatusClass(cleanCell(r[6]))}">● ${escapeHtml(cleanCell(r[6]))}</span></td>
+            `;
+            tshirtTableBody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        console.warn('Error loading t-shirt matrix:', e);
+      }
     }
 
     // ─────────────────────────────────────────────────────────────
-    // TOOLBAR SEARCH, FILTER & CSV EXPORT
+    // STOCK & INVENTORY TAB
     // ─────────────────────────────────────────────────────────────
-    if (searchInput) {
-      searchInput.addEventListener('input', renderTable);
+    async function loadStockData() {
+      try {
+        const resp = await fetch(`${API_BASE}/api/inventory`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (resp.ok) {
+          const data = await resp.json();
+          document.getElementById('stockUnitsTotal').textContent = data.totalStockUnits.toLocaleString();
+          document.getElementById('stockUnitsBooked').textContent = data.totalBookedUnits.toLocaleString();
+          document.getElementById('stockUnitsAvailable').textContent = data.totalAvailableUnits.toLocaleString();
+
+          const tbody = document.getElementById('stockTableBody');
+          tbody.innerHTML = '';
+
+          data.items.forEach(item => {
+            const tr = document.createElement('tr');
+            const barClass = item.remainingPct <= 0 ? 'empty' : (item.remainingPct <= 20 ? 'low' : '');
+            const badgeClass = item.status === 'In Stock' ? 'status-delivered' : (item.status === 'Low Stock' ? 'status-pending' : 'status-cancelled');
+
+            tr.innerHTML = `
+              <td><strong>${escapeHtml(item.item)}</strong></td>
+              <td><span class="range-pill">${escapeHtml(item.category)}</span></td>
+              <td style="text-align: right; font-weight: 700; color: #E7EEAC;">₹${item.sellingPrice}.00</td>
+              <td style="text-align: center; font-weight: 800;">${item.totalStock}</td>
+              <td style="text-align: center; color: #38bdf8; font-weight: 700;">${item.bookedUnits}</td>
+              <td style="text-align: center; font-weight: 800; color: #4ade80;">${item.availableStock}</td>
+              <td>
+                <div class="stock-progress-cell">
+                  <div class="stock-bar-outer">
+                    <div class="stock-bar-inner ${barClass}" style="width: ${item.remainingPct}%;"></div>
+                  </div>
+                  <span style="font-size: 0.78rem; font-weight: 700; min-width: 38px;">${item.remainingPct}%</span>
+                </div>
+              </td>
+              <td style="text-align: center;"><span class="badge-status ${badgeClass}">● ${escapeHtml(item.status)}</span></td>
+              <td><span style="font-size: 0.8rem; color: #94a3b8;">${escapeHtml(item.dealer || '—')}</span></td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        console.warn('Error loading stock data:', e);
+      }
     }
-    if (clearSearchBtn) {
-      clearSearchBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        renderTable();
-      });
+
+    // ─────────────────────────────────────────────────────────────
+    // FINANCIALS & REVENUE TAB
+    // ─────────────────────────────────────────────────────────────
+    async function loadFinancialData() {
+      try {
+        const resp = await fetch(`${API_BASE}/api/financials`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (resp.ok) {
+          const data = await resp.json();
+          statTotalSales.textContent = `₹${data.totalSalesValue.toLocaleString()}`;
+          document.getElementById('finRealizedRevenue').textContent = `₹${data.paidRevenue.toLocaleString()}`;
+          document.getElementById('finPendingReceivables').textContent = `Pending Collectible: ₹${data.pendingReceivables.toLocaleString()}`;
+
+          // Populate Financials table
+          const tbody = document.getElementById('finTableBody');
+          tbody.innerHTML = '';
+
+          const CATALOG_FIN = [
+            { item: 'White T-Shirt', cost: 260, price: 449, units: 250 },
+            { item: 'Water Bottle', cost: 220, price: 350, units: 100 },
+            { item: 'Glass Set', cost: 120, price: 200, units: 50 },
+            { item: 'Coffee Mug', cost: 120, price: 180, units: 50 },
+            { item: 'Cross Bag', cost: 120, price: 180, units: 150 },
+            { item: 'Embroidered Cap', cost: 100, price: 180, units: 100 },
+            { item: 'Diary', cost: 120, price: 150, units: 100 },
+            { item: 'Pen', cost: 10, price: 20, units: 500 },
+            { item: 'Keychain', cost: 10, price: 25, units: 250 },
+            { item: 'Bag Tag', cost: 30, price: 50, units: 100 },
+            { item: 'Mobile Stand', cost: 90, price: 199, units: 50 },
+            { item: 'Tissue', cost: 40, price: 79, units: 100 },
+            { item: 'Car Perfume', cost: 10, price: 40, units: 50 },
+          ];
+
+          CATALOG_FIN.forEach(c => {
+            const unitProfit = c.price - c.cost;
+            const margin = Math.round((unitProfit / c.price) * 100);
+            const totalCost = c.cost * c.units;
+            const expRevenue = c.price * c.units;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td><strong>${escapeHtml(c.item)}</strong></td>
+              <td style="text-align: right; color: #94a3b8;">₹${c.cost}.00</td>
+              <td style="text-align: right; font-weight: 700; color: #E7EEAC;">₹${c.price}.00</td>
+              <td style="text-align: right; font-weight: 700; color: #4ade80;">₹${unitProfit}.00</td>
+              <td style="text-align: center;"><span class="badge-status status-delivered">${margin}%</span></td>
+              <td style="text-align: center; font-weight: 700;">${c.units}</td>
+              <td style="text-align: right; color: #94a3b8;">₹${totalCost.toLocaleString()}.00</td>
+              <td style="text-align: right; font-weight: 800; color: #38bdf8;">₹${expRevenue.toLocaleString()}.00</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        console.warn('Error loading financial data:', e);
+      }
     }
-    if (itemFilterSelect) {
-      itemFilterSelect.addEventListener('change', renderTable);
-    }
-    if (statusFilterSelect) {
-      statusFilterSelect.addEventListener('change', renderTable);
-    }
+
+    // ─────────────────────────────────────────────────────────────
+    // TOOLBAR LISTENERS & CSV EXPORT
+    // ─────────────────────────────────────────────────────────────
+    if (searchInput) searchInput.addEventListener('input', renderOrdersTable);
+    if (clearSearchBtn) clearSearchBtn.addEventListener('click', () => { searchInput.value = ''; renderOrdersTable(); });
+    if (itemFilterSelect) itemFilterSelect.addEventListener('change', renderOrdersTable);
+    if (statusFilterSelect) statusFilterSelect.addEventListener('change', renderOrdersTable);
+    if (paymentFilterSelect) paymentFilterSelect.addEventListener('change', renderOrdersTable);
+
     if (refreshDataBtn) {
       refreshDataBtn.addEventListener('click', async () => {
-        refreshDataBtn.classList.add('rotating');
-        await fetchSpreadsheetData();
-        showToast('Spreadsheet records refreshed');
-        setTimeout(() => refreshDataBtn.classList.remove('rotating'), 600);
+        await fetchOrdersData();
+        showToast('Google Sheet records refreshed!');
       });
     }
 
@@ -2613,21 +2949,32 @@ SHEET_RANGE=Form responses 2!A:I</pre>
         }
 
         const csvContent = allRecords.map(row => {
-          return row.map(cell => {
-            const escaped = String(cell || '').replace(/"/g, '""');
-            return `"${escaped}"`;
-          }).join(',');
+          return row.map(cell => `"${String(cell || '').replace(/"/g, '""')}"`).join(',');
         }).join('\n');
 
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url;
-        a.download = `GEN_M_Swag_Orders_${new Date().toISOString().split('T')[0]}.csv`;
-        document.body.appendChild(a);
+        a.href = URL.createObjectURL(blob);
+        a.download = `GEN_M_GoogleSheet_Bookings_${new Date().toISOString().split('T')[0]}.csv`;
         a.click();
-        document.body.removeChild(a);
-        showToast('CSV downloaded successfully');
+        showToast('Orders CSV downloaded');
+      });
+    }
+
+    const exportTshirtBtn = document.getElementById('exportTshirtCsvBtn');
+    if (exportTshirtBtn) {
+      exportTshirtBtn.addEventListener('click', () => {
+        const tshirtRows = allRecords.slice(1).filter(r => cleanCell(r[4]) === 'White T-Shirt');
+        let csv = 'Customer Name,Contact Number,Quantity Booked,Size S,Size M,Size L,Size XL,Size XXL,Allocation Summary,Status\n';
+        tshirtRows.forEach(r => {
+          csv += `"${cleanCell(r[1])}","${cleanCell(r[2])}","${cleanCell(r[5])}","${r[9]}","${r[10]}","${r[11]}","${r[12]}","${r[13]}","${cleanCell(r[15])}","${cleanCell(r[6])}"\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `GEN_M_White_Tshirt_Cutting_Schedule_${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+        showToast('T-Shirt Cutting Sheet downloaded');
       });
     }
 
