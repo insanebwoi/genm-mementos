@@ -63,6 +63,25 @@ const DATA_DIR = path.join(__dirname, 'data');
 const LOCAL_OVERLAY_FILE = path.join(DATA_DIR, 'sheet-overlay.json');
 const CONFIG_FILE = path.join(DATA_DIR, 'app-config.json');
 
+// ─────────────────────────────────────────────────────────────
+// REAL-TIME 2-WAY SYNC: SERVER-SENT EVENTS (SSE) STREAM
+// ─────────────────────────────────────────────────────────────
+let sseClients = [];
+
+function broadcastSse(type, payload) {
+  const dataString = `event: ${type}\ndata: ${JSON.stringify(payload)}\n\n`;
+  for (let i = sseClients.length - 1; i >= 0; i--) {
+    const client = sseClients[i];
+    try {
+      client.res.write(dataString);
+    } catch (e) {
+      console.warn(`[SSE] Disconnecting inactive client ${client.id}`);
+      sseClients.splice(i, 1);
+    }
+  }
+}
+
+
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
@@ -79,6 +98,14 @@ function getAppConfig() {
 function saveAppConfig(cfg) {
   try {
     fs.writeFileSync(CONFIG_FILE, JSON.stringify(cfg, null, 2), 'utf-8');
+    const envPath = path.join(__dirname, '..', '.env');
+    if (fs.existsSync(envPath)) {
+      let envContent = fs.readFileSync(envPath, 'utf-8');
+      if (envContent.includes('APPS_SCRIPT_URL=')) {
+        envContent = envContent.replace(/APPS_SCRIPT_URL=.*/g, `APPS_SCRIPT_URL=${cfg.appsScriptUrl || ''}`);
+        fs.writeFileSync(envPath, envContent, 'utf-8');
+      }
+    }
   } catch (e) {}
 }
 
@@ -150,7 +177,7 @@ async function flushSyncQueue() {
       if (scriptUrl && scriptUrl.startsWith('http')) {
         const resp = await fetch(scriptUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({ action: item.action, targetSheet: 'Form Responses 1', ...item.payload }),
           redirect: 'follow',
         });
@@ -240,7 +267,7 @@ async function writeToGoogleSheet(action, payload) {
       console.log(`[Google Sheets Sync] Sending ${action} to Apps Script Webhook (Form Responses 1):`, scriptUrl);
       const resp = await fetch(scriptUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ action, targetSheet: 'Form Responses 1', ...payload }),
         redirect: 'follow',
       });
@@ -388,12 +415,118 @@ app.get('/api/config-status', (req, res) => {
   });
 });
 
-app.post('/api/config/apps-script', authenticateToken, (req, res) => {
+// ─────────────────────────────────────────────────────────────
+// REAL-TIME 2-WAY SYNC: SERVER-SENT EVENTS (SSE) STREAM
+// Delivers instant live updates to all open dashboard browser tabs
+// ─────────────────────────────────────────────────────────────
+app.get('/api/realtime/stream', (req, res) => {
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache, no-transform',
+    'Connection': 'keep-alive',
+    'Access-Control-Allow-Origin': '*',
+  });
+
+  const clientId = 'sse_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+  const client = { id: clientId, res };
+  sseClients.push(client);
+
+  console.log(`[SSE] Dashboard client connected: ${clientId}. Total active stream clients: ${sseClients.length}`);
+
+  // Initial handshake
+  res.write(`event: connected\ndata: ${JSON.stringify({ status: 'connected', clientId, activeClients: sseClients.length })}\n\n`);
+
+  // Heartbeat ping every 20 seconds to prevent network idle disconnection
+  const pingInterval = setInterval(() => {
+    try {
+      res.write(`: ping\n\n`);
+    } catch (e) {
+      clearInterval(pingInterval);
+    }
+  }, 20000);
+
+  req.on('close', () => {
+    clearInterval(pingInterval);
+    sseClients = sseClients.filter(c => c.id !== clientId);
+    console.log(`[SSE] Dashboard client disconnected: ${clientId}. Remaining clients: ${sseClients.length}`);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────
+// REAL-TIME 2-WAY SYNC: INBOUND WEBHOOK FROM GOOGLE SHEETS
+// Triggered by Apps Script sendUpdateToWebApp(e) on spreadsheet edit
+// ─────────────────────────────────────────────────────────────
+app.post('/api/sheets-webhook', (req, res) => {
+  try {
+    const { action, rowNumber, row, timestamp } = req.body || {};
+    console.log(`[Sheets Webhook] Inbound trigger from Google Sheet Form Responses 1:`, { action, rowNumber, timestamp });
+
+    if (rowNumber) {
+      const num = parseInt(rowNumber, 10);
+      const overlay = readOverlay();
+      if (overlay.updatedRows && overlay.updatedRows[num]) {
+        delete overlay.updatedRows[num];
+        writeOverlay(overlay);
+      }
+    }
+
+    // Broadcast to all open dashboard tabs immediately in <50ms
+    broadcastSse('sheet_update', {
+      action: action || 'sheet_update',
+      rowNumber,
+      row,
+      timestamp: timestamp || new Date().toISOString(),
+      source: 'google_sheets_trigger'
+    });
+
+    res.json({
+      status: 'success',
+      received: true,
+      rowNumber,
+      broadcastedTo: sseClients.length,
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    console.error('[Sheets Webhook] Error processing sheet trigger:', err);
+    res.status(500).json({ status: 'error', error: err.message });
+  }
+});
+
+// Outbound Webhook Test Simulator (for user testing from Dashboard Tab 5)
+app.post('/api/sheets-webhook/test', (req, res) => {
+  const testPayload = {
+    action: 'sheet_update',
+    rowNumber: 2,
+    row: ['2026-10-15T09:00:00.000Z', 'Test Realtime Customer', '9876543210', 'test@msm.org', 'White T-Shirt', '2', 'Confirmed', 'Paid', 'Test Webhook Push', '0', '1', '1', '0', '0', 'Matched', '1x M, 1x L'],
+    timestamp: new Date().toISOString(),
+    source: 'simulation_test'
+  };
+
+  broadcastSse('sheet_update', testPayload);
+  res.json({
+    status: 'success',
+    message: 'Test event broadcasted to all connected dashboard tabs!',
+    clientsNotified: sseClients.length,
+    testPayload
+  });
+});
+
+app.post('/api/config/apps-script', authenticateToken, async (req, res) => {
   const { appsScriptUrl } = req.body;
   const cfg = getAppConfig();
   cfg.appsScriptUrl = (appsScriptUrl || '').trim();
   saveAppConfig(cfg);
-  res.json({ success: true, message: 'Google Apps Script Webhook URL updated successfully.', appsScriptUrl: cfg.appsScriptUrl });
+  
+  // Flush pending offline bookings directly to Form Responses 1
+  const flushRes = await flushSyncQueue();
+
+  res.json({
+    success: true,
+    message: 'Google Apps Script Webhook URL connected! Real-time writeback to Form Responses 1 is active.',
+    appsScriptUrl: cfg.appsScriptUrl,
+    flushedCount: flushRes.flushed,
+    remainingCount: flushRes.remaining
+  });
 });
 
 app.get('/api/sync/queue', (req, res) => {
@@ -484,6 +617,13 @@ app.post('/api/sync/batch', authenticateToken, async (req, res) => {
     }
 
     writeOverlay(overlay);
+
+    broadcastSse('data_changed', {
+      action: 'batch_sync',
+      count: bookings.length,
+      syncedCount,
+      timestamp: new Date().toISOString()
+    });
 
     res.json({
       success: true,
@@ -713,6 +853,16 @@ app.post('/api/data', authenticateToken, async (req, res) => {
     });
     writeOverlay(overlay);
 
+    broadcastSse('data_changed', {
+      action: 'create',
+      name,
+      item,
+      qty: totalQty,
+      rowNumber: writeResult.rowNumber || null,
+      syncMethod: writeResult.method,
+      timestamp: new Date().toISOString()
+    });
+
     res.json({
       success: true,
       message: writeResult.success ? 'Booking added directly to Google Sheet!' : 'Booking saved to operations ledger.',
@@ -807,6 +957,16 @@ app.put('/api/data/:rowNumber', authenticateToken, async (req, res) => {
     };
     writeOverlay(overlay);
 
+    broadcastSse('data_changed', {
+      action: 'update',
+      rowNumber,
+      name,
+      item,
+      qty: totalQty,
+      syncMethod: writeResult.method,
+      timestamp: new Date().toISOString()
+    });
+
     res.json({
       success: true,
       message: `Booking #${rowNumber} updated!`,
@@ -833,6 +993,13 @@ app.delete('/api/data/:rowNumber', authenticateToken, async (req, res) => {
       overlay.deletedRows.push(num);
     }
     writeOverlay(overlay);
+
+    broadcastSse('data_changed', {
+      action: 'delete',
+      rowNumber,
+      syncMethod: writeResult.method,
+      timestamp: new Date().toISOString()
+    });
 
     res.json({
       success: true,
