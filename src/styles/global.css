@@ -6,6 +6,13 @@
 @import '@fontsource-variable/space-grotesk';
 @import '@fontsource-variable/manrope';
 
+@font-face {
+  font-family: 'Neoverse';
+  src: url('/fonts/neoverse-sans-medium.woff2') format('woff2');
+  font-weight: 400 900;
+  font-display: swap;
+}
+
 :root {
   color-scheme: light;
 
@@ -21,6 +28,9 @@
   --color-sage: #81A773;
   --color-sage-vibrant: #93C467;
   --color-sage-cream: #E7EEAC;
+  --color-brand-yellow: #E7EEAC;
+  --color-brand-yellow-shadow: #a2ab52;
+  --color-brand-yellow-dark: #0f172a;
   --color-sage-subtle: #F4F6F2;
   --color-sage-tint: #F8FAF7;
 
