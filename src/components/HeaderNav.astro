@@ -7,21 +7,21 @@
 
 <header class="header-container" id="site-header">
   <div class="nav-bar">
-    <!-- Left: Official GEN M Logo -->
+    <!-- Left: MOGO-Style GEN M Logo Lockup -->
     <a href="/" class="brand-logo-link" aria-label="GEN M Swag Home">
-      <img
-        src="/blogo.png"
-        alt="GEN M Logo"
-        class="brand-logo-img"
-        width="114"
-        height="55"
-        loading="eager"
-      />
+      <div class="mogo-logo-mark">
+        <span class="mogo-logo-text">GEN M</span>
+        <span class="mogo-yellow-accent"></span>
+      </div>
+      <div class="mogo-logo-meta">
+        <span class="meta-label">OFFICIAL SWAG</span>
+        <span class="meta-sub">MSM KERALA</span>
+      </div>
     </a>
 
-    <!-- Center: Navigation links grouped in a small white pill -->
+    <!-- Center: Navigation links grouped in a translucent pill -->
     <nav class="nav-pill" aria-label="Merchandise category navigation">
-      <a href="#catalogue" class="nav-pill-link">All Swag</a>
+      <a href="#catalogue" class="nav-pill-link">All 13 Items</a>
       <a href="#everyday-essentials" class="nav-pill-link">Essentials</a>
       <a href="#drinkware" class="nav-pill-link">Drinkware</a>
       <a href="#wear-and-carry" class="nav-pill-link">Wear & Carry</a>
@@ -30,11 +30,8 @@
 
     <!-- Right: Primary Swag Action & Mobile Toggle -->
     <div class="nav-actions">
-      <a href="#catalogue" class="btn-explore-swag">
-        <span>Explore Catalogue</span>
-        <svg class="btn-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+      <a href="#catalogue" class="btn-3d-yellow-nav">
+        <span>Get Swag!</span>
       </a>
 
       <!-- Compact Mobile Menu Toggle Button -->
@@ -57,14 +54,14 @@
     <div class="mobile-nav-inner">
       <nav class="mobile-links">
         <a href="#catalogue" class="mobile-link">All 13 Products</a>
-        <a href="#everyday-essentials" class="mobile-link">Everyday Essentials</a>
-        <a href="#drinkware" class="mobile-link">Drinkware</a>
-        <a href="#wear-and-carry" class="mobile-link">Wear & Carry</a>
-        <a href="#lifestyle-accessories" class="mobile-link">Lifestyle Accessories</a>
+        <a href="#everyday-essentials" class="mobile-link">Everyday Essentials (4)</a>
+        <a href="#drinkware" class="mobile-link">Drinkware (3)</a>
+        <a href="#wear-and-carry" class="mobile-link">Wear & Carry (3)</a>
+        <a href="#lifestyle-accessories" class="mobile-link">Lifestyle Accessories (3)</a>
       </nav>
       <div class="mobile-cta-wrap">
         <a href="#catalogue" class="mobile-btn-explore">
-          <span>Explore All Merchandise</span>
+          <span>Explore All 13 Items</span>
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
@@ -90,93 +87,137 @@
     max-width: 1360px;
     margin: 0 auto;
     position: relative;
+    gap: 16px;
   }
 
-  /* ─── Brand Logo ─── */
+  /* ─── MOGO-Style Brand Logo ─── */
   .brand-logo-link {
     display: inline-flex;
     align-items: center;
+    gap: 12px;
     padding: 4px 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    text-decoration: none;
+    transition: transform 0.2s ease;
   }
 
   .brand-logo-link:hover {
-    opacity: 0.9;
-    transform: scale(1.02);
+    transform: translateY(-1px);
   }
 
-  .brand-logo-img {
-    height: 40px;
-    width: auto;
-    object-fit: contain;
+  .mogo-logo-mark {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .mogo-logo-text {
+    font-family: 'Poppins', 'Space Grotesk Variable', sans-serif;
+    font-weight: 900;
+    font-size: 1.85rem;
+    letter-spacing: -0.04em;
+    color: #ffffff;
+    line-height: 1;
     display: block;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   }
 
-  /* ─── White Pill Navigation ─── */
+  .mogo-yellow-accent {
+    width: 32px;
+    height: 5px;
+    background: #fed700;
+    border-radius: 99px;
+    margin-top: 4px;
+    display: block;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  .mogo-logo-meta {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+    padding-left: 10px;
+    line-height: 1.1;
+  }
+
+  .meta-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #fed700;
+    letter-spacing: 0.08em;
+  }
+
+  .meta-sub {
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── Translucent Pill Navigation ─── */
   .nav-pill {
     display: flex;
     align-items: center;
     gap: 4px;
-    background: #ffffff;
-    padding: 6px 8px;
-    border-radius: var(--radius-pill);
-    box-shadow: 0 4px 20px rgba(35, 40, 99, 0.06), 0 1px 3px rgba(35, 40, 99, 0.04);
-    border: 1px solid rgba(89, 97, 180, 0.1);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 9999px;
+    padding: 5px 6px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
 
   .nav-pill-link {
-    font-family: var(--font-heading);
-    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.84rem;
     font-weight: 600;
-    color: var(--color-text-secondary);
-    padding: 8px 16px;
-    border-radius: var(--radius-pill);
-    text-decoration: none;
-    transition: all 0.22s var(--ease-editorial);
-    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 6px 14px;
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
   }
 
   .nav-pill-link:hover {
-    color: var(--color-blue-violet-dark);
-    background: var(--color-blue-violet-tint);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
   }
 
-  /* ─── Actions & Explore Button ─── */
+  /* ─── 3D Yellow Button ─── */
   .nav-actions {
     display: flex;
     align-items: center;
     gap: 12px;
   }
 
-  .btn-explore-swag {
+  .btn-3d-yellow-nav {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: var(--color-blue-violet-dark);
-    color: #ffffff;
-    font-family: var(--font-heading);
+    justify-content: center;
+    background: #fed700;
+    color: #0f172a;
+    font-family: 'Poppins', sans-serif;
     font-size: 0.88rem;
-    font-weight: 600;
-    padding: 10px 22px;
-    border-radius: var(--radius-pill);
+    font-weight: 800;
+    padding: 8px 18px;
+    border-radius: 10px;
     text-decoration: none;
-    transition: all 0.24s var(--ease-editorial);
-    box-shadow: 0 4px 14px rgba(35, 40, 99, 0.2);
-    letter-spacing: -0.01em;
+    box-shadow: 0 4px 0 #b45309;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    white-space: nowrap;
   }
 
-  .btn-explore-swag:hover {
-    background: var(--color-blue-violet);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(89, 97, 180, 0.35);
+  .btn-3d-yellow-nav:hover {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #b45309;
   }
 
-  .btn-arrow {
-    transition: transform 0.2s ease;
-  }
-
-  .btn-explore-swag:hover .btn-arrow {
-    transform: translateX(3px);
+  .btn-3d-yellow-nav:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 #b45309;
   }
 
   /* ─── Mobile Toggle ─── */
@@ -185,9 +226,9 @@
     width: 44px;
     height: 44px;
     border-radius: var(--radius-pill);
-    background: #ffffff;
-    border: 1px solid var(--color-border-subtle);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -198,7 +239,7 @@
   .hamburger-bar {
     width: 18px;
     height: 2px;
-    background: var(--color-text-primary);
+    background: #ffffff;
     border-radius: 2px;
     transition: transform 0.24s ease, opacity 0.2s ease;
   }

@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import HeaderNav from '../components/HeaderNav.astro';
-import HeroProductComposition from '../components/HeroProductComposition.astro';
+import PopSwagBagIllustration from '../components/PopSwagBagIllustration.astro';
 import ProductDetailModal from '../components/ProductDetailModal.astro';
 import { PRODUCTS, CATEGORIES } from '../data/products';
 
@@ -9,189 +9,320 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
 ---
 
 <Layout
-  title="GEN M Swag • Official 13 Merchandise Collection — MSM Kerala"
-  description="Explore the official 13 merchandise products of the GEN M Swag collection by MSM Kerala: White T-Shirt, Diary, Cap, Water Bottle, Cross Bag, and curated essentials. Wear the Identity."
+  title="GEN M Swag • Every Swag Matters — MSM Kerala 2026"
+  description="Explore the official 13 merchandise products of GEN M Swag by MSM Kerala: White T-Shirt, Diary, Cap, Water Bottle, Cross Bag, and curated essentials. Rooted in Deen. Driven by Purpose."
 >
-  <main class="page-container">
+  <main class="mogo-page-canvas">
 
     <!-- ═══════════════════════════════════════════════════════════
-         HERO SECTION — LARGE ROUNDED LIGHT-GREY PANEL
+         MOGO ALL-IN-ONE SINGLE SCREEN HERO
+         Contains:
+         - Top Navigation
+         - "EVERY SWAG MATTERS" Headline + Buttons
+         - Cartoon Swag Bag Illustration
+         - "Brand Defining Swag" + Dual Arch Ribbon Pipeline
+         All fitted perfectly within the initial 100vh screen!
          ═══════════════════════════════════════════════════════════ -->
-    <section class="hero-wrapper" aria-label="GEN M Swag Hero">
-      <div class="hero-panel">
-        
-        <!-- Minimal Floating Navigation Bar Inside Hero -->
-        <HeaderNav />
+    <section class="mogo-single-screen-hero" id="hero-stage" aria-label="GEN M Swag Hero Showcase">
+      
+      <!-- 1. Top Navigation Bar -->
+      <HeaderNav />
 
-        <!-- Main Hero Grid Composition -->
-        <div class="hero-content-grid">
+      <!-- 2. Hero Middle Stage (Left: Editorial Copy & 3D CTA | Right: Pop-Art Bag) -->
+      <div class="hero-stage-middle">
+        <div class="hero-stage-container">
           
-          <!-- Left: Editorial Headline & Copy -->
-          <div class="hero-copy-column">
+          <!-- Left: Editorial Column -->
+          <div class="mogo-copy-col">
             
-            <!-- Eyebrow Pill -->
-            <div class="hero-eyebrow">
-              <span class="eyebrow-dot"></span>
-              <span class="eyebrow-text">THE GEN M SWAG COLLECTION</span>
+            <!-- Eyebrow Tag (matches "ADVERTISING AGENCY") -->
+            <div class="mogo-eyebrow-tag">
+              <span>OFFICIAL MERCHANDISE • 13 PIECES</span>
             </div>
 
-            <!-- Headline -->
-            <h1 class="hero-main-headline">
-              Wear the<br />
-              Identity.
+            <!-- Massive Display Headline (matches "EVERY PIXEL MATTERS") -->
+            <h1 class="mogo-main-headline">
+              <span class="headline-line-1">EVERY SWAG</span>
+              <span class="headline-line-2">MATTERS</span>
             </h1>
 
-            <!-- Supporting Text -->
-            <p class="hero-supporting-copy">
-              From everyday essentials to meaningful keepsakes, discover the merchandise made for the GEN M generation.
+            <!-- Concise Supporting Slogan Copy -->
+            <p class="mogo-lead-paragraph">
+              Rooted in Deen. Driven by Purpose. Discover the official 13-piece merchandise collection crafted exclusively for the GEN M generation.
             </p>
 
-            <!-- Actions Row -->
-            <div class="hero-actions-row">
-              <a href="#catalogue" class="btn-primary-action">
-                <span>Explore the Collection</span>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+            <!-- Dual Action Row (Glass Pill + 3D Yellow Button) -->
+            <div class="mogo-actions-cluster">
+              
+              <!-- Glass Pill Dual Controls (matches [▶ Showreel] [★ Portfolio]) -->
+              <div class="mogo-glass-pill-row">
+                <a href="/lookbook" class="mogo-pill-btn" aria-label="View Lookbook">
+                  <span class="pill-icon-circle icon-play">
+                    <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor">
+                      <polygon points="5,3 13,8 5,13" />
+                    </svg>
+                  </span>
+                  <span class="pill-label">Lookbook</span>
+                </a>
+
+                <a href="#catalogue" class="mogo-pill-btn" aria-label="Browse 13 Swag Catalogue">
+                  <span class="pill-icon-circle icon-star">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                    </svg>
+                  </span>
+                  <span class="pill-label">Catalogue (13)</span>
+                </a>
+              </div>
+
+              <!-- Tactile 3D Sunshine Yellow Button (matches [Get started!]) -->
+              <a href="#catalogue" class="btn-3d-yellow-cta">
+                <span>Get Swag!</span>
               </a>
 
-              <a href="#categories" class="btn-secondary-action">
-                <span>Discover the Products</span>
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M 8 3 L 8 13 M 4 9 L 8 13 L 12 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </a>
-            </div>
-
-            <!-- Collection Highlights Pill -->
-            <div class="hero-meta-bar">
-              <span class="meta-tag highlight">13 EXCLUSIVE ITEMS</span>
-              <span class="meta-divider">•</span>
-              <span class="meta-tag">4 CATEGORIES</span>
-              <span class="meta-divider">•</span>
-              <span class="meta-tag">OFFICIAL MSM KERALA MERCHANDISE</span>
             </div>
 
           </div>
 
-          <!-- Right: Floating Product Composition -->
-          <div class="hero-illustration-column">
-            <HeroProductComposition />
+          <!-- Right: The Pop-Art Cartoon Swag Bag Illustration -->
+          <div class="mogo-illustration-col">
+            <PopSwagBagIllustration />
           </div>
 
         </div>
-
       </div>
+
+      <!-- 3. Bottom Dock: "Brand Defining Swag" Dual-Arch Ribbon Pipeline (Inside 100vh) -->
+      <div class="hero-stage-bottom-dock">
+        <div class="dock-container">
+          
+          <!-- Center Title (matches "Brand Defining Ideas") -->
+          <div class="dock-header">
+            <h2 class="dock-headline">Brand Defining Swag</h2>
+          </div>
+
+          <!-- The Looping Ribbon Pathway Infographic -->
+          <div class="dock-ribbon-wrap">
+            
+            <!-- Ribbon SVG Tracks with Dual Arch & Node Pins -->
+            <svg
+              class="dock-ribbon-svg"
+              viewBox="0 0 1100 170"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <defs>
+                <linearGradient id="dockRibbonYellow" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#fed700" />
+                  <stop offset="50%" stop-color="#facc15" />
+                  <stop offset="100%" stop-color="#fed700" />
+                </linearGradient>
+                <linearGradient id="dockRibbonCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#38bdf8" />
+                  <stop offset="50%" stop-color="#0284c7" />
+                  <stop offset="100%" stop-color="#38bdf8" />
+                </linearGradient>
+                <filter id="dockRibbonGlow" x="-10%" y="-10%" width="120%" height="120%">
+                  <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#0a1d60" flood-opacity="0.3" />
+                </filter>
+              </defs>
+
+              <!-- ─── DUAL ARCH RIBBON: Yellow Outer / Cyan Inner ─── -->
+              <!-- Outer Yellow Band -->
+              <path
+                d="M 100 145 
+                   C 140 50, 220 15, 320 15 
+                   C 430 15, 470 135, 550 135 
+                   C 630 135, 670 15, 780 15 
+                   C 880 15, 960 50, 1000 145"
+                stroke="url(#dockRibbonYellow)"
+                stroke-width="15"
+                stroke-linecap="round"
+                fill="none"
+                filter="url(#dockRibbonGlow)"
+              />
+
+              <!-- Inner Cyan Band -->
+              <path
+                d="M 100 160 
+                   C 140 65, 220 30, 320 30 
+                   C 430 30, 470 150, 550 150 
+                   C 630 150, 670 30, 780 30 
+                   C 880 30, 960 65, 1000 160"
+                stroke="url(#dockRibbonCyan)"
+                stroke-width="14"
+                stroke-linecap="round"
+                fill="none"
+              />
+
+              <!-- Node Pins on the Arches -->
+              <!-- Node 1: Left (Everyday Essentials) -->
+              <g class="dock-svg-node" transform="translate(160, 90)">
+                <circle cx="0" cy="0" r="10" fill="#174ee8" stroke="#38bdf8" stroke-width="3.5" />
+                <circle cx="0" cy="0" r="4" fill="#fed700" />
+              </g>
+
+              <!-- Node 2: Peak 1 (Drinkware) -->
+              <g class="dock-svg-node" transform="translate(320, 15)">
+                <circle cx="0" cy="0" r="10" fill="#174ee8" stroke="#fed700" stroke-width="3.5" />
+                <circle cx="0" cy="0" r="4" fill="#ffffff" />
+              </g>
+
+              <!-- Node 3: Peak 2 (Wear & Carry) -->
+              <g class="dock-svg-node" transform="translate(780, 15)">
+                <circle cx="0" cy="0" r="10" fill="#174ee8" stroke="#fed700" stroke-width="3.5" />
+                <circle cx="0" cy="0" r="4" fill="#ffffff" />
+              </g>
+
+              <!-- Node 4: Right (Lifestyle) -->
+              <g class="dock-svg-node" transform="translate(940, 90)">
+                <circle cx="0" cy="0" r="10" fill="#174ee8" stroke="#38bdf8" stroke-width="3.5" />
+                <circle cx="0" cy="0" r="4" fill="#fed700" />
+              </g>
+            </svg>
+
+            <!-- 4 Interactive Category Station Pills overlaying the bottom ribbon -->
+            <div class="dock-stations-row">
+              
+              <a href="#everyday-essentials" class="dock-station-pill" data-filter="everyday-essentials">
+                <span class="station-badge">01</span>
+                <div class="station-meta">
+                  <strong class="station-name">Everyday Essentials</strong>
+                  <span class="station-sub">Diary • Pen • Keychain • Tag</span>
+                </div>
+              </a>
+
+              <a href="#drinkware" class="dock-station-pill" data-filter="drinkware">
+                <span class="station-badge">02</span>
+                <div class="station-meta">
+                  <strong class="station-name">Drinkware</strong>
+                  <span class="station-sub">Glass Set • Bottle • Mug</span>
+                </div>
+              </a>
+
+              <a href="#wear-and-carry" class="dock-station-pill" data-filter="wear-and-carry">
+                <span class="station-badge">03</span>
+                <div class="station-meta">
+                  <strong class="station-name">Wear & Carry</strong>
+                  <span class="station-sub">Cross Bag • Cap • White Tee</span>
+                </div>
+              </a>
+
+              <a href="#lifestyle-accessories" class="dock-station-pill" data-filter="lifestyle-accessories">
+                <span class="station-badge">04</span>
+                <div class="station-meta">
+                  <strong class="station-name">Lifestyle</strong>
+                  <span class="station-sub">Stand • Tissue • Perfume</span>
+                </div>
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
     </section>
 
 
     <!-- ═══════════════════════════════════════════════════════════
-         PRODUCT CATEGORIES OVERVIEW
+         MARQUEE TICKER — VIBRANT SUNSHINE YELLOW SLOGAN BAND
          ═══════════════════════════════════════════════════════════ -->
-    <section class="section-categories" id="categories">
-      <div class="categories-container">
-        
-        <div class="section-head-center">
-          <span class="section-eyebrow">FOUR CURATED CATEGORIES</span>
-          <h2 class="section-heading-lg">
-            Built for everyday purpose.
-          </h2>
-          <p class="section-lead-copy">
-            Explore 13 distinct pieces thoughtfully crafted for student life, study routines, and community identity.
-          </p>
-        </div>
-
-        <div class="categories-grid">
-          {CATEGORIES.map((cat, idx) => (
-            <a href={`#${cat.slug}`} class="category-card">
-              <div class="cat-top">
-                <span class="cat-num">0{idx + 1}</span>
-                <span class="cat-arrow">→</span>
-              </div>
-              <h3 class="cat-name">{cat.name}</h3>
-              <p class="cat-desc">{cat.desc}</p>
-              <div class="cat-pill-badge">
-                <span>View Products</span>
-              </div>
-            </a>
-          ))}
-        </div>
-
+    <div class="mogo-ticker-wrapper" aria-hidden="true">
+      <div class="mogo-ticker-track">
+        <span class="ticker-text">ROOTED IN DEEN. DRIVEN BY PURPOSE.</span>
+        <span class="ticker-star">★</span>
+        <span class="ticker-text">13 OFFICIAL MERCHANDISE PIECES</span>
+        <span class="ticker-star">★</span>
+        <span class="ticker-text">MSM KERALA • GEN M 2026</span>
+        <span class="ticker-star">★</span>
+        <span class="ticker-text">KOZHIKODE • 13-14-15 NOVEMBER 2026</span>
+        <span class="ticker-star">★</span>
+        <span class="ticker-text">ROOTED IN DEEN. DRIVEN BY PURPOSE.</span>
+        <span class="ticker-star">★</span>
+        <span class="ticker-text">13 OFFICIAL MERCHANDISE PIECES</span>
+        <span class="ticker-star">★</span>
+        <span class="ticker-text">MSM KERALA • GEN M 2026</span>
+        <span class="ticker-star">★</span>
       </div>
-    </section>
+    </div>
 
 
     <!-- ═══════════════════════════════════════════════════════════
          FEATURED PRODUCT PRESENTATION: WHITE T-SHIRT
          ═══════════════════════════════════════════════════════════ -->
-    <section class="section-featured-tshirt" id="featured-tee">
-      <div class="featured-container">
+    <section class="section-featured-tee" id="featured-tee">
+      <div class="featured-tee-shell">
         
-        <div class="featured-tee-card">
+        <div class="featured-tee-pop-card">
           
           <div class="featured-tee-grid">
             
-            <!-- Left: Featured T-Shirt Image -->
-            <div class="featured-tee-visual">
-              <div class="featured-tee-image-wrap">
+            <!-- Left: Featured T-Shirt Image with Comic Frame -->
+            <div class="featured-tee-visual-col">
+              <div class="featured-tee-image-box">
                 <img
                   src={featuredTshirt.image}
                   alt="Official GEN M White T-Shirt"
                   class="featured-tee-img"
-                  width="480"
-                  height="480"
+                  width="500"
+                  height="500"
                   loading="lazy"
                 />
-                <span class="signature-tag">SIGNATURE PIECE</span>
+                <span class="pop-badge-signature">SIGNATURE PIECE 01</span>
               </div>
             </div>
 
             <!-- Right: Slogan & Details -->
-            <div class="featured-tee-info">
+            <div class="featured-tee-info-col">
               
-              <div class="featured-eyebrow-wrap">
-                <span class="eyebrow-dot"></span>
-                <span class="featured-eyebrow">FEATURED APPAREL</span>
+              <div class="featured-pill-meta">
+                <span class="meta-dot"></span>
+                <span class="meta-category">WEAR & CARRY • ITEM #10</span>
               </div>
 
               <h2 class="featured-tee-title">
                 {featuredTshirt.name}
               </h2>
 
-              <!-- Official Slogan Banner -->
-              <div class="slogan-callout-box">
-                <span class="slogan-label">OFFICIAL SLOGAN</span>
-                <blockquote class="slogan-text">
+              <!-- Official Slogan Callout Box -->
+              <div class="slogan-badge-box">
+                <span class="slogan-badge-tag">OFFICIAL SLOGAN</span>
+                <blockquote class="slogan-badge-quote">
                   “Rooted in Deen. Driven by Purpose.”
                 </blockquote>
               </div>
 
-              <p class="featured-tee-desc">
+              <p class="featured-tee-copy">
                 {featuredTshirt.description}
               </p>
 
+              <!-- Pop Specification Pills -->
               <div class="featured-specs-row">
-                <div class="spec-pill">
-                  <span class="spec-label">Fabric</span>
-                  <span class="spec-value">240 GSM Combed Cotton</span>
+                <div class="pop-spec-chip">
+                  <span class="spec-k">Fabric</span>
+                  <span class="spec-v">240 GSM Combed Cotton</span>
                 </div>
-                <div class="spec-pill">
-                  <span class="spec-label">Cut</span>
-                  <span class="spec-value">Oversized Drop-Shoulder</span>
+                <div class="pop-spec-chip">
+                  <span class="spec-k">Cut</span>
+                  <span class="spec-v">Oversized Drop-Shoulder</span>
                 </div>
-                <div class="spec-pill">
-                  <span class="spec-label">Color</span>
-                  <span class="spec-value">Crisp White</span>
+                <div class="pop-spec-chip">
+                  <span class="spec-k">Color</span>
+                  <span class="spec-v">Crisp White</span>
                 </div>
               </div>
 
-              <div class="featured-actions">
+              <!-- Action Row -->
+              <div class="featured-actions-row">
                 <button
                   type="button"
-                  class="btn-featured-view"
+                  class="btn-featured-quickview"
                   data-product-id="white-tshirt"
                 >
-                  <span>View Product Details</span>
+                  <span>Quick View Details</span>
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
@@ -201,9 +332,9 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
                   href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20ordering%20the%20official%20GEN%20M%20White%20T-Shirt."
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="btn-featured-enquire"
+                  class="btn-featured-whatsapp"
                 >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z" />
                   </svg>
                   <span>Enquire on WhatsApp</span>
@@ -221,70 +352,67 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
 
 
     <!-- ═══════════════════════════════════════════════════════════
-         PRODUCT CATALOGUE SECTION (ALL 13 PRODUCTS IN 4 GROUPS)
+         CATALOGUE SECTION — ALL 13 OFFICIAL PRODUCTS
          ═══════════════════════════════════════════════════════════ -->
     <section class="section-catalogue" id="catalogue">
-      <div class="catalogue-container">
+      <div class="catalogue-shell">
         
         <!-- Header -->
-        <div class="section-head-center">
-          <span class="section-eyebrow">THE COMPLETE CATALOGUE</span>
-          <h2 class="section-heading-lg">Find Your Swag.</h2>
-          <p class="section-lead-copy">
-            Explore the GEN M collection, from everyday essentials to signature merchandise.
+        <div class="catalogue-header-center">
+          <span class="catalogue-eyebrow">THE COMPLETE COLLECTION</span>
+          <h2 class="catalogue-title">The 13 Official Pieces</h2>
+          <p class="catalogue-subtitle">
+            Explore the full merchandise range created exclusively for GEN M Kerala 2026.
           </p>
         </div>
 
         <!-- Filter Tabs -->
         <div class="catalogue-filter-bar">
-          <button type="button" class="filter-tab is-active" data-filter="all">All Products (13)</button>
-          <button type="button" class="filter-tab" data-filter="everyday-essentials">Everyday Essentials (4)</button>
-          <button type="button" class="filter-tab" data-filter="drinkware">Drinkware (3)</button>
-          <button type="button" class="filter-tab" data-filter="wear-and-carry">Wear & Carry (3)</button>
-          <button type="button" class="filter-tab" data-filter="lifestyle-accessories">Lifestyle Accessories (3)</button>
+          <button type="button" class="mogo-filter-tab is-active" data-filter="all">All 13 Items</button>
+          <button type="button" class="mogo-filter-tab" data-filter="everyday-essentials">Everyday Essentials (4)</button>
+          <button type="button" class="mogo-filter-tab" data-filter="drinkware">Drinkware (3)</button>
+          <button type="button" class="mogo-filter-tab" data-filter="wear-and-carry">Wear & Carry (3)</button>
+          <button type="button" class="mogo-filter-tab" data-filter="lifestyle-accessories">Lifestyle Accessories (3)</button>
         </div>
 
-        <!-- Group 1: Everyday Essentials (Diary, Pen, Keychain, Bag Tag) -->
+        <!-- ─── Category Group 1: Everyday Essentials ─── -->
         <div class="category-block-group" id="everyday-essentials" data-group="everyday-essentials">
-          <div class="category-group-header">
-            <div class="group-title-wrap">
-              <span class="group-num">CATEGORY 01</span>
-              <h3 class="group-title">Everyday Essentials</h3>
+          <div class="category-block-head">
+            <div class="head-info">
+              <span class="head-num">CHAPTER 01</span>
+              <h3 class="head-name">Everyday Essentials</h3>
             </div>
-            <span class="group-count">4 Products</span>
+            <span class="head-pill">4 Products</span>
           </div>
 
           <div class="products-grid">
             {PRODUCTS.filter((p) => p.categorySlug === 'everyday-essentials').map((product) => (
-              <div class="product-card" data-category={product.categorySlug}>
-                <div class="product-card-visual">
+              <div class="pop-product-card" data-category={product.categorySlug}>
+                <div class="product-visual-stage">
                   <img
                     src={product.image}
                     alt={product.name}
-                    class="product-image"
-                    width="320"
-                    height="320"
+                    class="product-img"
+                    width="340"
+                    height="340"
                     loading="lazy"
                   />
-                  <span class="product-category-tag">{product.category}</span>
+                  <span class="pop-category-badge">{product.category}</span>
                 </div>
-                <div class="product-card-body">
-                  <h4 class="product-name">{product.name}</h4>
-                  <p class="product-desc">{product.shortDesc}</p>
-                  <div class="product-actions-bar">
+                <div class="product-info-box">
+                  <h4 class="product-title">{product.name}</h4>
+                  <p class="product-short-desc">{product.shortDesc}</p>
+                  <div class="product-cta-pair">
                     <button
                       type="button"
-                      class="btn-view-product"
+                      class="btn-pop-details"
                       data-product-id={product.id}
                     >
-                      <span>View Product</span>
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      </svg>
+                      <span>View Details</span>
                     </button>
                     <button
                       type="button"
-                      class="btn-enquire-card"
+                      class="btn-pop-enquire"
                       data-product-id={product.id}
                       aria-label={`Enquire about ${product.name}`}
                     >
@@ -297,47 +425,44 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
           </div>
         </div>
 
-        <!-- Group 2: Drinkware (Glass Set, Water Bottle, Coffee Mug) -->
+        <!-- ─── Category Group 2: Drinkware ─── -->
         <div class="category-block-group" id="drinkware" data-group="drinkware">
-          <div class="category-group-header">
-            <div class="group-title-wrap">
-              <span class="group-num">CATEGORY 02</span>
-              <h3 class="group-title">Drinkware</h3>
+          <div class="category-block-head">
+            <div class="head-info">
+              <span class="head-num">CHAPTER 02</span>
+              <h3 class="head-name">Drinkware</h3>
             </div>
-            <span class="group-count">3 Products</span>
+            <span class="head-pill">3 Products</span>
           </div>
 
           <div class="products-grid">
             {PRODUCTS.filter((p) => p.categorySlug === 'drinkware').map((product) => (
-              <div class="product-card" data-category={product.categorySlug}>
-                <div class="product-card-visual">
+              <div class="pop-product-card" data-category={product.categorySlug}>
+                <div class="product-visual-stage">
                   <img
                     src={product.image}
                     alt={product.name}
-                    class="product-image"
-                    width="320"
-                    height="320"
+                    class="product-img"
+                    width="340"
+                    height="340"
                     loading="lazy"
                   />
-                  <span class="product-category-tag">{product.category}</span>
+                  <span class="pop-category-badge">{product.category}</span>
                 </div>
-                <div class="product-card-body">
-                  <h4 class="product-name">{product.name}</h4>
-                  <p class="product-desc">{product.shortDesc}</p>
-                  <div class="product-actions-bar">
+                <div class="product-info-box">
+                  <h4 class="product-title">{product.name}</h4>
+                  <p class="product-short-desc">{product.shortDesc}</p>
+                  <div class="product-cta-pair">
                     <button
                       type="button"
-                      class="btn-view-product"
+                      class="btn-pop-details"
                       data-product-id={product.id}
                     >
-                      <span>View Product</span>
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      </svg>
+                      <span>View Details</span>
                     </button>
                     <button
                       type="button"
-                      class="btn-enquire-card"
+                      class="btn-pop-enquire"
                       data-product-id={product.id}
                       aria-label={`Enquire about ${product.name}`}
                     >
@@ -350,50 +475,47 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
           </div>
         </div>
 
-        <!-- Group 3: Wear & Carry (Cross Bag, Embroidered Cap, White T-Shirt) -->
+        <!-- ─── Category Group 3: Wear & Carry ─── -->
         <div class="category-block-group" id="wear-and-carry" data-group="wear-and-carry">
-          <div class="category-group-header">
-            <div class="group-title-wrap">
-              <span class="group-num">CATEGORY 03</span>
-              <h3 class="group-title">Wear & Carry</h3>
+          <div class="category-block-head">
+            <div class="head-info">
+              <span class="head-num">CHAPTER 03</span>
+              <h3 class="head-name">Wear & Carry</h3>
             </div>
-            <span class="group-count">3 Products</span>
+            <span class="head-pill">3 Products</span>
           </div>
 
           <div class="products-grid">
             {PRODUCTS.filter((p) => p.categorySlug === 'wear-and-carry').map((product) => (
-              <div class={`product-card ${product.isFeatured ? 'is-featured-border' : ''}`} data-category={product.categorySlug}>
-                <div class="product-card-visual">
+              <div class={`pop-product-card ${product.isFeatured ? 'is-signature' : ''}`} data-category={product.categorySlug}>
+                <div class="product-visual-stage">
                   <img
                     src={product.image}
                     alt={product.name}
-                    class="product-image"
-                    width="320"
-                    height="320"
+                    class="product-img"
+                    width="340"
+                    height="340"
                     loading="lazy"
                   />
-                  <span class="product-category-tag">{product.category}</span>
+                  <span class="pop-category-badge">{product.category}</span>
                   {product.isFeatured && (
-                    <span class="featured-badge-pill">Signature Slogan</span>
+                    <span class="pop-star-pill">Signature Slogan</span>
                   )}
                 </div>
-                <div class="product-card-body">
-                  <h4 class="product-name">{product.name}</h4>
-                  <p class="product-desc">{product.shortDesc}</p>
-                  <div class="product-actions-bar">
+                <div class="product-info-box">
+                  <h4 class="product-title">{product.name}</h4>
+                  <p class="product-short-desc">{product.shortDesc}</p>
+                  <div class="product-cta-pair">
                     <button
                       type="button"
-                      class="btn-view-product"
+                      class="btn-pop-details"
                       data-product-id={product.id}
                     >
-                      <span>View Product</span>
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      </svg>
+                      <span>View Details</span>
                     </button>
                     <button
                       type="button"
-                      class="btn-enquire-card"
+                      class="btn-pop-enquire"
                       data-product-id={product.id}
                       aria-label={`Enquire about ${product.name}`}
                     >
@@ -406,47 +528,44 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
           </div>
         </div>
 
-        <!-- Group 4: Lifestyle Accessories (Mobile Stand, Tissue, Car Perfume) -->
+        <!-- ─── Category Group 4: Lifestyle Accessories ─── -->
         <div class="category-block-group" id="lifestyle-accessories" data-group="lifestyle-accessories">
-          <div class="category-group-header">
-            <div class="group-title-wrap">
-              <span class="group-num">CATEGORY 04</span>
-              <h3 class="group-title">Lifestyle Accessories</h3>
+          <div class="category-block-head">
+            <div class="head-info">
+              <span class="head-num">CHAPTER 04</span>
+              <h3 class="head-name">Lifestyle Accessories</h3>
             </div>
-            <span class="group-count">3 Products</span>
+            <span class="head-pill">3 Products</span>
           </div>
 
           <div class="products-grid">
             {PRODUCTS.filter((p) => p.categorySlug === 'lifestyle-accessories').map((product) => (
-              <div class="product-card" data-category={product.categorySlug}>
-                <div class="product-card-visual">
+              <div class="pop-product-card" data-category={product.categorySlug}>
+                <div class="product-visual-stage">
                   <img
                     src={product.image}
                     alt={product.name}
-                    class="product-image"
-                    width="320"
-                    height="320"
+                    class="product-img"
+                    width="340"
+                    height="340"
                     loading="lazy"
                   />
-                  <span class="product-category-tag">{product.category}</span>
+                  <span class="pop-category-badge">{product.category}</span>
                 </div>
-                <div class="product-card-body">
-                  <h4 class="product-name">{product.name}</h4>
-                  <p class="product-desc">{product.shortDesc}</p>
-                  <div class="product-actions-bar">
+                <div class="product-info-box">
+                  <h4 class="product-title">{product.name}</h4>
+                  <p class="product-short-desc">{product.shortDesc}</p>
+                  <div class="product-cta-pair">
                     <button
                       type="button"
-                      class="btn-view-product"
+                      class="btn-pop-details"
                       data-product-id={product.id}
                     >
-                      <span>View Product</span>
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      </svg>
+                      <span>View Details</span>
                     </button>
                     <button
                       type="button"
-                      class="btn-enquire-card"
+                      class="btn-pop-enquire"
                       data-product-id={product.id}
                       aria-label={`Enquire about ${product.name}`}
                     >
@@ -464,38 +583,29 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
 
 
     <!-- ═══════════════════════════════════════════════════════════
-         FINAL CALL TO ACTION
+         FINAL CALL TO ACTION BANNER
          ═══════════════════════════════════════════════════════════ -->
-    <section class="section-final-cta">
-      <div class="final-cta-container">
-        <div class="final-cta-panel">
-          
-          <span class="final-cta-eyebrow">MSM KERALA MERCHANDISE</span>
-
-          <h2 class="final-cta-headline">
-            Your Swag.<br />
-            Your Identity.
-          </h2>
-
-          <p class="final-cta-subtext">
-            Explore the GEN M collection and find your favourite pieces.
+    <section class="mogo-final-cta-section">
+      <div class="final-cta-shell">
+        <div class="final-cta-box">
+          <span class="cta-pill-eyebrow">MSM KERALA MERCHANDISE DESK</span>
+          <h2 class="cta-headline">Every Swag Tells a Story.</h2>
+          <p class="cta-desc">
+            Connect directly with our coordination team for individual student keepsakes or bulk campus orders.
           </p>
-
-          <div class="final-cta-actions">
-            <a href="#catalogue" class="btn-cta-explore">
-              <span>Explore All Merchandise</span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
+          <div class="cta-buttons-wrap">
+            <a
+              href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20ordering%20the%20GEN%20M%20merchandise."
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-3d-yellow-cta"
+            >
+              <span>Enquire on WhatsApp</span>
+            </a>
+            <a href="#catalogue" class="btn-ghost-white-cta">
+              <span>Review All 13 Items</span>
             </a>
           </div>
-
-          <!-- Decorative Geometry -->
-          <div class="cta-bg-geometry" aria-hidden="true">
-            <span class="geo-circle-1"></span>
-            <span class="geo-circle-2"></span>
-          </div>
-
         </div>
       </div>
     </section>
@@ -504,68 +614,57 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
     <!-- ═══════════════════════════════════════════════════════════
          FOOTER
          ═══════════════════════════════════════════════════════════ -->
-    <footer class="swag-footer">
-      <div class="footer-container">
-        
+    <footer class="mogo-footer">
+      <div class="footer-shell">
         <div class="footer-top-grid">
           
-          <!-- Logo & Attribution -->
-          <div class="footer-info-col">
-            <a href="/" class="footer-brand-link" aria-label="GEN M Swag">
-              <img src="/blogo.png" alt="GEN M Logo" class="footer-logo-img" width="114" height="55" loading="lazy" />
-            </a>
-            <p class="footer-desc">
-              The official merchandise collection for the GEN M generation. Designed and coordinated by MSM Kerala.
-            </p>
-            <p class="footer-slogan">
+          <!-- Brand Column -->
+          <div class="footer-brand-col">
+            <div class="footer-logo-lockup">
+              <span class="footer-logo-text">GEN M</span>
+              <span class="footer-yellow-bar"></span>
+            </div>
+            <p class="footer-tagline">
               “Rooted in Deen. Driven by Purpose.”
+            </p>
+            <p class="footer-about">
+              Official merchandise collection for the Generational Student Confluence 2026. Organised by MSM Kerala in Kozhikode, 13–15 November 2026.
             </p>
           </div>
 
-          <!-- Product Categories Links -->
+          <!-- Category Navigation -->
           <div class="footer-nav-col">
-            <span class="footer-head">PRODUCT CATEGORIES</span>
-            <ul class="footer-list">
-              <li><a href="#everyday-essentials" class="footer-link">Everyday Essentials (4)</a></li>
-              <li><a href="#drinkware" class="footer-link">Drinkware (3)</a></li>
-              <li><a href="#wear-and-carry" class="footer-link">Wear & Carry (3)</a></li>
-              <li><a href="#lifestyle-accessories" class="footer-link">Lifestyle Accessories (3)</a></li>
+            <span class="footer-title">THE 13 ITEMS</span>
+            <ul class="footer-links">
+              <li><a href="#everyday-essentials">01. Everyday Essentials (4)</a></li>
+              <li><a href="#drinkware">02. Drinkware (3)</a></li>
+              <li><a href="#wear-and-carry">03. Wear & Carry (3)</a></li>
+              <li><a href="#lifestyle-accessories">04. Lifestyle Accessories (3)</a></li>
             </ul>
           </div>
 
-          <!-- Ordering & Support -->
+          <!-- Desk & Coordination -->
           <div class="footer-contact-col">
-            <span class="footer-head">ORDERING & ENQUIRY</span>
-            <p class="footer-contact-desc">
-              Official merchandise ordering is handled directly through the MSM Kerala coordination desk.
+            <span class="footer-title">COORDINATION DESK</span>
+            <p class="footer-desk-desc">
+              Direct enquiries for campus units, state delegates, and individual students across Kerala.
             </p>
             <a
               href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20GEN%20M%20Swag%20merchandise."
               target="_blank"
               rel="noopener noreferrer"
-              class="footer-whatsapp-link"
+              class="footer-wa-pill"
             >
-              <span>Connect on WhatsApp</span>
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
+              <span>WhatsApp Coordination Desk</span>
             </a>
           </div>
 
         </div>
 
-        <div class="footer-bottom-bar">
-          <p class="footer-copy-text">
-            © 2026 GEN M • Muslim Students Movement (MSM Kerala). 13 Official Merchandise Pieces.
-          </p>
-          <a href="#site-header" class="footer-scroll-top">
-            <span>Back to top</span>
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M 8 13 L 8 3 M 4 7 L 8 3 L 12 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </a>
+        <div class="footer-bottom-line">
+          <p>© 2026 GEN M • Muslim Students Movement (MSM Kerala). 13 Official Merchandise Pieces.</p>
+          <a href="#site-header" class="footer-top-link">Back to top ↑</a>
         </div>
-
       </div>
     </footer>
 
@@ -577,980 +676,1120 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
 
 <style>
   /* ═══════════════════════════════════════════════════════════
-     GEN M SWAG — PREMIUM EDITORIAL MERCHANDISE STYLING
+     MOGO VIBRANT ELECTRIC ROYAL BLUE DESIGN SYSTEM
+     Canvas: #174ee8 / #1653e6
+     Accents: #fed700 (Sunshine Yellow), #38bdf8 (Cyan)
      ═══════════════════════════════════════════════════════════ */
 
-  .page-container {
+  .mogo-page-canvas {
     width: 100%;
     min-height: 100vh;
+    background-color: #174ee8;
+    color: #ffffff;
+    overflow-x: hidden;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     ALL-IN-ONE SINGLE SCREEN HERO CONTAINER
+     Fitted within 100vh on Desktop so everything is visible together!
+     ═══════════════════════════════════════════════════════════ */
+  .mogo-single-screen-hero {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #174ee8;
+    background-image: 
+      radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.28) 0%, transparent 45%),
+      radial-gradient(circle at 15% 75%, rgba(30, 64, 175, 0.45) 0%, transparent 55%);
     display: flex;
     flex-direction: column;
-    background-color: var(--color-bg-main);
-  }
-
-  /* ─── Hero Section ─── */
-  .hero-wrapper {
-    width: 100%;
-    padding: 12px 16px 24px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .hero-panel {
-    width: 100%;
-    max-width: var(--max-width);
-    background-color: var(--color-bg-hero);
-    border-radius: var(--radius-panel);
-    overflow: hidden;
+    justify-content: space-between;
     position: relative;
-    border: 1px solid var(--color-border-subtle);
-    padding-bottom: clamp(40px, 6vh, 64px);
+    box-sizing: border-box;
+    padding-bottom: 12px;
   }
 
-  .hero-content-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: clamp(24px, 4vw, 48px);
+  @media (min-width: 1025px) {
+    .mogo-single-screen-hero {
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+    }
+  }
+
+  /* ─── Hero Middle Stage (Content Row) ─── */
+  .hero-stage-middle {
+    flex: 1;
+    display: flex;
     align-items: center;
-    max-width: 1360px;
-    margin: 0 auto;
-    padding: clamp(24px, 4vh, 48px) clamp(24px, 4vw, 56px) 0;
+    width: 100%;
+    padding: 0 24px;
+    box-sizing: border-box;
   }
 
-  .hero-copy-column {
+  .hero-stage-container {
+    max-width: 1360px;
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(20px, 3.5vw, 48px);
+    align-items: center;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ─── Hero Copy Column ─── */
+  .mogo-copy-col {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    text-align: left;
-    z-index: 5;
+    gap: clamp(10px, 1.4vw, 18px);
+    z-index: 2;
   }
 
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    background: #ffffff;
-    border-radius: var(--radius-pill);
-    border: 1px solid rgba(89, 97, 180, 0.14);
-    box-shadow: 0 2px 8px rgba(35, 40, 99, 0.04);
-    margin-bottom: clamp(16px, 2.5vh, 24px);
-  }
-
-  .eyebrow-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--color-sage);
-  }
-
-  .eyebrow-text {
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--color-blue-violet-dark);
-  }
-
-  .hero-main-headline {
-    font-family: var(--font-heading);
-    font-size: clamp(2.8rem, 6.4vw, 5.8rem);
+  /* Eyebrow Tag (matches "ADVERTISING AGENCY") */
+  .mogo-eyebrow-tag {
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(0.72rem, 1vw, 0.86rem);
     font-weight: 800;
-    line-height: 1.02;
-    letter-spacing: -0.035em;
-    color: var(--color-text-primary);
-    margin-bottom: clamp(16px, 2.5vh, 24px);
-  }
-
-  .hero-supporting-copy {
-    font-size: clamp(1.02rem, 1.35vw, 1.2rem);
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    max-width: 520px;
-    margin-bottom: clamp(24px, 3.5vh, 32px);
-  }
-
-  .hero-actions-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-
-  .btn-primary-action {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--color-blue-violet-dark);
-    color: #ffffff;
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 15px 30px;
-    border-radius: var(--radius-pill);
-    box-shadow: 0 6px 20px rgba(35, 40, 99, 0.25);
-    transition: all 0.24s var(--ease-editorial);
-    letter-spacing: -0.01em;
-  }
-
-  .btn-primary-action:hover {
-    background: var(--color-blue-violet);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(89, 97, 180, 0.35);
-  }
-
-  .btn-secondary-action {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #ffffff;
-    color: var(--color-text-primary);
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 15px 26px;
-    border-radius: var(--radius-pill);
-    border: 1px solid var(--color-border-medium);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    transition: all 0.24s var(--ease-editorial);
-  }
-
-  .btn-secondary-action:hover {
-    background: var(--color-blue-violet-subtle);
-    border-color: var(--color-blue-violet);
-    color: var(--color-blue-violet-dark);
-  }
-
-  .hero-meta-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-heading);
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--color-text-muted);
-    letter-spacing: 0.06em;
-  }
-
-  .meta-tag.highlight {
-    color: var(--color-blue-violet-dark);
-    background: rgba(89, 97, 180, 0.1);
-    padding: 3px 8px;
-    border-radius: 6px;
-  }
-
-  .meta-divider {
-    opacity: 0.4;
-  }
-
-  .hero-illustration-column {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-
-  /* ─── Categories Overview ─── */
-  .section-categories {
-    width: 100%;
-    background: #ffffff;
-    padding: clamp(70px, 10vh, 120px) 24px;
-  }
-
-  .categories-container {
-    width: 100%;
-    max-width: var(--max-width);
-    margin: 0 auto;
-  }
-
-  .section-head-center {
-    text-align: center;
-    max-width: 680px;
-    margin: 0 auto clamp(40px, 6vh, 64px);
-  }
-
-  .section-eyebrow {
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--color-blue-violet);
-    display: block;
-    margin-bottom: 12px;
-  }
-
-  .section-heading-lg {
-    font-family: var(--font-heading);
-    font-size: clamp(2.2rem, 4vw, 3.4rem);
-    font-weight: 800;
-    line-height: 1.12;
-    letter-spacing: -0.03em;
-    color: var(--color-text-primary);
-    margin-bottom: 16px;
-  }
-
-  .section-lead-copy {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-  }
-
-  .categories-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-  }
-
-  .category-card {
-    background: var(--color-bg-neutral);
-    border-radius: var(--radius-card);
-    border: 1px solid var(--color-border-subtle);
-    padding: 28px 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: all 0.28s var(--ease-editorial);
-    text-decoration: none;
-    min-height: 220px;
-  }
-
-  .category-card:hover {
-    background: #ffffff;
-    transform: translateY(-4px);
-    box-shadow: 0 16px 36px rgba(35, 40, 99, 0.08);
-    border-color: rgba(89, 97, 180, 0.3);
-  }
-
-  .cat-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
-
-  .cat-num {
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
-    font-weight: 800;
-    color: var(--color-blue-violet);
-    letter-spacing: 0.1em;
-  }
-
-  .cat-arrow {
-    font-size: 1.2rem;
-    color: var(--color-text-muted);
-    transition: transform 0.2s ease, color 0.2s ease;
-  }
-
-  .category-card:hover .cat-arrow {
-    transform: translateX(4px);
-    color: var(--color-blue-violet-dark);
-  }
-
-  .cat-name {
-    font-family: var(--font-heading);
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    margin-bottom: 8px;
-    letter-spacing: -0.02em;
-  }
-
-  .cat-desc {
-    font-size: 0.88rem;
-    line-height: 1.5;
-    color: var(--color-text-secondary);
-    margin-bottom: 20px;
-  }
-
-  .cat-pill-badge {
-    font-family: var(--font-heading);
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--color-blue-violet-dark);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.18em;
+    color: rgba(255, 255, 255, 0.88);
     text-transform: uppercase;
   }
 
-  /* ─── Featured T-Shirt Presentation ─── */
-  .section-featured-tshirt {
-    width: 100%;
-    padding: 0 16px clamp(60px, 9vh, 100px);
+  /* Massive Display Headline (matches "EVERY PIXEL MATTERS") */
+  .mogo-main-headline {
+    font-family: 'Poppins', 'Space Grotesk Variable', sans-serif;
+    font-size: clamp(2.6rem, 5vw, 5.2rem);
+    font-weight: 900;
+    line-height: 0.94;
+    letter-spacing: -0.04em;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-shadow: 0 4px 20px rgba(10, 29, 96, 0.25);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .headline-line-1 {
+    display: block;
+    margin-right: 0.2em;
+  }
+
+  .headline-line-2 {
+    display: block;
+    color: #ffffff;
+  }
+
+  /* Supporting Paragraph */
+  .mogo-lead-paragraph {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.95rem, 1.25vw, 1.15rem);
+    line-height: 1.5;
+    color: #dbeafe;
+    max-width: 480px;
+    margin: 0;
+  }
+
+  /* Actions Cluster: Glass Pill + 3D Yellow Button together */
+  .mogo-actions-cluster {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+  }
+
+  /* ─── Glass Pill Controls (matches [▶ Showreel] [★ Portfolio]) ─── */
+  .mogo-glass-pill-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
+    border-radius: 9999px;
+    padding: 5px 6px;
+    box-shadow: 0 6px 20px rgba(10, 29, 96, 0.2);
+  }
+
+  .mogo-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 9999px;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 700;
+    transition: all 0.2s ease;
+  }
+
+  .mogo-pill-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
+  }
+
+  .pill-icon-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  }
+
+  .pill-icon-circle.icon-play {
+    color: #174ee8;
+  }
+
+  .pill-icon-circle.icon-star {
+    color: #0284c7;
+  }
+
+  /* ─── Tactile 3D Sunshine Yellow Button (matches [Get started!]) ─── */
+  .btn-3d-yellow-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #fed700;
+    color: #0f172a;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+    font-weight: 800;
+    padding: 13px 28px;
+    border-radius: 12px;
+    text-decoration: none;
+    box-shadow: 0 5px 0 #b45309, 0 10px 20px rgba(180, 83, 9, 0.28);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .btn-3d-yellow-cta:hover {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 #b45309, 0 6px 12px rgba(180, 83, 9, 0.2);
+  }
+
+  .btn-3d-yellow-cta:active {
+    transform: translateY(5px);
+    box-shadow: 0 0 0 #b45309;
+  }
+
+  /* ─── Hero Illustration Column ─── */
+  .mogo-illustration-col {
+    position: relative;
     display: flex;
     justify-content: center;
-  }
-
-  .featured-container {
+    align-items: center;
     width: 100%;
-    max-width: var(--max-width);
+    max-height: clamp(280px, 42vh, 440px);
   }
 
-  .featured-tee-card {
-    background: linear-gradient(135deg, var(--color-blue-violet-subtle) 0%, #f6f8fb 100%);
-    border-radius: var(--radius-panel);
-    border: 1.5px solid rgba(89, 97, 180, 0.2);
-    padding: clamp(32px, 5vw, 64px);
-    box-shadow: 0 16px 48px rgba(35, 40, 99, 0.08);
+
+  /* ═══════════════════════════════════════════════════════════
+     BOTTOM DOCK: "Brand Defining Swag" (Inside 100vh Hero)
+     Dual arch yellow/cyan ribbon connecting 4 categories
+     ═══════════════════════════════════════════════════════════ */
+  .hero-stage-bottom-dock {
+    width: 100%;
+    padding: 4px 24px 8px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 15;
+  }
+
+  .dock-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dock-header {
+    text-align: center;
+    margin-bottom: 2px;
+  }
+
+  .dock-headline {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin: 0;
+    text-shadow: 0 3px 12px rgba(10, 29, 96, 0.25);
+  }
+
+  .dock-ribbon-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dock-ribbon-svg {
+    width: 100%;
+    max-height: clamp(70px, 12vh, 120px);
+    height: auto;
+    display: block;
+    margin-bottom: -16px;
+  }
+
+  /* 4 Interactive Category Station Pills overlaying ribbon */
+  .dock-stations-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    position: relative;
+    z-index: 5;
+  }
+
+  .dock-station-pill {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 14px;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(10, 29, 96, 0.15);
+  }
+
+  .dock-station-pill:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-2px);
+    border-color: #fed700;
+    box-shadow: 0 8px 20px rgba(10, 29, 96, 0.25);
+  }
+
+  .station-badge {
+    background: #fed700;
+    color: #0f172a;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 3px 7px;
+    border-radius: 6px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .station-meta {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    line-height: 1.2;
+  }
+
+  .station-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .station-sub {
+    font-size: 0.68rem;
+    color: #bfdbfe;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     MARQUEE TICKER — SUNSHINE YELLOW
+     ═══════════════════════════════════════════════════════════ */
+  .mogo-ticker-wrapper {
+    width: 100%;
+    background: #fed700;
+    color: #0f172a;
+    padding: 12px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-top: 3px solid #0f172a;
+    border-bottom: 3px solid #0f172a;
+  }
+
+  .mogo-ticker-track {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+    animation: marquee 28s linear infinite;
+  }
+
+  .ticker-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+  }
+
+  .ticker-star {
+    font-size: 1.1rem;
+    color: #ea580c;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     FEATURED WHITE T-SHIRT PRESENTATION
+     ═══════════════════════════════════════════════════════════ */
+  .section-featured-tee {
+    width: 100%;
+    padding: clamp(60px, 8vw, 100px) 24px;
+    background: #ffffff;
+    color: #0f172a;
+  }
+
+  .featured-tee-shell {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  .featured-tee-pop-card {
+    background: #f8fafc;
+    border: 3px solid #0f172a;
+    border-radius: 36px;
+    padding: clamp(28px, 4vw, 56px);
+    box-shadow: 12px 16px 0 #0f172a;
   }
 
   .featured-tee-grid {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
+    grid-template-columns: 1fr 1.1fr;
     gap: clamp(32px, 5vw, 64px);
     align-items: center;
   }
 
-  .featured-tee-visual {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .featured-tee-image-wrap {
-    background: #ffffff;
-    border-radius: 28px;
-    padding: 16px;
-    box-shadow: 0 20px 48px rgba(35, 40, 99, 0.12);
-    border: 1px solid rgba(89, 97, 180, 0.15);
+  .featured-tee-image-box {
     position: relative;
-    max-width: 440px;
-    width: 100%;
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: #ffffff;
+    border: 3px solid #0f172a;
+    border-radius: 28px;
+    padding: 24px;
+    box-shadow: 6px 8px 0 rgba(15, 23, 42, 0.15);
   }
 
   .featured-tee-img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    aspect-ratio: 1;
     object-fit: contain;
+    display: block;
     border-radius: 20px;
+    transition: transform 0.3s ease;
   }
 
-  .signature-tag {
+  .featured-tee-image-box:hover .featured-tee-img {
+    transform: scale(1.03);
+  }
+
+  .pop-badge-signature {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    background: var(--color-blue-violet-dark);
-    color: #ffffff;
-    font-family: var(--font-heading);
-    font-size: 0.72rem;
+    top: 16px;
+    left: 16px;
+    background: #fed700;
+    color: #0f172a;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     padding: 6px 14px;
-    border-radius: var(--radius-pill);
-    box-shadow: 0 4px 12px rgba(35, 40, 99, 0.3);
+    border-radius: 9999px;
+    border: 2px solid #0f172a;
+    box-shadow: 2px 3px 0 #0f172a;
   }
 
-  .featured-eyebrow-wrap {
+  .featured-pill-meta {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 12px;
   }
 
-  .featured-eyebrow {
-    font-family: var(--font-heading);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--color-blue-violet);
+  .meta-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #174ee8;
+  }
+
+  .meta-category {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #174ee8;
   }
 
   .featured-tee-title {
-    font-family: var(--font-heading);
-    font-size: clamp(2.2rem, 4vw, 3.4rem);
-    font-weight: 800;
-    color: var(--color-text-primary);
-    line-height: 1.1;
-    margin-bottom: 20px;
-    letter-spacing: -0.025em;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.4rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: #0f172a;
+    margin-bottom: 16px;
   }
 
-  .slogan-callout-box {
-    background: #ffffff;
-    border-left: 4px solid var(--color-sage);
+  /* Slogan Callout Box */
+  .slogan-badge-box {
+    background: #e0f2fe;
+    border-left: 5px solid #0284c7;
+    border-radius: 0 16px 16px 0;
     padding: 16px 20px;
-    border-radius: 4px 16px 16px 4px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
   }
 
-  .slogan-label {
-    font-family: var(--font-heading);
+  .slogan-badge-tag {
+    font-family: 'Poppins', sans-serif;
     font-size: 0.7rem;
     font-weight: 800;
     letter-spacing: 0.12em;
-    color: var(--color-sage);
+    color: #0284c7;
     display: block;
     margin-bottom: 4px;
   }
 
-  .slogan-text {
-    font-family: var(--font-heading);
-    font-size: clamp(1.15rem, 1.8vw, 1.45rem);
-    font-weight: 700;
-    color: var(--color-blue-violet-dark);
-    line-height: 1.35;
+  .slogan-badge-quote {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+    font-weight: 800;
+    color: #0369a1;
+    margin: 0;
+    line-height: 1.3;
   }
 
-  .featured-tee-desc {
+  .featured-tee-copy {
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--color-text-secondary);
+    color: #475569;
     margin-bottom: 24px;
   }
 
   .featured-specs-row {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
   }
 
-  .spec-pill {
+  .pop-spec-chip {
     background: #ffffff;
-    border: 1px solid var(--color-border-subtle);
-    padding: 8px 14px;
-    border-radius: 12px;
+    border: 2px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 10px 14px;
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
 
-  .spec-label {
-    font-size: 0.68rem;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-
-  .spec-value {
-    font-family: var(--font-heading);
-    font-size: 0.84rem;
+  .spec-k {
+    font-size: 0.72rem;
     font-weight: 700;
-    color: var(--color-text-primary);
+    color: #64748b;
+    text-transform: uppercase;
   }
 
-  .featured-actions {
+  .spec-v {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  .featured-actions-row {
     display: flex;
+    align-items: center;
+    gap: 16px;
     flex-wrap: wrap;
-    gap: 14px;
   }
 
-  .btn-featured-view {
+  .btn-featured-quickview {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #0f172a;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 14px 26px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #020617;
+    transition: all 0.15s ease;
+  }
+
+  .btn-featured-quickview:hover {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #020617;
+  }
+
+  .btn-featured-whatsapp {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: var(--color-blue-violet-dark);
+    background: #25D366;
     color: #ffffff;
-    font-family: var(--font-heading);
+    font-family: 'Poppins', sans-serif;
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: 700;
     padding: 14px 26px;
-    border-radius: var(--radius-pill);
-    box-shadow: 0 6px 20px rgba(35, 40, 99, 0.25);
-    transition: all 0.24s var(--ease-editorial);
-    cursor: pointer;
-  }
-
-  .btn-featured-view:hover {
-    background: var(--color-blue-violet);
-    transform: translateY(-2px);
-  }
-
-  .btn-featured-enquire {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #ffffff;
-    color: #128C7E;
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 14px 24px;
-    border-radius: var(--radius-pill);
-    border: 1px solid rgba(18, 140, 126, 0.3);
+    border-radius: 12px;
     text-decoration: none;
-    transition: all 0.24s var(--ease-editorial);
+    box-shadow: 0 4px 0 #15803d;
+    transition: all 0.15s ease;
   }
 
-  .btn-featured-enquire:hover {
-    background: #eefaf6;
-    transform: translateY(-1px);
+  .btn-featured-whatsapp:hover {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #15803d;
   }
 
-  /* ─── Product Catalogue Section ─── */
+
+  /* ═══════════════════════════════════════════════════════════
+     CATALOGUE SECTION — 13 PRODUCTS
+     ═══════════════════════════════════════════════════════════ */
   .section-catalogue {
     width: 100%;
-    background: var(--color-bg-neutral);
-    padding: clamp(70px, 10vh, 120px) 24px;
+    padding: clamp(60px, 8vw, 100px) 24px;
+    background: #174ee8;
+    color: #ffffff;
   }
 
-  .catalogue-container {
-    width: 100%;
-    max-width: var(--max-width);
+  .catalogue-shell {
+    max-width: 1360px;
     margin: 0 auto;
   }
 
+  .catalogue-header-center {
+    text-align: center;
+    margin-bottom: clamp(32px, 5vw, 54px);
+  }
+
+  .catalogue-eyebrow {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: #fed700;
+    display: block;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .catalogue-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin-bottom: 12px;
+  }
+
+  .catalogue-subtitle {
+    font-size: 1.1rem;
+    color: #dbeafe;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  /* Filter Tabs */
   .catalogue-filter-bar {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-bottom: clamp(40px, 6vh, 60px);
+    flex-wrap: wrap;
+    margin-bottom: clamp(36px, 5vw, 60px);
   }
 
-  .filter-tab {
-    font-family: var(--font-heading);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--color-text-secondary);
-    background: #ffffff;
-    border: 1px solid var(--color-border-subtle);
+  .mogo-filter-tab {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
     padding: 10px 20px;
-    border-radius: var(--radius-pill);
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
-  .filter-tab:hover {
-    color: var(--color-blue-violet-dark);
-    border-color: rgba(89, 97, 180, 0.3);
+  .mogo-filter-tab:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
   }
 
-  .filter-tab.is-active {
-    background: var(--color-blue-violet-dark);
-    color: #ffffff;
-    border-color: var(--color-blue-violet-dark);
-    box-shadow: 0 4px 12px rgba(35, 40, 99, 0.2);
+  .mogo-filter-tab.is-active {
+    background: #fed700;
+    color: #0f172a;
+    border-color: #fed700;
+    box-shadow: 0 4px 12px rgba(254, 215, 0, 0.35);
   }
 
+  /* Category Block Groups */
   .category-block-group {
-    margin-bottom: clamp(50px, 8vh, 80px);
+    margin-bottom: clamp(48px, 6vw, 80px);
   }
 
-  .category-group-header {
+  .category-block-head {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 16px;
-    border-bottom: 1.5px solid var(--color-border-subtle);
     margin-bottom: 28px;
   }
 
-  .group-num {
-    font-family: var(--font-heading);
-    font-size: 0.74rem;
-    font-weight: 700;
-    color: var(--color-blue-violet);
-    letter-spacing: 0.1em;
+  .head-num {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #fed700;
+    letter-spacing: 0.14em;
     display: block;
     margin-bottom: 4px;
   }
 
-  .group-title {
-    font-family: var(--font-heading);
+  .head-name {
+    font-family: 'Poppins', sans-serif;
     font-size: clamp(1.6rem, 2.5vw, 2.2rem);
     font-weight: 800;
-    color: var(--color-text-primary);
-    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin: 0;
   }
 
-  .group-count {
-    font-family: var(--font-heading);
-    font-size: 0.84rem;
-    font-weight: 600;
-    color: var(--color-text-muted);
+  .head-pill {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #bfdbfe;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 6px 14px;
+    border-radius: 9999px;
   }
 
+  /* Product Cards Grid */
   .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
   }
 
-  .product-card {
+  /* Pop Art Product Card */
+  .pop-product-card {
     background: #ffffff;
-    border-radius: var(--radius-card);
-    border: 1px solid var(--color-border-subtle);
+    border: 3px solid #0f172a;
+    border-radius: 24px;
     overflow: hidden;
+    box-shadow: 6px 8px 0 #0f172a;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
     flex-direction: column;
-    transition: all 0.28s var(--ease-editorial);
   }
 
-  .product-card:hover {
+  .pop-product-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 16px 36px rgba(35, 40, 99, 0.08);
-    border-color: rgba(89, 97, 180, 0.25);
+    box-shadow: 8px 12px 0 #0f172a;
   }
 
-  .product-card.is-featured-border {
-    border-color: rgba(89, 97, 180, 0.35);
+  .pop-product-card.is-signature {
+    border-color: #0f172a;
+    background: #fffbeb;
   }
 
-  .product-card-visual {
-    background: #fafafc;
+  .product-visual-stage {
     position: relative;
-    padding: 24px;
+    background: #f1f5f9;
+    padding: 20px;
     aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    border-bottom: 2px solid #e2e8f0;
   }
 
-  .product-image {
+  .product-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    transition: transform 0.4s var(--ease-editorial);
+    transition: transform 0.3s ease;
   }
 
-  .product-card:hover .product-image {
+  .pop-product-card:hover .product-img {
     transform: scale(1.05);
   }
 
-  .product-category-tag {
+  .pop-category-badge {
     position: absolute;
     top: 14px;
     left: 14px;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(6px);
-    color: var(--color-text-secondary);
-    font-family: var(--font-heading);
+    background: rgba(15, 23, 42, 0.85);
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
     font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
     padding: 4px 10px;
-    border-radius: var(--radius-pill);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    text-transform: uppercase;
+    border-radius: 9999px;
+    letter-spacing: 0.04em;
   }
 
-  .featured-badge-pill {
+  .pop-star-pill {
     position: absolute;
     top: 14px;
     right: 14px;
-    background: var(--color-sage-subtle);
-    color: var(--color-sage);
-    font-family: var(--font-heading);
+    background: #fed700;
+    color: #0f172a;
+    font-family: 'Poppins', sans-serif;
     font-size: 0.68rem;
     font-weight: 800;
-    letter-spacing: 0.05em;
     padding: 4px 10px;
-    border-radius: var(--radius-pill);
-    border: 1px solid rgba(129, 167, 115, 0.3);
-    text-transform: uppercase;
+    border-radius: 9999px;
+    border: 1.5px solid #0f172a;
   }
 
-  .product-card-body {
+  .product-info-box {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    flex: 1;
-    justify-content: space-between;
+    flex-grow: 1;
   }
 
-  .product-name {
-    font-family: var(--font-heading);
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    margin-bottom: 6px;
-    letter-spacing: -0.015em;
-  }
-
-  .product-desc {
-    font-size: 0.86rem;
-    line-height: 1.5;
-    color: var(--color-text-secondary);
-    margin-bottom: 18px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .product-actions-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding-top: 14px;
-    border-top: 1px solid var(--color-border-subtle);
-  }
-
-  .btn-view-product {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-heading);
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--color-blue-violet-dark);
-    background: var(--color-blue-violet-subtle);
-    padding: 8px 14px;
-    border-radius: var(--radius-pill);
-    transition: all 0.2s ease;
-    cursor: pointer;
-  }
-
-  .btn-view-product:hover {
-    background: var(--color-blue-violet);
-    color: #ffffff;
-  }
-
-  .btn-enquire-card {
-    font-family: var(--font-heading);
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    padding: 8px 12px;
-    border-radius: var(--radius-pill);
-    transition: color 0.2s ease;
-    cursor: pointer;
-  }
-
-  .btn-enquire-card:hover {
-    color: var(--color-blue-violet-dark);
-  }
-
-  /* ─── Final CTA Section ─── */
-  .section-final-cta {
-    width: 100%;
-    padding: 0 16px clamp(60px, 9vh, 100px);
-    display: flex;
-    justify-content: center;
-  }
-
-  .final-cta-container {
-    width: 100%;
-    max-width: var(--max-width);
-  }
-
-  .final-cta-panel {
-    background: linear-gradient(135deg, var(--color-blue-violet-dark) 0%, #1a1e48 100%);
-    border-radius: var(--radius-panel);
-    padding: clamp(60px, 8vh, 90px) clamp(24px, 4vw, 56px);
-    color: #ffffff;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 24px 60px rgba(35, 40, 99, 0.22);
-  }
-
-  .final-cta-eyebrow {
-    font-family: var(--font-heading);
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    color: var(--color-sage-cream);
-    display: block;
-    margin-bottom: 16px;
-  }
-
-  .final-cta-headline {
-    font-family: var(--font-heading);
-    font-size: clamp(2.4rem, 5vw, 4.2rem);
+  .product-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
     font-weight: 800;
-    line-height: 1.08;
+    color: #0f172a;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+
+  .product-short-desc {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: #64748b;
+    margin-bottom: 18px;
+    flex-grow: 1;
+  }
+
+  .product-cta-pair {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-pop-details {
+    flex: 1;
+    background: #f1f5f9;
+    color: #0f172a;
+    border: 2px solid #cbd5e1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 700;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-pop-details:hover {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+  }
+
+  .btn-pop-enquire {
+    background: #fed700;
+    color: #0f172a;
+    border: 2px solid #0f172a;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 800;
+    padding: 10px 16px;
+    border-radius: 10px;
+    box-shadow: 2px 3px 0 #0f172a;
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+
+  .btn-pop-enquire:hover {
+    transform: translateY(1px);
+    box-shadow: 1px 2px 0 #0f172a;
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════
+     FINAL CALL TO ACTION
+     ═══════════════════════════════════════════════════════════ */
+  .mogo-final-cta-section {
+    width: 100%;
+    padding: clamp(60px, 8vw, 100px) 24px;
+    background: #ffffff;
+    color: #0f172a;
+  }
+
+  .final-cta-shell {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .final-cta-box {
+    background: #174ee8;
+    color: #ffffff;
+    border: 3px solid #0f172a;
+    border-radius: 36px;
+    padding: clamp(40px, 6vw, 72px) clamp(24px, 4vw, 48px);
+    text-align: center;
+    box-shadow: 12px 16px 0 #0f172a;
+  }
+
+  .cta-pill-eyebrow {
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: #fed700;
+    margin-bottom: 12px;
+  }
+
+  .cta-headline {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+    font-weight: 900;
     letter-spacing: -0.03em;
     margin-bottom: 16px;
   }
 
-  .final-cta-subtext {
-    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 36px;
-    max-width: 580px;
-    margin-left: auto;
-    margin-right: auto;
+  .cta-desc {
+    font-size: 1.15rem;
+    color: #dbeafe;
+    max-width: 620px;
+    margin: 0 auto 36px;
+    line-height: 1.6;
   }
 
-  .btn-cta-explore {
+  .cta-buttons-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-ghost-white-cta {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    background: #ffffff;
-    color: var(--color-blue-violet-dark);
-    font-family: var(--font-heading);
-    font-size: 1rem;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.05rem;
     font-weight: 700;
-    padding: 16px 36px;
-    border-radius: var(--radius-pill);
+    padding: 16px 32px;
+    border-radius: 14px;
     text-decoration: none;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    transition: all 0.24s var(--ease-editorial);
+    border: 2px solid #ffffff;
+    transition: all 0.2s ease;
   }
 
-  .btn-cta-explore:hover {
-    background: var(--color-sage-cream);
+  .btn-ghost-white-cta:hover {
+    background: #ffffff;
+    color: #174ee8;
     transform: translateY(-2px);
   }
 
-  .geo-circle-1 {
-    position: absolute;
-    width: 320px;
-    height: 320px;
-    border-radius: 50%;
-    background: rgba(89, 97, 180, 0.16);
-    top: -60px;
-    right: -80px;
-    pointer-events: none;
-  }
 
-  .geo-circle-2 {
-    position: absolute;
-    width: 240px;
-    height: 240px;
-    border-radius: 50%;
-    background: rgba(129, 167, 115, 0.14);
-    bottom: -40px;
-    left: -40px;
-    pointer-events: none;
-  }
-
-  /* ─── Footer ─── */
-  .swag-footer {
+  /* ═══════════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════════ */
+  .mogo-footer {
     width: 100%;
-    background: #ffffff;
-    border-top: 1px solid var(--color-border-subtle);
-    padding: clamp(56px, 8vh, 80px) 24px 36px;
+    background: #0f172a;
+    color: #ffffff;
+    padding: clamp(60px, 8vw, 90px) 24px 32px;
+    border-top: 3px solid #1e293b;
   }
 
-  .footer-container {
-    width: 100%;
-    max-width: var(--max-width);
+  .footer-shell {
+    max-width: 1360px;
     margin: 0 auto;
   }
 
   .footer-top-grid {
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1.2fr;
+    grid-template-columns: 1.4fr 1fr 1fr;
     gap: clamp(32px, 5vw, 64px);
-    padding-bottom: clamp(40px, 6vh, 60px);
-    border-bottom: 1px solid var(--color-border-subtle);
+    margin-bottom: 48px;
   }
 
-  .footer-brand-link {
-    display: inline-block;
-    margin-bottom: 14px;
-  }
-
-  .footer-logo-img {
-    height: 38px;
-    width: auto;
-    object-fit: contain;
-  }
-
-  .footer-desc {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    margin-bottom: 12px;
-    max-width: 380px;
-  }
-
-  .footer-slogan {
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-blue-violet-dark);
-  }
-
-  .footer-head {
-    font-family: var(--font-heading);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--color-text-muted);
-    display: block;
+  .footer-logo-lockup {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
     margin-bottom: 16px;
   }
 
-  .footer-list {
+  .footer-logo-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .footer-yellow-bar {
+    width: 36px;
+    height: 5px;
+    background: #fed700;
+    border-radius: 99px;
+    margin-top: 4px;
+  }
+
+  .footer-tagline {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fed700;
+    margin-bottom: 12px;
+  }
+
+  .footer-about {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #94a3b8;
+    max-width: 380px;
+  }
+
+  .footer-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #cbd5e1;
+    display: block;
+    margin-bottom: 18px;
+  }
+
+  .footer-links {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
-  .footer-link {
-    font-family: var(--font-heading);
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--color-text-secondary);
-    transition: color 0.2s ease;
+  .footer-links a {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.15s ease;
   }
 
-  .footer-link:hover {
-    color: var(--color-blue-violet);
+  .footer-links a:hover {
+    color: #fed700;
   }
 
-  .footer-contact-desc {
+  .footer-desk-desc {
     font-size: 0.88rem;
-    line-height: 1.55;
-    color: var(--color-text-secondary);
+    color: #94a3b8;
+    line-height: 1.5;
     margin-bottom: 16px;
   }
 
-  .footer-whatsapp-link {
+  .footer-wa-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: var(--font-heading);
-    font-size: 0.88rem;
+    background: #25D366;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: #128C7E;
+    padding: 10px 18px;
+    border-radius: 9999px;
     text-decoration: none;
-    transition: transform 0.2s ease;
+    transition: transform 0.15s ease;
   }
 
-  .footer-whatsapp-link:hover {
-    transform: translateX(3px);
-  }
-
-  .footer-bottom-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding-top: 28px;
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
-  }
-
-  .footer-scroll-top {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--color-blue-violet);
-    font-weight: 600;
-    transition: transform 0.2s ease;
-  }
-
-  .footer-scroll-top:hover {
+  .footer-wa-pill:hover {
     transform: translateY(-2px);
   }
 
-  /* ─── Responsive Queries ─── */
+  .footer-bottom-line {
+    border-top: 1px solid #1e293b;
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: #64748b;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-top-link {
+    color: #94a3b8;
+    text-decoration: none;
+  }
+
+  .footer-top-link:hover {
+    color: #ffffff;
+  }
+
+
+  /* ─── Responsive Media Queries ─── */
   @media (max-width: 1024px) {
-    .hero-content-grid {
+    .mogo-single-screen-hero {
+      height: auto;
+      min-height: auto;
+      padding: 16px 0 24px;
+    }
+    .hero-stage-container {
       grid-template-columns: 1fr;
+      text-align: center;
+      padding-top: 20px;
     }
-    .hero-illustration-column {
-      order: -1;
-      max-width: 480px;
-      margin: 0 auto 16px;
+    .mogo-copy-col {
+      align-items: center;
     }
-    .categories-grid {
+    .mogo-actions-cluster {
+      justify-content: center;
+    }
+    .mogo-lead-paragraph {
+      max-width: 600px;
+    }
+    .dock-stations-row {
       grid-template-columns: repeat(2, 1fr);
     }
     .featured-tee-grid {
@@ -1561,44 +1800,36 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
     }
   }
 
-  @media (max-width: 768px) {
-    .hero-wrapper {
-      padding: 8px 10px 16px;
+  @media (max-width: 640px) {
+    .mogo-main-headline {
+      font-size: clamp(2.4rem, 10vw, 3.4rem);
     }
-    .hero-panel {
-      border-radius: var(--radius-panel);
-    }
-    .hero-content-grid {
-      padding: 16px 18px 0;
-    }
-    .hero-main-headline {
-      font-size: clamp(2.4rem, 8vw, 3.4rem);
-    }
-    .hero-actions-row {
+    .mogo-actions-cluster {
       flex-direction: column;
       width: 100%;
     }
-    .btn-primary-action,
-    .btn-secondary-action {
+    .mogo-glass-pill-row {
       width: 100%;
       justify-content: center;
     }
-    .categories-grid {
+    .btn-3d-yellow-cta {
+      width: 100%;
+    }
+    .dock-stations-row {
       grid-template-columns: 1fr;
     }
-    .products-grid {
+    .featured-specs-row {
       grid-template-columns: 1fr;
     }
     .footer-top-grid {
       grid-template-columns: 1fr;
-      gap: 36px;
     }
   }
 </style>
 
 <script>
   function initCatalogueFilters() {
-    const filterTabs = document.querySelectorAll('.filter-tab');
+    const filterTabs = document.querySelectorAll('.mogo-filter-tab');
     const categoryGroups = document.querySelectorAll('.category-block-group');
 
     filterTabs.forEach((tab) => {
@@ -1615,6 +1846,18 @@ const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
             (group as HTMLElement).style.display = 'none';
           }
         });
+      });
+    });
+
+    // Also support dock station pill clicks filtering catalogue & smooth scrolling
+    const dockPills = document.querySelectorAll('.dock-station-pill');
+    dockPills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const filter = pill.getAttribute('data-filter');
+        const targetTab = document.querySelector(`.mogo-filter-tab[data-filter="${filter}"]`) as HTMLElement;
+        if (targetTab) {
+          targetTab.click();
+        }
       });
     });
   }
