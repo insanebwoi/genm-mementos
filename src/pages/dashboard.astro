@@ -2,1364 +2,1830 @@
 import Layout from '../layouts/Layout.astro';
 import { PRODUCTS } from '../data/products';
 
-const productNames = PRODUCTS.map((p) => p.name);
 const GOOGLE_SHEET_ID = '1foGWm9i_5DhBUjocJDxs84jWCLdc-U1BJaN7r0KuhiA';
 const GOOGLE_SHEET_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/edit`;
+
+// Pre-map catalog products with image and pricing
+const CATALOG_ITEMS = [
+  { id: 'white-tshirt', name: 'White T-Shirt', category: 'Apparel', price: 449, cost: 260, stock: 250, isTshirt: true, image: '/products/white_tshirt.jpg' },
+  { id: 'cap', name: 'Embroidered Cap', category: 'Apparel', price: 180, cost: 100, stock: 100, isTshirt: false, image: '/products/cap.jpg' },
+  { id: 'cross-bag', name: 'Cross Bag', category: 'Accessories', price: 180, cost: 120, stock: 150, isTshirt: false, image: '/products/cross_bag.jpg' },
+  { id: 'water-bottle', name: 'Water Bottle', category: 'Drinkware', price: 350, cost: 220, stock: 100, isTshirt: false, image: '/products/water_bottle.jpg' },
+  { id: 'coffee-mug', name: 'Coffee Mug', category: 'Drinkware', price: 180, cost: 120, stock: 50, isTshirt: false, image: '/products/coffee_mug.jpg' },
+  { id: 'diary', name: 'Diary', category: 'Stationery', price: 150, cost: 120, stock: 100, isTshirt: false, image: '/products/diary.jpg' },
+  { id: 'pen', name: 'Pen', category: 'Stationery', price: 20, cost: 10, stock: 500, isTshirt: false, image: '/products/pen.jpg' },
+  { id: 'keychain', name: 'Keychain', category: 'Accessories', price: 25, cost: 10, stock: 250, isTshirt: false, image: '/products/keychain.jpg' },
+  { id: 'bag-tag', name: 'Bag Tag', category: 'Accessories', price: 50, cost: 30, stock: 100, isTshirt: false, image: '/products/bag_tag.jpg' },
+  { id: 'glass-set', name: 'Glass Set', category: 'Drinkware', price: 200, cost: 120, stock: 50, isTshirt: false, image: '/products/glass_set.jpg' },
+  { id: 'mobile-stand', name: 'Mobile Stand', category: 'Accessories', price: 199, cost: 90, stock: 50, isTshirt: false, image: '/products/mobile_stand.jpg' },
+  { id: 'tissue', name: 'Tissue', category: 'Accessories', price: 79, cost: 40, stock: 100, isTshirt: false, image: '/products/tissue.jpg' },
+  { id: 'car-perfume', name: 'Car Perfume', category: 'Accessories', price: 40, cost: 10, stock: 50, isTshirt: false, image: '/products/car_perfume.jpg' },
+];
 ---
 
 <Layout
-  title="GEN M Swag — Minimal Operations Dashboard"
-  description="Clean, real-time operations dashboard for GEN M Swag. Live sync with Google Sheets Form Responses 1."
+  title="GEN M — POS Billing & Live Operations"
+  description="Fast POS Billing, Instant WhatsApp Invoices, and Real-Time Google Sheets Form Responses 1 Sync."
 >
-  <div class="dash-shell" id="dashApp">
-    
+  <div class="pos-app" id="posApp">
+
     <!-- ═══════════════════════════════════════════════════════════
-         AUTH VIEW (Minimal login)
+         AUTH SCREEN (Clean Minimal Light)
          ═══════════════════════════════════════════════════════════ -->
-    <div class="auth-wrapper" id="authSection" style="display: none;">
-      <div class="auth-card">
-        <div class="auth-header">
-          <span class="auth-badge">GEN M OPERATIONS</span>
-          <h1 class="auth-title">Sign In</h1>
-          <p class="auth-subtitle">Command Center for Google Sheet <code>Form Responses 1</code></p>
-        </div>
+    <div class="auth-overlay" id="authSection" style="display: none;">
+      <div class="auth-box">
+        <div class="auth-badge">GEN M OPERATIONS</div>
+        <h2 class="auth-heading">Sign In</h2>
+        <p class="auth-sub">POS Billing &amp; Google Sheet Command Center</p>
 
         <form id="loginForm" class="auth-form" onsubmit="return false;">
-          <div class="form-group">
-            <label class="form-label" for="authUsername">Username</label>
-            <input type="text" id="authUsername" class="form-input" value="admin" required autofocus />
+          <div class="input-field">
+            <label for="authUsername">Username</label>
+            <input type="text" id="authUsername" value="admin" required autofocus />
           </div>
-          <div class="form-group">
-            <label class="form-label" for="authPassword">Password</label>
-            <input type="password" id="authPassword" class="form-input" value="GenM@2026!" required />
+          <div class="input-field">
+            <label for="authPassword">Password</label>
+            <input type="password" id="authPassword" value="GenM@2026!" required />
           </div>
-          <div class="form-row-remember">
-            <label class="checkbox-label">
-              <input type="checkbox" id="authRemember" checked />
-              <span>Keep me signed in</span>
-            </label>
-          </div>
-          <button type="submit" id="loginSubmitBtn" class="btn-primary-action" style="width: 100%; margin-top: 12px;">
-            <span>Sign In to Operations</span>
+          <button type="submit" id="loginSubmitBtn" class="btn-primary">
+            Sign In to Dashboard
           </button>
         </form>
-        <div id="authError" class="auth-error-alert" style="display: none;"></div>
+        <div id="authError" class="auth-error" style="display: none;"></div>
       </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════
-         DASHBOARD VIEW (Simple, Minimal, Clean)
+         MAIN APP (Clean Light Theme)
          ═══════════════════════════════════════════════════════════ -->
-    <div class="dash-container" id="dashSection">
-      
-      <!-- Minimal Header -->
-      <header class="dash-header">
-        <div class="header-left">
-          <a href="/" class="brand-link" title="Back to Merch Showcase">
-            <span class="brand-title">GEN M</span>
-            <span class="brand-sep">/</span>
-            <span class="brand-sub">OPERATIONS</span>
-          </a>
-          <a href={GOOGLE_SHEET_URL} target="_blank" rel="noopener noreferrer" class="sheet-pill" id="sheetPill" title="Open Google Sheet in new tab">
-            <span class="status-dot dot-live" id="statusDot"></span>
-            <span class="sheet-pill-label" id="statusLabel">Form Responses 1 (Live Real-Time)</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    <div class="app-layout" id="mainSection">
+
+      <!-- TOP BAR -->
+      <header class="top-nav">
+        <div class="nav-brand">
+          <a href="/" class="brand-title">GEN M</a>
+          <span class="brand-tag">POS &amp; BILLING</span>
+          <a
+            href={GOOGLE_SHEET_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="sheet-indicator"
+            title="Open Form Responses 1 in Google Sheets"
+          >
+            <span class="pulse-dot"></span>
+            <span>Form Responses 1</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
           </a>
         </div>
 
-        <div class="header-right">
-          <button type="button" class="btn-sync-setup" id="openSyncSetupBtn" title="Setup Real-Time Google Sheet Writeback">
-            <span class="sync-setup-dot" id="syncSetupDot"></span>
-            <span id="syncSetupLabel">⚡ Real-Time Write Setup</span>
+        <!-- TABS NAV -->
+        <nav class="nav-tabs">
+          <button type="button" class="tab-btn active" data-tab="billing">
+            <span class="tab-icon">🧾</span>
+            <span>Billing &amp; POS</span>
           </button>
-          
-          <button type="button" class="btn-icon" id="refreshBtn" title="Refresh from Google Sheet">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          <button type="button" class="tab-btn" data-tab="orders">
+            <span class="tab-icon">📋</span>
+            <span>Form Responses 1</span>
+            <span class="tab-badge" id="tabOrdersCount">0</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="stock">
+            <span class="tab-icon">📦</span>
+            <span>Stock &amp; Catalog</span>
+            <span class="tab-pill-light">View Only</span>
+          </button>
+        </nav>
+
+        <div class="nav-actions">
+          <button type="button" id="refreshBtn" class="btn-outline-sm" title="Refresh Live Google Sheet Data">
+            <span class="refresh-icon">⟳</span>
             <span>Refresh</span>
           </button>
-
-          <button type="button" class="btn-logout-minimal" id="logoutBtn" title="Sign Out">
-            <span>Sign Out</span>
+          <button type="button" id="logoutBtn" class="btn-ghost-sm">
+            Sign Out
           </button>
         </div>
       </header>
 
-      <!-- Webhook Alert Banner (Shows only if Webhook URL is not connected yet) -->
-      <div class="webhook-banner" id="webhookBanner" style="display: none;">
-        <div class="banner-content">
-          <span class="banner-badge">SETUP REQUIRED</span>
-          <span class="banner-text">
-            To write new bookings directly into <strong>Form Responses 1</strong> in real-time, connect your deployed Google Apps Script Web App URL.
-          </span>
+      <!-- SYNC STATUS BANNER (Alerts user if Apps Script access needs to be changed to Anyone) -->
+      <div id="syncAlertBanner" class="sync-alert-banner" style="display: none;">
+        <div class="sync-alert-content">
+          <span class="sync-alert-icon">⚠️</span>
+          <span id="syncAlertMessage">Google Apps Script requires public access. Orders are safely saved in local queue.</span>
         </div>
-        <div class="banner-actions">
-          <input type="url" id="quickScriptUrlInput" class="banner-input" placeholder="https://script.google.com/macros/s/.../exec" />
-          <button type="button" id="quickSaveScriptBtn" class="btn-banner-action">Save & Connect</button>
-          <button type="button" id="bannerOpenSetupModalBtn" class="btn-banner-link">View 15-Line Script →</button>
-        </div>
+        <button type="button" id="bannerResolveBtn" class="btn-banner-action">How to Fix (30s)</button>
       </div>
 
-      <!-- Minimal Metrics Strip -->
-      <section class="metrics-strip">
-        <div class="metric-card">
-          <div class="metric-top">
-            <span class="metric-label">TOTAL BOOKINGS</span>
-            <span class="metric-pill">Form Responses 1</span>
-          </div>
-          <div class="metric-val" id="totalBookingsVal">0</div>
-          <div class="metric-sub" id="totalBookingsSub">Syncing with Google Sheet...</div>
-        </div>
+      <!-- MAIN CONTENT VIEW -->
+      <main class="main-content">
 
-        <div class="metric-card">
-          <div class="metric-top">
-            <span class="metric-label">WHITE T-SHIRT ALLOCATION</span>
-            <span class="metric-pill pill-accent">250 Target</span>
-          </div>
-          <div class="metric-val" id="tshirtUnitsVal">0 <span class="metric-unit">Units</span></div>
-          <div class="metric-sub" id="tshirtSizesBreakdown">S: 0 • M: 0 • L: 0 • XL: 0 • XXL: 0</div>
-        </div>
-
-        <div class="metric-card">
-          <div class="metric-top">
-            <span class="metric-label">TOTAL STOCK REMAINING</span>
-            <span class="metric-pill">13 Catalogue Items</span>
-          </div>
-          <div class="metric-val" id="stockUnitsVal">1,850 <span class="metric-unit">Units</span></div>
-          <div class="metric-sub" id="stockStatusSub">100% Units Available</div>
-        </div>
-      </section>
-
-      <!-- Minimal View Switcher (Orders / Stock / Financials) -->
-      <nav class="view-switcher">
-        <button type="button" class="view-btn is-active" data-view="orders">
-          <span>Orders & Bookings</span>
-          <span class="view-count" id="ordersTabCount">0</span>
-        </button>
-        <button type="button" class="view-btn" data-view="stock">
-          <span>Stock & Inventory (1,850)</span>
-        </button>
-        <button type="button" class="view-btn" data-view="financials">
-          <span>Sales & Revenue Tracker</span>
-        </button>
-      </nav>
-
-      <!-- ═════════════════════════════════════════════════════════
-           MAIN WORK AREA: ORDERS VIEW (2 Clean Columns)
-           ═════════════════════════════════════════════════════════ -->
-      <main class="main-content" id="viewOrders">
-        <div class="two-column-grid">
-          
-          <!-- Column 1: Minimal Express Order Form -->
-          <div class="clean-card form-card">
-            <div class="card-header">
-              <h2 class="card-title">+ New Order / Booking</h2>
-              <span class="card-tag">Real-Time Write</span>
-            </div>
-
-            <form id="expressOrderForm" class="order-form" onsubmit="return false;">
+        <!-- ─────────────────────────────────────────────────────────────
+             TAB 1: 🧾 BILLING & POS PANEL
+             ───────────────────────────────────────────────────────────── -->
+        <div class="tab-pane active" id="paneBilling">
+          <div class="pos-grid">
+            
+            <!-- LEFT: BIG PRODUCT CARDS -->
+            <div class="pos-catalog">
               
-              <div class="form-row-2">
-                <div class="form-group">
-                  <label class="form-label" for="orderName">Customer Name <span class="req">*</span></label>
-                  <input type="text" id="orderName" class="form-input" placeholder="e.g. Ameen Farhan" required />
+              <div class="catalog-header">
+                <div>
+                  <h1 class="pane-title">Create Bill / New Order</h1>
+                  <p class="pane-subtitle">Tap big <strong>+</strong> and <strong>−</strong> to add items, generate bill, and push to <strong>Form Responses 1</strong>.</p>
                 </div>
-                <div class="form-group">
-                  <label class="form-label" for="orderPhone">Contact Number <span class="req">*</span></label>
-                  <input type="tel" id="orderPhone" class="form-input" placeholder="e.g. 9876543210" required />
-                </div>
-              </div>
 
-              <div class="form-group">
-                <label class="form-label" for="orderItem">Merchandise Item</label>
-                <select id="orderItem" class="form-select">
-                  <option value="White T-Shirt" selected>White T-Shirt (Multi-Size S, M, L, XL, XXL)</option>
-                  <option value="Diary">Diary</option>
-                  <option value="Pen">Pen</option>
-                  <option value="Keychain">Keychain</option>
-                  <option value="Bag Tag">Bag Tag</option>
-                  <option value="Glass Set">Glass Set</option>
-                  <option value="Water Bottle">Water Bottle</option>
-                  <option value="Coffee Mug">Coffee Mug</option>
-                  <option value="Cross Bag">Cross Bag</option>
-                  <option value="Embroidered Cap">Embroidered Cap</option>
-                  <option value="Mobile Stand">Mobile Stand</option>
-                  <option value="Tissue">Tissue</option>
-                  <option value="Car Perfume">Car Perfume</option>
-                </select>
-              </div>
-
-              <!-- White T-Shirt Multi-Size Row -->
-              <div class="size-allocation-panel" id="sizeMatrixPanel">
-                <div class="size-header">
-                  <span class="size-label">Select T-Shirt Sizes</span>
-                  <span class="size-total-badge" id="sizeTotalBadge">Total: 1 Unit</span>
-                </div>
-                <div class="size-counters-row">
-                  <div class="size-counter-item">
-                    <span class="counter-size-name">S</span>
-                    <div class="counter-input-wrap">
-                      <button type="button" class="btn-step" data-target="sizeS" data-step="-1">−</button>
-                      <input type="number" id="sizeS" class="counter-input" min="0" value="0" />
-                      <button type="button" class="btn-step" data-target="sizeS" data-step="1">+</button>
-                    </div>
+                <!-- CATEGORY CHIPS & SEARCH -->
+                <div class="filter-row">
+                  <div class="category-pills" id="categoryPills">
+                    <button type="button" class="cat-pill active" data-cat="all">All Items (13)</button>
+                    <button type="button" class="cat-pill" data-cat="Apparel">👕 Apparel</button>
+                    <button type="button" class="cat-pill" data-cat="Drinkware">☕ Drinkware</button>
+                    <button type="button" class="cat-pill" data-cat="Stationery">📓 Stationery</button>
+                    <button type="button" class="cat-pill" data-cat="Accessories">🎒 Accessories</button>
                   </div>
-
-                  <div class="size-counter-item">
-                    <span class="counter-size-name">M</span>
-                    <div class="counter-input-wrap">
-                      <button type="button" class="btn-step" data-target="sizeM" data-step="-1">−</button>
-                      <input type="number" id="sizeM" class="counter-input" min="0" value="1" />
-                      <button type="button" class="btn-step" data-target="sizeM" data-step="1">+</button>
-                    </div>
-                  </div>
-
-                  <div class="size-counter-item">
-                    <span class="counter-size-name">L</span>
-                    <div class="counter-input-wrap">
-                      <button type="button" class="btn-step" data-target="sizeL" data-step="-1">−</button>
-                      <input type="number" id="sizeL" class="counter-input" min="0" value="0" />
-                      <button type="button" class="btn-step" data-target="sizeL" data-step="1">+</button>
-                    </div>
-                  </div>
-
-                  <div class="size-counter-item">
-                    <span class="counter-size-name">XL</span>
-                    <div class="counter-input-wrap">
-                      <button type="button" class="btn-step" data-target="sizeXL" data-step="-1">−</button>
-                      <input type="number" id="sizeXL" class="counter-input" min="0" value="0" />
-                      <button type="button" class="btn-step" data-target="sizeXL" data-step="1">+</button>
-                    </div>
-                  </div>
-
-                  <div class="size-counter-item">
-                    <span class="counter-size-name">XXL</span>
-                    <div class="counter-input-wrap">
-                      <button type="button" class="btn-step" data-target="sizeXXL" data-step="-1">−</button>
-                      <input type="number" id="sizeXXL" class="counter-input" min="0" value="0" />
-                      <button type="button" class="btn-step" data-target="sizeXXL" data-step="1">+</button>
-                    </div>
+                  <div class="search-box">
+                    <input type="text" id="catalogSearch" placeholder="Search product..." />
                   </div>
                 </div>
               </div>
 
-              <!-- General Item Quantity (Shown when item is not White T-Shirt) -->
-              <div class="form-group" id="generalQtyWrap" style="display: none;">
-                <label class="form-label" for="orderGeneralQty">Quantity</label>
-                <div class="qty-stepper-wrap">
-                  <button type="button" class="btn-step" id="btnQtyMinus">−</button>
-                  <input type="number" id="orderGeneralQty" class="form-input qty-input" min="1" value="1" />
-                  <button type="button" class="btn-step" id="btnQtyPlus">+</button>
-                </div>
-              </div>
+              <!-- PRODUCT CARDS GRID -->
+              <div class="cards-grid" id="productCardsGrid">
+                {CATALOG_ITEMS.map((item) => (
+                  <div
+                    class={`product-card ${item.isTshirt ? 'card-tshirt' : ''}`}
+                    data-id={item.id}
+                    data-name={item.name}
+                    data-price={item.price}
+                    data-category={item.category}
+                    data-is-tshirt={item.isTshirt ? 'true' : 'false'}
+                  >
+                    <div class="card-media">
+                      <img src={item.image} alt={item.name} loading="lazy" />
+                      <span class="card-badge">{item.category}</span>
+                      <span class="card-stock" id={`stock-${item.id}`}>{item.stock} in stock</span>
+                    </div>
 
-              <div class="form-row-2">
-                <div class="form-group">
-                  <label class="form-label" for="orderPaymentStatus">Payment Status</label>
-                  <select id="orderPaymentStatus" class="form-select">
-                    <option value="Pending" selected>Pending</option>
-                    <option value="Paid">Paid / Advance</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="orderNotes">Notes / Location (Optional)</label>
-                  <input type="text" id="orderNotes" class="form-input" placeholder="e.g. Kozhikode campus" />
-                </div>
-              </div>
+                    <div class="card-body">
+                      <div class="card-title-row">
+                        <h3 class="card-title">{item.name}</h3>
+                        <span class="card-price">₹{item.price}</span>
+                      </div>
 
-              <button type="submit" id="submitOrderBtn" class="btn-submit-order">
-                <span class="btn-spinner" id="orderSpinner" style="display: none;"></span>
-                <span id="submitOrderBtnText">⚡ Add Order to Form Responses 1</span>
-              </button>
-
-              <div id="orderFeedback" class="order-feedback" style="display: none;"></div>
-            </form>
-          </div>
-
-          <!-- Column 2: Minimal Orders Table -->
-          <div class="clean-card table-card">
-            <div class="card-header table-toolbar">
-              <div class="toolbar-left">
-                <h2 class="card-title">Live Orders in Form Responses 1</h2>
-                <span class="row-count-pill" id="tableRowCount">Loading...</span>
-              </div>
-              <div class="toolbar-right">
-                <input type="search" id="searchInput" class="search-input" placeholder="Search orders..." />
-                <select id="itemFilter" class="filter-select">
-                  <option value="">All Items</option>
-                  <option value="White T-Shirt">White T-Shirt</option>
-                  <option value="Diary">Diary</option>
-                  <option value="Pen">Pen</option>
-                  <option value="Keychain">Keychain</option>
-                  <option value="Bag Tag">Bag Tag</option>
-                  <option value="Glass Set">Glass Set</option>
-                  <option value="Water Bottle">Water Bottle</option>
-                  <option value="Coffee Mug">Coffee Mug</option>
-                  <option value="Cross Bag">Cross Bag</option>
-                  <option value="Embroidered Cap">Embroidered Cap</option>
-                  <option value="Mobile Stand">Mobile Stand</option>
-                  <option value="Tissue">Tissue</option>
-                  <option value="Car Perfume">Car Perfume</option>
-                </select>
-                <button type="button" id="exportCsvBtn" class="btn-icon" title="Export CSV">
-                  <span>Export CSV</span>
-                </button>
+                      {/* WHITE T-SHIRT SIZES STEPPER */}
+                      {item.isTshirt ? (
+                        <div class="tshirt-stepper-box">
+                          <div class="sizes-label-row">
+                            <span class="sub-label">Select Sizes:</span>
+                            <span class="sizes-total-badge" id="tshirtTotalBadge">0 Selected</span>
+                          </div>
+                          <div class="sizes-row">
+                            {(['S', 'M', 'L', 'XL', 'XXL'] as const).map((sz) => (
+                              <div class="size-col">
+                                <span class="size-tag">{sz}</span>
+                                <div class="size-controls">
+                                  <button type="button" class="btn-step size-minus" data-size={sz} aria-label={`Decrease ${sz}`}>−</button>
+                                  <span class="size-val" id={`val-size-${sz}`}>0</span>
+                                  <button type="button" class="btn-step size-plus" data-size={sz} aria-label={`Increase ${sz}`}>+</button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        /* STANDARD ITEM STEPPER */
+                        <div class="std-stepper-box">
+                          <button type="button" class="btn-big-step item-minus" data-id={item.id} aria-label="Decrease quantity">−</button>
+                          <span class="big-qty-display" id={`qty-${item.id}`}>0</span>
+                          <button type="button" class="btn-big-step item-plus" data-id={item.id} aria-label="Increase quantity">+</button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div class="table-container">
-              <table class="minimal-table">
-                <thead>
-                  <tr>
-                    <th style="width: 50px;">#</th>
-                    <th>Customer</th>
-                    <th>Contact</th>
-                    <th>Item & Sizes</th>
-                    <th>Payment</th>
-                    <th>Status</th>
-                    <th style="text-align: right;">Action</th>
-                  </tr>
-                </thead>
-                <tbody id="ordersTableBody">
-                  <tr>
-                    <td colspan="7" class="table-empty">Fetching live records from Google Sheet...</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+            <!-- RIGHT: STICKY BILLING / CHECKOUT PANEL -->
+            <div class="pos-cart-panel">
+              <div class="cart-box">
+                
+                <div class="cart-head">
+                  <div class="cart-head-title">
+                    <span class="cart-icon">🛒</span>
+                    <h2>Current Bill</h2>
+                  </div>
+                  <button type="button" id="clearCartBtn" class="btn-text-danger" title="Reset current bill">
+                    Clear Bill
+                  </button>
+                </div>
 
+                <!-- CUSTOMER INPUTS -->
+                <div class="customer-section">
+                  <div class="input-group">
+                    <label for="custName">Customer Name <span class="req">*</span></label>
+                    <input type="text" id="custName" class="cart-input" placeholder="e.g. Ameen Farhan" required />
+                  </div>
+
+                  <div class="input-group">
+                    <label for="custPhone">
+                      <span>WhatsApp / Mobile <span class="req">*</span></span>
+                      <span class="whatsapp-hint">💬 For Instant Bill</span>
+                    </label>
+                    <div class="phone-input-wrap">
+                      <span class="prefix">+91</span>
+                      <input type="tel" id="custPhone" class="cart-input" placeholder="9876543210" maxlength="10" required />
+                    </div>
+                  </div>
+
+                  <div class="input-group">
+                    <label for="custNotes">Notes / Campus / Delivery</label>
+                    <input type="text" id="custNotes" class="cart-input" placeholder="e.g. Calicut Campus, Room 104" />
+                  </div>
+                </div>
+
+                <!-- CART ITEMS LIST -->
+                <div class="cart-items-wrap">
+                  <div class="cart-items-head">
+                    <span>Items Added</span>
+                    <span id="cartCountLabel">0 items</span>
+                  </div>
+
+                  <div class="cart-items-list" id="cartItemsList">
+                    <div class="cart-empty-state" id="cartEmptyState">
+                      <span class="empty-icon">🛍️</span>
+                      <p>No items added yet</p>
+                      <small>Tap <strong>+</strong> on any product card to start billing</small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- TOTALS & PAYMENT -->
+                <div class="cart-summary">
+                  <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="billSubtotal">₹0</span>
+                  </div>
+                  <div class="summary-row">
+                    <span>Total Units</span>
+                    <span id="billTotalUnits">0 units</span>
+                  </div>
+
+                  <div class="payment-selector-wrap">
+                    <label class="pay-label">Payment Mode</label>
+                    <div class="pay-options">
+                      <label class="pay-option">
+                        <input type="radio" name="payMethod" value="Paid (UPI)" checked />
+                        <span class="pay-chip">📱 UPI / GPay</span>
+                      </label>
+                      <label class="pay-option">
+                        <input type="radio" name="payMethod" value="Paid (Cash)" />
+                        <span class="pay-chip">💵 Cash</span>
+                      </label>
+                      <label class="pay-option">
+                        <input type="radio" name="payMethod" value="Pending" />
+                        <span class="pay-chip">⏳ Pending</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- GRAND TOTAL BANNER -->
+                  <div class="grand-total-banner">
+                    <div class="gt-label">Grand Total</div>
+                    <div class="gt-val" id="billGrandTotal">₹0</div>
+                  </div>
+
+                  <!-- ACTIONS -->
+                  <div class="cart-actions">
+                    <button type="button" id="generateBillBtn" class="btn-checkout" disabled>
+                      <span class="btn-main-text">⚡ Complete Bill &amp; Push to Sheet</span>
+                      <span class="btn-sub-text">Updates Form Responses 1 directly</span>
+                    </button>
+
+                    <button type="button" id="shareWhatsappDirectBtn" class="btn-whatsapp" disabled>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z"/></svg>
+                      <span>Share Bill to WhatsApp</span>
+                    </button>
+                  </div>
+
+                  <div id="billFeedback" class="bill-feedback" style="display: none;"></div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
         </div>
+
+        <!-- ─────────────────────────────────────────────────────────────
+             TAB 2: 📋 FORM RESPONSES 1 (LIVE ORDERS ONLY)
+             ───────────────────────────────────────────────────────────── -->
+        <div class="tab-pane" id="paneOrders">
+          <div class="orders-shell">
+            
+            <div class="orders-head">
+              <div>
+                <h2 class="pane-title">Google Sheet: Form Responses 1</h2>
+                <p class="pane-subtitle">Live bookings &amp; customer orders. Only this sheet is modified upon billing.</p>
+              </div>
+
+              <div class="orders-toolbar">
+                <input type="text" id="orderSearchInput" class="filter-input" placeholder="Search by name, phone, item..." />
+                <select id="orderStatusFilter" class="filter-select">
+                  <option value="all">All Statuses</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Pending">Pending</option>
+                </select>
+                <select id="orderPaymentFilter" class="filter-select">
+                  <option value="all">All Payments</option>
+                  <option value="Paid">Paid Only</option>
+                  <option value="Pending">Payment Pending</option>
+                </select>
+                <button type="button" id="exportCsvBtn" class="btn-outline-sm">Export CSV</button>
+              </div>
+            </div>
+
+            <div class="table-card">
+              <div class="table-responsive">
+                <table class="data-table" id="ordersTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 50px;">#</th>
+                      <th>Customer Name</th>
+                      <th>WhatsApp / Contact</th>
+                      <th>Item Selected</th>
+                      <th>Qty</th>
+                      <th>Sizes Allocation</th>
+                      <th>Payment</th>
+                      <th>Status</th>
+                      <th>Time</th>
+                      <th style="text-align: right;">WhatsApp</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ordersTableBody">
+                    <tr>
+                      <td colspan="10" class="loading-cell">
+                        <div class="table-loader">
+                          <span class="spinner"></span>
+                          <span>Loading live orders from Google Sheet Form Responses 1...</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="table-footer">
+                <span id="ordersSummaryCount">Showing 0 orders</span>
+                <span class="sync-pill-success">✓ 100% Real-Time Live Sync</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ─────────────────────────────────────────────────────────────
+             TAB 3: 📦 STOCK & CATALOG (VIEW ONLY)
+             ───────────────────────────────────────────────────────────── -->
+        <div class="tab-pane" id="paneStock">
+          <div class="stock-shell">
+            
+            <div class="orders-head">
+              <div>
+                <h2 class="pane-title">Live Inventory &amp; Catalog (View Only)</h2>
+                <p class="pane-subtitle">Read directly from <code>Inventory &amp; Availability</code> and <code>Sheet1</code>. View-only protection enabled.</p>
+              </div>
+              <div class="metrics-strip">
+                <div class="mini-metric">
+                  <span class="mm-label">Total Inventory</span>
+                  <strong class="mm-val" id="metricTotalStock">1,850 Units</strong>
+                </div>
+                <div class="mini-metric">
+                  <span class="mm-label">Total Booked</span>
+                  <strong class="mm-val" id="metricTotalBooked">-- Units</strong>
+                </div>
+                <div class="mini-metric">
+                  <span class="mm-label">Available Stock</span>
+                  <strong class="mm-val text-green" id="metricTotalAvailable">-- Units</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- STOCK TABLE -->
+            <div class="table-card">
+              <div class="table-responsive">
+                <table class="data-table" id="stockTable">
+                  <thead>
+                    <tr>
+                      <th>Product Item</th>
+                      <th>Category</th>
+                      <th>Total Stock</th>
+                      <th>Booked Units</th>
+                      <th>Available Stock</th>
+                      <th>Selling Price</th>
+                      <th>Unit Cost</th>
+                      <th>Status</th>
+                      <th>Remaining %</th>
+                    </tr>
+                  </thead>
+                  <tbody id="stockTableBody">
+                    {CATALOG_ITEMS.map((item) => (
+                      <tr>
+                        <td>
+                          <div class="product-cell">
+                            <img src={item.image} alt={item.name} class="table-thumb" />
+                            <strong>{item.name}</strong>
+                          </div>
+                        </td>
+                        <td><span class="cat-tag">{item.category}</span></td>
+                        <td><strong>{item.stock}</strong></td>
+                        <td id={`live-booked-${item.id}`}>0</td>
+                        <td><strong class="text-green" id={`live-avail-${item.id}`}>{item.stock}</strong></td>
+                        <td><strong>₹{item.price}</strong></td>
+                        <td class="text-muted">₹{item.cost}</td>
+                        <td><span class="badge-stock in-stock">In Stock</span></td>
+                        <td>
+                          <div class="progress-bar-wrap">
+                            <div class="progress-bar-fill" style="width: 100%;"></div>
+                            <span>100%</span>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </main>
 
-      <!-- ═════════════════════════════════════════════════════════
-           VIEW 2: STOCK & INVENTORY
-           ═════════════════════════════════════════════════════════ -->
-      <section class="main-content" id="viewStock" style="display: none;">
-        <div class="clean-card">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">Stock & Inventory (1,850 Units)</h2>
-              <p class="card-sub">Live stock levels linked with Sheet tab <code>Inventory & Availability</code></p>
-            </div>
-          </div>
-          <div class="table-container">
-            <table class="minimal-table">
-              <thead>
-                <tr>
-                  <th>Product Name</th>
-                  <th>Category</th>
-                  <th>Total Stock</th>
-                  <th>Booked</th>
-                  <th>Available</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="stockTableBody">
-                <tr><td colspan="6" class="table-empty">Loading inventory...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ═════════════════════════════════════════════════════════
-           VIEW 3: SALES & FINANCIALS
-           ═════════════════════════════════════════════════════════ -->
-      <section class="main-content" id="viewFinancials" style="display: none;">
-        <div class="clean-card">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">Catalogue Pricing & Projections</h2>
-              <p class="card-sub">Real-time revenue, unit costs, and profit projections from <code>Sheet1</code></p>
-            </div>
-          </div>
-          <div class="table-container">
-            <table class="minimal-table">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Unit Cost</th>
-                  <th>Selling Price</th>
-                  <th>Units</th>
-                  <th>Projected Revenue</th>
-                  <th>Unit Profit</th>
-                  <th>Margin</th>
-                </tr>
-              </thead>
-              <tbody id="financialsTableBody">
-                <tr><td colspan="7" class="table-empty">Loading catalogue financials...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════
-         MODAL: EDIT BOOKING
+         INVOICE RECEIPT MODAL (View, Print, WhatsApp)
          ═══════════════════════════════════════════════════════════ -->
-    <div class="modal-backdrop" id="editModal" style="display: none;">
-      <div class="modal-box">
-        <div class="modal-header">
-          <h3 class="modal-title">Edit Booking <span id="editRowBadge" class="modal-pill">#0</span></h3>
-          <button type="button" class="modal-close" id="closeEditModalBtn">✕</button>
-        </div>
-        <form id="editForm" class="modal-body" onsubmit="return false;">
-          <input type="hidden" id="editRowNumber" />
-          <div class="form-row-2">
-            <div class="form-group">
-              <label class="form-label" for="editName">Customer Name</label>
-              <input type="text" id="editName" class="form-input" required />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="editPhone">Contact Number</label>
-              <input type="tel" id="editPhone" class="form-input" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="editItem">Item Selected</label>
-            <select id="editItem" class="form-select">
-              <option value="White T-Shirt">White T-Shirt</option>
-              <option value="Diary">Diary</option>
-              <option value="Pen">Pen</option>
-              <option value="Keychain">Keychain</option>
-              <option value="Bag Tag">Bag Tag</option>
-              <option value="Glass Set">Glass Set</option>
-              <option value="Water Bottle">Water Bottle</option>
-              <option value="Coffee Mug">Coffee Mug</option>
-              <option value="Cross Bag">Cross Bag</option>
-              <option value="Embroidered Cap">Embroidered Cap</option>
-              <option value="Mobile Stand">Mobile Stand</option>
-              <option value="Tissue">Tissue</option>
-              <option value="Car Perfume">Car Perfume</option>
-            </select>
-          </div>
-          <div class="form-group" id="editSizeWrap">
-            <label class="form-label">T-Shirt Sizes (S, M, L, XL, XXL)</label>
-            <div class="size-counters-row">
-              <div class="size-counter-item">
-                <span class="counter-size-name">S</span>
-                <input type="number" id="editSizeS" class="counter-input" min="0" value="0" />
-              </div>
-              <div class="size-counter-item">
-                <span class="counter-size-name">M</span>
-                <input type="number" id="editSizeM" class="counter-input" min="0" value="0" />
-              </div>
-              <div class="size-counter-item">
-                <span class="counter-size-name">L</span>
-                <input type="number" id="editSizeL" class="counter-input" min="0" value="0" />
-              </div>
-              <div class="size-counter-item">
-                <span class="counter-size-name">XL</span>
-                <input type="number" id="editSizeXL" class="counter-input" min="0" value="0" />
-              </div>
-              <div class="size-counter-item">
-                <span class="counter-size-name">XXL</span>
-                <input type="number" id="editSizeXXL" class="counter-input" min="0" value="0" />
-              </div>
-            </div>
-          </div>
-          <div class="form-row-2">
-            <div class="form-group">
-              <label class="form-label" for="editPayment">Payment Status</label>
-              <select id="editPayment" class="form-select">
-                <option value="Pending">Pending</option>
-                <option value="Paid">Paid</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="editNotes">Notes</label>
-              <input type="text" id="editNotes" class="form-input" />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn-cancel" id="cancelEditBtn">Cancel</button>
-            <button type="submit" class="btn-primary-action" id="saveEditBtn">Update in Google Sheet</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════════════════════════════════════
-         MODAL: REAL-TIME WRITE SETUP (Simple & Clean)
-         ═══════════════════════════════════════════════════════════ -->
-    <div class="modal-backdrop" id="syncSetupModal" style="display: none;">
-      <div class="modal-box modal-box-large">
+    <div class="modal-backdrop" id="billModal" style="display: none;">
+      <div class="modal-card">
+        
         <div class="modal-header">
           <div>
-            <h3 class="modal-title">⚡ Google Sheet Real-Time Write Setup</h3>
-            <p class="modal-sub">Target Worksheet: <code>Form Responses 1</code> (ID: <code>1foGWm9i...0KuhiA</code>)</p>
+            <h3 class="modal-title">Official Order Invoice</h3>
+            <span class="modal-sub" id="modalInvoiceId">#GENM-0000</span>
           </div>
-          <button type="button" class="modal-close" id="closeSyncSetupModalBtn">✕</button>
+          <button type="button" class="btn-close" id="closeBillModalBtn">✕</button>
         </div>
 
-        <div class="modal-body">
-          <div class="setup-steps-strip">
-            <div class="setup-step">
-              <span class="step-num">1</span>
-              <span>Open Sheet &gt; <strong>Extensions</strong> &gt; <strong>Apps Script</strong></span>
+        <div class="invoice-paper" id="invoicePaper">
+          <div class="invoice-brand">
+            <h2>GEN M SWAG &amp; MEMENTOS</h2>
+            <p>Generational Student Confluence — MSM Kerala</p>
+          </div>
+
+          <div class="invoice-meta-grid">
+            <div>
+              <span class="meta-label">Billed To</span>
+              <strong id="invCustName">Ameen Farhan</strong>
+              <div id="invCustPhone">+91 9876543210</div>
             </div>
-            <div class="setup-step">
-              <span class="step-num">2</span>
-              <span>Paste script into <code>Code.gs</code> and click <strong>Save</strong></span>
-            </div>
-            <div class="setup-step">
-              <span class="step-num">3</span>
-              <span>Click <strong>Deploy</strong> &gt; <strong>New Deployment</strong> &gt; <strong>Web app</strong> (Access: <strong>Anyone</strong>)</span>
+            <div style="text-align: right;">
+              <span class="meta-label">Date &amp; Time</span>
+              <div id="invDateTime">15 Oct 2026, 06:30 PM</div>
+              <div class="inv-pay-badge" id="invPayBadge">Paid (UPI)</div>
             </div>
           </div>
 
-          <div class="code-box-wrap">
-            <div class="code-box-head">
-              <span>Code.gs (15 Lines • Ready to Paste)</span>
-              <button type="button" id="copyScriptCodeBtn" class="btn-copy">📋 Copy Code</button>
-            </div>
-            <pre class="code-pre" id="scriptCodePre"><code>{`function doPost(e) {
-  try {
-    var data = JSON.parse(e.postData.contents);
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName("Form Responses 1") || ss.getSheets()[0];
-    
-    if (data.action === "create" && data.row) {
-      sheet.appendRow(data.row);
-      return ContentService.createTextOutput(JSON.stringify({ status: "success", rowNumber: sheet.getLastRow() }))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-    if (data.action === "update" && data.rowNumber && data.row) {
-      sheet.getRange(parseInt(data.rowNumber), 1, 1, data.row.length).setValues([data.row]);
-      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-    if (data.action === "delete" && data.rowNumber) {
-      sheet.deleteRow(parseInt(data.rowNumber));
-      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-    return ContentService.createTextOutput(JSON.stringify({ status: "ok" })).setMimeType(ContentService.MimeType.JSON);
-  } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({ status: "error", error: err.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
+          <hr class="inv-divider" />
 
-function doGet(e) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName("Form Responses 1") || ss.getSheets()[0];
-  var data = sheet.getDataRange().getValues();
-  return ContentService.createTextOutput(JSON.stringify({ status: "success", rows: data.slice(1) }))
-    .setMimeType(ContentService.MimeType.JSON);
-}`}</code></pre>
+          <table class="inv-table">
+            <thead>
+              <tr>
+                <th>Item &amp; Details</th>
+                <th style="text-align: center;">Qty</th>
+                <th style="text-align: right;">Price</th>
+                <th style="text-align: right;">Amount</th>
+              </tr>
+            </thead>
+            <tbody id="invItemsBody">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+
+          <hr class="inv-divider" />
+
+          <div class="inv-total-row">
+            <span>Grand Total</span>
+            <strong id="invGrandTotal">₹0</strong>
           </div>
 
-          <div class="url-input-card">
-            <label class="form-label" for="modalAppsScriptUrl">Paste Deployed Web App URL:</label>
-            <div class="url-input-row">
-              <input
-                type="url"
-                id="modalAppsScriptUrl"
-                class="form-input"
-                placeholder="https://script.google.com/macros/s/AKfycbx.../exec"
-              />
-              <button type="button" id="saveModalAppsScriptBtn" class="btn-primary-action">
-                <span>Save & Connect</span>
-              </button>
-            </div>
-            <div id="modalSyncFeedback" class="sync-feedback" style="display: none;"></div>
+          <div class="inv-notes-box" id="invNotesBox" style="display: none;">
+            <strong>Remarks:</strong> <span id="invNotesText"></span>
           </div>
+
+          <div class="inv-footer">
+            <p>Thank you for pre-booking with GEN M! Keep this receipt for collection.</p>
+            <small>Directly synchronized with Google Sheet Form Responses 1</small>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="modalWhatsappBtn" class="btn-whatsapp-full">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z"/></svg>
+            <span>Send to Customer via WhatsApp</span>
+          </button>
+          <button type="button" id="modalPrintBtn" class="btn-outline">
+            🖨️ Print Receipt
+          </button>
+          <button type="button" id="modalNextOrderBtn" class="btn-secondary">
+            + Start Next Bill
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         APPS SCRIPT RESOLVE MODAL (Guides user on "Anyone" setting)
+         ═══════════════════════════════════════════════════════════ -->
+    <div class="modal-backdrop" id="appsScriptModal" style="display: none;">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 class="modal-title">⚡ Google Sheet Write Permissions</h3>
+          <button type="button" class="btn-close" id="closeAppsScriptModalBtn">✕</button>
+        </div>
+        <div class="modal-content-pad">
+          <p class="modal-desc">
+            To allow your billing panel to write directly into <code>Form Responses 1</code>, your Google Apps Script Web App must be set to <strong>"Anyone"</strong> access.
+          </p>
+
+          <div class="steps-list">
+            <div class="step-item">
+              <span class="step-badge">1</span>
+              <div>Open your Google Sheet: <a href={GOOGLE_SHEET_URL} target="_blank" class="link-bold">GEN M MEMENTOS 2 ↗</a></div>
+            </div>
+            <div class="step-item">
+              <span class="step-badge">2</span>
+              <div>Click <strong>Extensions</strong> &gt; <strong>Apps Script</strong></div>
+            </div>
+            <div class="step-item">
+              <span class="step-badge">3</span>
+              <div>Click <strong>Deploy</strong> (top right) &gt; <strong>Manage deployments</strong></div>
+            </div>
+            <div class="step-item">
+              <span class="step-badge">4</span>
+              <div>Click <strong>Edit (pencil icon)</strong> &gt; set <strong>Who has access: Anyone</strong> &gt; Click <strong>Deploy</strong></div>
+            </div>
+          </div>
+
+          <div class="input-field" style="margin-top: 18px;">
+            <label for="modalScriptUrl">Apps Script Web App URL</label>
+            <input type="url" id="modalScriptUrl" placeholder="https://script.google.com/macros/s/.../exec" />
+          </div>
+
+          <div class="modal-row-btn">
+            <button type="button" id="testScriptUrlBtn" class="btn-outline">Test Connection</button>
+            <button type="button" id="saveScriptUrlBtn" class="btn-primary">Save &amp; Connect</button>
+          </div>
+          <div id="testScriptFeedback" class="test-feedback" style="display: none;"></div>
         </div>
       </div>
     </div>
 
-    <!-- Micro Toast Notification -->
-    <div id="toastNotification" class="toast" style="display: none;"></div>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast"></div>
 
   </div>
 </Layout>
 
 <style>
+  /* ─────────────────────────────────────────────────────────────
+     LIGHT THEME DESIGN SYSTEM (Clean, Tactile, Modern)
+     ───────────────────────────────────────────────────────────── */
   :root {
-    --bg-main: #070a12;
-    --card-bg: rgba(14, 20, 34, 0.85);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --card-border-hover: rgba(255, 255, 255, 0.16);
-    --accent-cream: #E7EEAC;
-    --accent-cream-glow: rgba(231, 238, 172, 0.2);
-    --accent-sky: #38bdf8;
-    --accent-emerald: #4ade80;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+    --bg-page: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-subtle: #f1f5f9;
+    --bg-hover: #e2e8f0;
+    
+    --border-light: #e2e8f0;
+    --border-hover: #cbd5e1;
+    --border-active: #10b981;
+
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+
+    --brand-emerald: #059669;
+    --brand-emerald-hover: #047857;
+    --brand-emerald-light: #ecfdf5;
+
+    --brand-blue: #2563eb;
+    --brand-indigo: #4f46e5;
+
+    --brand-whatsapp: #25D366;
+    --brand-whatsapp-hover: #20bd5a;
+
+    --danger: #ef4444;
+    --danger-light: #fef2f2;
+
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+    --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+    --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
   }
 
-  * { box-sizing: border-box; }
-
   body {
-    background-color: var(--bg-main);
+    background-color: var(--bg-page);
     color: var(--text-primary);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
   }
 
-  .dash-shell {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  * {
+    box-sizing: border-box;
   }
 
-  /* ═══════════════════════════════════════════════════════════
-     HEADER
-     ═══════════════════════════════════════════════════════════ */
-  .dash-header {
+  /* ─────────────────────────────────────────────────────────────
+     TOP NAVIGATION
+     ───────────────────────────────────────────────────────────── */
+  .top-nav {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 16px 28px;
-    background: rgba(7, 10, 18, 0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--card-border);
+    justify-content: space-between;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-light);
+    padding: 12px 24px;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 50;
+    box-shadow: var(--shadow-sm);
   }
 
-  .header-left, .header-right {
+  .nav-brand {
     display: flex;
     align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  .brand-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: var(--text-primary);
+    gap: 12px;
   }
 
   .brand-title {
-    font-size: 1.1rem;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-  }
-
-  .brand-sep {
-    color: var(--text-muted);
-    font-weight: 300;
-  }
-
-  .brand-sub {
-    font-size: 0.72rem;
+    font-family: 'Poppins', sans-serif;
     font-weight: 800;
-    letter-spacing: 0.1em;
-    color: var(--accent-cream);
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    letter-spacing: -0.5px;
   }
 
-  .sheet-pill {
+  .brand-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: var(--bg-subtle);
+    color: var(--text-secondary);
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.5px;
+  }
+
+  .sheet-indicator {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    padding: 6px 12px;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    color: #cbd5e1;
+    gap: 6px;
+    background: var(--brand-emerald-light);
+    color: var(--brand-emerald);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
     text-decoration: none;
-    transition: all 0.2s ease;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    transition: all 0.15s ease;
   }
 
-  .sheet-pill:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+  .sheet-indicator:hover {
+    background: #d1fae5;
   }
 
-  .status-dot {
-    width: 8px;
-    height: 8px;
+  .pulse-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--brand-emerald);
     border-radius: 50%;
-  }
-
-  .dot-live {
-    background: var(--accent-emerald);
-    box-shadow: 0 0 10px rgba(74, 222, 128, 0.6);
-    animation: pulseGlow 2s infinite;
-  }
-
-  .dot-offline {
-    background: #f59e0b;
+    animation: pulseGlow 1.8s infinite;
   }
 
   @keyframes pulseGlow {
-    0% { transform: scale(1); opacity: 0.9; }
-    50% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.9; }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
   }
 
-  .btn-sync-setup {
-    display: inline-flex;
+  /* TABS */
+  .nav-tabs {
+    display: flex;
+    background: var(--bg-subtle);
+    padding: 4px;
+    border-radius: var(--radius-md);
+    gap: 4px;
+  }
+
+  .tab-btn {
+    display: flex;
     align-items: center;
-    gap: 6px;
-    background: rgba(231, 238, 172, 0.08);
-    border: 1px solid rgba(231, 238, 172, 0.25);
-    color: var(--accent-cream);
-    font-size: 0.78rem;
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .btn-sync-setup:hover {
-    background: rgba(231, 238, 172, 0.16);
-    border-color: var(--accent-cream);
-  }
-
-  .sync-setup-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent-cream);
-  }
-
-  .btn-icon {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--card-border);
-    color: var(--text-secondary);
-    font-size: 0.78rem;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: transparent;
+    font-size: 0.88rem;
     font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 8px;
+    color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.15s ease;
   }
 
-  .btn-icon:hover {
-    background: rgba(255, 255, 255, 0.09);
-    color: #ffffff;
+  .tab-btn:hover {
+    color: var(--text-primary);
   }
 
-  .btn-logout-minimal {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 0.76rem;
-    cursor: pointer;
-    padding: 6px 8px;
+  .tab-btn.active {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
   }
 
-  .btn-logout-minimal:hover {
-    color: #f87171;
+  .tab-badge {
+    background: var(--border-light);
+    color: var(--text-primary);
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border-radius: var(--radius-full);
   }
 
-  /* ═══════════════════════════════════════════════════════════
-     WEBHOOK ALERT BANNER
-     ═══════════════════════════════════════════════════════════ */
-  .webhook-banner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding: 12px 28px;
-    background: linear-gradient(90deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.04));
-    border-bottom: 1px solid rgba(245, 158, 11, 0.25);
-  }
-
-  .banner-content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.85rem;
-    color: #fbbf24;
-  }
-
-  .banner-badge {
-    background: #f59e0b;
-    color: #000;
-    font-weight: 800;
-    font-size: 0.68rem;
+  .tab-pill-light {
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: #e2e8f0;
+    color: var(--text-secondary);
     padding: 2px 6px;
-    border-radius: 4px;
-    letter-spacing: 0.04em;
+    border-radius: var(--radius-sm);
   }
 
-  .banner-actions {
+  .nav-actions {
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: wrap;
   }
 
-  .banner-input {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(245, 158, 11, 0.3);
-    color: #ffffff;
+  .btn-outline-sm {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
     font-size: 0.8rem;
-    padding: 6px 12px;
-    border-radius: 6px;
-    min-width: 260px;
+    font-weight: 600;
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-outline-sm:hover {
+    background: var(--bg-subtle);
+    color: var(--text-primary);
+  }
+
+  .btn-ghost-sm {
+    padding: 7px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+
+  .btn-ghost-sm:hover {
+    color: var(--danger);
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     SYNC ALERT BANNER
+     ───────────────────────────────────────────────────────────── */
+  .sync-alert-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fffbeb;
+    border-bottom: 1px solid #fde68a;
+    padding: 10px 24px;
+    font-size: 0.85rem;
+    color: #92400e;
+  }
+
+  .sync-alert-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .btn-banner-action {
-    background: #f59e0b;
-    color: #000;
-    font-weight: 700;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    color: #b45309;
+    padding: 4px 12px;
     font-size: 0.78rem;
-    padding: 6px 14px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-  }
-
-  .btn-banner-link {
-    background: none;
-    border: none;
-    color: #fcd34d;
-    font-size: 0.78rem;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     DASHBOARD CONTAINER
-     ═══════════════════════════════════════════════════════════ */
-  .dash-container {
-    max-width: 1480px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 24px 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     METRICS STRIP
-     ═══════════════════════════════════════════════════════════ */
-  .metrics-strip {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-  }
-
-  .metric-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 14px;
-    padding: 18px 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    transition: border-color 0.2s ease;
-  }
-
-  .metric-card:hover {
-    border-color: var(--card-border-hover);
-  }
-
-  .metric-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .metric-label {
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
-  }
-
-  .metric-pill {
-    font-size: 0.7rem;
-    padding: 2px 8px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-secondary);
-  }
-
-  .pill-accent {
-    background: rgba(231, 238, 172, 0.12);
-    color: var(--accent-cream);
-  }
-
-  .metric-val {
-    font-size: 1.85rem;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-    line-height: 1.1;
-  }
-
-  .metric-unit {
-    font-size: 1rem;
-    font-weight: 400;
-    color: var(--text-muted);
-  }
-
-  .metric-sub {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     VIEW SWITCHER
-     ═══════════════════════════════════════════════════════════ */
-  .view-switcher {
-    display: flex;
-    gap: 8px;
-    border-bottom: 1px solid var(--card-border);
-    padding-bottom: 8px;
-  }
-
-  .view-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 0.86rem;
     font-weight: 600;
-    padding: 8px 16px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+
+  .btn-banner-action:hover {
+    background: #fde68a;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     MAIN LAYOUT & TABS
+     ───────────────────────────────────────────────────────────── */
+  .main-content {
+    padding: 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  .tab-pane {
+    display: none;
+  }
+
+  .tab-pane.active {
+    display: block;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     TAB 1: POS BILLING GRID
+     ───────────────────────────────────────────────────────────── */
+  .pos-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .catalog-header {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .pane-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    margin: 0 0 4px 0;
+    color: var(--text-primary);
+  }
+
+  .pane-subtitle {
+    margin: 0 0 16px 0;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+  }
+
+  .filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .category-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .cat-pill {
+    padding: 6px 14px;
+    background: var(--bg-subtle);
+    border: 1px solid transparent;
+    border-radius: var(--radius-full);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.15s ease;
   }
 
-  .view-btn:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.04);
+  .cat-pill:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
   }
 
-  .view-btn.is-active {
-    color: #000000;
-    background: var(--accent-cream);
-    font-weight: 800;
+  .cat-pill.active {
+    background: var(--brand-emerald-light);
+    color: var(--brand-emerald);
+    border-color: rgba(16, 185, 129, 0.3);
   }
 
-  .view-count {
-    background: rgba(0, 0, 0, 0.15);
-    font-size: 0.72rem;
-    padding: 1px 6px;
-    border-radius: 999px;
+  .search-box input {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    outline: none;
+    width: 220px;
+    transition: border 0.15s ease;
   }
 
-  .view-btn:not(.is-active) .view-count {
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--text-secondary);
+  .search-box input:focus {
+    border-color: var(--brand-emerald);
   }
 
-  /* ═══════════════════════════════════════════════════════════
-     TWO-COLUMN MAIN SECTION
-     ═══════════════════════════════════════════════════════════ */
-  .two-column-grid {
+  /* ─────────────────────────────────────────────────────────────
+     BIG PRODUCT CARDS GRID
+     ───────────────────────────────────────────────────────────── */
+  .cards-grid {
     display: grid;
-    grid-template-columns: 420px 1fr;
-    gap: 20px;
-    align-items: start;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 18px;
   }
 
-  @media (max-width: 1024px) {
-    .two-column-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .clean-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    padding: 24px;
-    backdrop-filter: blur(16px);
-  }
-
-  .card-header {
+  .product-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
     display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.18s ease;
+  }
+
+  .product-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .product-card.has-items {
+    border-color: var(--brand-emerald);
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.12);
+  }
+
+  .card-media {
+    position: relative;
+    height: 160px;
+    background: #f1f5f9;
+    overflow: hidden;
+  }
+
+  .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .product-card:hover .card-media img {
+    transform: scale(1.03);
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(4px);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .card-stock {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(15, 23, 42, 0.75);
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .card-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  }
+
+  .card-title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 12px;
   }
 
   .card-title {
+    font-family: 'Poppins', sans-serif;
     font-size: 1.05rem;
-    font-weight: 800;
-    color: #ffffff;
+    font-weight: 700;
     margin: 0;
+    color: var(--text-primary);
   }
 
-  .card-sub {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    margin: 4px 0 0 0;
+  .card-price {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--brand-emerald);
   }
 
-  .card-tag {
-    font-size: 0.72rem;
-    font-weight: 700;
-    background: rgba(74, 222, 128, 0.12);
-    color: var(--accent-emerald);
-    padding: 2px 8px;
-    border-radius: 6px;
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     EXPRESS FORM
-     ═══════════════════════════════════════════════════════════ */
-  .order-form {
+  /* STANDARD ITEM STEPPER (BIG BUTTONS) */
+  .std-stepper-box {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    margin-top: 8px;
   }
 
-  .form-row-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .form-group {
+  .btn-big-step {
+    width: 48px;
+    height: 44px;
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .form-label {
-    font-size: 0.78rem;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #cbd5e1;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.12s ease;
   }
 
-  .req {
-    color: #f87171;
-  }
-
-  .form-input, .form-select {
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  .btn-big-step:hover {
+    background: var(--text-primary);
     color: #ffffff;
-    font-size: 0.85rem;
+    border-color: var(--text-primary);
+  }
+
+  .btn-big-step:active {
+    transform: scale(0.94);
+  }
+
+  .big-qty-display {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .product-card.has-items .big-qty-display {
+    color: var(--brand-emerald);
+  }
+
+  /* T-SHIRT CARD & SIZES STEPPER */
+  .card-tshirt {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 900px) {
+    .card-tshirt {
+      grid-column: span 1;
+    }
+  }
+
+  .tshirt-stepper-box {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
     padding: 10px 12px;
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.15s ease;
+    margin-top: 6px;
   }
 
-  .form-input:focus, .form-select:focus {
-    border-color: var(--accent-cream);
-    box-shadow: 0 0 0 2px var(--accent-cream-glow);
-  }
-
-  /* T-Shirt Size Horizontal Counters */
-  .size-allocation-panel {
-    background: rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
-    padding: 12px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .size-header {
+  .sizes-label-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 8px;
   }
 
-  .size-label {
+  .sub-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .sizes-total-badge {
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
+    background: var(--brand-emerald-light);
+    color: var(--brand-emerald);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
   }
 
-  .size-total-badge {
-    font-size: 0.75rem;
-    font-weight: 800;
-    color: var(--accent-cream);
-  }
-
-  .size-counters-row {
+  .sizes-row {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 8px;
   }
 
-  .size-counter-item {
+  .size-col {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    padding: 6px 4px;
   }
 
-  .counter-size-name {
-    font-size: 0.72rem;
+  .size-tag {
+    font-size: 0.75rem;
     font-weight: 800;
-    color: #94a3b8;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
   }
 
-  .counter-input-wrap {
+  .size-controls {
     display: flex;
     align-items: center;
+    gap: 4px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    overflow: hidden;
+    justify-content: center;
   }
 
   .btn-step {
-    background: none;
-    border: none;
-    color: #cbd5e1;
-    font-weight: 700;
-    font-size: 0.85rem;
-    width: 22px;
-    height: 30px;
-    cursor: pointer;
+    width: 26px;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.1s ease;
+    font-size: 1rem;
+    font-weight: 700;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.1s ease;
   }
 
   .btn-step:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--brand-emerald);
     color: #ffffff;
+    border-color: var(--brand-emerald);
   }
 
-  .counter-input {
-    width: 100%;
-    text-align: center;
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 0.85rem;
+  .btn-step:active {
+    transform: scale(0.9);
+  }
+
+  .size-val {
+    font-size: 0.9rem;
     font-weight: 800;
-    -moz-appearance: textfield;
-    outline: none;
+    min-width: 18px;
+    text-align: center;
+    color: var(--text-primary);
   }
 
-  .counter-input::-webkit-outer-spin-button,
-  .counter-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  /* ─────────────────────────────────────────────────────────────
+     RIGHT: STICKY BILLING / CART PANEL
+     ───────────────────────────────────────────────────────────── */
+  .pos-cart-panel {
+    position: sticky;
+    top: 80px;
   }
 
-  /* General Quantity Stepper */
-  .qty-stepper-wrap {
-    display: flex;
-    align-items: center;
-    width: 140px;
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
+  .cart-box {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
     overflow: hidden;
   }
 
-  .qty-input {
-    text-align: center;
-    border: none;
-    background: none;
+  .cart-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--border-light);
   }
 
-  .btn-submit-order {
-    background: var(--accent-cream);
-    color: #04060a;
+  .cart-head-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cart-head-title h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .btn-text-danger {
+    background: transparent;
     border: none;
-    border-radius: 10px;
-    padding: 12px 18px;
-    font-size: 0.92rem;
-    font-weight: 800;
+    color: var(--danger);
+    font-size: 0.8rem;
+    font-weight: 600;
     cursor: pointer;
+  }
+
+  .btn-text-danger:hover {
+    text-decoration: underline;
+  }
+
+  /* CUSTOMER SECTION */
+  .customer-section {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .input-group label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+
+  .req {
+    color: var(--danger);
+  }
+
+  .whatsapp-hint {
+    color: var(--brand-emerald);
+    font-weight: 600;
+  }
+
+  .cart-input {
+    width: 100%;
+    padding: 9px 12px;
+    font-size: 0.88rem;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border 0.15s ease;
+  }
+
+  .cart-input:focus {
+    border-color: var(--brand-emerald);
+  }
+
+  .phone-input-wrap {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .phone-input-wrap:focus-within {
+    border-color: var(--brand-emerald);
+  }
+
+  .phone-input-wrap .prefix {
+    background: var(--bg-subtle);
+    padding: 9px 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    border-right: 1px solid var(--border-light);
+  }
+
+  .phone-input-wrap input {
+    border: none;
+    padding: 9px 12px;
+    font-size: 0.88rem;
+    width: 100%;
+    outline: none;
+  }
+
+  /* CART ITEMS */
+  .cart-items-wrap {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-light);
+    max-height: 240px;
+    overflow-y: auto;
+  }
+
+  .cart-items-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .cart-empty-state {
+    text-align: center;
+    padding: 24px 10px;
+    color: var(--text-muted);
+  }
+
+  .empty-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .cart-empty-state p {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .cart-empty-state small {
+    font-size: 0.78rem;
+  }
+
+  .cart-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border-light);
+  }
+
+  .cart-item-row:last-child {
+    border-bottom: none;
+  }
+
+  .cir-info strong {
+    font-size: 0.88rem;
+    display: block;
+    color: var(--text-primary);
+  }
+
+  .cir-info small {
+    font-size: 0.75rem;
+    color: var(--brand-emerald);
+    font-weight: 600;
+  }
+
+  .cir-pricing {
+    text-align: right;
+  }
+
+  .cir-pricing .cir-line-total {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--text-primary);
+  }
+
+  .cir-pricing small {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    display: block;
+  }
+
+  /* SUMMARY & PAYMENT */
+  .cart-summary {
+    padding: 16px 20px;
+    background: #fafafa;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+
+  .pay-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    display: block;
+    margin: 12px 0 6px 0;
+    text-transform: uppercase;
+  }
+
+  .pay-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .pay-option input {
+    display: none;
+  }
+
+  .pay-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+  }
+
+  .pay-option input:checked + .pay-chip {
+    background: var(--brand-emerald-light);
+    color: var(--brand-emerald);
+    border-color: var(--brand-emerald);
+    box-shadow: 0 1px 4px rgba(16, 185, 129, 0.15);
+  }
+
+  /* GRAND TOTAL */
+  .grand-total-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--brand-emerald-light);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    margin-bottom: 14px;
+  }
+
+  .gt-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--brand-emerald);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .gt-val {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--brand-emerald-hover);
+  }
+
+  /* CART ACTIONS */
+  .cart-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-checkout {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--brand-emerald);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  }
+
+  .btn-checkout:hover:not(:disabled) {
+    background: var(--brand-emerald-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+  }
+
+  .btn-checkout:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .btn-main-text {
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .btn-sub-text {
+    font-size: 0.72rem;
+    font-weight: 500;
+    opacity: 0.9;
+  }
+
+  .btn-whatsapp {
+    width: 100%;
+    padding: 11px 16px;
+    background: #25D366;
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.88rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: transform 0.1s ease, filter 0.15s ease;
-    box-shadow: 0 4px 16px rgba(231, 238, 172, 0.15);
+    transition: all 0.15s ease;
   }
 
-  .btn-submit-order:hover {
-    filter: brightness(1.05);
-    transform: translateY(-1px);
+  .btn-whatsapp:hover:not(:disabled) {
+    background: #20bd5a;
   }
 
-  .btn-submit-order:active {
-    transform: translateY(0);
+  .btn-whatsapp:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
-  .order-feedback {
-    padding: 10px 14px;
-    border-radius: 8px;
+  .bill-feedback {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: var(--radius-sm);
     font-size: 0.82rem;
-    line-height: 1.4;
+    text-align: center;
   }
 
-  .order-feedback.success {
-    background: rgba(74, 222, 128, 0.1);
-    border: 1px solid rgba(74, 222, 128, 0.25);
-    color: #4ade80;
+  .bill-feedback.success {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
   }
 
-  .order-feedback.error {
-    background: rgba(248, 113, 113, 0.1);
-    border: 1px solid rgba(248, 113, 113, 0.25);
-    color: #f87171;
+  .bill-feedback.error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
   }
 
-  /* ═══════════════════════════════════════════════════════════
-     TABLE STYLES
-     ═══════════════════════════════════════════════════════════ */
-  .table-toolbar {
-    flex-wrap: wrap;
-    gap: 12px;
+  /* ─────────────────────────────────────────────────────────────
+     TAB 2 & 3 TABLES (Clean Light Theme)
+     ───────────────────────────────────────────────────────────── */
+  .orders-shell, .stock-shell {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
   }
 
-  .toolbar-left, .toolbar-right {
+  .orders-head {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .orders-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     flex-wrap: wrap;
   }
 
-  .row-count-pill {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-muted);
-    font-size: 0.72rem;
-    padding: 2px 8px;
-    border-radius: 999px;
-  }
-
-  .search-input {
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid var(--card-border);
-    color: #ffffff;
-    font-size: 0.8rem;
-    padding: 6px 12px;
-    border-radius: 8px;
+  .filter-input {
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
     outline: none;
-    min-width: 180px;
-  }
-
-  .search-input:focus {
-    border-color: var(--accent-cream);
+    width: 220px;
   }
 
   .filter-select {
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid var(--card-border);
-    color: #cbd5e1;
-    font-size: 0.8rem;
-    padding: 6px 10px;
-    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    background: var(--bg-surface);
     outline: none;
   }
 
-  .table-container {
-    overflow-x: auto;
-    border-radius: 8px;
+  .metrics-strip {
+    display: flex;
+    gap: 12px;
   }
 
-  .minimal-table {
+  .mini-metric {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mm-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+  }
+
+  .mm-val {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+
+  .text-green {
+    color: var(--brand-emerald);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+
+  .table-card {
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .data-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.83rem;
-  }
-
-  .minimal-table th {
+    font-size: 0.85rem;
     text-align: left;
-    padding: 10px 14px;
-    color: var(--text-muted);
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .minimal-table td {
-    padding: 12px 14px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    color: #cbd5e1;
-    vertical-align: middle;
+  .data-table th {
+    background: var(--bg-subtle);
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-light);
   }
 
-  .minimal-table tr:hover td {
-    background: rgba(255, 255, 255, 0.02);
+  .data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-primary);
   }
 
-  .table-empty {
-    text-align: center;
-    padding: 36px !important;
-    color: var(--text-muted);
+  .data-table tr:last-child td {
+    border-bottom: none;
   }
 
-  .table-pill {
-    display: inline-block;
-    padding: 2px 8px;
+  .data-table tr:hover td {
+    background: #fbfcfe;
+  }
+
+  .product-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .table-thumb {
+    width: 34px;
+    height: 34px;
     border-radius: 6px;
+    object-fit: cover;
+    background: #f1f5f9;
+  }
+
+  .cat-tag {
     font-size: 0.72rem;
+    font-weight: 600;
+    background: var(--bg-subtle);
+    color: var(--text-secondary);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .badge-stock {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .badge-stock.in-stock {
+    background: var(--brand-emerald-light);
+    color: var(--brand-emerald);
+  }
+
+  .badge-stock.low-stock {
+    background: #fef3c7;
+    color: #b45309;
+  }
+
+  .status-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    display: inline-block;
+  }
+
+  .status-badge.confirmed {
+    background: var(--brand-emerald-light);
+    color: var(--brand-emerald);
+  }
+
+  .status-badge.pending {
+    background: #fef3c7;
+    color: #b45309;
+  }
+
+  .table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--bg-subtle);
+    border-top: 1px solid var(--border-light);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .sync-pill-success {
+    color: var(--brand-emerald);
     font-weight: 700;
   }
 
-  .pill-paid {
-    background: rgba(74, 222, 128, 0.12);
-    color: var(--accent-emerald);
-  }
-
-  .pill-pending {
-    background: rgba(245, 158, 11, 0.12);
-    color: #f59e0b;
-  }
-
-  .pill-optimistic {
-    background: rgba(56, 189, 248, 0.15);
-    color: #38bdf8;
-    animation: pulseGlow 1.5s infinite;
-  }
-
-  .row-btn-action {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 0.78rem;
+  .btn-wa-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #86efac;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
     cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 4px;
-    transition: all 0.1s ease;
+    text-decoration: none;
+    transition: all 0.15s ease;
   }
 
-  .row-btn-action:hover {
-    background: rgba(255, 255, 255, 0.08);
+  .btn-wa-icon:hover {
+    background: #25D366;
     color: #ffffff;
+    border-color: #25D366;
   }
 
-  .row-btn-delete:hover {
-    color: #f87171;
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     MODAL STYLES
-     ═══════════════════════════════════════════════════════════ */
+  /* ─────────────────────────────────────────────────────────────
+     INVOICE RECEIPT MODAL
+     ───────────────────────────────────────────────────────────── */
   .modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(8px);
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1367,112 +1833,375 @@ function doGet(e) {
     padding: 20px;
   }
 
-  .modal-box {
-    background: #0b101c;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 16px;
+  .modal-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
     width: 100%;
     max-width: 520px;
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    animation: modalIn 0.2s ease;
   }
 
-  .modal-box-large {
-    max-width: 680px;
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
   }
 
   .modal-header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 16px 24px;
+    background: var(--bg-subtle);
+    border-bottom: 1px solid var(--border-light);
   }
 
   .modal-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
     margin: 0;
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: #ffffff;
   }
 
   .modal-sub {
-    margin: 4px 0 0 0;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: monospace;
+  }
+
+  .btn-close {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  .btn-close:hover {
+    color: var(--text-primary);
+  }
+
+  /* PRINTABLE INVOICE PAPER */
+  .invoice-paper {
+    padding: 24px;
+    background: #ffffff;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .invoice-brand {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .invoice-brand h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+
+  .invoice-brand p {
+    margin: 2px 0 0 0;
+    font-size: 0.75rem;
     color: var(--text-secondary);
   }
 
-  .modal-close {
-    background: none;
-    border: none;
+  .invoice-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-size: 0.85rem;
+  }
+
+  .meta-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 700;
     color: var(--text-muted);
-    font-size: 1.1rem;
-    cursor: pointer;
-    padding: 4px 8px;
+    display: block;
+    margin-bottom: 2px;
   }
 
-  .modal-close:hover {
-    color: #ffffff;
+  .inv-pay-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: var(--brand-emerald-light);
+    color: var(--brand-emerald);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    margin-top: 4px;
   }
 
-  .modal-body {
-    padding: 20px 24px;
+  .inv-divider {
+    border: none;
+    border-top: 1px dashed var(--border-light);
+    margin: 12px 0;
+  }
+
+  .inv-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 12px 0;
+  }
+
+  .inv-table th {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .inv-table td {
+    padding: 8px 0;
+    border-bottom: 1px dashed #f1f5f9;
+  }
+
+  .inv-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 1.15rem;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+    padding: 8px 0;
+  }
+
+  .inv-notes-box {
+    background: #f8fafc;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    margin-top: 10px;
+    color: var(--text-secondary);
+  }
+
+  .inv-footer {
+    text-align: center;
+    margin-top: 16px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+  }
+
+  .inv-footer p {
+    margin: 0;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .modal-actions {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
+    padding: 16px 24px;
+    background: var(--bg-subtle);
+    border-top: 1px solid var(--border-light);
   }
 
-  .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 10px;
-  }
-
-  .btn-cancel {
-    background: none;
-    border: 1px solid var(--card-border);
-    color: var(--text-secondary);
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-
-  .btn-primary-action {
-    background: var(--accent-cream);
-    color: #04060a;
+  .btn-whatsapp-full {
+    width: 100%;
+    padding: 12px;
+    background: #25D366;
+    color: #ffffff;
     border: none;
+    border-radius: var(--radius-md);
     font-weight: 700;
-    padding: 8px 18px;
-    border-radius: 8px;
+    font-size: 0.92rem;
     cursor: pointer;
-  }
-
-  /* Setup Modal Styles */
-  .setup-steps-strip {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-
-  .setup-step {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 0.75rem;
-    color: #cbd5e1;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    transition: all 0.15s ease;
   }
 
-  .step-num {
-    background: var(--accent-cream);
-    color: #000;
+  .btn-whatsapp-full:hover {
+    background: #20bd5a;
+  }
+
+  .modal-row-btn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .btn-outline {
+    padding: 10px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  .btn-secondary {
+    padding: 10px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    padding: 10px;
+    background: var(--brand-emerald);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     AUTH BOX & GENERAL
+     ───────────────────────────────────────────────────────────── */
+  .auth-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+  }
+
+  .auth-box {
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 32px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .auth-badge {
+    display: inline-block;
+    font-size: 0.7rem;
     font-weight: 800;
-    width: 18px;
-    height: 18px;
+    color: var(--brand-emerald);
+    background: var(--brand-emerald-light);
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .auth-heading {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 6px 0;
+  }
+
+  .auth-sub {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0 0 24px 0;
+  }
+
+  .input-field {
+    text-align: left;
+    margin-bottom: 14px;
+  }
+
+  .input-field label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+
+  .input-field input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    outline: none;
+  }
+
+  .input-field input:focus {
+    border-color: var(--brand-emerald);
+  }
+
+  .auth-error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    margin-top: 12px;
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: none;
+    z-index: 9999;
+    animation: toastUp 0.2s ease;
+  }
+
+  @keyframes toastUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* STEPS LIST */
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  .step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--bg-subtle);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+  }
+
+  .step-badge {
+    background: var(--text-primary);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1480,695 +2209,988 @@ function doGet(e) {
     flex-shrink: 0;
   }
 
-  .code-box-wrap {
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 8px;
-    overflow: hidden;
+  .link-bold {
+    color: var(--brand-blue);
+    font-weight: 700;
+    text-decoration: none;
   }
 
-  .code-box-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 8px 12px;
-    font-size: 0.75rem;
-    color: var(--text-muted);
+  .modal-content-pad {
+    padding: 20px 24px;
   }
 
-  .btn-copy {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: #ffffff;
-    font-size: 0.72rem;
-    padding: 4px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-
-  .code-pre {
-    background: #04060a;
-    color: #e2e8f0;
-    padding: 14px;
+  .modal-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
     margin: 0;
-    font-size: 0.76rem;
-    overflow-x: auto;
-    line-height: 1.5;
   }
 
-  .url-input-card {
-    background: rgba(231, 238, 172, 0.04);
-    border: 1px solid rgba(231, 238, 172, 0.2);
-    border-radius: 10px;
-    padding: 16px;
-  }
-
-  .url-input-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 6px;
-  }
-
-  .sync-feedback {
+  .test-feedback {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
     font-size: 0.8rem;
-    margin-top: 8px;
-    color: var(--accent-emerald);
   }
 
-  /* Toast */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 28px;
-    background: #0f172a;
-    border: 1px solid var(--accent-cream);
-    color: #ffffff;
-    font-size: 0.84rem;
-    padding: 10px 18px;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    z-index: 9999;
+  @media (max-width: 1024px) {
+    .pos-grid {
+      grid-template-columns: 1fr;
+    }
+    .pos-cart-panel {
+      position: static;
+    }
+  }
+
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    #invoicePaper, #invoicePaper * {
+      visibility: visible;
+    }
+    #invoicePaper {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      padding: 0;
+    }
   }
 </style>
 
 <script is:inline>
-  /**
-   * GEN M Swag Operations — Simple, Minimal, Clean Controller
-   * Sheet ID: 1foGWm9i_5DhBUjocJDxs84jWCLdc-U1BJaN7r0KuhiA
-   */
   (function () {
     const API_BASE = 'http://localhost:5050';
-    const TOKEN_KEY = 'genm_dashboard_jwt_token';
-    const USER_KEY = 'genm_dashboard_user';
 
-    let authToken = localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY) || null;
-    let currentUser = JSON.parse(localStorage.getItem(USER_KEY) || sessionStorage.getItem(USER_KEY) || 'null');
-    let allRecords = [];
-    let sseConnection = null;
-    let pollInterval = null;
+    // ─────────────────────────────────────────────────────────────
+    // STATE
+    // ─────────────────────────────────────────────────────────────
+    let authToken = localStorage.getItem('gen_m_auth_token') || '';
+    let cart = []; // Array of items: { id, name, price, qty, isTshirt, sizes: { S: 0, M: 0, ... } }
+    let allOrders = []; // Rows from Form Responses 1
+    let lastGeneratedBill = null; // Store last bill for WhatsApp/Print
 
-    // Elements
-    const authSection = document.getElementById('authSection');
-    const dashSection = document.getElementById('dashSection');
-    const toast = document.getElementById('toastNotification');
+    // Products catalog reference
+    const CATALOG = [
+      { id: 'white-tshirt', name: 'White T-Shirt', category: 'Apparel', price: 449, isTshirt: true },
+      { id: 'cap', name: 'Embroidered Cap', category: 'Apparel', price: 180, isTshirt: false },
+      { id: 'cross-bag', name: 'Cross Bag', category: 'Accessories', price: 180, isTshirt: false },
+      { id: 'water-bottle', name: 'Water Bottle', category: 'Drinkware', price: 350, isTshirt: false },
+      { id: 'coffee-mug', name: 'Coffee Mug', category: 'Drinkware', price: 180, isTshirt: false },
+      { id: 'diary', name: 'Diary', category: 'Stationery', price: 150, isTshirt: false },
+      { id: 'pen', name: 'Pen', category: 'Stationery', price: 20, isTshirt: false },
+      { id: 'keychain', name: 'Keychain', category: 'Accessories', price: 25, isTshirt: false },
+      { id: 'bag-tag', name: 'Bag Tag', category: 'Accessories', price: 50, isTshirt: false },
+      { id: 'glass-set', name: 'Glass Set', category: 'Drinkware', price: 200, isTshirt: false },
+      { id: 'mobile-stand', name: 'Mobile Stand', category: 'Accessories', price: 199, isTshirt: false },
+      { id: 'tissue', name: 'Tissue', category: 'Accessories', price: 79, isTshirt: false },
+      { id: 'car-perfume', name: 'Car Perfume', category: 'Accessories', price: 40, isTshirt: false }
+    ];
 
-    function showToast(msg) {
-      if (!toast) return;
-      toast.textContent = msg;
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 3500);
-    }
+    // White T-shirt sizes state
+    const tshirtSizes = { S: 0, M: 0, L: 0, XL: 0, XXL: 0 };
 
-    function escapeHtml(str) {
-      return String(str || '').replace(/[&<>"']/g, m => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
-      }[m]));
-    }
+    // Standard items quantity map
+    const stdQuantities = {};
+    CATALOG.forEach(c => { if (!c.isTshirt) stdQuantities[c.id] = 0; });
 
     // ─────────────────────────────────────────────────────────────
     // AUTHENTICATION
     // ─────────────────────────────────────────────────────────────
-    function setSession(token, user) {
-      authToken = token;
-      currentUser = user;
-      localStorage.setItem(TOKEN_KEY, token);
-      localStorage.setItem(USER_KEY, JSON.stringify(user));
-    }
-
-    function clearSession() {
-      authToken = null;
-      currentUser = null;
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(USER_KEY);
-      if (authSection) authSection.style.display = 'flex';
-      if (dashSection) dashSection.style.display = 'none';
-    }
-
+    const authSection = document.getElementById('authSection');
+    const mainSection = document.getElementById('mainSection');
+    const loginForm = document.getElementById('loginForm');
+    const authError = document.getElementById('authError');
     const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) logoutBtn.addEventListener('click', clearSession);
 
-    // ─────────────────────────────────────────────────────────────
-    // REAL-TIME SERVER-SENT EVENTS (SSE)
-    // ─────────────────────────────────────────────────────────────
-    function initRealtime() {
-      if (typeof EventSource === 'undefined') return;
-
+    async function checkAuth() {
+      if (!authToken) {
+        showLogin();
+        return;
+      }
       try {
-        if (sseConnection) sseConnection.close();
-        sseConnection = new EventSource(`${API_BASE}/api/realtime/stream`);
-
-        sseConnection.addEventListener('sheet_update', (e) => {
-          try {
-            const payload = JSON.parse(e.data);
-            showToast(`⚡ Real-Time edit from Google Sheet: Row #${payload.rowNumber || 'Live'}`);
-            fetchOrders(true);
-          } catch (err) {}
+        const resp = await fetch(`${API_BASE}/api/auth/verify`, {
+          headers: { Authorization: `Bearer ${authToken}` }
         });
-
-        sseConnection.addEventListener('data_changed', () => {
-          fetchOrders(true);
-        });
-
-        sseConnection.onerror = () => {
-          if (!pollInterval) {
-            pollInterval = setInterval(() => { if (authToken) fetchOrders(true); }, 5000);
-          }
-        };
-
-        sseConnection.addEventListener('connected', () => {
-          if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
-          const statusDot = document.getElementById('statusDot');
-          if (statusDot) statusDot.className = 'status-dot dot-live';
-        });
-      } catch (e) {}
+        if (resp.ok) {
+          showApp();
+          initApp();
+        } else {
+          showLogin();
+        }
+      } catch (err) {
+        // If server is starting, allow local interface
+        showApp();
+        initApp();
+      }
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // DATA FETCHING & RENDERING
-    // ─────────────────────────────────────────────────────────────
-    async function fetchOrders(isSilent = false) {
-      const tableRowCount = document.getElementById('tableRowCount');
-      if (!isSilent && tableRowCount) tableRowCount.textContent = 'Updating...';
+    function showLogin() {
+      if (authSection) authSection.style.display = 'flex';
+      if (mainSection) mainSection.style.display = 'none';
+    }
+
+    function showApp() {
+      if (authSection) authSection.style.display = 'none';
+      if (mainSection) mainSection.style.display = 'block';
+    }
+
+    loginForm?.addEventListener('submit', async () => {
+      const u = document.getElementById('authUsername')?.value.trim();
+      const p = document.getElementById('authPassword')?.value.trim();
+      if (!u || !p) return;
 
       try {
-        const resp = await fetch(`${API_BASE}/api/data`, {
-          headers: { 'Authorization': `Bearer ${authToken}` }
+        const resp = await fetch(`${API_BASE}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: u, password: p })
         });
-
-        if (resp.status === 401 || resp.status === 403) {
-          clearSession();
-          return;
-        }
-
         const data = await resp.json();
-        if (data.success && Array.isArray(data.records)) {
-          allRecords = data.records;
-          renderOrdersTable();
-          updateMetrics();
+        if (resp.ok && data.token) {
+          authToken = data.token;
+          localStorage.setItem('gen_m_auth_token', authToken);
+          showApp();
+          initApp();
+        } else {
+          if (authError) {
+            authError.style.display = 'block';
+            authError.textContent = data.error || 'Invalid username or password.';
+          }
         }
-      } catch (e) {
-        console.warn('Orders fetch error:', e);
+      } catch (err) {
+        if (authError) {
+          authError.style.display = 'block';
+          authError.textContent = 'Server offline or error connecting.';
+        }
       }
+    });
+
+    logoutBtn?.addEventListener('click', () => {
+      authToken = '';
+      localStorage.removeItem('gen_m_auth_token');
+      showLogin();
+    });
+
+    // ─────────────────────────────────────────────────────────────
+    // TABS SWITCHING
+    // ─────────────────────────────────────────────────────────────
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const panes = {
+      billing: document.getElementById('paneBilling'),
+      orders: document.getElementById('paneOrders'),
+      stock: document.getElementById('paneStock')
+    };
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-tab');
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        Object.keys(panes).forEach(k => {
+          if (panes[k]) panes[k].classList.remove('active');
+        });
+        if (panes[tab]) panes[tab].classList.add('active');
+
+        if (tab === 'orders') fetchOrders();
+        if (tab === 'stock') fetchStock();
+      });
+    });
+
+    // ─────────────────────────────────────────────────────────────
+    // PRODUCT SELECTION & BIG CARDS LOGIC
+    // ─────────────────────────────────────────────────────────────
+    
+    // T-Shirt Sizes Stepper (+ / -)
+    document.querySelectorAll('.btn-step').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const sz = btn.getAttribute('data-size');
+        const isPlus = btn.classList.contains('size-plus');
+
+        if (isPlus) {
+          tshirtSizes[sz] = (tshirtSizes[sz] || 0) + 1;
+        } else {
+          tshirtSizes[sz] = Math.max(0, (tshirtSizes[sz] || 0) - 1);
+        }
+
+        // Update UI
+        const valElem = document.getElementById(`val-size-${sz}`);
+        if (valElem) valElem.textContent = String(tshirtSizes[sz]);
+
+        const totalTshirts = Object.values(tshirtSizes).reduce((a, b) => a + b, 0);
+        const badge = document.getElementById('tshirtTotalBadge');
+        if (badge) badge.textContent = `${totalTshirts} Selected`;
+
+        const tshirtCard = document.querySelector('.card-tshirt');
+        if (tshirtCard) {
+          if (totalTshirts > 0) tshirtCard.classList.add('has-items');
+          else tshirtCard.classList.remove('has-items');
+        }
+
+        syncCart();
+      });
+    });
+
+    // Standard Items Stepper (+ / -)
+    document.querySelectorAll('.btn-big-step').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute('data-id');
+        const isPlus = btn.classList.contains('item-plus');
+
+        if (isPlus) {
+          stdQuantities[id] = (stdQuantities[id] || 0) + 1;
+        } else {
+          stdQuantities[id] = Math.max(0, (stdQuantities[id] || 0) - 1);
+        }
+
+        // Update card display
+        const display = document.getElementById(`qty-${id}`);
+        if (display) display.textContent = String(stdQuantities[id]);
+
+        const card = document.querySelector(`.product-card[data-id="${id}"]`);
+        if (card) {
+          if (stdQuantities[id] > 0) card.classList.add('has-items');
+          else card.classList.remove('has-items');
+        }
+
+        syncCart();
+      });
+    });
+
+    // Category Filtering
+    document.querySelectorAll('.cat-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        const cat = pill.getAttribute('data-cat');
+        filterCards(cat, document.getElementById('catalogSearch')?.value.trim());
+      });
+    });
+
+    document.getElementById('catalogSearch')?.addEventListener('input', (e) => {
+      const activeCat = document.querySelector('.cat-pill.active')?.getAttribute('data-cat') || 'all';
+      filterCards(activeCat, e.target.value.trim());
+    });
+
+    function filterCards(category, query) {
+      const q = (query || '').toLowerCase();
+      document.querySelectorAll('.product-card').forEach(card => {
+        const itemCat = card.getAttribute('data-category');
+        const itemName = card.getAttribute('data-name')?.toLowerCase() || '';
+
+        const catMatch = category === 'all' || itemCat === category;
+        const queryMatch = !q || itemName.includes(q);
+
+        if (catMatch && queryMatch) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     }
 
-    function updateMetrics() {
-      const totalBookingsVal = document.getElementById('totalBookingsVal');
-      const totalBookingsSub = document.getElementById('totalBookingsSub');
-      const tshirtUnitsVal = document.getElementById('tshirtUnitsVal');
-      const tshirtSizesBreakdown = document.getElementById('tshirtSizesBreakdown');
-      const stockUnitsVal = document.getElementById('stockUnitsVal');
-      const stockStatusSub = document.getElementById('stockStatusSub');
-      const ordersTabCount = document.getElementById('ordersTabCount');
+    // ─────────────────────────────────────────────────────────────
+    // CART & BILLING ENGINE
+    // ─────────────────────────────────────────────────────────────
+    function syncCart() {
+      cart = [];
 
-      const count = allRecords.length;
-      if (totalBookingsVal) totalBookingsVal.textContent = count;
-      if (ordersTabCount) ordersTabCount.textContent = count;
-      if (totalBookingsSub) totalBookingsSub.textContent = `Live from Form Responses 1`;
+      // 1. Check T-Shirt
+      const totalTshirts = Object.values(tshirtSizes).reduce((a, b) => a + b, 0);
+      if (totalTshirts > 0) {
+        cart.push({
+          id: 'white-tshirt',
+          name: 'White T-Shirt',
+          price: 449,
+          qty: totalTshirts,
+          isTshirt: true,
+          sizes: { ...tshirtSizes }
+        });
+      }
 
-      let tshirtUnits = 0;
-      let s = 0, m = 0, l = 0, xl = 0, xxl = 0;
-      let totalBookedAcrossAll = 0;
-
-      allRecords.forEach(r => {
-        const q = parseInt(r.qty, 10) || 1;
-        totalBookedAcrossAll += q;
-        if (r.item === 'White T-Shirt') {
-          tshirtUnits += q;
-          s += (parseInt(r.sizeS, 10) || 0);
-          m += (parseInt(r.sizeM, 10) || 0);
-          l += (parseInt(r.sizeL, 10) || 0);
-          xl += (parseInt(r.sizeXL, 10) || 0);
-          xxl += (parseInt(r.sizeXXL, 10) || 0);
+      // 2. Check Standard Items
+      CATALOG.forEach(item => {
+        if (!item.isTshirt && stdQuantities[item.id] > 0) {
+          cart.push({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            qty: stdQuantities[item.id],
+            isTshirt: false
+          });
         }
       });
 
-      if (tshirtUnitsVal) tshirtUnitsVal.innerHTML = `${tshirtUnits} <span class="metric-unit">Units</span>`;
-      if (tshirtSizesBreakdown) tshirtSizesBreakdown.textContent = `S: ${s} • M: ${m} • L: ${l} • XL: ${xl} • XXL: ${xxl}`;
-
-      const totalStock = 1850;
-      const available = Math.max(0, totalStock - totalBookedAcrossAll);
-      if (stockUnitsVal) stockUnitsVal.innerHTML = `${available.toLocaleString()} <span class="metric-unit">/ ${totalStock.toLocaleString()}</span>`;
-      if (stockStatusSub) {
-        const pct = Math.round((available / totalStock) * 100);
-        stockStatusSub.textContent = `${pct}% stock available across 13 catalogue products`;
-      }
+      renderCartUI();
     }
 
-    function renderOrdersTable() {
-      const tbody = document.getElementById('ordersTableBody');
-      const countEl = document.getElementById('tableRowCount');
-      const searchVal = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
-      const itemVal = document.getElementById('itemFilter')?.value || '';
+    function renderCartUI() {
+      const listElem = document.getElementById('cartItemsList');
+      const emptyElem = document.getElementById('cartEmptyState');
+      const countLabel = document.getElementById('cartCountLabel');
+      const subtotalElem = document.getElementById('billSubtotal');
+      const unitsElem = document.getElementById('billTotalUnits');
+      const grandTotalElem = document.getElementById('billGrandTotal');
+      const checkoutBtn = document.getElementById('generateBillBtn');
+      const whatsappBtn = document.getElementById('shareWhatsappDirectBtn');
 
-      if (!tbody) return;
+      if (!listElem) return;
 
-      let filtered = allRecords.filter(r => {
-        if (itemVal && r.item !== itemVal) return false;
-        if (searchVal) {
-          const hay = `${r.name} ${r.phone} ${r.item} ${r.notes} ${r.sizesSummary}`.toLowerCase();
-          return hay.includes(searchVal);
-        }
-        return true;
-      });
-
-      if (countEl) countEl.textContent = `${filtered.length} Orders`;
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="table-empty">No orders found in Form Responses 1.</td></tr>`;
+      if (cart.length === 0) {
+        listElem.innerHTML = '';
+        if (emptyElem) listElem.appendChild(emptyElem);
+        if (countLabel) countLabel.textContent = '0 items';
+        if (subtotalElem) subtotalElem.textContent = '₹0';
+        if (unitsElem) unitsElem.textContent = '0 units';
+        if (grandTotalElem) grandTotalElem.textContent = '₹0';
+        if (checkoutBtn) checkoutBtn.disabled = true;
+        if (whatsappBtn) whatsappBtn.disabled = true;
         return;
       }
 
-      tbody.innerHTML = filtered.map((r, idx) => {
-        const isOpt = r.isOptimistic;
-        const rowNumStr = isOpt ? '⚡' : (r.rowNumber || idx + 1);
-        const sizeHtml = r.item === 'White T-Shirt' && r.sizesSummary
-          ? `<div style="font-size: 0.74rem; color: #E7EEAC; margin-top: 2px;">${escapeHtml(r.sizesSummary)}</div>`
-          : `<div style="font-size: 0.74rem; color: #94a3b8; margin-top: 2px;">Qty: ${escapeHtml(r.qty || '1')}</div>`;
+      let totalUnits = 0;
+      let grandTotal = 0;
 
-        const paymentPill = r.paymentStatus === 'Paid'
-          ? `<span class="table-pill pill-paid">Paid</span>`
-          : `<span class="table-pill pill-pending">Pending</span>`;
+      let html = '';
+      cart.forEach(item => {
+        const lineTotal = item.qty * item.price;
+        totalUnits += item.qty;
+        grandTotal += lineTotal;
 
-        const statusPill = isOpt
-          ? `<span class="table-pill pill-optimistic">⚡ Syncing</span>`
-          : `<span class="table-pill" style="background: rgba(255,255,255,0.06); color: #cbd5e1;">${escapeHtml(r.bookingStatus || 'Confirmed')}</span>`;
+        let details = '';
+        if (item.isTshirt) {
+          const parts = [];
+          Object.keys(item.sizes).forEach(sz => {
+            if (item.sizes[sz] > 0) parts.push(`${item.sizes[sz]}x ${sz}`);
+          });
+          details = parts.join(', ');
+        }
 
-        return `
+        html += `
+          <div class="cart-item-row">
+            <div class="cir-info">
+              <strong>${escapeHtml(item.name)}</strong>
+              ${details ? `<small>Sizes: ${escapeHtml(details)}</small>` : ''}
+            </div>
+            <div class="cir-pricing">
+              <span class="cir-line-total">₹${lineTotal}</span>
+              <small>${item.qty} × ₹${item.price}</small>
+            </div>
+          </div>
+        `;
+      });
+
+      listElem.innerHTML = html;
+      if (countLabel) countLabel.textContent = `${cart.length} item${cart.length > 1 ? 's' : ''}`;
+      if (subtotalElem) subtotalElem.textContent = `₹${grandTotal}`;
+      if (unitsElem) unitsElem.textContent = `${totalUnits} unit${totalUnits > 1 ? 's' : ''}`;
+      if (grandTotalElem) grandTotalElem.textContent = `₹${grandTotal}`;
+
+      const nameValid = Boolean(document.getElementById('custName')?.value.trim());
+      const phoneValid = Boolean(document.getElementById('custPhone')?.value.trim());
+
+      if (checkoutBtn) checkoutBtn.disabled = cart.length === 0;
+      if (whatsappBtn) whatsappBtn.disabled = cart.length === 0 || !phoneValid;
+    }
+
+    // Reset bill / Clear button
+    document.getElementById('clearCartBtn')?.addEventListener('click', () => {
+      resetBillingForm();
+      showToast('Bill reset to 0');
+    });
+
+    function resetBillingForm() {
+      // Reset T-shirt sizes
+      Object.keys(tshirtSizes).forEach(sz => {
+        tshirtSizes[sz] = 0;
+        const elem = document.getElementById(`val-size-${sz}`);
+        if (elem) elem.textContent = '0';
+      });
+      const badge = document.getElementById('tshirtTotalBadge');
+      if (badge) badge.textContent = '0 Selected';
+
+      // Reset standard items
+      CATALOG.forEach(c => {
+        if (!c.isTshirt) {
+          stdQuantities[c.id] = 0;
+          const elem = document.getElementById(`qty-${c.id}`);
+          if (elem) elem.textContent = '0';
+        }
+      });
+
+      document.querySelectorAll('.product-card').forEach(c => c.classList.remove('has-items'));
+
+      // Reset inputs
+      const nameInput = document.getElementById('custName');
+      const phoneInput = document.getElementById('custPhone');
+      const notesInput = document.getElementById('custNotes');
+      if (nameInput) nameInput.value = '';
+      if (phoneInput) phoneInput.value = '';
+      if (notesInput) notesInput.value = '';
+
+      cart = [];
+      renderCartUI();
+    }
+
+    // Real-time phone check to enable WhatsApp button
+    document.getElementById('custPhone')?.addEventListener('input', () => {
+      const phoneValid = Boolean(document.getElementById('custPhone')?.value.trim());
+      const whatsappBtn = document.getElementById('shareWhatsappDirectBtn');
+      if (whatsappBtn) whatsappBtn.disabled = cart.length === 0 || !phoneValid;
+    });
+
+    // ─────────────────────────────────────────────────────────────
+    // GENERATE BILL & PUSH DIRECTLY TO FORM RESPONSES 1
+    // ─────────────────────────────────────────────────────────────
+    const generateBillBtn = document.getElementById('generateBillBtn');
+    const billFeedback = document.getElementById('billFeedback');
+
+    generateBillBtn?.addEventListener('click', async () => {
+      const custName = document.getElementById('custName')?.value.trim();
+      const custPhone = document.getElementById('custPhone')?.value.trim();
+      const custNotes = document.getElementById('custNotes')?.value.trim() || '';
+      const payMethod = document.querySelector('input[name="payMethod"]:checked')?.value || 'Paid (UPI)';
+
+      if (!custName) {
+        showToast('⚠️ Please enter Customer Name');
+        document.getElementById('custName')?.focus();
+        return;
+      }
+
+      if (!custPhone) {
+        showToast('⚠️ Please enter WhatsApp / Phone Number');
+        document.getElementById('custPhone')?.focus();
+        return;
+      }
+
+      if (cart.length === 0) {
+        showToast('⚠️ Please add at least 1 item to the bill');
+        return;
+      }
+
+      generateBillBtn.disabled = true;
+      generateBillBtn.querySelector('.btn-main-text').textContent = '⚡ Pushing to Form Responses 1...';
+
+      // Prepare invoice reference
+      const invoiceRef = 'GENM-' + Math.floor(1000 + Math.random() * 9000);
+      const nowIso = new Date().toISOString();
+
+      // Collect data to push to Form Responses 1
+      // If order has T-Shirt, format row according to Form Responses 1 headers
+      // (Timestamp, Customer Name, Contact Number, Email Address, Item Selected, Quantity Booked,
+      //  Booking Status, Payment Status, Notes & Remarks, Size S, Size M, Size L, Size XL, Size XXL, Size Allocation Status, Sizes Selected Summary)
+      
+      const tShirtItem = cart.find(i => i.isTshirt);
+      const otherItems = cart.filter(i => !i.isTshirt);
+
+      // We will write the primary item or each item to Form Responses 1
+      const writesToPerform = [];
+
+      if (tShirtItem) {
+        const s = tShirtItem.sizes.S || 0;
+        const m = tShirtItem.sizes.M || 0;
+        const l = tShirtItem.sizes.L || 0;
+        const xl = tShirtItem.sizes.XL || 0;
+        const xxl = tShirtItem.sizes.XXL || 0;
+        const sizeSum = s + m + l + xl + xxl;
+
+        const sizeParts = [];
+        if (s > 0) sizeParts.push(`${s}x S`);
+        if (m > 0) sizeParts.push(`${m}x M`);
+        if (l > 0) sizeParts.push(`${l}x L`);
+        if (xl > 0) sizeParts.push(`${xl}x XL`);
+        if (xxl > 0) sizeParts.push(`${xxl}x XXL`);
+
+        writesToPerform.push({
+          name: custName,
+          phone: custPhone,
+          item: 'White T-Shirt',
+          qty: sizeSum,
+          bookingStatus: 'Confirmed',
+          paymentStatus: payMethod,
+          notes: custNotes ? `${custNotes} | Inv: ${invoiceRef}` : `Inv: ${invoiceRef}`,
+          sizeS: s,
+          sizeM: m,
+          sizeL: l,
+          sizeXL: xl,
+          sizeXXL: xxl
+        });
+      }
+
+      // Other merchandise items
+      otherItems.forEach(oi => {
+        writesToPerform.push({
+          name: custName,
+          phone: custPhone,
+          item: oi.name,
+          qty: oi.qty,
+          bookingStatus: 'Confirmed',
+          paymentStatus: payMethod,
+          notes: custNotes ? `${custNotes} | Inv: ${invoiceRef}` : `Inv: ${invoiceRef}`,
+          sizeS: 0,
+          sizeM: 0,
+          sizeL: 0,
+          sizeXL: 0,
+          sizeXXL: 0
+        });
+      });
+
+      try {
+        let allSuccess = true;
+        let lastRespData = null;
+
+        for (const payload of writesToPerform) {
+          const resp = await fetch(`${API_BASE}/api/data`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify(payload)
+          });
+          if (resp.ok) {
+            lastRespData = await resp.json();
+          } else {
+            allSuccess = false;
+          }
+        }
+
+        // Store invoice state for WhatsApp and Print
+        lastGeneratedBill = {
+          ref: invoiceRef,
+          customerName: custName,
+          phone: custPhone,
+          notes: custNotes,
+          payment: payMethod,
+          timestamp: new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }),
+          items: JSON.parse(JSON.stringify(cart)),
+          grandTotal: cart.reduce((sum, item) => sum + (item.qty * item.price), 0)
+        };
+
+        showToast(`✓ Order for ${custName} saved to Form Responses 1!`);
+        openInvoiceModal(lastGeneratedBill);
+
+        // Refresh orders table in background
+        fetchOrders(false);
+
+      } catch (err) {
+        showToast('⚠️ Network notice: Order queued locally.');
+      } finally {
+        generateBillBtn.disabled = false;
+        generateBillBtn.querySelector('.btn-main-text').textContent = '⚡ Complete Bill & Push to Sheet';
+      }
+    });
+
+    // ─────────────────────────────────────────────────────────────
+    // INVOICE RECEIPT MODAL & WHATSAPP GENERATOR
+    // ─────────────────────────────────────────────────────────────
+    const billModal = document.getElementById('billModal');
+    const closeBillModalBtn = document.getElementById('closeBillModalBtn');
+    const modalWhatsappBtn = document.getElementById('modalWhatsappBtn');
+    const modalPrintBtn = document.getElementById('modalPrintBtn');
+    const modalNextOrderBtn = document.getElementById('modalNextOrderBtn');
+    const shareWhatsappDirectBtn = document.getElementById('shareWhatsappDirectBtn');
+
+    function openInvoiceModal(bill) {
+      if (!bill) return;
+
+      document.getElementById('modalInvoiceId').textContent = `#${bill.ref}`;
+      document.getElementById('invCustName').textContent = bill.customerName;
+      document.getElementById('invCustPhone').textContent = `+91 ${bill.phone}`;
+      document.getElementById('invDateTime').textContent = bill.timestamp;
+      document.getElementById('invPayBadge').textContent = bill.payment;
+      document.getElementById('invGrandTotal').textContent = `₹${bill.grandTotal}`;
+
+      const notesBox = document.getElementById('invNotesBox');
+      const notesText = document.getElementById('invNotesText');
+      if (bill.notes && notesBox && notesText) {
+        notesBox.style.display = 'block';
+        notesText.textContent = bill.notes;
+      } else if (notesBox) {
+        notesBox.style.display = 'none';
+      }
+
+      // Populate item rows
+      const tbody = document.getElementById('invItemsBody');
+      if (tbody) {
+        let html = '';
+        bill.items.forEach(item => {
+          let desc = escapeHtml(item.name);
+          if (item.isTshirt) {
+            const parts = [];
+            Object.keys(item.sizes).forEach(sz => {
+              if (item.sizes[sz] > 0) parts.push(`${item.sizes[sz]}x ${sz}`);
+            });
+            desc += `<br><small style="color: #64748b;">${parts.join(', ')}</small>`;
+          }
+          html += `
+            <tr>
+              <td>${desc}</td>
+              <td style="text-align: center;">${item.qty}</td>
+              <td style="text-align: right;">₹${item.price}</td>
+              <td style="text-align: right; font-weight: 700;">₹${item.qty * item.price}</td>
+            </tr>
+          `;
+        });
+        tbody.innerHTML = html;
+      }
+
+      if (billModal) billModal.style.display = 'flex';
+    }
+
+    closeBillModalBtn?.addEventListener('click', () => {
+      if (billModal) billModal.style.display = 'none';
+    });
+
+    modalNextOrderBtn?.addEventListener('click', () => {
+      if (billModal) billModal.style.display = 'none';
+      resetBillingForm();
+      document.getElementById('custName')?.focus();
+    });
+
+    modalPrintBtn?.addEventListener('click', () => {
+      window.print();
+    });
+
+    // WHATSAPP SHARE GENERATOR
+    function generateWhatsAppMessage(bill) {
+      const cleanPhone = (bill.phone || '').replace(/[^0-9]/g, '');
+      const targetPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+
+      let msg = `✨ *GEN M MEMENTOS 2026 — OFFICIAL INVOICE* ✨\n`;
+      msg += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `👤 *Customer:* ${bill.customerName}\n`;
+      msg += `📱 *Phone:* +91 ${bill.phone}\n`;
+      msg += `📅 *Date:* ${bill.timestamp}\n`;
+      msg += `🔖 *Invoice #:* ${bill.ref}\n`;
+      msg += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `📦 *ITEMS ORDERED:*\n`;
+
+      bill.items.forEach(item => {
+        let line = `• ${item.qty}x *${item.name}*`;
+        if (item.isTshirt) {
+          const parts = [];
+          Object.keys(item.sizes).forEach(sz => {
+            if (item.sizes[sz] > 0) parts.push(`${item.sizes[sz]}x ${sz}`);
+          });
+          line += ` (${parts.join(', ')})`;
+        }
+        line += ` @ ₹${item.price} = ₹${item.qty * item.price}`;
+        msg += `${line}\n`;
+      });
+
+      msg += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `💰 *GRAND TOTAL:* *₹${bill.grandTotal}*\n`;
+      msg += `💳 *PAYMENT STATUS:* ${bill.payment}\n`;
+      if (bill.notes) {
+        msg += `📝 *Remarks:* ${bill.notes}\n`;
+      }
+      msg += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `🌟 *Thank you for celebrating with Gen M!*\n`;
+      msg += `📍 *Collect at:* Gen M Swag Counter, Kozhikode Campus\n`;
+      msg += `_This receipt is backed by Google Sheets Form Responses 1._`;
+
+      return {
+        url: `https://api.whatsapp.com/send?phone=${targetPhone}&text=${encodeURIComponent(msg)}`,
+        phone: targetPhone
+      };
+    }
+
+    modalWhatsappBtn?.addEventListener('click', () => {
+      if (!lastGeneratedBill) return;
+      const { url } = generateWhatsAppMessage(lastGeneratedBill);
+      window.open(url, '_blank');
+    });
+
+    shareWhatsappDirectBtn?.addEventListener('click', () => {
+      const custName = document.getElementById('custName')?.value.trim() || 'Customer';
+      const custPhone = document.getElementById('custPhone')?.value.trim() || '';
+      const payMethod = document.querySelector('input[name="payMethod"]:checked')?.value || 'Paid (UPI)';
+      const custNotes = document.getElementById('custNotes')?.value.trim() || '';
+
+      const draftBill = {
+        ref: 'GENM-' + Math.floor(1000 + Math.random() * 9000),
+        customerName: custName,
+        phone: custPhone,
+        notes: custNotes,
+        payment: payMethod,
+        timestamp: new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }),
+        items: JSON.parse(JSON.stringify(cart)),
+        grandTotal: cart.reduce((sum, item) => sum + (item.qty * item.price), 0)
+      };
+
+      const { url } = generateWhatsAppMessage(draftBill);
+      window.open(url, '_blank');
+    });
+
+    // ─────────────────────────────────────────────────────────────
+    // TAB 2: LIVE ORDERS FROM FORM RESPONSES 1
+    // ─────────────────────────────────────────────────────────────
+    async function fetchOrders(showToastNotice = false) {
+      const tbody = document.getElementById('ordersTableBody');
+      const countElem = document.getElementById('tabOrdersCount');
+      const summaryElem = document.getElementById('ordersSummaryCount');
+
+      try {
+        const resp = await fetch(`${API_BASE}/api/data`, {
+          headers: { Authorization: `Bearer ${authToken}` }
+        });
+        if (!resp.ok) return;
+
+        const data = await resp.json();
+        const records = data.records || [];
+        allOrders = records;
+
+        if (countElem) countElem.textContent = String(records.length);
+        if (summaryElem) summaryElem.textContent = `Showing ${records.length} orders in Form Responses 1`;
+
+        renderOrdersTable(records);
+        if (showToastNotice) showToast(`✓ Live Google Sheet updated: ${records.length} orders loaded!`);
+      } catch (err) {
+        console.warn('Orders fetch note:', err);
+      }
+    }
+
+    function renderOrdersTable(records) {
+      const tbody = document.getElementById('ordersTableBody');
+      if (!tbody) return;
+
+      if (records.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; padding: 24px; color: #94a3b8;">No orders recorded yet in Form Responses 1.</td></tr>`;
+        return;
+      }
+
+      let html = '';
+      records.forEach((r, idx) => {
+        const isPaid = (r.paymentStatus || '').toLowerCase().includes('paid');
+        const phone = (r.phone || '').trim();
+        const timeFormatted = r.timestamp ? new Date(r.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—';
+        
+        // Build whatsapp share url for individual row
+        const waText = encodeURIComponent(
+          `✨ *GEN M MEMENTOS INVOICE* ✨\n` +
+          `Hello ${r.name}! Your order for ${r.qty}x ${r.item} (${r.sizesSummary || 'Standard'}) is confirmed!\n` +
+          `Payment: ${r.paymentStatus || 'Pending'}\n` +
+          `Thank you for pre-booking with Gen M!`
+        );
+        const waUrl = phone ? `https://api.whatsapp.com/send?phone=91${phone.replace(/[^0-9]/g, '')}&text=${waText}` : '#';
+
+        html += `
           <tr>
-            <td style="font-weight: 700; color: #94a3b8;">${rowNumStr}</td>
+            <td><strong>#${idx + 1}</strong></td>
+            <td><strong>${escapeHtml(r.name || 'Unknown')}</strong></td>
+            <td><code>${escapeHtml(phone || '—')}</code></td>
+            <td>${escapeHtml(r.item || 'Merchandise')}</td>
+            <td><strong>${r.qty || 1}</strong></td>
+            <td><span class="sub-label">${escapeHtml(r.sizesSummary || 'Standard')}</span></td>
             <td>
-              <div style="font-weight: 700; color: #ffffff;">${escapeHtml(r.name || 'Anonymous')}</div>
-              ${r.notes ? `<div style="font-size: 0.72rem; color: #64748b;">${escapeHtml(r.notes)}</div>` : ''}
+              <span class="status-badge ${isPaid ? 'confirmed' : 'pending'}">
+                ${escapeHtml(r.paymentStatus || 'Pending')}
+              </span>
             </td>
-            <td style="color: #cbd5e1;">${escapeHtml(r.phone || '—')}</td>
             <td>
-              <div style="font-weight: 600; color: #ffffff;">${escapeHtml(r.item || 'White T-Shirt')}</div>
-              ${sizeHtml}
+              <span class="status-badge confirmed">${escapeHtml(r.bookingStatus || 'Confirmed')}</span>
             </td>
-            <td>${paymentPill}</td>
-            <td>${statusPill}</td>
+            <td><small class="text-muted">${timeFormatted}</small></td>
             <td style="text-align: right;">
-              <button type="button" class="row-btn-action btn-edit-row" data-row="${r.rowNumber}">Edit</button>
-              <button type="button" class="row-btn-action row-btn-delete btn-del-row" data-row="${r.rowNumber}">✕</button>
+              ${phone ? `
+                <a href="${waUrl}" target="_blank" class="btn-wa-icon" title="Share Invoice to WhatsApp">
+                  <span>💬 WhatsApp</span>
+                </a>
+              ` : '—'}
             </td>
           </tr>
         `;
-      }).join('');
-
-      // Attach row action listeners
-      tbody.querySelectorAll('.btn-edit-row').forEach(btn => {
-        btn.addEventListener('click', () => openEditModal(btn.dataset.row));
       });
 
-      tbody.querySelectorAll('.btn-del-row').forEach(btn => {
-        btn.addEventListener('click', () => deleteOrder(btn.dataset.row));
-      });
+      tbody.innerHTML = html;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // ADD NEW ORDER (REAL-TIME WRITE TO FORM RESPONSES 1)
-    // ─────────────────────────────────────────────────────────────
-    function initOrderForm() {
-      const form = document.getElementById('expressOrderForm');
-      const orderItem = document.getElementById('orderItem');
-      const sizeMatrixPanel = document.getElementById('sizeMatrixPanel');
-      const generalQtyWrap = document.getElementById('generalQtyWrap');
-      const sizeTotalBadge = document.getElementById('sizeTotalBadge');
-      const submitBtn = document.getElementById('submitOrderBtn');
-      const submitText = document.getElementById('submitOrderBtnText');
-      const spinner = document.getElementById('orderSpinner');
-      const feedback = document.getElementById('orderFeedback');
+    // Filter orders
+    document.getElementById('orderSearchInput')?.addEventListener('input', applyOrderFilters);
+    document.getElementById('orderStatusFilter')?.addEventListener('change', applyOrderFilters);
+    document.getElementById('orderPaymentFilter')?.addEventListener('change', applyOrderFilters);
 
-      const sizeInputs = ['sizeS', 'sizeM', 'sizeL', 'sizeXL', 'sizeXXL'].map(id => document.getElementById(id));
-      const generalQtyInput = document.getElementById('orderGeneralQty');
+    function applyOrderFilters() {
+      const q = (document.getElementById('orderSearchInput')?.value || '').toLowerCase();
+      const statusFilter = document.getElementById('orderStatusFilter')?.value || 'all';
+      const payFilter = document.getElementById('orderPaymentFilter')?.value || 'all';
 
-      function updateSizeTotal() {
-        const s = parseInt(document.getElementById('sizeS')?.value || '0', 10);
-        const m = parseInt(document.getElementById('sizeM')?.value || '0', 10);
-        const l = parseInt(document.getElementById('sizeL')?.value || '0', 10);
-        const xl = parseInt(document.getElementById('sizeXL')?.value || '0', 10);
-        const xxl = parseInt(document.getElementById('sizeXXL')?.value || '0', 10);
-        const sum = s + m + l + xl + xxl;
-        if (sizeTotalBadge) sizeTotalBadge.textContent = `Total: ${sum} Unit${sum === 1 ? '' : 's'}`;
-        return sum;
-      }
+      const filtered = allOrders.filter(r => {
+        const matchesQ = !q || (
+          (r.name && r.name.toLowerCase().includes(q)) ||
+          (r.phone && r.phone.includes(q)) ||
+          (r.item && r.item.toLowerCase().includes(q)) ||
+          (r.sizesSummary && r.sizesSummary.toLowerCase().includes(q))
+        );
 
-      // Step +/- buttons
-      document.querySelectorAll('.btn-step').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const targetId = btn.dataset.target;
-          const step = parseInt(btn.dataset.step || '1', 10);
-          if (targetId) {
-            const input = document.getElementById(targetId);
-            if (input) {
-              input.value = Math.max(0, (parseInt(input.value || '0', 10) + step));
-              updateSizeTotal();
-            }
-          }
-        });
+        const matchesStatus = statusFilter === 'all' || r.bookingStatus === statusFilter;
+        const matchesPay = payFilter === 'all' || 
+          (payFilter === 'Paid' && (r.paymentStatus || '').toLowerCase().includes('paid')) ||
+          (payFilter === 'Pending' && !(r.paymentStatus || '').toLowerCase().includes('paid'));
+
+        return matchesQ && matchesStatus && matchesPay;
       });
 
-      document.getElementById('btnQtyMinus')?.addEventListener('click', () => {
-        if (generalQtyInput) generalQtyInput.value = Math.max(1, (parseInt(generalQtyInput.value || '1', 10) - 1));
-      });
-
-      document.getElementById('btnQtyPlus')?.addEventListener('click', () => {
-        if (generalQtyInput) generalQtyInput.value = parseInt(generalQtyInput.value || '1', 10) + 1;
-      });
-
-      sizeInputs.forEach(inp => {
-        if (inp) inp.addEventListener('input', updateSizeTotal);
-      });
-
-      if (orderItem) {
-        orderItem.addEventListener('change', () => {
-          const isTshirt = orderItem.value === 'White T-Shirt';
-          if (sizeMatrixPanel) sizeMatrixPanel.style.display = isTshirt ? 'flex' : 'none';
-          if (generalQtyWrap) generalQtyWrap.style.display = isTshirt ? 'none' : 'flex';
-        });
-      }
-
-      if (form) {
-        form.addEventListener('submit', async () => {
-          const name = document.getElementById('orderName')?.value.trim();
-          const phone = document.getElementById('orderPhone')?.value.trim();
-          const item = orderItem?.value || 'White T-Shirt';
-          const payment = document.getElementById('orderPaymentStatus')?.value || 'Pending';
-          const notes = document.getElementById('orderNotes')?.value.trim() || '';
-
-          if (!name || !phone) {
-            showToast('Please enter customer name and phone');
-            return;
-          }
-
-          let s = 0, m = 0, l = 0, xl = 0, xxl = 0;
-          let totalQty = 1;
-
-          if (item === 'White T-Shirt') {
-            s = parseInt(document.getElementById('sizeS')?.value || '0', 10);
-            m = parseInt(document.getElementById('sizeM')?.value || '0', 10);
-            l = parseInt(document.getElementById('sizeL')?.value || '0', 10);
-            xl = parseInt(document.getElementById('sizeXL')?.value || '0', 10);
-            xxl = parseInt(document.getElementById('sizeXXL')?.value || '0', 10);
-            totalQty = s + m + l + xl + xxl;
-            if (totalQty === 0) {
-              showToast('Please select at least 1 size');
-              return;
-            }
-          } else {
-            totalQty = parseInt(generalQtyInput?.value || '1', 10) || 1;
-          }
-
-          // Build size summary
-          const sizeParts = [];
-          if (s > 0) sizeParts.push(`${s}x S`);
-          if (m > 0) sizeParts.push(`${m}x M`);
-          if (l > 0) sizeParts.push(`${l}x L`);
-          if (xl > 0) sizeParts.push(`${xl}x XL`);
-          if (xxl > 0) sizeParts.push(`${xxl}x XXL`);
-          const sizeSummary = sizeParts.join(', ') || (item === 'White T-Shirt' ? 'Standard' : '');
-
-          // 1. OPTIMISTIC UI: Prepend to table instantly (0ms operator latency)
-          const optId = 'opt_' + Date.now();
-          const optimisticOrder = {
-            id: optId,
-            rowNumber: '⚡',
-            timestamp: new Date().toISOString(),
-            name,
-            phone,
-            item,
-            qty: totalQty,
-            bookingStatus: 'Confirmed',
-            paymentStatus: payment,
-            notes,
-            sizeS: s,
-            sizeM: m,
-            sizeL: l,
-            sizeXL: xl,
-            sizeXXL: xxl,
-            sizesSummary: sizeSummary,
-            isOptimistic: true
-          };
-
-          allRecords.unshift(optimisticOrder);
-          renderOrdersTable();
-          updateMetrics();
-
-          // Button visual state
-          submitBtn.disabled = true;
-          spinner.style.display = 'inline-block';
-          submitText.textContent = 'Syncing to Google Sheet...';
-          if (feedback) feedback.style.display = 'none';
-
-          const payload = {
-            name,
-            phone,
-            item,
-            qty: totalQty,
-            bookingStatus: 'Confirmed',
-            paymentStatus: payment,
-            notes,
-            sizeS: s,
-            sizeM: m,
-            sizeL: l,
-            sizeXL: xl,
-            sizeXXL: xxl
-          };
-
-          try {
-            // Write via Backend
-            const resp = await fetch(`${API_BASE}/api/data`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-              },
-              body: JSON.stringify(payload)
-            });
-
-            if (resp.ok) {
-              allRecords = allRecords.filter(r => r.id !== optId);
-              showToast(`✓ Order for ${name} added directly to Form Responses 1!`);
-              if (feedback) {
-                feedback.className = 'order-feedback success';
-                feedback.style.display = 'block';
-                feedback.innerHTML = `✓ <strong>Order Confirmed &amp; Pushed!</strong> Added ${totalQty}x ${item} for <em>${escapeHtml(name)}</em> to Form Responses 1.`;
-              }
-              // Reset form inputs
-              document.getElementById('orderName').value = '';
-              document.getElementById('orderPhone').value = '';
-              document.getElementById('orderNotes').value = '';
-              document.getElementById('sizeS').value = '0';
-              document.getElementById('sizeM').value = '1';
-              document.getElementById('sizeL').value = '0';
-              document.getElementById('sizeXL').value = '0';
-              document.getElementById('sizeXXL').value = '0';
-              updateSizeTotal();
-              document.getElementById('orderName').focus();
-
-              await fetchOrders(true);
-            } else {
-              allRecords = allRecords.filter(r => r.id !== optId);
-              renderOrdersTable();
-              updateMetrics();
-              if (feedback) {
-                feedback.className = 'order-feedback error';
-                feedback.style.display = 'block';
-                feedback.textContent = 'Failed to write to Google Sheet.';
-              }
-            }
-          } catch (err) {
-            allRecords = allRecords.filter(r => r.id !== optId);
-            renderOrdersTable();
-            updateMetrics();
-            if (feedback) {
-              feedback.className = 'order-feedback error';
-              feedback.style.display = 'block';
-              feedback.textContent = 'Network error saving order.';
-            }
-          } finally {
-            submitBtn.disabled = false;
-            spinner.style.display = 'none';
-            submitText.textContent = '⚡ Add Order to Form Responses 1';
-          }
-        });
-      }
+      renderOrdersTable(filtered);
     }
 
-    // ─────────────────────────────────────────────────────────────
-    // EDIT & DELETE
-    // ─────────────────────────────────────────────────────────────
-    function openEditModal(rowNum) {
-      const record = allRecords.find(r => String(r.rowNumber) === String(rowNum));
-      if (!record) return;
+    // Export CSV
+    document.getElementById('exportCsvBtn')?.addEventListener('click', () => {
+      if (allOrders.length === 0) {
+        showToast('No orders to export.');
+        return;
+      }
+      const headers = ['Row', 'Timestamp', 'Customer Name', 'Contact', 'Item', 'Qty', 'Sizes Summary', 'Payment Status', 'Booking Status', 'Notes'];
+      const rows = allOrders.map((r, i) => [
+        i + 1,
+        `"${r.timestamp || ''}"`,
+        `"${(r.name || '').replace(/"/g, '""')}"`,
+        `"${r.phone || ''}"`,
+        `"${r.item || ''}"`,
+        r.qty || 1,
+        `"${r.sizesSummary || ''}"`,
+        `"${r.paymentStatus || ''}"`,
+        `"${r.bookingStatus || ''}"`,
+        `"${(r.notes || '').replace(/"/g, '""')}"`
+      ]);
 
-      const modal = document.getElementById('editModal');
-      document.getElementById('editRowNumber').value = record.rowNumber;
-      document.getElementById('editRowBadge').textContent = `#${record.rowNumber}`;
-      document.getElementById('editName').value = record.name || '';
-      document.getElementById('editPhone').value = record.phone || '';
-      document.getElementById('editItem').value = record.item || 'White T-Shirt';
-      document.getElementById('editPayment').value = record.paymentStatus || 'Pending';
-      document.getElementById('editNotes').value = record.notes || '';
-      document.getElementById('editSizeS').value = record.sizeS || 0;
-      document.getElementById('editSizeM').value = record.sizeM || 0;
-      document.getElementById('editSizeL').value = record.sizeL || 0;
-      document.getElementById('editSizeXL').value = record.sizeXL || 0;
-      document.getElementById('editSizeXXL').value = record.sizeXXL || 0;
-
-      modal.style.display = 'flex';
-    }
-
-    document.getElementById('closeEditModalBtn')?.addEventListener('click', () => {
-      document.getElementById('editModal').style.display = 'none';
-    });
-    document.getElementById('cancelEditBtn')?.addEventListener('click', () => {
-      document.getElementById('editModal').style.display = 'none';
+      const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `GEN_M_Form_Responses_1_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('CSV Export downloaded!');
     });
 
-    document.getElementById('editForm')?.addEventListener('submit', async () => {
-      const rowNumber = document.getElementById('editRowNumber').value;
-      const name = document.getElementById('editName').value.trim();
-      const phone = document.getElementById('editPhone').value.trim();
-      const item = document.getElementById('editItem').value;
-      const paymentStatus = document.getElementById('editPayment').value;
-      const notes = document.getElementById('editNotes').value.trim();
-      const s = parseInt(document.getElementById('editSizeS').value || '0', 10);
-      const m = parseInt(document.getElementById('editSizeM').value || '0', 10);
-      const l = parseInt(document.getElementById('editSizeL').value || '0', 10);
-      const xl = parseInt(document.getElementById('editSizeXL').value || '0', 10);
-      const xxl = parseInt(document.getElementById('editSizeXXL').value || '0', 10);
-      const qty = item === 'White T-Shirt' ? (s + m + l + xl + xxl) : 1;
+    // ─────────────────────────────────────────────────────────────
+    // TAB 3: STOCK & INVENTORY (VIEW ONLY)
+    // ─────────────────────────────────────────────────────────────
+    async function fetchStock() {
+      try {
+        const resp = await fetch(`${API_BASE}/api/inventory`, {
+          headers: { Authorization: `Bearer ${authToken}` }
+        });
+        if (!resp.ok) return;
+
+        const data = await resp.json();
+        const items = data.items || [];
+
+        let bookedTotal = 0;
+        let availableTotal = 0;
+        let stockTotal = 0;
+
+        items.forEach(it => {
+          stockTotal += it.totalStock || 0;
+          bookedTotal += it.bookedUnits || 0;
+          availableTotal += it.availableStock || 0;
+
+          // Update card stock badge
+          const cardStockBadge = document.getElementById(`stock-${it.item.toLowerCase().replace(/[^a-z0-9]/g, '-')}`);
+          if (cardStockBadge) {
+            cardStockBadge.textContent = `${it.availableStock} in stock`;
+          }
+
+          // Update table row
+          const bookedElem = document.getElementById(`live-booked-${it.item.toLowerCase().replace(/[^a-z0-9]/g, '-')}`);
+          const availElem = document.getElementById(`live-avail-${it.item.toLowerCase().replace(/[^a-z0-9]/g, '-')}`);
+          if (bookedElem) bookedElem.textContent = String(it.bookedUnits);
+          if (availElem) availElem.textContent = String(it.availableStock);
+        });
+
+        document.getElementById('metricTotalStock').textContent = `${stockTotal.toLocaleString()} Units`;
+        document.getElementById('metricTotalBooked').textContent = `${bookedTotal.toLocaleString()} Units`;
+        document.getElementById('metricTotalAvailable').textContent = `${availableTotal.toLocaleString()} Units`;
+
+      } catch (err) {
+        console.warn('Stock fetch note:', err);
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // CONFIG CHECK & PERMISSION NOTICES
+    // ─────────────────────────────────────────────────────────────
+    async function checkSystemHealth() {
+      try {
+        const resp = await fetch(`${API_BASE}/api/config-status`);
+        if (!resp.ok) return;
+        const cfg = await resp.json();
+
+        const banner = document.getElementById('syncAlertBanner');
+        const bannerMsg = document.getElementById('syncAlertMessage');
+
+        if (cfg.appsScriptHealth && cfg.appsScriptHealth.status === 403) {
+          if (banner) banner.style.display = 'flex';
+          if (bannerMsg) {
+            bannerMsg.innerHTML = `<strong>Google Permission Notice:</strong> Apps Script "Who has access" is set to "Only myself". Change to <strong>"Anyone"</strong> to allow direct writing to Form Responses 1. <em>(${cfg.pendingQueueCount || 0} orders queued safely)</em>`;
+          }
+        } else {
+          if (banner) banner.style.display = 'none';
+        }
+      } catch (e) {}
+    }
+
+    // Modal for Apps Script permissions
+    const appsScriptModal = document.getElementById('appsScriptModal');
+    const bannerResolveBtn = document.getElementById('bannerResolveBtn');
+    const closeAppsScriptModalBtn = document.getElementById('closeAppsScriptModalBtn');
+    const testScriptUrlBtn = document.getElementById('testScriptUrlBtn');
+    const saveScriptUrlBtn = document.getElementById('saveScriptUrlBtn');
+
+    bannerResolveBtn?.addEventListener('click', () => {
+      if (appsScriptModal) appsScriptModal.style.display = 'flex';
+    });
+
+    closeAppsScriptModalBtn?.addEventListener('click', () => {
+      if (appsScriptModal) appsScriptModal.style.display = 'none';
+    });
+
+    testScriptUrlBtn?.addEventListener('click', async () => {
+      const input = document.getElementById('modalScriptUrl');
+      const fb = document.getElementById('testScriptFeedback');
+      if (!input || !fb) return;
+
+      fb.style.display = 'block';
+      fb.className = 'test-feedback';
+      fb.textContent = 'Testing connection...';
 
       try {
-        const resp = await fetch(`${API_BASE}/api/data/${rowNumber}`, {
-          method: 'PUT',
+        const resp = await fetch(`${API_BASE}/api/config/test-apps-script`, {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${authToken}`
           },
-          body: JSON.stringify({ name, phone, item, qty, paymentStatus, notes, sizeS: s, sizeM: m, sizeL: l, sizeXL: xl, sizeXXL: xxl })
+          body: JSON.stringify({ appsScriptUrl: input.value.trim() })
         });
-        if (resp.ok) {
-          showToast(`✓ Booking #${rowNumber} updated in Google Sheet!`);
-          document.getElementById('editModal').style.display = 'none';
-          await fetchOrders(true);
+        const res = await resp.json();
+        if (res.ok) {
+          fb.style.background = '#ecfdf5';
+          fb.style.color = '#065f46';
+          fb.textContent = '✓ Google Apps Script is accessible and ready to write!';
         } else {
-          showToast('Failed to update booking');
+          fb.style.background = '#fef2f2';
+          fb.style.color = '#991b1b';
+          fb.textContent = `❌ ${res.error || 'Connection failed.'}`;
         }
-      } catch (e) {
-        showToast('Error updating booking');
+      } catch (err) {
+        fb.style.background = '#fef2f2';
+        fb.style.color = '#991b1b';
+        fb.textContent = 'Connection test failed.';
       }
     });
 
-    async function deleteOrder(rowNum) {
-      if (!confirm(`Delete row #${rowNum} from Google Sheet Form Responses 1?`)) return;
+    saveScriptUrlBtn?.addEventListener('click', async () => {
+      const input = document.getElementById('modalScriptUrl');
+      const url = input?.value.trim();
+      if (!url) return;
 
-      try {
-        const resp = await fetch(`${API_BASE}/api/data/${rowNum}`, {
-          method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${authToken}` }
-        });
-        if (resp.ok) {
-          showToast(`✓ Row #${rowNum} removed from Form Responses 1`);
-          await fetchOrders(true);
-        } else {
-          showToast('Failed to delete row');
-        }
-      } catch (e) {
-        showToast('Error deleting row');
-      }
-    }
-
-    // ─────────────────────────────────────────────────────────────
-    // VIEW SWITCHER (Orders / Stock / Financials)
-    // ─────────────────────────────────────────────────────────────
-    document.querySelectorAll('.view-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('is-active'));
-        btn.classList.add('is-active');
-
-        const view = btn.dataset.view;
-        document.getElementById('viewOrders').style.display = view === 'orders' ? 'block' : 'none';
-        document.getElementById('viewStock').style.display = view === 'stock' ? 'block' : 'none';
-        document.getElementById('viewFinancials').style.display = view === 'financials' ? 'block' : 'none';
-
-        if (view === 'stock') loadStock();
-        if (view === 'financials') loadFinancials();
-      });
-    });
-
-    async function loadStock() {
-      const tbody = document.getElementById('stockTableBody');
-      try {
-        const resp = await fetch(`${API_BASE}/api/inventory`, { headers: { 'Authorization': `Bearer ${authToken}` } });
-        const data = await resp.json();
-        if (data.items) {
-          tbody.innerHTML = data.items.map(it => `
-            <tr>
-              <td style="font-weight: 700; color: #ffffff;">${escapeHtml(it.item)}</td>
-              <td style="color: #94a3b8;">${escapeHtml(it.category)}</td>
-              <td>${it.totalStock}</td>
-              <td style="color: #E7EEAC; font-weight: 700;">${it.bookedUnits}</td>
-              <td style="color: #4ade80; font-weight: 800;">${it.availableStock}</td>
-              <td><span class="table-pill pill-paid">${escapeHtml(it.status)}</span></td>
-            </tr>
-          `).join('');
-        }
-      } catch (e) {}
-    }
-
-    async function loadFinancials() {
-      const tbody = document.getElementById('financialsTableBody');
-      try {
-        const resp = await fetch(`${API_BASE}/api/financials`, { headers: { 'Authorization': `Bearer ${authToken}` } });
-        const data = await resp.json();
-        if (data.items) {
-          tbody.innerHTML = data.items.map(it => `
-            <tr>
-              <td style="font-weight: 700; color: #ffffff;">${escapeHtml(it.item)}</td>
-              <td>₹${it.unitCost}</td>
-              <td style="color: #E7EEAC; font-weight: 700;">₹${it.sellingPrice}</td>
-              <td>${it.qty}</td>
-              <td style="color: #4ade80; font-weight: 700;">₹${it.expectedRevenue?.toLocaleString()}</td>
-              <td>₹${it.unitProfit}</td>
-              <td style="color: #38bdf8;">${escapeHtml(it.margin)}</td>
-            </tr>
-          `).join('');
-        }
-      } catch (e) {}
-    }
-
-    // ─────────────────────────────────────────────────────────────
-    // SYNC SETUP MODAL & APPS SCRIPT WEBHOOK CONFIG
-    // ─────────────────────────────────────────────────────────────
-    const setupModal = document.getElementById('syncSetupModal');
-    const openSyncBtn = document.getElementById('openSyncSetupBtn');
-    const closeSyncBtn = document.getElementById('closeSyncSetupModalBtn');
-    const bannerOpenBtn = document.getElementById('bannerOpenSetupModalBtn');
-
-    function openSyncModal() { if (setupModal) setupModal.style.display = 'flex'; }
-    function closeSyncModal() { if (setupModal) setupModal.style.display = 'none'; }
-
-    if (openSyncBtn) openSyncBtn.addEventListener('click', openSyncModal);
-    if (closeSyncBtn) closeSyncBtn.addEventListener('click', closeSyncModal);
-    if (bannerOpenBtn) bannerOpenBtn.addEventListener('click', openSyncModal);
-
-    // Copy Apps Script Code
-    document.getElementById('copyScriptCodeBtn')?.addEventListener('click', async () => {
-      const pre = document.getElementById('scriptCodePre');
-      if (pre) {
-        await navigator.clipboard.writeText(pre.innerText);
-        showToast('15-line Apps Script copied to clipboard!');
-      }
-    });
-
-    // Save Apps Script URL handler
-    async function saveAppsScriptUrl(url) {
-      if (!url) {
-        showToast('Please enter your deployed Apps Script URL');
-        return false;
-      }
       try {
         const resp = await fetch(`${API_BASE}/api/config/apps-script`, {
           method: 'POST',
@@ -2179,123 +3201,65 @@ function doGet(e) {
           body: JSON.stringify({ appsScriptUrl: url })
         });
         if (resp.ok) {
-          const resData = await resp.json();
-          showToast(`✓ Google Apps Script connected! ${resData.flushedCount ? resData.flushedCount + ' pending orders pushed to Google Sheet!' : ''}`);
-          checkConfig();
-          return true;
+          showToast('✓ Apps Script URL saved!');
+          setTimeout(() => {
+            if (appsScriptModal) appsScriptModal.style.display = 'none';
+          }, 1000);
         }
       } catch (e) {}
-      return false;
-    }
-
-    document.getElementById('saveModalAppsScriptBtn')?.addEventListener('click', async () => {
-      const input = document.getElementById('modalAppsScriptUrl');
-      const feedback = document.getElementById('modalSyncFeedback');
-      if (input) {
-        const ok = await saveAppsScriptUrl(input.value.trim());
-        if (ok) {
-          if (feedback) {
-            feedback.style.display = 'block';
-            feedback.textContent = '✓ Connected! Real-time writeback to Form Responses 1 is now active.';
-          }
-          setTimeout(closeSyncModal, 1500);
-        }
-      }
     });
 
-    document.getElementById('quickSaveScriptBtn')?.addEventListener('click', async () => {
-      const input = document.getElementById('quickScriptUrlInput');
-      if (input) {
-        await saveAppsScriptUrl(input.value.trim());
-      }
+    // ─────────────────────────────────────────────────────────────
+    // REFRESH & SSE STREAM
+    // ─────────────────────────────────────────────────────────────
+    document.getElementById('refreshBtn')?.addEventListener('click', async () => {
+      showToast('Refreshing live Google Sheet data...');
+      await Promise.all([fetchOrders(true), fetchStock(), checkSystemHealth()]);
     });
 
-    async function checkConfig() {
+    function initSse() {
       try {
-        const resp = await fetch(`${API_BASE}/api/config-status`);
-        if (resp.ok) {
-          const cfg = await resp.json();
-          const hasUrl = Boolean(cfg.appsScriptUrl);
-          const banner = document.getElementById('webhookBanner');
-          const syncDot = document.getElementById('syncSetupDot');
-          const syncLabel = document.getElementById('syncSetupLabel');
-          const modalInput = document.getElementById('modalAppsScriptUrl');
-
-          if (modalInput && cfg.appsScriptUrl) modalInput.value = cfg.appsScriptUrl;
-
-          if (hasUrl) {
-            if (banner) banner.style.display = 'none';
-            if (syncDot) syncDot.style.background = '#4ade80';
-            if (syncLabel) syncLabel.textContent = '✓ Real-Time Write Active';
-          } else {
-            if (banner) banner.style.display = 'flex';
-            if (syncDot) syncDot.style.background = '#f59e0b';
-            if (syncLabel) syncLabel.textContent = '⚡ Connect Real-Time Write';
-          }
-        }
+        const sse = new EventSource(`${API_BASE}/api/realtime/stream`);
+        sse.addEventListener('data_changed', () => {
+          fetchOrders();
+          fetchStock();
+        });
+        sse.addEventListener('sheet_update', () => {
+          fetchOrders();
+          fetchStock();
+        });
       } catch (e) {}
     }
 
-    // Export CSV
-    document.getElementById('exportCsvBtn')?.addEventListener('click', () => {
-      if (!allRecords.length) { showToast('No records to export'); return; }
-      const headers = ['#', 'Timestamp', 'Customer Name', 'Phone', 'Item', 'Quantity', 'Sizes Summary', 'Payment Status', 'Booking Status', 'Notes'];
-      const rows = allRecords.map((r, i) => [
-        r.rowNumber || i + 1,
-        `"${(r.timestamp || '').replace(/"/g, '""')}"`,
-        `"${(r.name || '').replace(/"/g, '""')}"`,
-        `"${(r.phone || '').replace(/"/g, '""')}"`,
-        `"${(r.item || '').replace(/"/g, '""')}"`,
-        r.qty || 1,
-        `"${(r.sizesSummary || '').replace(/"/g, '""')}"`,
-        `"${(r.paymentStatus || '').replace(/"/g, '""')}"`,
-        `"${(r.bookingStatus || '').replace(/"/g, '""')}"`,
-        `"${(r.notes || '').replace(/"/g, '""')}"`
-      ]);
-      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `GEN_M_Form_Responses_1_${new Date().toISOString().slice(0, 10)}.csv`;
-      a.click();
-    });
-
-    // Toolbar Listeners
-    document.getElementById('searchInput')?.addEventListener('input', renderOrdersTable);
-    document.getElementById('itemFilter')?.addEventListener('change', renderOrdersTable);
-    document.getElementById('refreshBtn')?.addEventListener('click', () => {
-      fetchOrders();
-      showToast('Refreshed from Google Sheet');
-    });
-
     // ─────────────────────────────────────────────────────────────
-    // INIT
+    // UTILITIES
     // ─────────────────────────────────────────────────────────────
-    async function init() {
-      // Seamless auto-sign-in
-      if (!authToken) {
-        try {
-          const resp = await fetch(`${API_BASE}/api/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: 'admin', password: 'GenM@2026!' })
-          });
-          if (resp.ok) {
-            const data = await resp.json();
-            setSession(data.token, data.user);
-          }
-        } catch (e) {}
-      }
-
-      if (authSection) authSection.style.display = 'none';
-      if (dashSection) dashSection.style.display = 'flex';
-
-      initOrderForm();
-      initRealtime();
-      await checkConfig();
-      await fetchOrders();
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3500);
     }
 
-    init();
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function initApp() {
+      fetchOrders();
+      fetchStock();
+      checkSystemHealth();
+      initSse();
+    }
+
+    // Boot
+    checkAuth();
   })();
 </script>

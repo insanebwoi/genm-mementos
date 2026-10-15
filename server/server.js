@@ -157,6 +157,60 @@ function queuePendingWrite(action, payload) {
   console.log(`[Offline Sync Queue] Queued ${action} for Form Responses 1. Total pending in queue: ${queue.length}`);
 }
 
+let lastAppsScriptHealth = {
+  ok: false,
+  status: 403,
+  error: 'Google Apps Script returned 403 Forbidden. "Who has access" is set to "Only myself". Must be "Anyone".',
+  lastChecked: null
+};
+
+async function checkAppsScriptHealth(url) {
+  const targetUrl = url || getAppConfig().appsScriptUrl || APPS_SCRIPT_URL;
+  if (!targetUrl || !targetUrl.startsWith('http')) {
+    lastAppsScriptHealth = { ok: false, status: 0, error: 'No Apps Script URL configured', lastChecked: new Date().toISOString() };
+    return lastAppsScriptHealth;
+  }
+  try {
+    const resp = await fetch(targetUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'ping' }),
+      redirect: 'follow',
+    });
+    const respText = await resp.text();
+    const isAccessDenied = resp.status === 403 || respText.includes('You need access') || respText.includes('accounts.google.com');
+    if (isAccessDenied) {
+      lastAppsScriptHealth = {
+        ok: false,
+        status: 403,
+        error: 'Google blocked access (403 Forbidden). Set "Who has access" to "Anyone" in Deploy > Manage deployments.',
+        lastChecked: new Date().toISOString()
+      };
+    } else if (resp.ok || resp.status === 200 || resp.status === 302) {
+      lastAppsScriptHealth = {
+        ok: true,
+        status: resp.status,
+        lastChecked: new Date().toISOString()
+      };
+    } else {
+      lastAppsScriptHealth = {
+        ok: false,
+        status: resp.status,
+        error: `HTTP ${resp.status}`,
+        lastChecked: new Date().toISOString()
+      };
+    }
+  } catch (err) {
+    lastAppsScriptHealth = {
+      ok: false,
+      status: 0,
+      error: err.message,
+      lastChecked: new Date().toISOString()
+    };
+  }
+  return lastAppsScriptHealth;
+}
+
 async function flushSyncQueue() {
   const queue = readSyncQueue();
   if (!queue.length) return { flushed: 0, remaining: 0 };
@@ -181,7 +235,18 @@ async function flushSyncQueue() {
           body: JSON.stringify({ action: item.action, targetSheet: 'Form Responses 1', ...item.payload }),
           redirect: 'follow',
         });
-        if (resp.ok || resp.status === 200 || resp.status === 302) {
+        const respText = await resp.text();
+        const isAccessDenied = resp.status === 403 || respText.includes('You need access') || respText.includes('accounts.google.com');
+        if (isAccessDenied) {
+          lastAppsScriptHealth = {
+            ok: false,
+            status: 403,
+            error: 'Google Apps Script returned 403 Forbidden. "Who has access" is set to "Only myself". Must be "Anyone".',
+            lastChecked: new Date().toISOString()
+          };
+          ok = false;
+        } else if (resp.ok || resp.status === 200 || resp.status === 302) {
+          lastAppsScriptHealth = { ok: true, status: resp.status, lastChecked: new Date().toISOString() };
           ok = true;
         }
       } else if (isServiceAccountConfigured()) {
@@ -272,7 +337,25 @@ async function writeToGoogleSheet(action, payload) {
         redirect: 'follow',
       });
       console.log(`[Google Sheets Sync] Apps Script responded with status:`, resp.status);
+      const respText = await resp.text();
+      const isAccessDenied = resp.status === 403 || respText.includes('You need access') || respText.includes('accounts.google.com');
+      if (isAccessDenied) {
+        lastAppsScriptHealth = {
+          ok: false,
+          status: 403,
+          error: 'Google Apps Script returned 403 Forbidden. "Who has access" is set to "Only myself". Must be "Anyone".',
+          lastChecked: new Date().toISOString()
+        };
+        console.warn(`[Google Sheets Sync] 403 Access Denied: Google Apps Script "Who has access" must be set to "Anyone"!`);
+        queuePendingWrite(action, payload);
+        return {
+          success: false,
+          method: 'queued_offline',
+          error: 'Google Apps Script returned 403 Forbidden. "Who has access" must be set to "Anyone".'
+        };
+      }
       if (resp.ok || resp.status === 302 || resp.status === 200) {
+        lastAppsScriptHealth = { ok: true, status: resp.status, lastChecked: new Date().toISOString() };
         return { success: true, method: 'apps_script', status: resp.status };
       }
     } catch (err) {
@@ -395,7 +478,7 @@ app.get('/api/auth/verify', authenticateToken, (req, res) => {
 // DIAGNOSTICS & SYSTEM CONFIG
 // ─────────────────────────────────────────────────────────────
 
-app.get('/api/config-status', (req, res) => {
+app.get('/api/config-status', async (req, res) => {
   const cfg = getAppConfig();
   res.json({
     status: 'online',
@@ -404,7 +487,9 @@ app.get('/api/config-status', (req, res) => {
     googleApiKeyActive: Boolean(GOOGLE_API_KEY),
     appsScriptUrl: cfg.appsScriptUrl || null,
     hasServiceAccount: isServiceAccountConfigured(),
-    realtimeSyncReady: Boolean(cfg.appsScriptUrl || isServiceAccountConfigured()),
+    realtimeSyncReady: Boolean(cfg.appsScriptUrl && lastAppsScriptHealth?.ok),
+    appsScriptHealth: lastAppsScriptHealth,
+    pendingQueueCount: readSyncQueue().length,
     worksheets: [
       { name: 'Form Responses 1', gid: '94895465', purpose: 'Multi-Size T-Shirt Orders' },
       { name: 'Inventory & Availability', gid: '1987367975', purpose: 'Live Stock Levels' },
@@ -413,6 +498,12 @@ app.get('/api/config-status', (req, res) => {
       { name: 'Form responses 2', gid: '876296022', purpose: 'Single-Size Form Bookings' }
     ]
   });
+});
+
+app.post('/api/config/test-apps-script', authenticateToken, async (req, res) => {
+  const { appsScriptUrl } = req.body;
+  const health = await checkAppsScriptHealth(appsScriptUrl);
+  res.json(health);
 });
 
 // ─────────────────────────────────────────────────────────────
@@ -865,8 +956,10 @@ app.post('/api/data', authenticateToken, async (req, res) => {
 
     res.json({
       success: true,
-      message: writeResult.success ? 'Booking added directly to Google Sheet!' : 'Booking saved to operations ledger.',
+      message: writeResult.success ? 'Booking added directly to Google Sheet!' : 'Booking saved to local queue (Google Sheet write rejected: 403 Forbidden).',
       syncMethod: writeResult.method,
+      queued: !writeResult.success,
+      syncError: writeResult.error || null,
       newRow
     });
   } catch (error) {
