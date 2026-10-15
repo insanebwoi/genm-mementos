@@ -1,20 +1,44 @@
 ---
 import '../styles/global.css';
-const { title, description = 'GEN M 2026 — Kerala\'s Generational Student Confluence at Kozhikode Beach, November 13–15, 2026. Theme: മാറ്റം (Transformation).' } = Astro.props;
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "GEN M 2026 | Generational Student Confluence — MSM Kerala",
+  description = "Discover GEN M 2026, the Generational Student Confluence by MSM Kerala, taking place in Kozhikode on 13–15 November 2026. Rooted in Deen. Driven by Purpose."
+} = Astro.props;
 ---
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title ? `${title} | GEN M 2026` : 'GEN M 2026 — Kerala Generational Student Confluence'}</title>
+    <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="icon" type="image/png" href="/ylogo.png" />
-    <meta property="og:title" content={title ? `${title} | GEN M 2026` : 'GEN M 2026'} />
+    <meta name="theme-color" content="#5961B4" />
+
+    <!-- Google Fonts: Poppins (Headings), Inter (Body), Anek Malayalam -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@500;700;800&family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon & Open Graph -->
+    <link rel="icon" type="image/png" href="/blogo.png" />
+    <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/ylogo.png" />
+    <meta property="og:image" content="/blogo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="/blogo.png" />
   </head>
   <body>
     <slot />

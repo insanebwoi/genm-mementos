@@ -1,260 +1,314 @@
-export interface Product {
+export type ProductCategory =
+  | 'Everyday Essentials'
+  | 'Drinkware'
+  | 'Wear & Carry'
+  | 'Lifestyle Accessories';
+
+export interface ProductItem {
   id: string;
   name: string;
-  category: 'Apparel' | 'Accessories' | 'Bags' | 'Stationery' | 'Memorabilia' | 'Bundles';
-  price: number;
-  originalPrice: number;
-  badge?: string;
-  badgeType?: 'primary' | 'hot' | 'limited' | 'exclusive';
+  category: ProductCategory;
+  categorySlug: 'everyday-essentials' | 'drinkware' | 'wear-and-carry' | 'lifestyle-accessories';
+  image: string;
+  isFeatured?: boolean;
+  slogan?: string;
   shortDesc: string;
   description: string;
   features: string[];
-  sizes?: string[];
-  colors?: { name: string; hex: string }[];
-  tag: string;
-  icon: string;
+  specs?: { label: string; value: string }[];
 }
 
-export const products: Product[] = [
+export const CATEGORIES: { name: ProductCategory; slug: string; desc: string }[] = [
   {
-    id: 'genm-tee-signature',
-    name: 'GEN M Signature Oversized Tee',
-    category: 'Apparel',
-    price: 699,
-    originalPrice: 899,
-    badge: 'Pre-Order Deal',
-    badgeType: 'hot',
-    shortDesc: '240 GSM heavy combed cotton with high-density screen print.',
-    description: 'The definitive official tee of GEN M 2026. Tailored in an oversized streetwear drape with drop-shoulders and ribbed collar. Features the iconic GEN M typeface on chest and confluence manifesto graphic on the back.',
-    features: ['240 GSM 100% Combed Cotton', 'Pre-shrunk, bio-washed fabric', 'High-density puff and screen print', 'Reinforced neck ribbing'],
-    sizes: ['S', 'M', 'L', 'XL', '2XL'],
-    colors: [
-      { name: 'Slate Periwinkle', hex: '#5961B4' },
-      { name: 'Deep Indigo', hex: '#232863' },
-      { name: 'Pure Black', hex: '#161828' }
-    ],
-    tag: 'Apparel',
-    icon: '👕'
+    name: 'Everyday Essentials',
+    slug: 'everyday-essentials',
+    desc: 'Functional tools and keepsakes tailored for student life, note-taking, and daily campus journeys.'
   },
   {
-    id: 'genm-hoodie-heritage',
-    name: 'Confluence Heritage Pullover Hoodie',
-    category: 'Apparel',
-    price: 1399,
-    originalPrice: 1799,
-    badge: 'Bestseller',
-    badgeType: 'primary',
-    shortDesc: '380 GSM brushed fleece with tonal embroidered chest lockup.',
-    description: 'Ultra-warm and cozy heavyweight hoodie built for late-night student discussions and morning sessions. Features custom antique brass eyelets, kangaroo pouch, and double-layered thermal hood.',
-    features: ['380 GSM Heavy French Terry Fleece', 'Satin-stitch embroidered chest emblem', 'Thermal lined dual-panel hood', 'Concealed security pocket inside pouch'],
-    sizes: ['M', 'L', 'XL', '2XL'],
-    colors: [
-      { name: 'Deep Indigo', hex: '#232863' },
-      { name: 'Slate Periwinkle', hex: '#5961B4' }
-    ],
-    tag: 'Apparel',
-    icon: '🧥'
+    name: 'Drinkware',
+    slug: 'drinkware',
+    desc: 'Minimalist glassware, bottles, and ceramic mugs crafted for mindful hydration and focus.'
   },
   {
-    id: 'genm-varsity-jacket',
-    name: 'GEN M Confluence Varsity Jacket',
-    category: 'Apparel',
-    price: 2299,
-    originalPrice: 2899,
-    badge: 'Limited Edition',
-    badgeType: 'limited',
-    shortDesc: 'Collector edition varsity jacket with chenille patches and quilted lining.',
-    description: 'An exclusive heirloom piece commemorating the Generational Student Confluence. Crafted with textured wool-blend body, faux leather sleeves, custom GEN M metal snap buttons, and varsity chenille patches.',
-    features: ['Textured wool-blend shell & PU sleeves', 'Diamond quilted thermal satin lining', 'Multi-layer chenille embroidery patches', 'Numbered official collector tag'],
-    sizes: ['M', 'L', 'XL'],
-    colors: [
-      { name: 'Indigo & Cream', hex: '#232863' }
-    ],
-    tag: 'Apparel',
-    icon: '🧥'
+    name: 'Wear & Carry',
+    slug: 'wear-and-carry',
+    desc: 'Signature apparel, headwear, and utility bags built around the GEN M generational movement.'
   },
   {
-    id: 'genm-canvas-tote',
-    name: 'GEN M Heavy Canvas Confluence Tote',
-    category: 'Bags',
-    price: 349,
-    originalPrice: 449,
-    badge: 'Eco-Friendly',
-    badgeType: 'primary',
-    shortDesc: '14oz natural organic canvas with reinforced cross-stitched handles.',
-    description: 'Spacious everyday tote designed to hold laptops, journals, and event literature. Screen-printed with the bilingual GEN M typography and Malayalam confluence motif.',
-    features: ['14oz 100% Organic Cotton Canvas', 'Inner zippered pocket for keys & phone', 'Reinforced shoulder straps (32cm drop)', 'Water-resistant coated base'],
-    colors: [
-      { name: 'Natural Cream', hex: '#E7EEAC' },
-      { name: 'Slate Periwinkle', hex: '#5961B4' }
-    ],
-    tag: 'Bags',
-    icon: '👜'
-  },
-  {
-    id: 'genm-delegate-backpack',
-    name: 'Official Delegate Commuter Backpack',
-    category: 'Bags',
-    price: 1299,
-    originalPrice: 1699,
-    badge: 'Venue Essential',
-    badgeType: 'hot',
-    shortDesc: 'Weather-resistant 900D ballistic nylon with 16" padded laptop vault.',
-    description: 'Designed specifically for delegate travel and conference mobility. Features dual water-bottle sleeves, hidden anti-theft passport pocket, luggage pass-through strap, and padded ergonomic shoulder harness.',
-    features: ['900D Water-repellent Ballistic Nylon', 'Dedicated 16-inch velvet laptop compartment', 'USB charging pass-through port', 'YKK weather-sealed zippers'],
-    colors: [
-      { name: 'Midnight Periwinkle', hex: '#232863' }
-    ],
-    tag: 'Bags',
-    icon: '🎒'
-  },
-  {
-    id: 'genm-thermal-flask',
-    name: 'GEN M Insulated Hydro Flask (750ml)',
-    category: 'Accessories',
-    price: 649,
-    originalPrice: 799,
-    badge: 'Popular',
-    badgeType: 'primary',
-    shortDesc: '24hr cold / 12hr hot double-walled 304 food-grade stainless steel.',
-    description: 'Keep your beverages ice-cold through long confluence auditoriums or steaming hot for morning journeys. Matte powder-coat finish with laser-engraved GEN M crest and leakproof silicone grip cap.',
-    features: ['750ml Food-grade 18/8 Stainless Steel', 'Double-wall copper vacuum insulation', 'Condensation-free powder coat grip', 'BPA-free twist spout cap with carry loop'],
-    colors: [
-      { name: 'Slate Matte', hex: '#5961B4' },
-      { name: 'Cream Matte', hex: '#E7EEAC' }
-    ],
-    tag: 'Accessories',
-    icon: '🍶'
-  },
-  {
-    id: 'genm-ceramic-mug',
-    name: 'Neoverse Matte Ceramic Confluence Mug',
-    category: 'Memorabilia',
-    price: 349,
-    originalPrice: 449,
-    badge: 'Desk Favorite',
-    badgeType: 'primary',
-    shortDesc: '350ml hand-dipped stoneware mug with satin matte glaze.',
-    description: 'Start your study mornings with the spirit of GEN M. Ergonomic handle, deep indigo matte glaze, and contrasting pale cream typography along the rim.',
-    features: ['350ml Premium Ceramic Stoneware', 'Microwave & Dishwasher safe', 'Silky satin glaze with debossed motif', 'Weighted base prevents accidental spills'],
-    colors: [
-      { name: 'Deep Indigo / Cream', hex: '#232863' }
-    ],
-    tag: 'Memorabilia',
-    icon: '☕'
-  },
-  {
-    id: 'genm-leather-journal',
-    name: 'Confluence Hardbound Journal & Gel Pen',
-    category: 'Stationery',
-    price: 399,
-    originalPrice: 499,
-    badge: 'Essential',
-    badgeType: 'primary',
-    shortDesc: '192 numbered pages of 100 GSM bleedproof ivory paper.',
-    description: 'Capture key ideas, reflections, and contacts during the three days in Kozhikode. Includes foil-stamped hard cover, ribbon marker, expandable back pocket, and matte black precision rollerball pen.',
-    features: ['192 Pages 100 GSM Acid-Free Ivory Paper', 'Dotted grid ruling for sketching & notes', 'Expandable inner document pocket', 'Matching aluminum body gel pen included'],
-    colors: [
-      { name: 'Slate Periwinkle', hex: '#5961B4' },
-      { name: 'Deep Navy', hex: '#232863' }
-    ],
-    tag: 'Stationery',
-    icon: '📓'
-  },
-  {
-    id: 'genm-enamel-pins',
-    name: 'Official GEN M Enamel Pin Set (4-Pack)',
-    category: 'Memorabilia',
-    price: 299,
-    originalPrice: 399,
-    badge: 'Collectible',
-    badgeType: 'exclusive',
-    shortDesc: 'Hard enamel metal pins with gold plating and rubber clutches.',
-    description: 'Set of 4 collectible lapel pins celebrating the 2026 Confluence: The Primary Logomark, Kozhikode Destination Marker, Confluence Star, and Manifesto Banner. Mount them on jackets, bags, or lanyards.',
-    features: ['Jewelry-grade hard enamel construction', '18K gold-plated zinc alloy borders', 'Dual rubber clutches for secure hold', 'Custom illustrated collector backing card'],
-    tag: 'Memorabilia',
-    icon: '✨'
-  },
-  {
-    id: 'genm-keychain-lanyard',
-    name: 'Cast Alloy Keychain & Woven Lanyard',
-    category: 'Accessories',
-    price: 229,
-    originalPrice: 299,
-    shortDesc: 'Heavy zinc alloy badge with jacquard woven badge neck strap.',
-    description: 'Heavyweight sculpted metal keychain with mirror-polished periwinkle enamel fill, paired with a soft jacquard woven event lanyard equipped with quick-release safety clasp.',
-    features: ['Solid zinc alloy 3D die-cast medallion', 'Silky soft jacquard anti-chafing lanyard', 'Heavy-duty lobster claw swivel clip', 'Safety breakaway clasp'],
-    tag: 'Accessories',
-    icon: '🔑'
-  },
-  {
-    id: 'genm-dad-cap',
-    name: 'GEN M Embroidered Low-Profile Dad Cap',
-    category: 'Apparel',
-    price: 499,
-    originalPrice: 649,
-    badge: 'Streetwear',
-    badgeType: 'hot',
-    shortDesc: '100% brushed chino twill with 3D puff front embroidery.',
-    description: 'Relaxed unstructured six-panel cap with pre-curved visor. Tonal eyelets, embroidered confluence typographic crest, and adjustable antique brass slider buckle.',
-    features: ['100% Washed Chino Cotton Twill', 'Unstructured low-profile 6-panel fit', 'High-density 3D puff embroidery', 'Custom brass embossed closure buckle'],
-    sizes: ['One Size (Adjustable)'],
-    colors: [
-      { name: 'Deep Indigo', hex: '#232863' },
-      { name: 'Periwinkle', hex: '#5961B4' }
-    ],
-    tag: 'Apparel',
-    icon: '🧢'
-  },
-  {
-    id: 'genm-desk-mat',
-    name: 'Confluence Panoramic Desk Mat (900x400)',
-    category: 'Accessories',
-    price: 599,
-    originalPrice: 799,
-    badge: 'Workspace',
-    badgeType: 'primary',
-    shortDesc: 'Micro-weave speed cloth with non-slip natural rubber base.',
-    description: 'Upgrade your workspace with this 900x400x4mm extended desk mat featuring the panoramic abstract geometric artwork of GEN M. Smooth glide surface with precision anti-fray stitched perimeter.',
-    features: ['High-density micro-textured fabric surface', 'Non-slip natural rubber grip backing', '360° Anti-fray precision edge stitching', 'Waterproof spill-resistant coating'],
-    tag: 'Accessories',
-    icon: '🖥️'
-  },
-  {
-    id: 'genm-stickers-pack',
-    name: 'Holographic & Matte Vinyl Sticker Pack (10-Pk)',
-    category: 'Memorabilia',
-    price: 179,
-    originalPrice: 249,
-    shortDesc: '10 weatherproof UV-protected die-cut stickers for laptops & flasks.',
-    description: 'Pack of 10 custom die-cut stickers printed on thick scratch-resistant vinyl. Includes 4 holographic foil badges, 4 matte finish decals, and 2 transparent typographic strips.',
-    features: ['UV & Weatherproof laminated vinyl', 'Scratch & water resistant for laptops & bottles', 'Residue-free clean removal adhesive', '4 Holographic special-finish editions included'],
-    tag: 'Memorabilia',
-    icon: '🏷️'
-  },
-  {
-    id: 'genm-all-in-one-bundle',
-    name: 'Official Delegate All-In-One Box Bundle',
-    category: 'Bundles',
-    price: 2699,
-    originalPrice: 3899,
-    badge: 'Save ₹1,200',
-    badgeType: 'exclusive',
-    shortDesc: 'Complete VIP kit: Hoodie, Tote, Flask, Journal, Pin Set & Stickers in custom gift box.',
-    description: 'The ultimate collector experience. Pre-order all iconic GEN M items in a luxury magnetic-closure presentation box. Includes the Heritage Hoodie, Canvas Tote, Insulated Flask, Hardbound Journal, Enamel Pin Set, and Holographic Sticker Pack.',
-    features: [
-      'Heritage Hoodie (select your size)',
-      'Heavy Canvas Confluence Tote Bag',
-      '750ml Insulated Thermal Hydro Flask',
-      'Hardbound Gold-Foil Journal & Gel Pen',
-      'Full 4-Pack Enamel Pin Collector Set',
-      'Deluxe 10-Pack Vinyl Sticker Pack',
-      'Luxury embossed magnetic collector box'
-    ],
-    sizes: ['M', 'L', 'XL', '2XL'],
-    tag: 'Bundles',
-    icon: '🎁'
+    name: 'Lifestyle Accessories',
+    slug: 'lifestyle-accessories',
+    desc: 'Curated desk, car, and personal accents communicating subtle elegance and purposeful living.'
   }
 ];
 
-export const categories = ['All', 'Apparel', 'Accessories', 'Bags', 'Stationery', 'Memorabilia', 'Bundles'] as const;
+export const PRODUCTS: ProductItem[] = [
+  // ─── EVERYDAY ESSENTIALS ───
+  {
+    id: 'diary',
+    name: 'Diary',
+    category: 'Everyday Essentials',
+    categorySlug: 'everyday-essentials',
+    image: '/products/diary.jpg',
+    shortDesc: 'Hardcover journal in deep blue-violet with silver foil debossed GEN M identity.',
+    description: 'A thoughtfully crafted daily planner and notebook designed for reflective thoughts, lecture notes, and purposeful goal setting. Features acid-free ruled pages, bookmark ribbon, and lay-flat binding.',
+    features: [
+      'Deep blue-violet tactile hardcover',
+      'Debossed white GEN M emblem',
+      '192 pages of 80 GSM feather-proof paper',
+      'Integrated ribbon bookmark and elastic band'
+    ],
+    specs: [
+      { label: 'Binding', value: 'Hardcover Case Bound' },
+      { label: 'Paper', value: '80 GSM Ivory Ruled' },
+      { label: 'Size', value: 'A5 (148 × 210 mm)' }
+    ]
+  },
+  {
+    id: 'pen',
+    name: 'Pen',
+    category: 'Everyday Essentials',
+    categorySlug: 'everyday-essentials',
+    image: '/products/pen.jpg',
+    shortDesc: 'Precision metal ballpoint pen with matte blue-violet finish and engraved logo.',
+    description: 'An elegant aluminum writing instrument engineered for smooth, effortless flow. Fitted with a 0.7mm high-density German ink refill and balanced weight distribution for extended study sessions.',
+    features: [
+      'Matte anodized blue-violet aluminum body',
+      'Precision laser-etched GEN M branding',
+      '0.7mm German black ballpoint cartridge',
+      'Spring-steel pocket clip'
+    ],
+    specs: [
+      { label: 'Material', value: 'Anodized Aluminum' },
+      { label: 'Ink', value: 'Quick-dry Black 0.7mm' },
+      { label: 'Action', value: 'Click Retractable' }
+    ]
+  },
+  {
+    id: 'keychain',
+    name: 'Keychain',
+    category: 'Everyday Essentials',
+    categorySlug: 'everyday-essentials',
+    image: '/products/keychain.jpg',
+    shortDesc: 'Geometric zinc-alloy emblem keychain with matte periwinkle enamel fill.',
+    description: 'A durable geometric keepsake celebrating the generational confluence. Crafted from brushed zinc alloy with deep enamel inlay that resists scratches and wear over years of daily carry.',
+    features: [
+      'Geometric octagonal die-cast zinc alloy',
+      'Debossed GEN M geometric emblem',
+      'Triple-split key rings for organizing keys',
+      'Tarnish-resistant brushed chrome rim'
+    ],
+    specs: [
+      { label: 'Material', value: 'Zinc Alloy + Soft Enamel' },
+      { label: 'Finish', value: 'Brushed Satin Chrome' },
+      { label: 'Dimension', value: '42 × 38 mm' }
+    ]
+  },
+  {
+    id: 'bag-tag',
+    name: 'Bag Tag',
+    category: 'Everyday Essentials',
+    categorySlug: 'everyday-essentials',
+    image: '/products/bag_tag.jpg',
+    shortDesc: 'Two-tone vegan leather luggage tag in blue-violet with sage-green buckle strap.',
+    description: 'A distinctive travel tag for backpacks, carry-ons, and travel luggage. Embossed with the clean GEN M typography and protected with a concealed privacy contact window.',
+    features: [
+      'Dual-tone vegan leather (Blue-Violet + Sage)',
+      'Debossed GEN M typographic branding',
+      'Durable solid brass buckle attachment',
+      'Concealed contact information card slot'
+    ],
+    specs: [
+      { label: 'Material', value: 'Saffiano Textured Vegan Leather' },
+      { label: 'Colors', value: 'Blue-Violet & Sage Green' },
+      { label: 'Size', value: '70 × 110 mm' }
+    ]
+  },
+
+  // ─── DRINKWARE ───
+  {
+    id: 'glass-set',
+    name: 'Glass Set',
+    category: 'Drinkware',
+    categorySlug: 'drinkware',
+    image: '/products/glass_set.jpg',
+    shortDesc: 'Pair of fluted crystal-clear highball tumblers with frosted monogram emblem.',
+    description: 'Minimalist ribbed glass tumblers celebrating clarity and community. Ideal for refreshing water, iced brew, or beverages during gatherings. Dishwasher safe and crafted from lead-free silicate glass.',
+    features: [
+      'Set of 2 vertical fluted glasses',
+      'Frosted GEN M monogram etching',
+      'Weighted heavy base for stability',
+      'Lead-free high-clarity soda-lime glass'
+    ],
+    specs: [
+      { label: 'Quantity', value: '2 Glasses per Box' },
+      { label: 'Capacity', value: '350 ml (12 oz)' },
+      { label: 'Care', value: 'Dishwasher Safe' }
+    ]
+  },
+  {
+    id: 'water-bottle',
+    name: 'Water Bottle',
+    category: 'Drinkware',
+    categorySlug: 'drinkware',
+    image: '/products/water_bottle.jpg',
+    shortDesc: 'Matte sage green insulated stainless steel flask with carry loop lid.',
+    description: 'Double-walled vacuum insulated bottle engineered to keep beverages cold for 24 hours or piping hot for 12 hours. Powder-coated in muted sage green with contrasting blue-violet handle loop.',
+    features: [
+      'Food-grade 18/8 stainless steel',
+      'Double-wall vacuum temperature insulation',
+      'Ergonomic blue-violet carry loop handle',
+      'Sweat-free matte powder finish'
+    ],
+    specs: [
+      { label: 'Capacity', value: '750 ml' },
+      { label: 'Insulation', value: '24h Cold / 12h Hot' },
+      { label: 'Color', value: 'Sage Green + Blue-Violet' }
+    ]
+  },
+  {
+    id: 'coffee-mug',
+    name: 'Coffee Mug',
+    category: 'Drinkware',
+    categorySlug: 'drinkware',
+    image: '/products/coffee_mug.jpg',
+    shortDesc: 'Artisanal off-white ceramic coffee mug with glazed blue-violet handle.',
+    description: 'A cozy, tactile ceramic mug designed for early morning study routines and evening conversations. Hand-dipped glaze with contrasting periwinkle handle and minimal typographic mark.',
+    features: [
+      'Heavyweight stoneware ceramic',
+      'Contrasting hand-glazed blue-violet handle',
+      'Microwave and dishwasher safe',
+      'Comfortable 3-finger ergonomic grip'
+    ],
+    specs: [
+      { label: 'Capacity', value: '330 ml' },
+      { label: 'Material', value: 'Glazed Ceramic' },
+      { label: 'Color', value: 'Off-White & Periwinkle' }
+    ]
+  },
+
+  // ─── WEAR & CARRY ───
+  {
+    id: 'cross-bag',
+    name: 'Cross Bag',
+    category: 'Wear & Carry',
+    categorySlug: 'wear-and-carry',
+    image: '/products/cross_bag.jpg',
+    shortDesc: 'Structured weather-resistant utility crossbody bag with sage green webbing strap.',
+    description: 'An everyday compact shoulder bag built for essentials: phone, wallet, keys, and notebooks. Crafted from water-repellent Cordura nylon in blue-violet with custom military-grade sage webbing.',
+    features: [
+      'Water-repellent structured nylon fabric',
+      'Adjustable sage green seatbelt webbing strap',
+      'YKK waterproof reverse-coil zippers',
+      'Internal organizer pockets and key clip'
+    ],
+    specs: [
+      { label: 'Volume', value: '3.5 Litres' },
+      { label: 'Dimensions', value: '22 × 17 × 7 cm' },
+      { label: 'Strap', value: 'Adjustable 80–145 cm' }
+    ]
+  },
+  {
+    id: 'embroidered-cap',
+    name: 'Embroidered Cap',
+    category: 'Wear & Carry',
+    categorySlug: 'wear-and-carry',
+    image: '/products/cap.jpg',
+    shortDesc: 'Classic 6-panel unstructured dad cap in cotton twill with white 3D embroidery.',
+    description: 'A low-profile cotton twill cap tailored for effortless daily wear. Features satin-stitch 3D embroidered GEN M lockup on the crown, antique brass strap closure, and stitched ventilation eyelets.',
+    features: [
+      '100% premium washed cotton twill',
+      'High-density white embroidered lettering',
+      'Curved brim with reinforced tonal stitching',
+      'Antique brass adjustable buckle closure'
+    ],
+    specs: [
+      { label: 'Profile', value: 'Unstructured 6-Panel' },
+      { label: 'Closure', value: 'Brass Slide Buckle' },
+      { label: 'Size', value: 'One Size Fits Most' }
+    ]
+  },
+  {
+    id: 'white-tshirt',
+    name: 'White T-Shirt',
+    category: 'Wear & Carry',
+    categorySlug: 'wear-and-carry',
+    image: '/products/white_tshirt.jpg',
+    isFeatured: true,
+    slogan: 'Rooted in Deen. Driven by Purpose.',
+    shortDesc: 'Flagship heavyweight cotton tee bearing the official GEN M slogan.',
+    description: 'The defining piece of the GEN M collection. Cut in an oversized, relaxed streetwear silhouette from 240 GSM organic combed cotton. Features the official emblem and slogan across the chest.',
+    features: [
+      '240 GSM 100% Organic Combed Cotton',
+      'High-density screen print: “Rooted in Deen. Driven by Purpose.”',
+      'Thick 1-inch ribbed collar and drop-shoulder drape',
+      'Pre-shrunk and bio-washed for lasting softness'
+    ],
+    specs: [
+      { label: 'Fit', value: 'Relaxed Oversized Drop-Shoulder' },
+      { label: 'Weight', value: '240 GSM Heavyweight Cotton' },
+      { label: 'Print', value: 'Silkscreen Blue-Violet' }
+    ]
+  },
+
+  // ─── LIFESTYLE ACCESSORIES ───
+  {
+    id: 'mobile-stand',
+    name: 'Mobile Stand',
+    category: 'Lifestyle Accessories',
+    categorySlug: 'lifestyle-accessories',
+    image: '/products/mobile_stand.jpg',
+    shortDesc: 'Solid aluminum desk phone stand with anti-slip silicone cushions.',
+    description: 'Ergonomic desktop companion crafted from 3mm solid aluminum. Designed for hands-free video calls, studying, and content viewing in both portrait and landscape orientation with charging cable slot.',
+    features: [
+      'Solid CNC-machined aluminum plate in blue-violet',
+      'Non-slip silicone padding on cradle and base',
+      'Ergonomic 60-degree viewing angle',
+      'Dedicated cable pass-through port'
+    ],
+    specs: [
+      { label: 'Material', value: 'Anodized 6061 Aluminum' },
+      { label: 'Weight', value: '145 g' },
+      { label: 'Compatibility', value: 'All 4–12.9" Phones & Tablets' }
+    ]
+  },
+  {
+    id: 'tissue',
+    name: 'Tissue',
+    category: 'Lifestyle Accessories',
+    categorySlug: 'lifestyle-accessories',
+    image: '/products/tissue.jpg',
+    shortDesc: 'Eco-friendly facial tissue cube box in matte sage green with GEN M logo.',
+    description: 'Refined desk accessory made with 100% virgin bamboo pulp tissues. Packaged in a minimalist matte sage-green dispenser box that adds calm elegance to desks, study tables, and car consoles.',
+    features: [
+      '100% sustainable virgin bamboo pulp',
+      '2-ply ultra-soft, lint-free facial sheets',
+      'Matte sage green and white dispenser cube',
+      '80 tissues per box'
+    ],
+    specs: [
+      { label: 'Sheet Count', value: '80 Tissues (2-Ply)' },
+      { label: 'Box Size', value: '11 × 11 × 12 cm' },
+      { label: 'Material', value: 'Biodegradable Bamboo Pulp' }
+    ]
+  },
+  {
+    id: 'car-perfume',
+    name: 'Car Perfume',
+    category: 'Lifestyle Accessories',
+    categorySlug: 'lifestyle-accessories',
+    image: '/products/car_perfume.jpg',
+    shortDesc: 'Geometric air vent diffuser with blue-violet metallic accent and natural scent.',
+    description: 'An elegant automotive diffuser engineered from obsidian alloy with periwinkle anodized beveled rims. Uses solid scent sticks derived from cedarwood and amber to keep your car journeys fresh.',
+    features: [
+      'Obsidian alloy chassis with blue-violet trim',
+      'Rotatable air vent clip compatible with all cars',
+      'Adjustable fragrance intensity dial',
+      'Includes 2 natural scent rings (Cedarwood & Fresh Ocean)'
+    ],
+    specs: [
+      { label: 'Mount', value: 'Silicone Air Vent Grip' },
+      { label: 'Refills', value: 'Replaceable Solid Ring' },
+      { label: 'Finish', value: 'Matte Obsidian + Blue-Violet' }
+    ]
+  }
+];

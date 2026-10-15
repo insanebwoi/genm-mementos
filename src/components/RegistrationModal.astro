@@ -1,0 +1,407 @@
+---
+// ═══════════════════════════════════════════════════════════
+// GEN M 2026 — REGISTRATION MODAL
+// Clean editorial student registration dialog
+// ═══════════════════════════════════════════════════════════
+---
+
+<div class="registration-modal-backdrop" id="registration-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-card">
+    <!-- Close button -->
+    <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close registration dialog">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="modal-header">
+      <div class="modal-pill-badge">
+        <span class="pulse-indicator"></span>
+        <span>MSM KERALA • GEN M 2026</span>
+      </div>
+      <h3 class="modal-title" id="modal-title">Be Part of GEN M</h3>
+      <p class="modal-subtitle">
+        Kozhikode, Kerala • 13–15 November 2026<br />
+        Pre-register your interest for priority entry passes and session announcements.
+      </p>
+    </div>
+
+    <!-- Registration Form -->
+    <form class="modal-form" id="registration-form">
+      <div class="form-group">
+        <label for="student-name" class="form-label">Full Name</label>
+        <input type="text" id="student-name" name="name" class="form-input" placeholder="e.g. Zayd Rahman" required />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="student-email" class="form-label">Email Address</label>
+          <input type="email" id="student-email" name="email" class="form-input" placeholder="student@domain.com" required />
+        </div>
+        <div class="form-group">
+          <label for="student-phone" class="form-label">WhatsApp / Phone</label>
+          <input type="tel" id="student-phone" name="phone" class="form-input" placeholder="+91 98765 43210" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="student-institution" class="form-label">Institution / Campus</label>
+          <input type="text" id="student-institution" name="institution" class="form-input" placeholder="College / University / School" required />
+        </div>
+        <div class="form-group">
+          <label for="student-district" class="form-label">District in Kerala</label>
+          <select id="student-district" name="district" class="form-select" required>
+            <option value="" disabled selected>Select District</option>
+            <option value="Kozhikode">Kozhikode</option>
+            <option value="Malappuram">Malappuram</option>
+            <option value="Wayanad">Wayanad</option>
+            <option value="Kannur">Kannur</option>
+            <option value="Kasaragod">Kasaragod</option>
+            <option value="Palakkad">Palakkad</option>
+            <option value="Thrissur">Thrissur</option>
+            <option value="Ernakulam">Ernakulam</option>
+            <option value="Kottayam">Kottayam</option>
+            <option value="Idukki">Idukki</option>
+            <option value="Alappuzha">Alappuzha</option>
+            <option value="Pathanamthitta">Pathanamthitta</option>
+            <option value="Kollam">Kollam</option>
+            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+            <option value="Outside Kerala">Outside Kerala</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-footer">
+        <button type="submit" class="submit-btn" id="submit-reg-btn">
+          <span>Complete Registration</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <p class="form-note">
+          Official delegate verification link will be shared via email & WhatsApp. Free student registration.
+        </p>
+      </div>
+    </form>
+
+    <!-- Success Message Container -->
+    <div class="modal-success" id="modal-success" style="display: none;">
+      <div class="success-icon-wrap">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#81A773" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h4 class="success-title">You are on the list!</h4>
+      <p class="success-desc">
+        Thank you for registering for GEN M 2026. A confirmation pass and updates regarding the Kozhikode gathering will be sent to your contact details.
+      </p>
+      <button type="button" class="close-success-btn" id="close-success-btn">Return to Site</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .registration-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(22, 24, 36, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .registration-modal-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 580px;
+    border-radius: var(--radius-panel);
+    padding: clamp(28px, 5vw, 42px);
+    position: relative;
+    box-shadow: 0 24px 60px rgba(35, 40, 99, 0.2);
+    transform: translateY(16px) scale(0.98);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .registration-modal-backdrop.is-open .modal-card {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-close-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-bg-neutral);
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .modal-close-btn:hover {
+    background: rgba(22, 24, 36, 0.1);
+    color: var(--color-text-primary);
+  }
+
+  .modal-pill-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    background: var(--color-blue-violet-subtle);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-blue-violet-dark);
+    margin-bottom: 12px;
+  }
+
+  .pulse-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-sage);
+  }
+
+  .modal-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .modal-subtitle {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  @media (max-width: 560px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+  }
+
+  .form-label {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .form-input,
+  .form-select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--color-border-medium);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: var(--color-text-primary);
+    background: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .form-input:focus,
+  .form-select:focus {
+    outline: none;
+    border-color: var(--color-blue-violet);
+    box-shadow: 0 0 0 3px rgba(89, 97, 180, 0.15);
+  }
+
+  .submit-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--color-blue-violet-dark);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 15px 24px;
+    border-radius: var(--radius-pill);
+    transition: all 0.24s var(--ease-editorial);
+    box-shadow: 0 4px 16px rgba(35, 40, 99, 0.25);
+    margin-top: 8px;
+  }
+
+  .submit-btn:hover {
+    background: var(--color-blue-violet);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(89, 97, 180, 0.35);
+  }
+
+  .form-note {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    text-align: center;
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+
+  /* ─── Success State ─── */
+  .modal-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 30px 10px 10px;
+  }
+
+  .success-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--color-sage-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .success-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+  }
+
+  .success-desc {
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: 440px;
+    margin-bottom: 24px;
+  }
+
+  .close-success-btn {
+    padding: 12px 28px;
+    background: var(--color-blue-violet-dark);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: var(--radius-pill);
+  }
+</style>
+
+<script>
+  function initRegistrationModal() {
+    const modal = document.getElementById('registration-modal');
+    const closeBtn = document.getElementById('modal-close-btn');
+    const form = document.getElementById('registration-form');
+    const successBox = document.getElementById('modal-success');
+    const closeSuccessBtn = document.getElementById('close-success-btn');
+
+    if (!modal) return;
+
+    // Open modal triggers
+    const triggerButtons = document.querySelectorAll('a[href="#register"], button[data-register-trigger]');
+    triggerButtons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    function openModal() {
+      modal?.classList.add('is-open');
+      modal?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal?.classList.remove('is-open');
+      modal?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        if (form && successBox) {
+          form.style.display = 'flex';
+          successBox.style.display = 'none';
+          (form as HTMLFormElement).reset();
+        }
+      }, 300);
+    }
+
+    closeBtn?.addEventListener('click', closeModal);
+    closeSuccessBtn?.addEventListener('click', closeModal);
+
+    // Close on click outside
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+
+    // Handle Form Submit
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submit-reg-btn');
+      if (submitBtn) {
+        submitBtn.innerHTML = `<span>Registering...</span>`;
+      }
+      setTimeout(() => {
+        if (form && successBox) {
+          form.style.display = 'none';
+          successBox.style.display = 'flex';
+        }
+      }, 600);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initRegistrationModal);
+</script>

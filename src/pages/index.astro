@@ -1,16 +1,1623 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import UnderConstruction from '../components/UnderConstruction.astro';
+import HeaderNav from '../components/HeaderNav.astro';
+import HeroProductComposition from '../components/HeroProductComposition.astro';
+import ProductDetailModal from '../components/ProductDetailModal.astro';
+import { PRODUCTS, CATEGORIES } from '../data/products';
+
+const featuredTshirt = PRODUCTS.find((p) => p.id === 'white-tshirt')!;
 ---
 
-<Layout title="Page Under Construction">
-  <UnderConstruction />
+<Layout
+  title="GEN M Swag • Official 13 Merchandise Collection — MSM Kerala"
+  description="Explore the official 13 merchandise products of the GEN M Swag collection by MSM Kerala: White T-Shirt, Diary, Cap, Water Bottle, Cross Bag, and curated essentials. Wear the Identity."
+>
+  <main class="page-container">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         HERO SECTION — LARGE ROUNDED LIGHT-GREY PANEL
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="hero-wrapper" aria-label="GEN M Swag Hero">
+      <div class="hero-panel">
+        
+        <!-- Minimal Floating Navigation Bar Inside Hero -->
+        <HeaderNav />
+
+        <!-- Main Hero Grid Composition -->
+        <div class="hero-content-grid">
+          
+          <!-- Left: Editorial Headline & Copy -->
+          <div class="hero-copy-column">
+            
+            <!-- Eyebrow Pill -->
+            <div class="hero-eyebrow">
+              <span class="eyebrow-dot"></span>
+              <span class="eyebrow-text">THE GEN M SWAG COLLECTION</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="hero-main-headline">
+              Wear the<br />
+              Identity.
+            </h1>
+
+            <!-- Supporting Text -->
+            <p class="hero-supporting-copy">
+              From everyday essentials to meaningful keepsakes, discover the merchandise made for the GEN M generation.
+            </p>
+
+            <!-- Actions Row -->
+            <div class="hero-actions-row">
+              <a href="#catalogue" class="btn-primary-action">
+                <span>Explore the Collection</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+
+              <a href="#categories" class="btn-secondary-action">
+                <span>Discover the Products</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M 8 3 L 8 13 M 4 9 L 8 13 L 12 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </div>
+
+            <!-- Collection Highlights Pill -->
+            <div class="hero-meta-bar">
+              <span class="meta-tag highlight">13 EXCLUSIVE ITEMS</span>
+              <span class="meta-divider">•</span>
+              <span class="meta-tag">4 CATEGORIES</span>
+              <span class="meta-divider">•</span>
+              <span class="meta-tag">OFFICIAL MSM KERALA MERCHANDISE</span>
+            </div>
+
+          </div>
+
+          <!-- Right: Floating Product Composition -->
+          <div class="hero-illustration-column">
+            <HeroProductComposition />
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         PRODUCT CATEGORIES OVERVIEW
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="section-categories" id="categories">
+      <div class="categories-container">
+        
+        <div class="section-head-center">
+          <span class="section-eyebrow">FOUR CURATED CATEGORIES</span>
+          <h2 class="section-heading-lg">
+            Built for everyday purpose.
+          </h2>
+          <p class="section-lead-copy">
+            Explore 13 distinct pieces thoughtfully crafted for student life, study routines, and community identity.
+          </p>
+        </div>
+
+        <div class="categories-grid">
+          {CATEGORIES.map((cat, idx) => (
+            <a href={`#${cat.slug}`} class="category-card">
+              <div class="cat-top">
+                <span class="cat-num">0{idx + 1}</span>
+                <span class="cat-arrow">→</span>
+              </div>
+              <h3 class="cat-name">{cat.name}</h3>
+              <p class="cat-desc">{cat.desc}</p>
+              <div class="cat-pill-badge">
+                <span>View Products</span>
+              </div>
+            </a>
+          ))}
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         FEATURED PRODUCT PRESENTATION: WHITE T-SHIRT
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="section-featured-tshirt" id="featured-tee">
+      <div class="featured-container">
+        
+        <div class="featured-tee-card">
+          
+          <div class="featured-tee-grid">
+            
+            <!-- Left: Featured T-Shirt Image -->
+            <div class="featured-tee-visual">
+              <div class="featured-tee-image-wrap">
+                <img
+                  src={featuredTshirt.image}
+                  alt="Official GEN M White T-Shirt"
+                  class="featured-tee-img"
+                  width="480"
+                  height="480"
+                  loading="lazy"
+                />
+                <span class="signature-tag">SIGNATURE PIECE</span>
+              </div>
+            </div>
+
+            <!-- Right: Slogan & Details -->
+            <div class="featured-tee-info">
+              
+              <div class="featured-eyebrow-wrap">
+                <span class="eyebrow-dot"></span>
+                <span class="featured-eyebrow">FEATURED APPAREL</span>
+              </div>
+
+              <h2 class="featured-tee-title">
+                {featuredTshirt.name}
+              </h2>
+
+              <!-- Official Slogan Banner -->
+              <div class="slogan-callout-box">
+                <span class="slogan-label">OFFICIAL SLOGAN</span>
+                <blockquote class="slogan-text">
+                  “Rooted in Deen. Driven by Purpose.”
+                </blockquote>
+              </div>
+
+              <p class="featured-tee-desc">
+                {featuredTshirt.description}
+              </p>
+
+              <div class="featured-specs-row">
+                <div class="spec-pill">
+                  <span class="spec-label">Fabric</span>
+                  <span class="spec-value">240 GSM Combed Cotton</span>
+                </div>
+                <div class="spec-pill">
+                  <span class="spec-label">Cut</span>
+                  <span class="spec-value">Oversized Drop-Shoulder</span>
+                </div>
+                <div class="spec-pill">
+                  <span class="spec-label">Color</span>
+                  <span class="spec-value">Crisp White</span>
+                </div>
+              </div>
+
+              <div class="featured-actions">
+                <button
+                  type="button"
+                  class="btn-featured-view"
+                  data-product-id="white-tshirt"
+                >
+                  <span>View Product Details</span>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+
+                <a
+                  href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20ordering%20the%20official%20GEN%20M%20White%20T-Shirt."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-featured-enquire"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z" />
+                  </svg>
+                  <span>Enquire on WhatsApp</span>
+                </a>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         PRODUCT CATALOGUE SECTION (ALL 13 PRODUCTS IN 4 GROUPS)
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="section-catalogue" id="catalogue">
+      <div class="catalogue-container">
+        
+        <!-- Header -->
+        <div class="section-head-center">
+          <span class="section-eyebrow">THE COMPLETE CATALOGUE</span>
+          <h2 class="section-heading-lg">Find Your Swag.</h2>
+          <p class="section-lead-copy">
+            Explore the GEN M collection, from everyday essentials to signature merchandise.
+          </p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="catalogue-filter-bar">
+          <button type="button" class="filter-tab is-active" data-filter="all">All Products (13)</button>
+          <button type="button" class="filter-tab" data-filter="everyday-essentials">Everyday Essentials (4)</button>
+          <button type="button" class="filter-tab" data-filter="drinkware">Drinkware (3)</button>
+          <button type="button" class="filter-tab" data-filter="wear-and-carry">Wear & Carry (3)</button>
+          <button type="button" class="filter-tab" data-filter="lifestyle-accessories">Lifestyle Accessories (3)</button>
+        </div>
+
+        <!-- Group 1: Everyday Essentials (Diary, Pen, Keychain, Bag Tag) -->
+        <div class="category-block-group" id="everyday-essentials" data-group="everyday-essentials">
+          <div class="category-group-header">
+            <div class="group-title-wrap">
+              <span class="group-num">CATEGORY 01</span>
+              <h3 class="group-title">Everyday Essentials</h3>
+            </div>
+            <span class="group-count">4 Products</span>
+          </div>
+
+          <div class="products-grid">
+            {PRODUCTS.filter((p) => p.categorySlug === 'everyday-essentials').map((product) => (
+              <div class="product-card" data-category={product.categorySlug}>
+                <div class="product-card-visual">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    class="product-image"
+                    width="320"
+                    height="320"
+                    loading="lazy"
+                  />
+                  <span class="product-category-tag">{product.category}</span>
+                </div>
+                <div class="product-card-body">
+                  <h4 class="product-name">{product.name}</h4>
+                  <p class="product-desc">{product.shortDesc}</p>
+                  <div class="product-actions-bar">
+                    <button
+                      type="button"
+                      class="btn-view-product"
+                      data-product-id={product.id}
+                    >
+                      <span>View Product</span>
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn-enquire-card"
+                      data-product-id={product.id}
+                      aria-label={`Enquire about ${product.name}`}
+                    >
+                      Enquire
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Group 2: Drinkware (Glass Set, Water Bottle, Coffee Mug) -->
+        <div class="category-block-group" id="drinkware" data-group="drinkware">
+          <div class="category-group-header">
+            <div class="group-title-wrap">
+              <span class="group-num">CATEGORY 02</span>
+              <h3 class="group-title">Drinkware</h3>
+            </div>
+            <span class="group-count">3 Products</span>
+          </div>
+
+          <div class="products-grid">
+            {PRODUCTS.filter((p) => p.categorySlug === 'drinkware').map((product) => (
+              <div class="product-card" data-category={product.categorySlug}>
+                <div class="product-card-visual">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    class="product-image"
+                    width="320"
+                    height="320"
+                    loading="lazy"
+                  />
+                  <span class="product-category-tag">{product.category}</span>
+                </div>
+                <div class="product-card-body">
+                  <h4 class="product-name">{product.name}</h4>
+                  <p class="product-desc">{product.shortDesc}</p>
+                  <div class="product-actions-bar">
+                    <button
+                      type="button"
+                      class="btn-view-product"
+                      data-product-id={product.id}
+                    >
+                      <span>View Product</span>
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn-enquire-card"
+                      data-product-id={product.id}
+                      aria-label={`Enquire about ${product.name}`}
+                    >
+                      Enquire
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Group 3: Wear & Carry (Cross Bag, Embroidered Cap, White T-Shirt) -->
+        <div class="category-block-group" id="wear-and-carry" data-group="wear-and-carry">
+          <div class="category-group-header">
+            <div class="group-title-wrap">
+              <span class="group-num">CATEGORY 03</span>
+              <h3 class="group-title">Wear & Carry</h3>
+            </div>
+            <span class="group-count">3 Products</span>
+          </div>
+
+          <div class="products-grid">
+            {PRODUCTS.filter((p) => p.categorySlug === 'wear-and-carry').map((product) => (
+              <div class={`product-card ${product.isFeatured ? 'is-featured-border' : ''}`} data-category={product.categorySlug}>
+                <div class="product-card-visual">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    class="product-image"
+                    width="320"
+                    height="320"
+                    loading="lazy"
+                  />
+                  <span class="product-category-tag">{product.category}</span>
+                  {product.isFeatured && (
+                    <span class="featured-badge-pill">Signature Slogan</span>
+                  )}
+                </div>
+                <div class="product-card-body">
+                  <h4 class="product-name">{product.name}</h4>
+                  <p class="product-desc">{product.shortDesc}</p>
+                  <div class="product-actions-bar">
+                    <button
+                      type="button"
+                      class="btn-view-product"
+                      data-product-id={product.id}
+                    >
+                      <span>View Product</span>
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn-enquire-card"
+                      data-product-id={product.id}
+                      aria-label={`Enquire about ${product.name}`}
+                    >
+                      Enquire
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Group 4: Lifestyle Accessories (Mobile Stand, Tissue, Car Perfume) -->
+        <div class="category-block-group" id="lifestyle-accessories" data-group="lifestyle-accessories">
+          <div class="category-group-header">
+            <div class="group-title-wrap">
+              <span class="group-num">CATEGORY 04</span>
+              <h3 class="group-title">Lifestyle Accessories</h3>
+            </div>
+            <span class="group-count">3 Products</span>
+          </div>
+
+          <div class="products-grid">
+            {PRODUCTS.filter((p) => p.categorySlug === 'lifestyle-accessories').map((product) => (
+              <div class="product-card" data-category={product.categorySlug}>
+                <div class="product-card-visual">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    class="product-image"
+                    width="320"
+                    height="320"
+                    loading="lazy"
+                  />
+                  <span class="product-category-tag">{product.category}</span>
+                </div>
+                <div class="product-card-body">
+                  <h4 class="product-name">{product.name}</h4>
+                  <p class="product-desc">{product.shortDesc}</p>
+                  <div class="product-actions-bar">
+                    <button
+                      type="button"
+                      class="btn-view-product"
+                      data-product-id={product.id}
+                    >
+                      <span>View Product</span>
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn-enquire-card"
+                      data-product-id={product.id}
+                      aria-label={`Enquire about ${product.name}`}
+                    >
+                      Enquire
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         FINAL CALL TO ACTION
+         ═══════════════════════════════════════════════════════════ -->
+    <section class="section-final-cta">
+      <div class="final-cta-container">
+        <div class="final-cta-panel">
+          
+          <span class="final-cta-eyebrow">MSM KERALA MERCHANDISE</span>
+
+          <h2 class="final-cta-headline">
+            Your Swag.<br />
+            Your Identity.
+          </h2>
+
+          <p class="final-cta-subtext">
+            Explore the GEN M collection and find your favourite pieces.
+          </p>
+
+          <div class="final-cta-actions">
+            <a href="#catalogue" class="btn-cta-explore">
+              <span>Explore All Merchandise</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Decorative Geometry -->
+          <div class="cta-bg-geometry" aria-hidden="true">
+            <span class="geo-circle-1"></span>
+            <span class="geo-circle-2"></span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         FOOTER
+         ═══════════════════════════════════════════════════════════ -->
+    <footer class="swag-footer">
+      <div class="footer-container">
+        
+        <div class="footer-top-grid">
+          
+          <!-- Logo & Attribution -->
+          <div class="footer-info-col">
+            <a href="/" class="footer-brand-link" aria-label="GEN M Swag">
+              <img src="/blogo.png" alt="GEN M Logo" class="footer-logo-img" width="114" height="55" loading="lazy" />
+            </a>
+            <p class="footer-desc">
+              The official merchandise collection for the GEN M generation. Designed and coordinated by MSM Kerala.
+            </p>
+            <p class="footer-slogan">
+              “Rooted in Deen. Driven by Purpose.”
+            </p>
+          </div>
+
+          <!-- Product Categories Links -->
+          <div class="footer-nav-col">
+            <span class="footer-head">PRODUCT CATEGORIES</span>
+            <ul class="footer-list">
+              <li><a href="#everyday-essentials" class="footer-link">Everyday Essentials (4)</a></li>
+              <li><a href="#drinkware" class="footer-link">Drinkware (3)</a></li>
+              <li><a href="#wear-and-carry" class="footer-link">Wear & Carry (3)</a></li>
+              <li><a href="#lifestyle-accessories" class="footer-link">Lifestyle Accessories (3)</a></li>
+            </ul>
+          </div>
+
+          <!-- Ordering & Support -->
+          <div class="footer-contact-col">
+            <span class="footer-head">ORDERING & ENQUIRY</span>
+            <p class="footer-contact-desc">
+              Official merchandise ordering is handled directly through the MSM Kerala coordination desk.
+            </p>
+            <a
+              href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20GEN%20M%20Swag%20merchandise."
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-whatsapp-link"
+            >
+              <span>Connect on WhatsApp</span>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+
+        </div>
+
+        <div class="footer-bottom-bar">
+          <p class="footer-copy-text">
+            © 2026 GEN M • Muslim Students Movement (MSM Kerala). 13 Official Merchandise Pieces.
+          </p>
+          <a href="#site-header" class="footer-scroll-top">
+            <span>Back to top</span>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M 8 13 L 8 3 M 4 7 L 8 3 L 12 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </footer>
+
+    <!-- Interactive Product Detail & WhatsApp Enquiry Modal -->
+    <ProductDetailModal />
+
+  </main>
 </Layout>
 
-<style is:global>
-  body {
-    margin: 0 !important;
-    padding: 0 !important;
-    background-color: #f8f9fb !important;
+<style>
+  /* ═══════════════════════════════════════════════════════════
+     GEN M SWAG — PREMIUM EDITORIAL MERCHANDISE STYLING
+     ═══════════════════════════════════════════════════════════ */
+
+  .page-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-bg-main);
+  }
+
+  /* ─── Hero Section ─── */
+  .hero-wrapper {
+    width: 100%;
+    padding: 12px 16px 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-panel {
+    width: 100%;
+    max-width: var(--max-width);
+    background-color: var(--color-bg-hero);
+    border-radius: var(--radius-panel);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--color-border-subtle);
+    padding-bottom: clamp(40px, 6vh, 64px);
+  }
+
+  .hero-content-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: clamp(24px, 4vw, 48px);
+    align-items: center;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: clamp(24px, 4vh, 48px) clamp(24px, 4vw, 56px) 0;
+  }
+
+  .hero-copy-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    z-index: 5;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: #ffffff;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(89, 97, 180, 0.14);
+    box-shadow: 0 2px 8px rgba(35, 40, 99, 0.04);
+    margin-bottom: clamp(16px, 2.5vh, 24px);
+  }
+
+  .eyebrow-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-sage);
+  }
+
+  .eyebrow-text {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--color-blue-violet-dark);
+  }
+
+  .hero-main-headline {
+    font-family: var(--font-heading);
+    font-size: clamp(2.8rem, 6.4vw, 5.8rem);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: var(--color-text-primary);
+    margin-bottom: clamp(16px, 2.5vh, 24px);
+  }
+
+  .hero-supporting-copy {
+    font-size: clamp(1.02rem, 1.35vw, 1.2rem);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 520px;
+    margin-bottom: clamp(24px, 3.5vh, 32px);
+  }
+
+  .hero-actions-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .btn-primary-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-blue-violet-dark);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 15px 30px;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 6px 20px rgba(35, 40, 99, 0.25);
+    transition: all 0.24s var(--ease-editorial);
+    letter-spacing: -0.01em;
+  }
+
+  .btn-primary-action:hover {
+    background: var(--color-blue-violet);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(89, 97, 180, 0.35);
+  }
+
+  .btn-secondary-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    color: var(--color-text-primary);
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 15px 26px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border-medium);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: all 0.24s var(--ease-editorial);
+  }
+
+  .btn-secondary-action:hover {
+    background: var(--color-blue-violet-subtle);
+    border-color: var(--color-blue-violet);
+    color: var(--color-blue-violet-dark);
+  }
+
+  .hero-meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    letter-spacing: 0.06em;
+  }
+
+  .meta-tag.highlight {
+    color: var(--color-blue-violet-dark);
+    background: rgba(89, 97, 180, 0.1);
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  .meta-divider {
+    opacity: 0.4;
+  }
+
+  .hero-illustration-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* ─── Categories Overview ─── */
+  .section-categories {
+    width: 100%;
+    background: #ffffff;
+    padding: clamp(70px, 10vh, 120px) 24px;
+  }
+
+  .categories-container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .section-head-center {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto clamp(40px, 6vh, 64px);
+  }
+
+  .section-eyebrow {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-blue-violet);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .section-heading-lg {
+    font-family: var(--font-heading);
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    color: var(--color-text-primary);
+    margin-bottom: 16px;
+  }
+
+  .section-lead-copy {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .category-card {
+    background: var(--color-bg-neutral);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border-subtle);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.28s var(--ease-editorial);
+    text-decoration: none;
+    min-height: 220px;
+  }
+
+  .category-card:hover {
+    background: #ffffff;
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(35, 40, 99, 0.08);
+    border-color: rgba(89, 97, 180, 0.3);
+  }
+
+  .cat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .cat-num {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--color-blue-violet);
+    letter-spacing: 0.1em;
+  }
+
+  .cat-arrow {
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .category-card:hover .cat-arrow {
+    transform: translateX(4px);
+    color: var(--color-blue-violet-dark);
+  }
+
+  .cat-name {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .cat-desc {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    margin-bottom: 20px;
+  }
+
+  .cat-pill-badge {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-blue-violet-dark);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ─── Featured T-Shirt Presentation ─── */
+  .section-featured-tshirt {
+    width: 100%;
+    padding: 0 16px clamp(60px, 9vh, 100px);
+    display: flex;
+    justify-content: center;
+  }
+
+  .featured-container {
+    width: 100%;
+    max-width: var(--max-width);
+  }
+
+  .featured-tee-card {
+    background: linear-gradient(135deg, var(--color-blue-violet-subtle) 0%, #f6f8fb 100%);
+    border-radius: var(--radius-panel);
+    border: 1.5px solid rgba(89, 97, 180, 0.2);
+    padding: clamp(32px, 5vw, 64px);
+    box-shadow: 0 16px 48px rgba(35, 40, 99, 0.08);
+  }
+
+  .featured-tee-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+
+  .featured-tee-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .featured-tee-image-wrap {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 16px;
+    box-shadow: 0 20px 48px rgba(35, 40, 99, 0.12);
+    border: 1px solid rgba(89, 97, 180, 0.15);
+    position: relative;
+    max-width: 440px;
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .featured-tee-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 20px;
+  }
+
+  .signature-tag {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--color-blue-violet-dark);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 4px 12px rgba(35, 40, 99, 0.3);
+  }
+
+  .featured-eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .featured-eyebrow {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-blue-violet);
+  }
+
+  .featured-tee-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 800;
+    color: var(--color-text-primary);
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -0.025em;
+  }
+
+  .slogan-callout-box {
+    background: #ffffff;
+    border-left: 4px solid var(--color-sage);
+    padding: 16px 20px;
+    border-radius: 4px 16px 16px 4px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+  }
+
+  .slogan-label {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--color-sage);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .slogan-text {
+    font-family: var(--font-heading);
+    font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+    font-weight: 700;
+    color: var(--color-blue-violet-dark);
+    line-height: 1.35;
+  }
+
+  .featured-tee-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin-bottom: 24px;
+  }
+
+  .featured-specs-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .spec-pill {
+    background: #ffffff;
+    border: 1px solid var(--color-border-subtle);
+    padding: 8px 14px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .spec-label {
+    font-size: 0.68rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .spec-value {
+    font-family: var(--font-heading);
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  .featured-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .btn-featured-view {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-blue-violet-dark);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 14px 26px;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 6px 20px rgba(35, 40, 99, 0.25);
+    transition: all 0.24s var(--ease-editorial);
+    cursor: pointer;
+  }
+
+  .btn-featured-view:hover {
+    background: var(--color-blue-violet);
+    transform: translateY(-2px);
+  }
+
+  .btn-featured-enquire {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    color: #128C7E;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(18, 140, 126, 0.3);
+    text-decoration: none;
+    transition: all 0.24s var(--ease-editorial);
+  }
+
+  .btn-featured-enquire:hover {
+    background: #eefaf6;
+    transform: translateY(-1px);
+  }
+
+  /* ─── Product Catalogue Section ─── */
+  .section-catalogue {
+    width: 100%;
+    background: var(--color-bg-neutral);
+    padding: clamp(70px, 10vh, 120px) 24px;
+  }
+
+  .catalogue-container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .catalogue-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: clamp(40px, 6vh, 60px);
+  }
+
+  .filter-tab {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    background: #ffffff;
+    border: 1px solid var(--color-border-subtle);
+    padding: 10px 20px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .filter-tab:hover {
+    color: var(--color-blue-violet-dark);
+    border-color: rgba(89, 97, 180, 0.3);
+  }
+
+  .filter-tab.is-active {
+    background: var(--color-blue-violet-dark);
+    color: #ffffff;
+    border-color: var(--color-blue-violet-dark);
+    box-shadow: 0 4px 12px rgba(35, 40, 99, 0.2);
+  }
+
+  .category-block-group {
+    margin-bottom: clamp(50px, 8vh, 80px);
+  }
+
+  .category-group-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid var(--color-border-subtle);
+    margin-bottom: 28px;
+  }
+
+  .group-num {
+    font-family: var(--font-heading);
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--color-blue-violet);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .group-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  .group-count {
+    font-family: var(--font-heading);
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .product-card {
+    background: #ffffff;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border-subtle);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.28s var(--ease-editorial);
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(35, 40, 99, 0.08);
+    border-color: rgba(89, 97, 180, 0.25);
+  }
+
+  .product-card.is-featured-border {
+    border-color: rgba(89, 97, 180, 0.35);
+  }
+
+  .product-card-visual {
+    background: #fafafc;
+    position: relative;
+    padding: 24px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.4s var(--ease-editorial);
+  }
+
+  .product-card:hover .product-image {
+    transform: scale(1.05);
+  }
+
+  .product-category-tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(6px);
+    color: var(--color-text-secondary);
+    font-family: var(--font-heading);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    text-transform: uppercase;
+  }
+
+  .featured-badge-pill {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: var(--color-sage-subtle);
+    color: var(--color-sage);
+    font-family: var(--font-heading);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(129, 167, 115, 0.3);
+    text-transform: uppercase;
+  }
+
+  .product-card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .product-name {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+    letter-spacing: -0.015em;
+  }
+
+  .product-desc {
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    margin-bottom: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-actions-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .btn-view-product {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--color-blue-violet-dark);
+    background: var(--color-blue-violet-subtle);
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-view-product:hover {
+    background: var(--color-blue-violet);
+    color: #ffffff;
+  }
+
+  .btn-enquire-card {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    padding: 8px 12px;
+    border-radius: var(--radius-pill);
+    transition: color 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-enquire-card:hover {
+    color: var(--color-blue-violet-dark);
+  }
+
+  /* ─── Final CTA Section ─── */
+  .section-final-cta {
+    width: 100%;
+    padding: 0 16px clamp(60px, 9vh, 100px);
+    display: flex;
+    justify-content: center;
+  }
+
+  .final-cta-container {
+    width: 100%;
+    max-width: var(--max-width);
+  }
+
+  .final-cta-panel {
+    background: linear-gradient(135deg, var(--color-blue-violet-dark) 0%, #1a1e48 100%);
+    border-radius: var(--radius-panel);
+    padding: clamp(60px, 8vh, 90px) clamp(24px, 4vw, 56px);
+    color: #ffffff;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(35, 40, 99, 0.22);
+  }
+
+  .final-cta-eyebrow {
+    font-family: var(--font-heading);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--color-sage-cream);
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .final-cta-headline {
+    font-family: var(--font-heading);
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+
+  .final-cta-subtext {
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 36px;
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .btn-cta-explore {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    color: var(--color-blue-violet-dark);
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 16px 36px;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.24s var(--ease-editorial);
+  }
+
+  .btn-cta-explore:hover {
+    background: var(--color-sage-cream);
+    transform: translateY(-2px);
+  }
+
+  .geo-circle-1 {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: rgba(89, 97, 180, 0.16);
+    top: -60px;
+    right: -80px;
+    pointer-events: none;
+  }
+
+  .geo-circle-2 {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: rgba(129, 167, 115, 0.14);
+    bottom: -40px;
+    left: -40px;
+    pointer-events: none;
+  }
+
+  /* ─── Footer ─── */
+  .swag-footer {
+    width: 100%;
+    background: #ffffff;
+    border-top: 1px solid var(--color-border-subtle);
+    padding: clamp(56px, 8vh, 80px) 24px 36px;
+  }
+
+  .footer-container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .footer-top-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1.2fr;
+    gap: clamp(32px, 5vw, 64px);
+    padding-bottom: clamp(40px, 6vh, 60px);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .footer-brand-link {
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+
+  .footer-logo-img {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .footer-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin-bottom: 12px;
+    max-width: 380px;
+  }
+
+  .footer-slogan {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-blue-violet-dark);
+  }
+
+  .footer-head {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-text-muted);
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .footer-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-link {
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .footer-link:hover {
+    color: var(--color-blue-violet);
+  }
+
+  .footer-contact-desc {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .footer-whatsapp-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #128C7E;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+
+  .footer-whatsapp-link:hover {
+    transform: translateX(3px);
+  }
+
+  .footer-bottom-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 28px;
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+  }
+
+  .footer-scroll-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-blue-violet);
+    font-weight: 600;
+    transition: transform 0.2s ease;
+  }
+
+  .footer-scroll-top:hover {
+    transform: translateY(-2px);
+  }
+
+  /* ─── Responsive Queries ─── */
+  @media (max-width: 1024px) {
+    .hero-content-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-illustration-column {
+      order: -1;
+      max-width: 480px;
+      margin: 0 auto 16px;
+    }
+    .categories-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .featured-tee-grid {
+      grid-template-columns: 1fr;
+    }
+    .footer-top-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-wrapper {
+      padding: 8px 10px 16px;
+    }
+    .hero-panel {
+      border-radius: var(--radius-panel);
+    }
+    .hero-content-grid {
+      padding: 16px 18px 0;
+    }
+    .hero-main-headline {
+      font-size: clamp(2.4rem, 8vw, 3.4rem);
+    }
+    .hero-actions-row {
+      flex-direction: column;
+      width: 100%;
+    }
+    .btn-primary-action,
+    .btn-secondary-action {
+      width: 100%;
+      justify-content: center;
+    }
+    .categories-grid {
+      grid-template-columns: 1fr;
+    }
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+    .footer-top-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
   }
 </style>
+
+<script>
+  function initCatalogueFilters() {
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const categoryGroups = document.querySelectorAll('.category-block-group');
+
+    filterTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const filter = tab.getAttribute('data-filter');
+        filterTabs.forEach((t) => t.classList.remove('is-active'));
+        tab.classList.add('is-active');
+
+        categoryGroups.forEach((group) => {
+          const groupName = group.getAttribute('data-group');
+          if (filter === 'all' || filter === groupName) {
+            (group as HTMLElement).style.display = 'block';
+          } else {
+            (group as HTMLElement).style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initCatalogueFilters);
+</script>

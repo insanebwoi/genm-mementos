@@ -1,0 +1,333 @@
+---
+// ═══════════════════════════════════════════════════════════
+// GEN M SWAG — MINIMAL FLOATING NAVIGATION BAR
+// Official logo + White pill navigation + Explore action
+// ═══════════════════════════════════════════════════════════
+---
+
+<header class="header-container" id="site-header">
+  <div class="nav-bar">
+    <!-- Left: Official GEN M Logo -->
+    <a href="/" class="brand-logo-link" aria-label="GEN M Swag Home">
+      <img
+        src="/blogo.png"
+        alt="GEN M Logo"
+        class="brand-logo-img"
+        width="114"
+        height="55"
+        loading="eager"
+      />
+    </a>
+
+    <!-- Center: Navigation links grouped in a small white pill -->
+    <nav class="nav-pill" aria-label="Merchandise category navigation">
+      <a href="#catalogue" class="nav-pill-link">All Swag</a>
+      <a href="#everyday-essentials" class="nav-pill-link">Essentials</a>
+      <a href="#drinkware" class="nav-pill-link">Drinkware</a>
+      <a href="#wear-and-carry" class="nav-pill-link">Wear & Carry</a>
+      <a href="#lifestyle-accessories" class="nav-pill-link">Lifestyle</a>
+    </nav>
+
+    <!-- Right: Primary Swag Action & Mobile Toggle -->
+    <div class="nav-actions">
+      <a href="#catalogue" class="btn-explore-swag">
+        <span>Explore Catalogue</span>
+        <svg class="btn-arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+
+      <!-- Compact Mobile Menu Toggle Button -->
+      <button
+        type="button"
+        class="mobile-menu-toggle"
+        id="mobile-menu-toggle"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav-drawer"
+      >
+        <span class="hamburger-bar bar-top"></span>
+        <span class="hamburger-bar bar-bottom"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Overlay -->
+  <div class="mobile-nav-drawer" id="mobile-nav-drawer" aria-hidden="true">
+    <div class="mobile-nav-inner">
+      <nav class="mobile-links">
+        <a href="#catalogue" class="mobile-link">All 13 Products</a>
+        <a href="#everyday-essentials" class="mobile-link">Everyday Essentials</a>
+        <a href="#drinkware" class="mobile-link">Drinkware</a>
+        <a href="#wear-and-carry" class="mobile-link">Wear & Carry</a>
+        <a href="#lifestyle-accessories" class="mobile-link">Lifestyle Accessories</a>
+      </nav>
+      <div class="mobile-cta-wrap">
+        <a href="#catalogue" class="mobile-btn-explore">
+          <span>Explore All Merchandise</span>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header-container {
+    width: 100%;
+    position: relative;
+    z-index: 50;
+    padding: 16px 20px 0;
+  }
+
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1360px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ─── Brand Logo ─── */
+  .brand-logo-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .brand-logo-link:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+
+  .brand-logo-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* ─── White Pill Navigation ─── */
+  .nav-pill {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #ffffff;
+    padding: 6px 8px;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 4px 20px rgba(35, 40, 99, 0.06), 0 1px 3px rgba(35, 40, 99, 0.04);
+    border: 1px solid rgba(89, 97, 180, 0.1);
+  }
+
+  .nav-pill-link {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    transition: all 0.22s var(--ease-editorial);
+    letter-spacing: -0.01em;
+  }
+
+  .nav-pill-link:hover {
+    color: var(--color-blue-violet-dark);
+    background: var(--color-blue-violet-tint);
+  }
+
+  /* ─── Actions & Explore Button ─── */
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-explore-swag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-blue-violet-dark);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    transition: all 0.24s var(--ease-editorial);
+    box-shadow: 0 4px 14px rgba(35, 40, 99, 0.2);
+    letter-spacing: -0.01em;
+  }
+
+  .btn-explore-swag:hover {
+    background: var(--color-blue-violet);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(89, 97, 180, 0.35);
+  }
+
+  .btn-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .btn-explore-swag:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  /* ─── Mobile Toggle ─── */
+  .mobile-menu-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-pill);
+    background: #ffffff;
+    border: 1px solid var(--color-border-subtle);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+  }
+
+  .hamburger-bar {
+    width: 18px;
+    height: 2px;
+    background: var(--color-text-primary);
+    border-radius: 2px;
+    transition: transform 0.24s ease, opacity 0.2s ease;
+  }
+
+  /* ─── Mobile Drawer ─── */
+  .mobile-nav-drawer {
+    display: none;
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 20px;
+    right: 20px;
+    background: #ffffff;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border-subtle);
+    box-shadow: 0 16px 40px rgba(35, 40, 99, 0.12);
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 0.24s ease, transform 0.24s var(--ease-editorial);
+    z-index: 100;
+  }
+
+  .mobile-nav-drawer.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .mobile-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  .mobile-link {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+  }
+
+  .mobile-link:hover {
+    background: var(--color-blue-violet-subtle);
+    color: var(--color-blue-violet-dark);
+  }
+
+  .mobile-btn-explore {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--color-blue-violet-dark);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+  }
+
+  /* ─── Responsive Adjustments ─── */
+  @media (max-width: 900px) {
+    .nav-pill {
+      display: none;
+    }
+    .mobile-menu-toggle {
+      display: flex;
+    }
+    .mobile-nav-drawer {
+      display: block;
+    }
+    .brand-logo-img {
+      height: 36px;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .btn-explore-swag {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function initHeaderMenu() {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const drawer = document.getElementById('mobile-nav-drawer');
+    if (!toggleBtn || !drawer) return;
+
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = drawer.classList.toggle('is-open');
+      toggleBtn.setAttribute('aria-expanded', String(isOpen));
+      drawer.setAttribute('aria-hidden', String(!isOpen));
+      
+      const barTop = toggleBtn.querySelector('.bar-top');
+      const barBottom = toggleBtn.querySelector('.bar-bottom');
+      if (barTop && barBottom) {
+        if (isOpen) {
+          barTop.style.transform = 'translateY(3.5px) rotate(45deg)';
+          barBottom.style.transform = 'translateY(-3.5px) rotate(-45deg)';
+        } else {
+          barTop.style.transform = 'none';
+          barBottom.style.transform = 'none';
+        }
+      }
+    });
+
+    const mobileLinks = drawer.querySelectorAll('a');
+    mobileLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        drawer.classList.remove('is-open');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        drawer.setAttribute('aria-hidden', 'true');
+        const barTop = toggleBtn.querySelector('.bar-top');
+        const barBottom = toggleBtn.querySelector('.bar-bottom');
+        if (barTop && barBottom) {
+          barTop.style.transform = 'none';
+          barBottom.style.transform = 'none';
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initHeaderMenu);
+</script>

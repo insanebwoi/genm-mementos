@@ -1,0 +1,428 @@
+---
+import { PRODUCTS } from '../data/products';
+// Product Detail & Enquiry Modal for all 13 official products
+---
+
+<div
+  class="product-modal-backdrop"
+  id="product-detail-modal"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-product-name"
+>
+  <div class="product-modal-card">
+    <!-- Close Button -->
+    <button type="button" class="modal-close-icon" id="modal-product-close" aria-label="Close product details">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="modal-product-grid">
+      <!-- Left: Big Product Image -->
+      <div class="modal-image-col">
+        <div class="modal-image-frame">
+          <img
+            src="/products/white_tshirt.jpg"
+            alt="Product view"
+            id="modal-product-img"
+            class="modal-hero-img"
+            width="420"
+            height="420"
+          />
+        </div>
+      </div>
+
+      <!-- Right: Product Editorial Details & Enquiry Action -->
+      <div class="modal-content-col">
+        <div class="modal-meta-row">
+          <span class="category-badge" id="modal-product-category">Wear & Carry</span>
+          <span class="collection-tag">GEN M 2026 Swag</span>
+        </div>
+
+        <h3 class="modal-product-heading" id="modal-product-name">White T-Shirt</h3>
+        
+        <p class="modal-product-slogan" id="modal-product-slogan" style="display: none;"></p>
+
+        <p class="modal-product-desc" id="modal-product-desc">
+          The defining piece of the GEN M collection. Cut in an oversized streetwear silhouette from 240 GSM organic combed cotton.
+        </p>
+
+        <!-- Features list -->
+        <div class="modal-features-wrap">
+          <span class="features-label">HIGHLIGHTS</span>
+          <ul class="features-list" id="modal-product-features"></ul>
+        </div>
+
+        <!-- Specifications list -->
+        <div class="modal-specs-wrap" id="modal-specs-wrap">
+          <span class="features-label">SPECIFICATIONS</span>
+          <div class="specs-grid" id="modal-product-specs"></div>
+        </div>
+
+        <!-- Official Enquiry Action (WhatsApp & Official Channel) -->
+        <div class="modal-actions-box">
+          <a
+            href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20ordering%20the%20GEN%20M%20merchandise."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-enquire-whatsapp"
+            id="modal-enquire-btn"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z" />
+            </svg>
+            <span>Enquire on WhatsApp</span>
+          </a>
+
+          <p class="enquiry-disclaimer">
+            Official MSM Kerala Swag Desk. For bulk student union orders or individual keepsakes, connect directly with our coordination team.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .product-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(22, 24, 36, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .product-modal-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .product-modal-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 860px;
+    border-radius: var(--radius-panel);
+    padding: clamp(24px, 4vw, 40px);
+    position: relative;
+    box-shadow: 0 32px 70px rgba(35, 40, 99, 0.22);
+    transform: translateY(16px) scale(0.98);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .product-modal-backdrop.is-open .product-modal-card {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-close-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--color-bg-neutral);
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+  }
+
+  .modal-close-icon:hover {
+    background: rgba(22, 24, 36, 0.1);
+    color: var(--color-text-primary);
+  }
+
+  .modal-product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: clamp(24px, 4vw, 44px);
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .modal-product-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .modal-image-frame {
+    background: #fafafc;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border-subtle);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+  }
+
+  .modal-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 16px;
+  }
+
+  .modal-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .category-badge {
+    background: var(--color-blue-violet-subtle);
+    color: var(--color-blue-violet-dark);
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+  }
+
+  .collection-tag {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .modal-product-heading {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    color: var(--color-text-primary);
+    line-height: 1.15;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+
+  .modal-product-slogan {
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--color-sage);
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .modal-product-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin-bottom: 20px;
+  }
+
+  .features-label {
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--color-blue-violet);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  :global(.features-list li) {
+    font-size: 0.88rem;
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    line-height: 1.45;
+  }
+
+  :global(.features-list li::before) {
+    content: '•';
+    color: var(--color-sage);
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+    background: var(--color-bg-neutral);
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+  }
+
+  :global(.spec-item) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  :global(.spec-k) {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+  }
+
+  :global(.spec-v) {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  .modal-actions-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-enquire-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #25D366;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 14px 24px;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.25);
+    transition: all 0.24s var(--ease-editorial);
+  }
+
+  .btn-enquire-whatsapp:hover {
+    background: #20bd5a;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+  }
+
+  .enquiry-disclaimer {
+    font-size: 0.76rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+    text-align: center;
+  }
+</style>
+
+<script>
+  import { PRODUCTS } from '../data/products';
+
+  function initProductModal() {
+    const modal = document.getElementById('product-detail-modal');
+    const closeBtn = document.getElementById('modal-product-close');
+    const modalImg = document.getElementById('modal-product-img') as HTMLImageElement;
+    const modalCategory = document.getElementById('modal-product-category');
+    const modalName = document.getElementById('modal-product-name');
+    const modalSlogan = document.getElementById('modal-product-slogan');
+    const modalDesc = document.getElementById('modal-product-desc');
+    const modalFeatures = document.getElementById('modal-product-features');
+    const modalSpecs = document.getElementById('modal-product-specs');
+    const modalEnquireBtn = document.getElementById('modal-enquire-btn') as HTMLAnchorElement;
+
+    if (!modal) return;
+
+    // Attach click listener to all "View Product" or "Enquire" buttons
+    const triggerButtons = document.querySelectorAll('[data-product-id]');
+    triggerButtons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = btn.getAttribute('data-product-id');
+        const product = PRODUCTS.find((p) => p.id === id);
+        if (product) {
+          openModalWithProduct(product);
+        }
+      });
+    });
+
+    function openModalWithProduct(product: any) {
+      if (modalImg) {
+        modalImg.src = product.image;
+        modalImg.alt = product.name;
+      }
+      if (modalCategory) modalCategory.textContent = product.category;
+      if (modalName) modalName.textContent = product.name;
+
+      if (modalSlogan) {
+        if (product.slogan) {
+          modalSlogan.textContent = `“${product.slogan}”`;
+          modalSlogan.style.display = 'block';
+        } else {
+          modalSlogan.style.display = 'none';
+        }
+      }
+
+      if (modalDesc) modalDesc.textContent = product.description;
+
+      if (modalFeatures) {
+        modalFeatures.innerHTML = product.features
+          .map((f: string) => `<li>${f}</li>`)
+          .join('');
+      }
+
+      if (modalSpecs && product.specs) {
+        modalSpecs.innerHTML = product.specs
+          .map(
+            (s: any) =>
+              `<div class="spec-item"><span class="spec-k">${s.label}</span><span class="spec-v">${s.value}</span></div>`
+          )
+          .join('');
+      }
+
+      if (modalEnquireBtn) {
+        const message = encodeURIComponent(
+          `Hello MSM Kerala, I would like to enquire about ordering the official GEN M ${product.name} (Category: ${product.category}).`
+        );
+        modalEnquireBtn.href = `https://wa.me/919495123456?text=${message}`;
+      }
+
+      modal?.classList.add('is-open');
+      modal?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal?.classList.remove('is-open');
+      modal?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    closeBtn?.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initProductModal);
+</script>
