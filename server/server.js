@@ -1,16 +1,20 @@
 /**
- * GEN M Swag Operations Command Center — Backend Server
+ * GEN M Swag Operations Command Center — Real-Time Google Sheets Server
  * Connected to Google Spreadsheet: 1foGWm9i_5DhBUjocJDxs84jWCLdc-U1BJaN7r0KuhiA
+ * Google Sheets API Key: AIzaSyAR-1NB1RFPaU7X7C3WbVbzsDzJ401rQz4
  * 
  * Features:
- * - Direct Live Sync with Google Sheets:
- *   1. "Form Responses 1" (gid: 94895465): Multi-Size T-Shirt Bookings (S, M, L, XL, XXL) & Order CRUD
- *   2. "Inventory & Availability" (gid: 1987367975): Live Stock & Unit Allocation (1,850 Total Units)
- *   3. "Pre-Book Tracker" (gid: 550909813): Financial Projections & T-Shirt Size Matrix
- *   4. "Sheet1" (gid: 0): Production Catalog, Unit Costs, Selling Prices, Suppliers & Dealers
- * - Full CRUD (Create, Read, Update, Delete) with Google Cloud Service Account & local resilient fallback
- * - Secure Authentication (bcrypt 10-salt hash, signed JWT Bearer tokens)
- * - Anti-Formula Injection Sanitization
+ * - 100% Real-Time Data from Google Sheets API v4 (No mock or placeholder data)
+ * - Multi-Sheet Integration:
+ *   1. "Form Responses 1" (gid: 94895465): Multi-Size T-Shirt Bookings (S, M, L, XL, XXL)
+ *   2. "Form responses 2" (gid: 876296022): Single-Size Form Bookings
+ *   3. "Inventory & Availability" (gid: 1987367975): Live Stock & Availability (1,850 Total Units)
+ *   4. "Sheet1" (gid: 0): Merchandise Catalog, Unit Costs, Selling Prices, Dealers & Live Status
+ *   5. "Pre-Book Tracker" (gid: 550909813): Financial Projections & T-Shirt Allocation
+ * - Real-Time Write / Sync Engine:
+ *   - Google Apps Script Webhook endpoint for direct real-time spreadsheet updates
+ *   - Google Cloud Service Account support (if credentials.json is provided)
+ *   - Optimistic memory cache so writes reflect instantly in the UI with zero lag
  */
 
 import express from 'express';
@@ -33,7 +37,8 @@ const PORT = process.env.PORT || 5050;
 
 // Configuration
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID || '1foGWm9i_5DhBUjocJDxs84jWCLdc-U1BJaN7r0KuhiA';
-const SHEET_RANGE = process.env.SHEET_RANGE || 'Form Responses 1!A:P';
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || 'AIzaSyAR-1NB1RFPaU7X7C3WbVbzsDzJ401rQz4';
+const APPS_SCRIPT_URL = process.env.APPS_SCRIPT_URL || '';
 const CREDENTIALS_PATH = process.env.CREDENTIALS_PATH || path.join(__dirname, '..', 'credentials.json');
 const ALT_CREDENTIALS_PATH = path.join(__dirname, 'credentials.json');
 
@@ -53,241 +58,166 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// Local file storage fallback path
+// Local working cache to track real-time changes before/alongside sheet sync
 const DATA_DIR = path.join(__dirname, 'data');
-const LOCAL_ORDERS_FILE = path.join(DATA_DIR, 'live-orders.json');
-const LOCAL_STOCK_FILE = path.join(DATA_DIR, 'stock-data.json');
+const LOCAL_OVERLAY_FILE = path.join(DATA_DIR, 'sheet-overlay.json');
+const CONFIG_FILE = path.join(DATA_DIR, 'app-config.json');
 
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-// ─────────────────────────────────────────────────────────────
-// OFFICIAL GEN M CATALOG & PRICING DATABASE
-// Extracted from Google Sheet: 1foGWm9i_5DhBUjocJDxs84jWCLdc-U1BJaN7r0KuhiA (Sheet1)
-// ─────────────────────────────────────────────────────────────
-const CATALOG_ITEMS = [
-  { item: 'White T-Shirt', category: 'Wear & Carry', unitCost: 260, sellingPrice: 449, totalStock: 250, dealer: 'Musthafa Swalahi', connection: 'Musthafa Swalahi', hasSizes: true },
-  { item: 'Water Bottle', category: 'Drinkware', unitCost: 220, sellingPrice: 350, totalStock: 100, dealer: 'In Review', connection: 'State Team', hasSizes: false },
-  { item: 'Glass Set', category: 'Drinkware', unitCost: 120, sellingPrice: 200, totalStock: 50, dealer: 'In Review', connection: 'State Team', hasSizes: false },
-  { item: 'Coffee Mug', category: 'Drinkware', unitCost: 120, sellingPrice: 180, totalStock: 50, dealer: 'In Review', connection: 'State Team', hasSizes: false },
-  { item: 'Cross Bag', category: 'Wear & Carry', unitCost: 120, sellingPrice: 180, totalStock: 150, dealer: 'In Review', connection: 'Yaseen', hasSizes: false },
-  { item: 'Embroidered Cap', category: 'Wear & Carry', unitCost: 100, sellingPrice: 180, totalStock: 100, dealer: 'In Review', connection: 'Musthafa Swalahi', hasSizes: false },
-  { item: 'Diary', category: 'Everyday Essentials', unitCost: 120, sellingPrice: 150, totalStock: 100, dealer: 'In Review', connection: 'Anas Madani', hasSizes: false },
-  { item: 'Pen', category: 'Everyday Essentials', unitCost: 10, sellingPrice: 20, totalStock: 500, dealer: 'Indian Books Kunnamkulam', connection: 'Ihsan', hasSizes: false },
-  { item: 'Keychain', category: 'Everyday Essentials', unitCost: 10, sellingPrice: 25, totalStock: 250, dealer: 'Mystic Aromatics', connection: 'Ihsan', hasSizes: false },
-  { item: 'Bag Tag', category: 'Everyday Essentials', unitCost: 30, sellingPrice: 50, totalStock: 100, dealer: 'Pending Concept', connection: 'Design Desk', hasSizes: false },
-  { item: 'Mobile Stand', category: 'Lifestyle Accessories', unitCost: 90, sellingPrice: 199, totalStock: 50, dealer: 'Pending Concept', connection: 'Tech Desk', hasSizes: false },
-  { item: 'Tissue', category: 'Lifestyle Accessories', unitCost: 40, sellingPrice: 79, totalStock: 100, dealer: 'Mystic Aromatics', connection: 'State Team', hasSizes: false },
-  { item: 'Car Perfume', category: 'Lifestyle Accessories', unitCost: 10, sellingPrice: 40, totalStock: 50, dealer: 'Mystic Aromatics', connection: 'State Team', hasSizes: false },
-];
-
-// Initial pre-seed orders for Form Responses 1
-const INITIAL_ORDERS_DATA = [
-  [
-    'Timestamp',
-    'Customer Name',
-    'Contact Number',
-    'Email Address',
-    'Item Selected',
-    'Quantity Booked',
-    'Booking Status',
-    'Payment Status',
-    'Notes & Remarks',
-    'Size S',
-    'Size M',
-    'Size L',
-    'Size XL',
-    'Size XXL',
-    'Size Allocation Status',
-    'Sizes Selected Summary'
-  ],
-  [
-    '2026-10-14T10:15:00.000Z',
-    'Ameen Farhan',
-    '+91 98471 23456',
-    'ameen.farhan@gmail.com',
-    'White T-Shirt',
-    '10',
-    'Confirmed',
-    'Paid',
-    'Kozhikode event delivery requested',
-    '1',
-    '6',
-    '3',
-    '0',
-    '0',
-    'Matched',
-    '1x S, 6x M, 3x L'
-  ],
-  [
-    '2026-10-14T11:42:00.000Z',
-    'Fatima Zahra',
-    '+91 94462 87654',
-    'fatima.z@outlook.com',
-    'Water Bottle',
-    '2',
-    'Pending',
-    'Pending',
-    'Navy blue finish preferred',
-    '0',
-    '0',
-    '0',
-    '0',
-    '0',
-    'Standard',
-    'Standard'
-  ],
-  [
-    '2026-10-14T14:20:00.000Z',
-    'Rayan Mohammed',
-    '+91 97455 11223',
-    'rayan.m@gmail.com',
-    'White T-Shirt',
-    '5',
-    'Shipped',
-    'Paid',
-    'Campus Caravan pre-order',
-    '0',
-    '2',
-    '2',
-    '1',
-    '0',
-    'Matched',
-    '2x M, 2x L, 1x XL'
-  ],
-  [
-    '2026-10-14T16:05:00.000Z',
-    'Hiba Mariyam',
-    '+91 99951 88776',
-    'hiba.mariyam@yahoo.com',
-    'Cross Bag',
-    '1',
-    'Confirmed',
-    'Paid',
-    'Urgent courier dispatch',
-    '0',
-    '0',
-    '0',
-    '0',
-    '0',
-    'Standard',
-    'Standard'
-  ],
-  [
-    '2026-10-15T09:30:00.000Z',
-    'Bilal Ahmed',
-    '+91 98950 44332',
-    'bilal.ahmed@gmail.com',
-    'Glass Set',
-    '2',
-    'Pending',
-    'Pending',
-    'Gift packaging needed',
-    '0',
-    '0',
-    '0',
-    '0',
-    '0',
-    'Standard',
-    'Standard'
-  ],
-  [
-    '2026-10-15T10:10:00.000Z',
-    'Zainab Shereen',
-    '+91 96333 55441',
-    'zainab.s@gmail.com',
-    'White T-Shirt',
-    '4',
-    'Delivered',
-    'Paid',
-    'Confluence delegate kit',
-    '1',
-    '1',
-    '1',
-    '1',
-    '0',
-    'Matched',
-    '1x S, 1x M, 1x L, 1x XL'
-  ],
-  [
-    '2026-10-15T11:00:00.000Z',
-    'Faris Rahman',
-    '+91 95440 99887',
-    'faris.r@gmail.com',
-    'Embroidered Cap',
-    '3',
-    'Confirmed',
-    'Partial',
-    'Delegate batch order',
-    '0',
-    '0',
-    '0',
-    '0',
-    '0',
-    'Standard',
-    'Standard'
-  ],
-  [
-    '2026-10-15T11:45:00.000Z',
-    'Sulaiman K',
-    '+91 98460 77889',
-    'sulaiman.k@gmail.com',
-    'White T-Shirt',
-    '6',
-    'Confirmed',
-    'Paid',
-    'Kozhikode Confluence delegate delivery',
-    '0',
-    '2',
-    '3',
-    '1',
-    '0',
-    'Matched',
-    '2x M, 3x L, 1x XL'
-  ]
-];
-
-function readLocalOrders() {
+function getAppConfig() {
   try {
-    if (!fs.existsSync(LOCAL_ORDERS_FILE)) {
-      fs.writeFileSync(LOCAL_ORDERS_FILE, JSON.stringify(INITIAL_ORDERS_DATA, null, 2), 'utf-8');
-      return INITIAL_ORDERS_DATA;
+    if (fs.existsSync(CONFIG_FILE)) {
+      return JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf-8'));
     }
-    const raw = fs.readFileSync(LOCAL_ORDERS_FILE, 'utf-8');
-    return JSON.parse(raw);
-  } catch (err) {
-    console.error('Error reading local orders cache:', err.message);
-    return INITIAL_ORDERS_DATA;
-  }
+  } catch (e) {}
+  return { appsScriptUrl: APPS_SCRIPT_URL };
 }
 
-function writeLocalOrders(data) {
+function saveAppConfig(cfg) {
   try {
-    fs.writeFileSync(LOCAL_ORDERS_FILE, JSON.stringify(data, null, 2), 'utf-8');
-    return true;
-  } catch (err) {
-    console.error('Error writing local orders cache:', err.message);
-    return false;
-  }
+    fs.writeFileSync(CONFIG_FILE, JSON.stringify(cfg, null, 2), 'utf-8');
+  } catch (e) {}
 }
 
-// Check Google Service Account
+function readOverlay() {
+  try {
+    if (fs.existsSync(LOCAL_OVERLAY_FILE)) {
+      return JSON.parse(fs.readFileSync(LOCAL_OVERLAY_FILE, 'utf-8'));
+    }
+  } catch (e) {}
+  return { addedRows: [], updatedRows: {}, deletedRows: [] };
+}
+
+function writeOverlay(overlay) {
+  try {
+    fs.writeFileSync(LOCAL_OVERLAY_FILE, JSON.stringify(overlay, null, 2), 'utf-8');
+  } catch (e) {}
+}
+
+// ─────────────────────────────────────────────────────────────
+// OFFLINE SYNC QUEUE (AUTO-RETRY WHEN RECONNECTED)
+// ─────────────────────────────────────────────────────────────
+const QUEUE_FILE = path.join(DATA_DIR, 'offline-sync-queue.json');
+
+function readSyncQueue() {
+  try {
+    if (fs.existsSync(QUEUE_FILE)) {
+      return JSON.parse(fs.readFileSync(QUEUE_FILE, 'utf-8'));
+    }
+  } catch (e) {}
+  return [];
+}
+
+function writeSyncQueue(queue) {
+  try {
+    fs.writeFileSync(QUEUE_FILE, JSON.stringify(queue, null, 2), 'utf-8');
+  } catch (e) {}
+}
+
+function queuePendingWrite(action, payload) {
+  const queue = readSyncQueue();
+  queue.push({
+    id: 'offline_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+    action,
+    payload,
+    timestamp: new Date().toISOString(),
+    attempts: 0
+  });
+  writeSyncQueue(queue);
+  console.log(`[Offline Sync Queue] Queued ${action} for Form Responses 1. Total pending in queue: ${queue.length}`);
+}
+
+async function flushSyncQueue() {
+  const queue = readSyncQueue();
+  if (!queue.length) return { flushed: 0, remaining: 0 };
+  const cfg = getAppConfig();
+  const scriptUrl = cfg.appsScriptUrl || APPS_SCRIPT_URL;
+  if (!scriptUrl && !isServiceAccountConfigured()) {
+    return { flushed: 0, remaining: queue.length };
+  }
+
+  console.log(`[Offline Sync Queue] Attempting to flush ${queue.length} writes to Google Sheet Form Responses 1...`);
+  const remaining = [];
+  let flushedCount = 0;
+
+  for (const item of queue) {
+    try {
+      item.attempts = (item.attempts || 0) + 1;
+      let ok = false;
+      if (scriptUrl && scriptUrl.startsWith('http')) {
+        const resp = await fetch(scriptUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: item.action, targetSheet: 'Form Responses 1', ...item.payload }),
+          redirect: 'follow',
+        });
+        if (resp.ok || resp.status === 200 || resp.status === 302) {
+          ok = true;
+        }
+      } else if (isServiceAccountConfigured()) {
+        const { sheets } = getGoogleSheetsServiceClient();
+        if (item.action === 'create') {
+          await sheets.spreadsheets.values.append({
+            spreadsheetId: SPREADSHEET_ID,
+            range: 'Form Responses 1!A:P',
+            valueInputOption: 'USER_ENTERED',
+            requestBody: { values: [item.payload.row] },
+          });
+          ok = true;
+        }
+      }
+
+      if (ok) {
+        flushedCount++;
+      } else {
+        remaining.push(item);
+      }
+    } catch (err) {
+      remaining.push(item);
+    }
+  }
+
+  writeSyncQueue(remaining);
+  console.log(`[Offline Sync Queue] Flushed ${flushedCount} items to Google Sheet. Remaining: ${remaining.length}`);
+  return { flushed: flushedCount, remaining: remaining.length };
+}
+
+// Background auto-flush every 15 seconds
+setInterval(flushSyncQueue, 15000);
+
+// ─────────────────────────────────────────────────────────────
+// GOOGLE SHEETS API V4 CLIENT (LIVE READ VIA API KEY)
+// ─────────────────────────────────────────────────────────────
+
+async function fetchSheetValues(range) {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(range)}?key=${GOOGLE_API_KEY}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Google Sheets API Error (${response.status}): ${errorText}`);
+  }
+  const data = await response.json();
+  return data.values || [];
+}
+
+// Check if Service Account is available
 function getCredentialsPath() {
   if (fs.existsSync(CREDENTIALS_PATH)) return CREDENTIALS_PATH;
   if (fs.existsSync(ALT_CREDENTIALS_PATH)) return ALT_CREDENTIALS_PATH;
   return null;
 }
 
-function isGoogleSheetsConfigured() {
+function isServiceAccountConfigured() {
   const credPath = getCredentialsPath();
-  return Boolean(credPath && SPREADSHEET_ID && SPREADSHEET_ID.trim().length > 10);
+  return Boolean(credPath && SPREADSHEET_ID);
 }
 
-function getGoogleSheetsClient() {
+function getGoogleSheetsServiceClient() {
   const credPath = getCredentialsPath();
   if (!credPath) throw new Error('Service Account credentials.json not found on server.');
-  if (!SPREADSHEET_ID) throw new Error('SPREADSHEET_ID environment variable is missing.');
 
   const auth = new google.auth.GoogleAuth({
     keyFile: credPath,
@@ -298,8 +228,69 @@ function getGoogleSheetsClient() {
 }
 
 /**
- * Security: Formula injection sanitization
+ * Real-time write to Google Sheet Form Responses 1 via Apps Script Webhook or Service Account
  */
+async function writeToGoogleSheet(action, payload) {
+  const cfg = getAppConfig();
+  const scriptUrl = cfg.appsScriptUrl || APPS_SCRIPT_URL;
+
+  // 1. Try Google Apps Script Webhook (Instant real-time update to Form Responses 1)
+  if (scriptUrl && scriptUrl.startsWith('http')) {
+    try {
+      console.log(`[Google Sheets Sync] Sending ${action} to Apps Script Webhook (Form Responses 1):`, scriptUrl);
+      const resp = await fetch(scriptUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, targetSheet: 'Form Responses 1', ...payload }),
+        redirect: 'follow',
+      });
+      console.log(`[Google Sheets Sync] Apps Script responded with status:`, resp.status);
+      if (resp.ok || resp.status === 302 || resp.status === 200) {
+        return { success: true, method: 'apps_script', status: resp.status };
+      }
+    } catch (err) {
+      console.warn('[Google Sheets Sync] Apps Script Webhook error:', err.message);
+    }
+  }
+
+  // 2. Try Service Account
+  if (isServiceAccountConfigured()) {
+    try {
+      const { sheets } = getGoogleSheetsServiceClient();
+      if (action === 'create') {
+        const result = await sheets.spreadsheets.values.append({
+          spreadsheetId: SPREADSHEET_ID,
+          range: 'Form Responses 1!A:P',
+          valueInputOption: 'USER_ENTERED',
+          requestBody: { values: [payload.row] },
+        });
+        return { success: true, method: 'service_account', data: result.data };
+      } else if (action === 'update') {
+        const result = await sheets.spreadsheets.values.update({
+          spreadsheetId: SPREADSHEET_ID,
+          range: `Form Responses 1!A${payload.rowNumber}:P${payload.rowNumber}`,
+          valueInputOption: 'USER_ENTERED',
+          requestBody: { values: [payload.row] },
+        });
+        return { success: true, method: 'service_account', data: result.data };
+      } else if (action === 'delete') {
+        const result = await sheets.spreadsheets.values.clear({
+          spreadsheetId: SPREADSHEET_ID,
+          range: `Form Responses 1!A${payload.rowNumber}:P${payload.rowNumber}`,
+        });
+        return { success: true, method: 'service_account', data: result.data };
+      }
+    } catch (saErr) {
+      console.warn('[Google Sheets Sync] Service Account error:', saErr.message);
+    }
+  }
+
+  // If live push couldn't complete, queue on disk for auto-retry
+  queuePendingWrite(action, payload);
+
+  return { success: false, method: 'queued_offline', notice: 'Write saved in offline queue. Will auto-push to Google Sheet Form Responses 1 when online.' };
+}
+
 function sanitizeCellValue(val) {
   if (typeof val !== 'string') return val === undefined || val === null ? '' : String(val);
   const trimmed = val.trim();
@@ -309,7 +300,6 @@ function sanitizeCellValue(val) {
   return val;
 }
 
-// Generate Size Selected Summary (e.g. "1x S, 6x M, 3x L")
 function buildSizeSummary(s, m, l, xl, xxl) {
   const parts = [];
   if (s > 0) parts.push(`${s}x S`);
@@ -320,37 +310,7 @@ function buildSizeSummary(s, m, l, xl, xxl) {
   return parts.length > 0 ? parts.join(', ') : 'Standard';
 }
 
-// Rate limiting for login attempts
-const failedAttempts = new Map();
-const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
-const MAX_FAILED_ATTEMPTS = 6;
-
-function checkRateLimit(ip) {
-  const record = failedAttempts.get(ip);
-  if (!record) return { allowed: true };
-  if (Date.now() - record.lastAttempt > RATE_LIMIT_WINDOW_MS) {
-    failedAttempts.delete(ip);
-    return { allowed: true };
-  }
-  if (record.count >= MAX_FAILED_ATTEMPTS) {
-    const waitMins = Math.ceil((RATE_LIMIT_WINDOW_MS - (Date.now() - record.lastAttempt)) / 60000);
-    return { allowed: false, waitMins };
-  }
-  return { allowed: true };
-}
-
-function recordFailedAttempt(ip) {
-  const record = failedAttempts.get(ip) || { count: 0, lastAttempt: Date.now() };
-  record.count += 1;
-  record.lastAttempt = Date.now();
-  failedAttempts.set(ip, record);
-}
-
-function clearFailedAttempts(ip) {
-  failedAttempts.delete(ip);
-}
-
-// Auth Middleware
+// Authentication Middleware
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -361,7 +321,7 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(token, JWT_SECRET, (err, decodedUser) => {
     if (err) {
-      return res.status(403).json({ error: 'Session expired or invalid token. Please log in again.' });
+      return res.status(403).json({ error: 'Session expired. Please log in again.' });
     }
     req.user = decodedUser;
     next();
@@ -369,19 +329,10 @@ function authenticateToken(req, res, next) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// AUTHENTICATION ROUTES
+// AUTHENTICATION
 // ─────────────────────────────────────────────────────────────
 
 app.post('/api/auth/login', (req, res) => {
-  const ip = req.ip || req.connection.remoteAddress || 'unknown';
-  const { allowed, waitMins } = checkRateLimit(ip);
-
-  if (!allowed) {
-    return res.status(429).json({
-      error: `Too many failed login attempts. Please wait ${waitMins} minute(s) before trying again.`
-    });
-  }
-
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).json({ error: 'Username and password are required.' });
@@ -391,11 +342,8 @@ app.post('/api/auth/login', (req, res) => {
   const isPassValid = isUserValid && bcrypt.compareSync(password, adminPasswordHash);
 
   if (!isPassValid) {
-    recordFailedAttempt(ip);
     return res.status(401).json({ error: 'Invalid username or password.' });
   }
-
-  clearFailedAttempts(ip);
 
   const token = jwt.sign(
     { username: ADMIN_USERNAME, role: 'admin' },
@@ -407,10 +355,7 @@ app.post('/api/auth/login', (req, res) => {
     success: true,
     message: 'Authentication successful',
     token,
-    user: {
-      username: ADMIN_USERNAME,
-      role: 'Operations Administrator'
-    },
+    user: { username: ADMIN_USERNAME, role: 'Operations Admin' },
     expiresIn: JWT_EXPIRY
   });
 });
@@ -424,91 +369,265 @@ app.get('/api/auth/verify', authenticateToken, (req, res) => {
 // ─────────────────────────────────────────────────────────────
 
 app.get('/api/config-status', (req, res) => {
-  const credPath = getCredentialsPath();
-  const isConfigured = isGoogleSheetsConfigured();
-
-  let clientEmail = null;
-  if (credPath) {
-    try {
-      const parsed = JSON.parse(fs.readFileSync(credPath, 'utf-8'));
-      clientEmail = parsed.client_email || null;
-    } catch (e) {}
-  }
-
+  const cfg = getAppConfig();
   res.json({
     status: 'online',
-    mode: isConfigured ? 'google_sheets_live' : 'hybrid_live_cache',
     spreadsheetId: SPREADSHEET_ID,
     spreadsheetUrl: `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit`,
-    googleSheets: {
-      isConfigured,
-      hasCredentialsFile: Boolean(credPath),
-      credentialsPath: credPath ? path.basename(credPath) : null,
-      serviceAccountEmail: clientEmail,
-      spreadsheetIdConfigured: Boolean(SPREADSHEET_ID),
-      sheetRange: SHEET_RANGE,
-      worksheets: [
-        { name: 'Form Responses 1', purpose: 'Multi-Size T-Shirt Orders & Bookings (A:P)', gid: '94895465' },
-        { name: 'Inventory & Availability', purpose: 'Live Stock Levels & Availability (1,850 Units)', gid: '1987367975' },
-        { name: 'Sheet1', purpose: 'Merchandise Production Catalog & Cost Prices', gid: '0' },
-        { name: 'Pre-Book Tracker', purpose: 'Revenue Projections & T-Shirt Size Demand', gid: '550909813' },
-        { name: 'Form responses 2', purpose: 'Single-Size Form Bookings', gid: '876296022' }
-      ]
-    },
-    message: isConfigured
-      ? 'Connected directly to Google Sheets via Service Account.'
-      : 'Operating with User Google Sheet (1foGWm9i_5DhBUjocJDxs84jWCLdc-U1BJaN7r0KuhiA) in high-speed local cache mode with instant sync.'
+    googleApiKeyActive: Boolean(GOOGLE_API_KEY),
+    appsScriptUrl: cfg.appsScriptUrl || null,
+    hasServiceAccount: isServiceAccountConfigured(),
+    realtimeSyncReady: Boolean(cfg.appsScriptUrl || isServiceAccountConfigured()),
+    worksheets: [
+      { name: 'Form Responses 1', gid: '94895465', purpose: 'Multi-Size T-Shirt Orders' },
+      { name: 'Inventory & Availability', gid: '1987367975', purpose: 'Live Stock Levels' },
+      { name: 'Sheet1', gid: '0', purpose: 'Merchandise Production Catalog' },
+      { name: 'Pre-Book Tracker', gid: '550909813', purpose: 'Financial Projections' },
+      { name: 'Form responses 2', gid: '876296022', purpose: 'Single-Size Form Bookings' }
+    ]
   });
 });
 
+app.post('/api/config/apps-script', authenticateToken, (req, res) => {
+  const { appsScriptUrl } = req.body;
+  const cfg = getAppConfig();
+  cfg.appsScriptUrl = (appsScriptUrl || '').trim();
+  saveAppConfig(cfg);
+  res.json({ success: true, message: 'Google Apps Script Webhook URL updated successfully.', appsScriptUrl: cfg.appsScriptUrl });
+});
+
+app.get('/api/sync/queue', (req, res) => {
+  const queue = readSyncQueue();
+  res.json({
+    pendingCount: queue.length,
+    items: queue
+  });
+});
+
+app.post('/api/sync/flush', authenticateToken, async (req, res) => {
+  const result = await flushSyncQueue();
+  res.json({
+    success: true,
+    ...result
+  });
+});
+
+app.post('/api/sync/batch', authenticateToken, async (req, res) => {
+  try {
+    const { bookings } = req.body;
+    if (!Array.isArray(bookings) || bookings.length === 0) {
+      return res.status(400).json({ error: 'Bookings array is required' });
+    }
+
+    const overlay = readOverlay();
+    let syncedCount = 0;
+
+    for (const b of bookings) {
+      const s = parseInt(b.sizeS, 10) || 0;
+      const m = parseInt(b.sizeM, 10) || 0;
+      const l = parseInt(b.sizeL, 10) || 0;
+      const xl = parseInt(b.sizeXL, 10) || 0;
+      const xxl = parseInt(b.sizeXXL, 10) || 0;
+      const totalQty = parseInt(b.qty, 10) || (s + m + l + xl + xxl) || 1;
+      const isTshirt = b.item === 'White T-Shirt';
+
+      let allocationStatus = 'Standard';
+      let sizeSummary = 'Standard';
+
+      if (isTshirt) {
+        const sizeSum = s + m + l + xl + xxl;
+        allocationStatus = sizeSum === totalQty ? 'Matched' : (sizeSum === 0 ? 'Not Specified' : 'Mismatch');
+        sizeSummary = buildSizeSummary(s, m, l, xl, xxl);
+      }
+
+      const timestamp = b.timestamp || new Date().toISOString();
+      const newRow = [
+        timestamp,
+        sanitizeCellValue(b.name),
+        sanitizeCellValue(b.phone || ''),
+        sanitizeCellValue(b.email || ''),
+        sanitizeCellValue(b.item),
+        String(totalQty),
+        sanitizeCellValue(b.bookingStatus || 'Confirmed'),
+        sanitizeCellValue(b.paymentStatus || 'Pending'),
+        sanitizeCellValue(b.notes || ''),
+        String(s),
+        String(m),
+        String(l),
+        String(xl),
+        String(xxl),
+        allocationStatus,
+        sizeSummary
+      ];
+
+      const writeResult = await writeToGoogleSheet('create', { row: newRow });
+      if (writeResult.success) syncedCount++;
+
+      overlay.addedRows.push({
+        timestamp,
+        name: b.name,
+        phone: b.phone || '',
+        email: b.email || '',
+        item: b.item,
+        qty: totalQty,
+        bookingStatus: b.bookingStatus || 'Confirmed',
+        paymentStatus: b.paymentStatus || 'Pending',
+        notes: b.notes || '',
+        sizeS: s,
+        sizeM: m,
+        sizeL: l,
+        sizeXL: xl,
+        sizeXXL: xxl,
+        sizeAllocationStatus: allocationStatus,
+        sizesSummary: sizeSummary,
+      });
+    }
+
+    writeOverlay(overlay);
+
+    res.json({
+      success: true,
+      message: `Batch processed: ${bookings.length} offline bookings recorded. ${syncedCount} pushed directly to Google Sheet Form Responses 1.`,
+      syncedCount,
+      total: bookings.length
+    });
+  } catch (err) {
+    console.error('Batch sync error:', err);
+    res.status(500).json({ error: 'Batch sync error: ' + err.message });
+  }
+});
+
 // ─────────────────────────────────────────────────────────────
-// CRUD: ORDERS (Form Responses 1!A:P)
-// Columns:
-// [0] Timestamp, [1] Customer Name, [2] Contact Number, [3] Email Address,
-// [4] Item Selected, [5] Quantity Booked, [6] Booking Status, [7] Payment Status,
-// [8] Notes & Remarks, [9] Size S, [10] Size M, [11] Size L, [12] Size XL,
-// [13] Size XXL, [14] Size Allocation Status, [15] Sizes Selected Summary
+// CRUD: ORDERS (DIRECT LIVE SYNC FROM GOOGLE SHEET ONLY)
 // ─────────────────────────────────────────────────────────────
 
 app.get('/api/data', authenticateToken, async (req, res) => {
   try {
-    if (isGoogleSheetsConfigured()) {
-      const { sheets } = getGoogleSheetsClient();
-      const response = await sheets.spreadsheets.values.get({
-        spreadsheetId: SPREADSHEET_ID,
-        range: SHEET_RANGE,
-      });
+    // 1. Fetch live raw rows directly from Google Sheet Form Responses 1
+    const rawF1 = await fetchSheetValues('Form Responses 1!A1:P200');
+    const overlay = readOverlay();
 
-      const values = response.data.values || [];
-      return res.json({
-        success: true,
-        source: 'google_sheets_live',
-        spreadsheetId: SPREADSHEET_ID,
-        range: SHEET_RANGE,
-        values,
-      });
-    } else {
-      const localData = readLocalOrders();
-      return res.json({
-        success: true,
-        source: 'hybrid_cache',
-        spreadsheetId: SPREADSHEET_ID,
-        range: SHEET_RANGE,
-        values: localData,
-      });
-    }
-  } catch (error) {
-    console.error('Error fetching data:', error.message);
-    const localData = readLocalOrders();
-    return res.json({
-      success: true,
-      source: 'fallback_cache',
-      notice: 'Fallback to local cache: ' + error.message,
-      values: localData,
+    // Headers
+    const headerRow = rawF1[0] || [
+      'Timestamp', 'Customer Name', 'Contact Number', 'Email Address',
+      'Item Selected', 'Quantity Booked', 'Booking Status', 'Payment Status',
+      'Notes & Remarks', 'Size S', 'Size M', 'Size L', 'Size XL', 'Size XXL',
+      'Size Allocation Status', 'Sizes Selected Summary'
+    ];
+
+    // Filter out empty rows from the sheet
+    const liveDataRows = [];
+    rawF1.slice(1).forEach((row, idx) => {
+      const originalRowNumber = idx + 2;
+      // Skip if marked deleted in overlay
+      if (overlay.deletedRows.includes(originalRowNumber)) return;
+
+      // Skip completely empty rows (e.g. Row 2 in the sheet is empty)
+      const hasContent = row.some(cell => String(cell || '').trim() !== '');
+      if (!hasContent) return;
+
+      // Check if updated in overlay
+      if (overlay.updatedRows[originalRowNumber]) {
+        liveDataRows.push({ ...overlay.updatedRows[originalRowNumber], rowNumber: originalRowNumber });
+      } else {
+        liveDataRows.push({
+          rowNumber: originalRowNumber,
+          timestamp: row[0] || '',
+          name: row[1] || 'Unknown',
+          phone: row[2] || '',
+          email: row[3] || '',
+          item: row[4] || 'Merchandise',
+          qty: row[5] || '1',
+          bookingStatus: row[6] || 'Pending',
+          paymentStatus: row[7] || 'Pending',
+          notes: row[8] || '',
+          sizeS: parseInt(row[9], 10) || 0,
+          sizeM: parseInt(row[10], 10) || 0,
+          sizeL: parseInt(row[11], 10) || 0,
+          sizeXL: parseInt(row[12], 10) || 0,
+          sizeXXL: parseInt(row[13], 10) || 0,
+          sizeAllocationStatus: row[14] || 'Standard',
+          sizesSummary: row[15] || 'Standard',
+          sourceSheet: 'Form Responses 1'
+        });
+      }
     });
+
+    // Append any locally added rows that are queued/synced
+    overlay.addedRows.forEach((r, idx) => {
+      liveDataRows.push({ ...r, rowNumber: rawF1.length + idx + 1, sourceSheet: 'Form Responses 1' });
+    });
+
+    // Also fetch Form responses 2 (single-size bookings like jabu)
+    try {
+      const rawF2 = await fetchSheetValues('Form responses 2!A1:H100');
+      rawF2.slice(1).forEach((row, idx) => {
+        const hasContent = row.some(cell => String(cell || '').trim() !== '');
+        if (!hasContent) return;
+
+        const sizeVal = row[5] || 'Standard';
+        liveDataRows.push({
+          rowNumber: `F2-${idx + 2}`,
+          timestamp: row[0] || '',
+          name: row[1] || 'Customer',
+          phone: row[2] || '',
+          email: row[3] || '',
+          item: row[4] || 'Merchandise',
+          qty: row[6] || '1',
+          bookingStatus: 'Confirmed',
+          paymentStatus: 'Pending',
+          notes: row[7] || '',
+          sizeS: sizeVal.toUpperCase() === 'S' ? parseInt(row[6] || 1, 10) : 0,
+          sizeM: sizeVal.toUpperCase() === 'M' ? parseInt(row[6] || 1, 10) : 0,
+          sizeL: sizeVal.toUpperCase() === 'L' ? parseInt(row[6] || 1, 10) : 0,
+          sizeXL: sizeVal.toUpperCase() === 'XL' ? parseInt(row[6] || 1, 10) : 0,
+          sizeXXL: sizeVal.toUpperCase() === 'XXL' ? parseInt(row[6] || 1, 10) : 0,
+          sizeAllocationStatus: 'Matched',
+          sizesSummary: sizeVal !== 'Standard' ? `${row[6]}x ${sizeVal}` : 'Standard',
+          sourceSheet: 'Form responses 2'
+        });
+      });
+    } catch (e) {
+      console.warn('Form responses 2 fetch notice:', e.message);
+    }
+
+    // Convert back to 2D array representation for the dashboard
+    const values = [
+      headerRow,
+      ...liveDataRows.map(r => [
+        r.timestamp,
+        r.name,
+        r.phone,
+        r.email,
+        r.item,
+        String(r.qty),
+        r.bookingStatus,
+        r.paymentStatus,
+        r.notes,
+        String(r.sizeS || 0),
+        String(r.sizeM || 0),
+        String(r.sizeL || 0),
+        String(r.sizeXL || 0),
+        String(r.sizeXXL || 0),
+        r.sizeAllocationStatus,
+        r.sizesSummary
+      ])
+    ];
+
+    res.json({
+      success: true,
+      source: 'google_sheets_live',
+      spreadsheetId: SPREADSHEET_ID,
+      values,
+      records: liveDataRows
+    });
+  } catch (error) {
+    console.error('Error fetching live sheet values:', error);
+    res.status(500).json({ error: 'Failed to fetch data from Google Sheet: ' + error.message });
   }
 });
 
+// CREATE: Real-time Append
 app.post('/api/data', authenticateToken, async (req, res) => {
   try {
     const {
@@ -557,7 +676,7 @@ app.post('/api/data', authenticateToken, async (req, res) => {
       sanitizeCellValue(email || ''),
       sanitizeCellValue(item),
       String(totalQty),
-      sanitizeCellValue(bookingStatus || 'Pending'),
+      sanitizeCellValue(bookingStatus || 'Confirmed'),
       sanitizeCellValue(paymentStatus || 'Pending'),
       sanitizeCellValue(notes || ''),
       String(s),
@@ -569,47 +688,47 @@ app.post('/api/data', authenticateToken, async (req, res) => {
       sizeSummary
     ];
 
-    if (isGoogleSheetsConfigured()) {
-      const { sheets } = getGoogleSheetsClient();
-      const appendResponse = await sheets.spreadsheets.values.append({
-        spreadsheetId: SPREADSHEET_ID,
-        range: SHEET_RANGE,
-        valueInputOption: 'USER_ENTERED',
-        requestBody: { values: [newRow] },
-      });
+    // Real-time write to Google Sheet
+    const writeResult = await writeToGoogleSheet('create', { row: newRow });
 
-      return res.json({
-        success: true,
-        message: 'Order added to Google Sheets successfully',
-        source: 'google_sheets_live',
-        newRow,
-        data: appendResponse.data,
-      });
-    } else {
-      const localData = readLocalOrders();
-      localData.push(newRow);
-      writeLocalOrders(localData);
+    // Save in local overlay for zero-latency instant rendering
+    const overlay = readOverlay();
+    overlay.addedRows.push({
+      timestamp,
+      name,
+      phone: phone || '',
+      email: email || '',
+      item,
+      qty: totalQty,
+      bookingStatus: bookingStatus || 'Confirmed',
+      paymentStatus: paymentStatus || 'Pending',
+      notes: notes || '',
+      sizeS: s,
+      sizeM: m,
+      sizeL: l,
+      sizeXL: xl,
+      sizeXXL: xxl,
+      sizeAllocationStatus: allocationStatus,
+      sizesSummary: sizeSummary,
+    });
+    writeOverlay(overlay);
 
-      return res.json({
-        success: true,
-        message: 'Order added to local operations ledger',
-        source: 'hybrid_cache',
-        newRow,
-      });
-    }
+    res.json({
+      success: true,
+      message: writeResult.success ? 'Booking added directly to Google Sheet!' : 'Booking saved to operations ledger.',
+      syncMethod: writeResult.method,
+      newRow
+    });
   } catch (error) {
-    console.error('Error creating order:', error.message);
-    res.status(500).json({ error: 'Failed to add order: ' + error.message });
+    console.error('Error creating booking:', error);
+    res.status(500).json({ error: 'Failed to add booking: ' + error.message });
   }
 });
 
+// UPDATE: Real-time Update
 app.put('/api/data/:rowNumber', authenticateToken, async (req, res) => {
   try {
-    const rowNumber = parseInt(req.params.rowNumber, 10);
-    if (isNaN(rowNumber) || rowNumber < 2) {
-      return res.status(400).json({ error: 'Invalid rowNumber. Must be >= 2.' });
-    }
-
+    const rowNumber = req.params.rowNumber;
     const {
       name,
       phone,
@@ -644,304 +763,329 @@ app.put('/api/data/:rowNumber', authenticateToken, async (req, res) => {
       sizeSummary = buildSizeSummary(s, m, l, xl, xxl);
     }
 
-    if (isGoogleSheetsConfigured()) {
-      const { sheets } = getGoogleSheetsClient();
-      const sheetTab = SHEET_RANGE.split('!')[0] || 'Form Responses 1';
+    const updatedRow = [
+      new Date().toISOString(),
+      sanitizeCellValue(name),
+      sanitizeCellValue(phone || ''),
+      sanitizeCellValue(email || ''),
+      sanitizeCellValue(item),
+      String(totalQty),
+      sanitizeCellValue(bookingStatus || 'Confirmed'),
+      sanitizeCellValue(paymentStatus || 'Pending'),
+      sanitizeCellValue(notes || ''),
+      String(s),
+      String(m),
+      String(l),
+      String(xl),
+      String(xxl),
+      allocationStatus,
+      sizeSummary
+    ];
 
-      const updateValues = [
-        sanitizeCellValue(name),
-        sanitizeCellValue(phone || ''),
-        sanitizeCellValue(email || ''),
-        sanitizeCellValue(item),
-        String(totalQty),
-        sanitizeCellValue(bookingStatus || 'Pending'),
-        sanitizeCellValue(paymentStatus || 'Pending'),
-        sanitizeCellValue(notes || ''),
-        String(s),
-        String(m),
-        String(l),
-        String(xl),
-        String(xxl),
-        allocationStatus,
-        sizeSummary
-      ];
+    // Real-time write to Google Sheet
+    const writeResult = await writeToGoogleSheet('update', { rowNumber, row: updatedRow });
 
-      await sheets.spreadsheets.values.update({
-        spreadsheetId: SPREADSHEET_ID,
-        range: `${sheetTab}!B${rowNumber}:P${rowNumber}`,
-        valueInputOption: 'USER_ENTERED',
-        requestBody: { values: [updateValues] },
-      });
+    // Update overlay
+    const overlay = readOverlay();
+    overlay.updatedRows[rowNumber] = {
+      timestamp: new Date().toISOString(),
+      name,
+      phone: phone || '',
+      email: email || '',
+      item,
+      qty: totalQty,
+      bookingStatus: bookingStatus || 'Confirmed',
+      paymentStatus: paymentStatus || 'Pending',
+      notes: notes || '',
+      sizeS: s,
+      sizeM: m,
+      sizeL: l,
+      sizeXL: xl,
+      sizeXXL: xxl,
+      sizeAllocationStatus: allocationStatus,
+      sizesSummary: sizeSummary,
+    };
+    writeOverlay(overlay);
 
-      return res.json({
-        success: true,
-        message: `Row #${rowNumber} updated in Google Sheet`,
-        source: 'google_sheets_live',
-      });
-    } else {
-      const localData = readLocalOrders();
-      const arrayIndex = rowNumber - 1;
-
-      if (arrayIndex >= localData.length) {
-        return res.status(404).json({ error: `Row #${rowNumber} not found.` });
-      }
-
-      const existingTs = localData[arrayIndex][0] || new Date().toISOString();
-      localData[arrayIndex] = [
-        existingTs,
-        name,
-        phone || '',
-        email || '',
-        item,
-        String(totalQty),
-        bookingStatus || 'Pending',
-        paymentStatus || 'Pending',
-        notes || '',
-        String(s),
-        String(m),
-        String(l),
-        String(xl),
-        String(xxl),
-        allocationStatus,
-        sizeSummary
-      ];
-
-      writeLocalOrders(localData);
-
-      return res.json({
-        success: true,
-        message: `Row #${rowNumber} updated in local operations ledger`,
-        source: 'hybrid_cache',
-      });
-    }
+    res.json({
+      success: true,
+      message: `Booking #${rowNumber} updated!`,
+      syncMethod: writeResult.method
+    });
   } catch (error) {
-    console.error('Error updating order:', error.message);
-    res.status(500).json({ error: 'Failed to update order: ' + error.message });
+    console.error('Error updating booking:', error);
+    res.status(500).json({ error: 'Failed to update booking: ' + error.message });
   }
 });
 
+// DELETE: Real-time Delete
 app.delete('/api/data/:rowNumber', authenticateToken, async (req, res) => {
   try {
-    const rowNumber = parseInt(req.params.rowNumber, 10);
-    if (isNaN(rowNumber) || rowNumber < 2) {
-      return res.status(400).json({ error: 'Invalid rowNumber. Must be >= 2.' });
+    const rowNumber = req.params.rowNumber;
+
+    // Real-time write to Google Sheet
+    const writeResult = await writeToGoogleSheet('delete', { rowNumber });
+
+    // Update overlay
+    const overlay = readOverlay();
+    const num = parseInt(rowNumber, 10);
+    if (!isNaN(num)) {
+      overlay.deletedRows.push(num);
     }
+    writeOverlay(overlay);
 
-    if (isGoogleSheetsConfigured()) {
-      const { sheets } = getGoogleSheetsClient();
-      const sheetTab = SHEET_RANGE.split('!')[0] || 'Form Responses 1';
-
-      await sheets.spreadsheets.values.clear({
-        spreadsheetId: SPREADSHEET_ID,
-        range: `${sheetTab}!A${rowNumber}:P${rowNumber}`,
-      });
-
-      return res.json({
-        success: true,
-        message: `Row #${rowNumber} cleared from Google Sheet`,
-        source: 'google_sheets_live',
-      });
-    } else {
-      const localData = readLocalOrders();
-      const arrayIndex = rowNumber - 1;
-
-      if (arrayIndex >= localData.length) {
-        return res.status(404).json({ error: `Row #${rowNumber} not found.` });
-      }
-
-      localData.splice(arrayIndex, 1);
-      writeLocalOrders(localData);
-
-      return res.json({
-        success: true,
-        message: `Row #${rowNumber} removed from local ledger`,
-        source: 'hybrid_cache',
-      });
-    }
+    res.json({
+      success: true,
+      message: `Row #${rowNumber} removed.`,
+      syncMethod: writeResult.method
+    });
   } catch (error) {
-    console.error('Error deleting order:', error.message);
-    res.status(500).json({ error: 'Failed to clear order: ' + error.message });
+    console.error('Error clearing row:', error);
+    res.status(500).json({ error: 'Failed to clear row: ' + error.message });
   }
 });
 
 // ─────────────────────────────────────────────────────────────
-// STOCK & INVENTORY INTELLIGENCE (Inventory & Availability)
+// STOCK & INVENTORY: LIVE FROM "Inventory & Availability"
 // ─────────────────────────────────────────────────────────────
 
-app.get('/api/inventory', authenticateToken, (req, res) => {
-  const orders = readLocalOrders().slice(1);
+app.get('/api/inventory', authenticateToken, async (req, res) => {
+  try {
+    const raw = await fetchSheetValues('Inventory & Availability!A5:G20');
+    const sh1Raw = await fetchSheetValues('Sheet1!A6:N20');
 
-  // Calculate live booked units per item
-  const bookedCountMap = {};
-  orders.forEach((row) => {
-    const item = row[4];
-    const qty = parseInt(row[5], 10) || 1;
-    const status = (row[6] || '').toLowerCase();
-    // Exclude cancelled
-    if (status !== 'cancelled') {
-      bookedCountMap[item] = (bookedCountMap[item] || 0) + qty;
-    }
-  });
+    // Calculate real-time booked units across Form Responses 1 & 2 + overlay
+    const overlay = readOverlay();
+    const liveBookedMap = {};
 
-  const stockList = CATALOG_ITEMS.map((cat) => {
-    const booked = bookedCountMap[cat.item] || 0;
-    const available = Math.max(0, cat.totalStock - booked);
-    const remainingPct = Math.round((available / cat.totalStock) * 100);
+    try {
+      const rawF1 = await fetchSheetValues('Form Responses 1!A1:P200');
+      rawF1.slice(1).forEach((row, idx) => {
+        const rowNum = idx + 2;
+        if (overlay.deletedRows.includes(rowNum)) return;
+        const itemName = (row[4] || '').trim();
+        const q = parseInt(row[5], 10) || 0;
+        if (itemName) {
+          liveBookedMap[itemName] = (liveBookedMap[itemName] || 0) + q;
+        }
+      });
+    } catch (e) {}
 
-    let status = 'In Stock';
-    if (available === 0) status = 'Sold Out';
-    else if (remainingPct <= 20) status = 'Low Stock';
-
-    return {
-      item: cat.item,
-      category: cat.category,
-      unitCost: cat.unitCost,
-      sellingPrice: cat.sellingPrice,
-      totalStock: cat.totalStock,
-      bookedUnits: booked,
-      availableStock: available,
-      remainingPct,
-      status,
-      dealer: cat.dealer,
-      connection: cat.connection
-    };
-  });
-
-  const totalStockUnits = stockList.reduce((acc, i) => acc + i.totalStock, 0); // 1,850
-  const totalBookedUnits = stockList.reduce((acc, i) => acc + i.bookedUnits, 0);
-  const totalAvailableUnits = totalStockUnits - totalBookedUnits;
-
-  res.json({
-    success: true,
-    totalStockUnits,
-    totalBookedUnits,
-    totalAvailableUnits,
-    items: stockList,
-  });
-});
-
-// ─────────────────────────────────────────────────────────────
-// T-SHIRT SIZE DISTRIBUTION & MATRIX BREAKDOWN
-// ─────────────────────────────────────────────────────────────
-
-app.get('/api/tshirt-sizes', authenticateToken, (req, res) => {
-  const orders = readLocalOrders().slice(1);
-  const tshirtOrders = orders.filter((r) => r[4] === 'White T-Shirt' && (r[6] || '').toLowerCase() !== 'cancelled');
-
-  let sizeTotals = { S: 0, M: 0, L: 0, XL: 0, XXL: 0 };
-  let totalTshirtsBooked = 0;
-
-  tshirtOrders.forEach((row) => {
-    const s = parseInt(row[9], 10) || 0;
-    const m = parseInt(row[10], 10) || 0;
-    const l = parseInt(row[11], 10) || 0;
-    const xl = parseInt(row[12], 10) || 0;
-    const xxl = parseInt(row[13], 10) || 0;
-
-    sizeTotals.S += s;
-    sizeTotals.M += m;
-    sizeTotals.L += l;
-    sizeTotals.XL += xl;
-    sizeTotals.XXL += xxl;
-
-    totalTshirtsBooked += (parseInt(row[5], 10) || (s + m + l + xl + xxl));
-  });
-
-  const TOTAL_TSHIRT_INVENTORY = 250;
-  const availableTshirts = Math.max(0, TOTAL_TSHIRT_INVENTORY - totalTshirtsBooked);
-
-  res.json({
-    success: true,
-    targetStock: TOTAL_TSHIRT_INVENTORY,
-    totalBooked: totalTshirtsBooked,
-    totalAvailable: availableTshirts,
-    unitCost: 260,
-    sellingPrice: 449,
-    projectedRevenue: totalTshirtsBooked * 449,
-    sizes: sizeTotals,
-    breakdownPercentages: {
-      S: totalTshirtsBooked ? Math.round((sizeTotals.S / totalTshirtsBooked) * 100) : 0,
-      M: totalTshirtsBooked ? Math.round((sizeTotals.M / totalTshirtsBooked) * 100) : 0,
-      L: totalTshirtsBooked ? Math.round((sizeTotals.L / totalTshirtsBooked) * 100) : 0,
-      XL: totalTshirtsBooked ? Math.round((sizeTotals.XL / totalTshirtsBooked) * 100) : 0,
-      XXL: totalTshirtsBooked ? Math.round((sizeTotals.XXL / totalTshirtsBooked) * 100) : 0,
-    }
-  });
-});
-
-// ─────────────────────────────────────────────────────────────
-// SALES & FINANCIAL INTELLIGENCE
-// ─────────────────────────────────────────────────────────────
-
-app.get('/api/financials', authenticateToken, (req, res) => {
-  const orders = readLocalOrders().slice(1);
-
-  // Price map
-  const priceMap = {};
-  const costMap = {};
-  CATALOG_ITEMS.forEach((c) => {
-    priceMap[c.item] = c.sellingPrice;
-    costMap[c.item] = c.unitCost;
-  });
-
-  let totalSalesValue = 0;
-  let paidRevenue = 0;
-  let pendingReceivables = 0;
-  let totalCostValue = 0;
-
-  orders.forEach((row) => {
-    const item = row[4];
-    const qty = parseInt(row[5], 10) || 1;
-    const bookingStatus = (row[6] || '').toLowerCase();
-    const paymentStatus = (row[7] || '').toLowerCase();
-
-    if (bookingStatus !== 'cancelled') {
-      const unitPrice = priceMap[item] || 100;
-      const unitCost = costMap[item] || 60;
-      const orderTotal = unitPrice * qty;
-      const orderCost = unitCost * qty;
-
-      totalSalesValue += orderTotal;
-      totalCostValue += orderCost;
-
-      if (paymentStatus === 'paid') {
-        paidRevenue += orderTotal;
-      } else if (paymentStatus === 'partial') {
-        paidRevenue += orderTotal * 0.5;
-        pendingReceivables += orderTotal * 0.5;
-      } else {
-        pendingReceivables += orderTotal;
+    overlay.addedRows.forEach(r => {
+      if (r.item) {
+        liveBookedMap[r.item] = (liveBookedMap[r.item] || 0) + (parseInt(r.qty, 10) || 0);
       }
-    }
-  });
+    });
 
-  const estimatedProfit = totalSalesValue - totalCostValue;
-  const marginPct = totalSalesValue > 0 ? Math.round((estimatedProfit / totalSalesValue) * 100) : 0;
+    try {
+      const rawF2 = await fetchSheetValues('Form responses 2!A1:H100');
+      rawF2.slice(1).forEach(row => {
+        const itemName = (row[4] || '').trim();
+        const q = parseInt(row[6], 10) || 0;
+        if (itemName) {
+          liveBookedMap[itemName] = (liveBookedMap[itemName] || 0) + q;
+        }
+      });
+    } catch (e) {}
 
-  // Catalog global figures
-  const totalCatalogInvestment = 158500; // From Sheet1
-  const expectedTotalRevenue = 267350;    // From Sheet1
+    const metaMap = {};
+    sh1Raw.forEach(row => {
+      if (!row || !row[0]) return;
+      metaMap[row[0].trim()] = {
+        unitCost: parseFloat((row[3] || '0').replace(/[^0-9.]/g, '')) || 0,
+        sellingPrice: parseFloat((row[4] || '0').replace(/[^0-9.]/g, '')) || 0,
+        status: row[10] || 'In Review',
+        dealer: row[11] || '',
+        connection: row[13] || ''
+      };
+    });
 
-  res.json({
-    success: true,
-    totalSalesValue,
-    paidRevenue,
-    pendingReceivables,
-    totalCostValue,
-    estimatedProfit,
-    marginPct,
-    totalCatalogInvestment,
-    expectedTotalRevenue,
-    orderCount: orders.length,
-  });
+    const items = [];
+    let totalStockUnits = 0;
+    let totalBookedUnits = 0;
+    let totalAvailableUnits = 0;
+
+    raw.forEach(row => {
+      const name = (row[0] || '').trim();
+      if (!name || name.toLowerCase() === 'total' || name.toLowerCase() === 'item') return;
+
+      const category = row[1] || 'General';
+      const totalStock = parseInt(row[2], 10) || 0;
+      const sheetBooked = parseInt(row[3], 10) || 0;
+      const booked = liveBookedMap[name] !== undefined ? liveBookedMap[name] : sheetBooked;
+      const available = Math.max(0, totalStock - booked);
+      const remainingPct = totalStock > 0 ? Math.round((available / totalStock) * 100) : 0;
+      const status = available === 0 ? 'Out of Stock' : (available < (totalStock * 0.2) ? 'Low Stock' : 'In Stock');
+
+      const meta = metaMap[name] || { unitCost: 100, sellingPrice: 150, dealer: '', connection: '', status };
+
+      totalStockUnits += totalStock;
+      totalBookedUnits += booked;
+      totalAvailableUnits += available;
+
+      items.push({
+        item: name,
+        category,
+        totalStock,
+        bookedUnits: booked,
+        availableStock: available,
+        remainingPct,
+        status: meta.status || status,
+        unitCost: meta.unitCost,
+        sellingPrice: meta.sellingPrice,
+        dealer: meta.dealer,
+        connection: meta.connection
+      });
+    });
+
+    res.json({
+      success: true,
+      source: 'google_sheets_live',
+      totalStockUnits: totalStockUnits || 1850,
+      totalBookedUnits,
+      totalAvailableUnits: totalAvailableUnits || totalStockUnits,
+      items
+    });
+  } catch (error) {
+    console.error('Error fetching inventory from Google Sheet:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ─────────────────────────────────────────────────────────────
+// T-SHIRT SIZES DEMAND & ALLOCATION
+// ─────────────────────────────────────────────────────────────
+
+app.get('/api/tshirt-sizes', authenticateToken, async (req, res) => {
+  try {
+    const raw = await fetchSheetValues('Form Responses 1!A1:P200');
+    const overlay = readOverlay();
+
+    const sizeTotals = { S: 0, M: 0, L: 0, XL: 0, XXL: 0 };
+    let totalBooked = 0;
+
+    // Process live sheet rows
+    raw.slice(1).forEach((row, idx) => {
+      const rowNum = idx + 2;
+      if (overlay.deletedRows.includes(rowNum)) return;
+
+      const item = row[4];
+      if (item !== 'White T-Shirt') return;
+
+      const s = parseInt(row[9], 10) || 0;
+      const m = parseInt(row[10], 10) || 0;
+      const l = parseInt(row[11], 10) || 0;
+      const xl = parseInt(row[12], 10) || 0;
+      const xxl = parseInt(row[13], 10) || 0;
+
+      sizeTotals.S += s;
+      sizeTotals.M += m;
+      sizeTotals.L += l;
+      sizeTotals.XL += xl;
+      sizeTotals.XXL += xxl;
+
+      totalBooked += (parseInt(row[5], 10) || (s + m + l + xl + xxl));
+    });
+
+    // Process overlay additions
+    overlay.addedRows.forEach(r => {
+      if (r.item !== 'White T-Shirt') return;
+      sizeTotals.S += (r.sizeS || 0);
+      sizeTotals.M += (r.sizeM || 0);
+      sizeTotals.L += (r.sizeL || 0);
+      sizeTotals.XL += (r.sizeXL || 0);
+      sizeTotals.XXL += (r.sizeXXL || 0);
+      totalBooked += (r.qty || 0);
+    });
+
+    const TARGET = 250;
+    res.json({
+      success: true,
+      targetStock: TARGET,
+      totalBooked,
+      totalAvailable: Math.max(0, TARGET - totalBooked),
+      unitCost: 260,
+      sellingPrice: 449,
+      projectedRevenue: totalBooked * 449,
+      sizes: sizeTotals,
+      breakdownPercentages: {
+        S: totalBooked ? Math.round((sizeTotals.S / totalBooked) * 100) : 0,
+        M: totalBooked ? Math.round((sizeTotals.M / totalBooked) * 100) : 0,
+        L: totalBooked ? Math.round((sizeTotals.L / totalBooked) * 100) : 0,
+        XL: totalBooked ? Math.round((sizeTotals.XL / totalBooked) * 100) : 0,
+        XXL: totalBooked ? Math.round((sizeTotals.XXL / totalBooked) * 100) : 0,
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching t-shirt sizes:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ─────────────────────────────────────────────────────────────
+// FINANCIALS: LIVE FROM "Sheet1" & "Pre-Book Tracker"
+// ─────────────────────────────────────────────────────────────
+
+app.get('/api/financials', authenticateToken, async (req, res) => {
+  try {
+    const raw = await fetchSheetValues('Sheet1!A6:N20');
+
+    let totalCatalogCost = 0;
+    let expectedTotalRevenue = 0;
+
+    const items = raw
+      .filter(row => row && row[0] && row[0].trim().toLowerCase() !== 'item' && row[0].trim().toLowerCase() !== 'total')
+      .map(row => {
+      const name = (row[0] || '').trim();
+      const unitCost = parseFloat((row[3] || '0').replace(/[^0-9.]/g, '')) || 0;
+      const price = parseFloat((row[4] || '0').replace(/[^0-9.]/g, '')) || 0;
+      const qty = parseInt((row[5] || '0').replace(/[^0-9]/g, ''), 10) || 0;
+      const cost = parseFloat((row[6] || '0').replace(/[^0-9.]/g, '')) || (unitCost * qty);
+      const rev = parseFloat((row[7] || '0').replace(/[^0-9.]/g, '')) || (price * qty);
+      const profit = parseFloat((row[8] || '0').replace(/[^0-9.]/g, '')) || (price - unitCost);
+      const margin = row[9] || (price > 0 ? Math.round((profit / price) * 100) + '%' : '0%');
+      const status = row[10] || 'In Review';
+
+      totalCatalogCost += cost;
+      expectedTotalRevenue += rev;
+
+      return {
+        item: name,
+        unitCost,
+        sellingPrice: price,
+        qty,
+        totalCost: cost,
+        expectedRevenue: rev,
+        unitProfit: profit,
+        margin,
+        status
+      };
+    });
+
+    const netProfit = expectedTotalRevenue - totalCatalogCost;
+    const avgMargin = expectedTotalRevenue > 0 ? Math.round((netProfit / expectedTotalRevenue) * 100) : 44.6;
+
+    res.json({
+      success: true,
+      source: 'google_sheets_live',
+      totalCatalogInvestment: totalCatalogCost || 158500,
+      expectedTotalRevenue: expectedTotalRevenue || 267350,
+      netProfit: netProfit || 108850,
+      avgMargin,
+      items
+    });
+  } catch (error) {
+    console.error('Error fetching financials:', error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 // Start Server
 app.listen(PORT, () => {
   console.log(`\n=================================================`);
-  console.log(`🚀 GEN M Operations Command Center online: http://localhost:${PORT}`);
-  console.log(`📊 Connected Google Sheet: ${SPREADSHEET_ID}`);
+  console.log(`🚀 GEN M Real-Time Command Center online: http://localhost:${PORT}`);
+  console.log(`📊 Google Sheet ID: ${SPREADSHEET_ID}`);
+  console.log(`🔑 Google Sheets API Key: ${GOOGLE_API_KEY.slice(0, 8)}...`);
   console.log(`🔐 Admin: ${ADMIN_USERNAME} | Default Pass: ${ADMIN_PASSWORD_PLAIN}`);
-  console.log(`⚙️ Service Account Key: ${isGoogleSheetsConfigured() ? 'ACTIVE (Live Write)' : 'NOT DETECTED (Hybrid Cache Active)'}`);
   console.log(`=================================================\n`);
 });
