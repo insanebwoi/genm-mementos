@@ -1946,38 +1946,6 @@ function doGet(e) {
               body: JSON.stringify(payload)
             });
 
-            // If user has a deployed Web App URL in config, also dispatch directly
-            const appScriptUrl = document.getElementById('modalAppsScriptUrl')?.value?.trim();
-            if (appScriptUrl && appScriptUrl.startsWith('http')) {
-              fetch(appScriptUrl, {
-                method: 'POST',
-                mode: 'cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({
-                  action: 'create',
-                  targetSheet: 'Form Responses 1',
-                  row: [
-                    new Date().toISOString(),
-                    name,
-                    phone,
-                    '',
-                    item,
-                    String(totalQty),
-                    'Confirmed',
-                    payment,
-                    notes,
-                    String(s),
-                    String(m),
-                    String(l),
-                    String(xl),
-                    String(xxl),
-                    'Matched',
-                    sizeSummary
-                  ]
-                })
-              }).catch(() => {});
-            }
-
             if (resp.ok) {
               allRecords = allRecords.filter(r => r.id !== optId);
               showToast(`✓ Order for ${name} added directly to Form Responses 1!`);
