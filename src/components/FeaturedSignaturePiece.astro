@@ -9,129 +9,186 @@ const { productId = 'white-tshirt' } = Astro.props;
 const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) => p.id === 'white-tshirt')!;
 ---
 
-<section class="pop-signature-section" id="featured-piece" aria-label="Official Signature Piece">
+<section class="chromatic-signature-section" id="featured-piece" aria-label="Official Signature Piece Showcase">
   
   <!-- ═══════════════════════════════════════════════════════════
-       1. VIBRANT SUNSHINE YELLOW SLOGAN MARQUEE
+       1. CHROMATIC MARQUEE TICKER (SUNSHINE & ROYAL BLUE)
        ═══════════════════════════════════════════════════════════ -->
-  <div class="pop-ticker-wrapper" aria-hidden="true">
-    <div class="pop-ticker-track">
-      <span class="ticker-text">ROOTED IN DEEN. DRIVEN BY PURPOSE.</span>
+  <div class="chroma-ticker-wrapper" aria-hidden="true">
+    <div class="chroma-ticker-track">
+      <span class="ticker-highlight">SIGNATURE DROP 01</span>
       <span class="ticker-star">★</span>
-      <span class="ticker-text">13 OFFICIAL MERCHANDISE PIECES</span>
+      <span class="ticker-item">ROOTED IN DEEN. DRIVEN BY PURPOSE.</span>
       <span class="ticker-star">★</span>
-      <span class="ticker-text">MSM KERALA • GEN M 2026</span>
+      <span class="ticker-item">13 OFFICIAL MERCHANDISE PIECES</span>
       <span class="ticker-star">★</span>
-      <span class="ticker-text">KOZHIKODE • 13–15 NOV 2026</span>
+      <span class="ticker-item">MSM KERALA • GEN M 2026</span>
       <span class="ticker-star">★</span>
-      <span class="ticker-text">ROOTED IN DEEN. DRIVEN BY PURPOSE.</span>
+      <span class="ticker-item">KOZHIKODE • 13–15 NOV 2026</span>
       <span class="ticker-star">★</span>
-      <span class="ticker-text">13 OFFICIAL MERCHANDISE PIECES</span>
+      <span class="ticker-highlight">SIGNATURE DROP 01</span>
       <span class="ticker-star">★</span>
-      <span class="ticker-text">MSM KERALA • GEN M 2026</span>
+      <span class="ticker-item">ROOTED IN DEEN. DRIVEN BY PURPOSE.</span>
       <span class="ticker-star">★</span>
-      <span class="ticker-text">KOZHIKODE • 13–15 NOV 2026</span>
+      <span class="ticker-item">13 OFFICIAL MERCHANDISE PIECES</span>
+      <span class="ticker-star">★</span>
+      <span class="ticker-item">MSM KERALA • GEN M 2026</span>
+      <span class="ticker-star">★</span>
+      <span class="ticker-item">KOZHIKODE • 13–15 NOV 2026</span>
       <span class="ticker-star">★</span>
     </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════
-       2. BRIEF, HIGH-IMPACT SIGNATURE CARD (10% PURE CORE)
+       2. CHROMATIC CAPSULE SHOWCASE (BOLD, COLORFUL & FRESH)
        ═══════════════════════════════════════════════════════════ -->
-  <div class="pop-signature-shell">
-    <div class="pop-signature-card">
+  <div class="chroma-shell">
+    <div class="chroma-capsule-deck">
       
-      <!-- Top Colorful Kicker Row -->
-      <div class="card-header-row">
-        <div class="kicker-badge-pair">
-          <span class="pill-signature">★ SIGNATURE PIECE 01</span>
-          <span class="pill-category">WEAR & CARRY • ITEM #10</span>
-        </div>
-        <span class="edition-tag">GEN M 2026</span>
-      </div>
+      <!-- LEFT: Sculpted Visual Chromatic Stage -->
+      <div class="chroma-stage-col">
+        <div class="chroma-stage-card" data-product-id="white-tshirt">
+          
+          <!-- Animated Morphing Liquid Aura in Background -->
+          <div class="chroma-liquid-aurora" aria-hidden="true">
+            <div class="liquid-fluid-orb orb-yellow"></div>
+            <div class="liquid-fluid-orb orb-cyan"></div>
+            <div class="liquid-fluid-orb orb-blue"></div>
+          </div>
 
-      <!-- Main Responsive Grid -->
-      <div class="card-content-grid">
-        
-        <!-- Left Visual: Garment Showcase with Ambient Glow -->
-        <div class="garment-visual-wrap">
-          <div class="garment-stage-box" data-product-id="white-tshirt">
-            <!-- Liquid (Fluid) Design Animation Backdrop -->
-            <div class="liquid-fluid-stage" aria-hidden="true">
-              <div class="liquid-blob liquid-blob-primary"></div>
-              <div class="liquid-blob liquid-blob-secondary"></div>
-              <div class="liquid-blob liquid-blob-accent"></div>
-              <div class="liquid-glass-refraction"></div>
-            </div>
+          <!-- Rotating Circular Typographic Stamp -->
+          <div class="chroma-stamp-badge" aria-hidden="true">
+            <svg class="stamp-svg" viewBox="0 0 160 160">
+              <path
+                id="stampCirclePath"
+                d="M 80, 80 m -62, 0 a 62,62 0 1,1 124,0 a 62,62 0 1,1 -124,0"
+                fill="none"
+              />
+              <text class="stamp-text">
+                <textPath href="#stampCirclePath" startOffset="0%">
+                  MSM KERALA ★ GEN M 2026 ★ SIGNATURE PIECE 01 ★
+                </textPath>
+              </text>
+            </svg>
+            <div class="stamp-center-icon">★</div>
+          </div>
+
+          <!-- Garment Centerpiece Presentation -->
+          <div class="chroma-garment-wrap">
             <img
               src={product.image}
               alt="Official GEN M White T-Shirt"
-              class="garment-img"
-              width="440"
-              height="440"
+              class="chroma-tee-img"
+              width="460"
+              height="460"
               loading="lazy"
             />
-            <span class="corner-spec-chip">240 GSM</span>
-            <span class="hover-inspect-cue">Click to View Details ↗</span>
           </div>
+
+          <!-- Corner Badges -->
+          <div class="chroma-badge-pill-gsm">
+            <span class="pill-dot"></span>
+            <span>240 GSM HEAVYWEIGHT</span>
+          </div>
+
+          <!-- Interactive Hover Cue -->
+          <div class="chroma-inspect-cue">
+            <span>Click to View Full Details</span>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT: Vibrant High-Fashion Streetwear Info Board -->
+      <div class="chroma-info-col">
+        
+        <!-- Header Tag Ribbon -->
+        <div class="chroma-tag-ribbon">
+          <span class="tag-chip tag-yellow">SIGNATURE PIECE 01</span>
+          <span class="tag-chip tag-blue">WEAR & CARRY • ITEM #10</span>
+          <span class="tag-chip tag-cyan">GEN M 2026</span>
         </div>
 
-        <!-- Right Info: Pure Punchy Essentials -->
-        <div class="garment-info-wrap">
+        <!-- Big Display Headline with Chromatic Pop Highlight -->
+        <h2 class="chroma-headline">
+          <span class="headline-light">Official</span>
+          <span class="headline-hero">White T-Shirt</span>
+          <span class="headline-accent-pill">#FLAGSHIP</span>
+        </h2>
+
+        <!-- Vibrant Slogan Banner -->
+        <div class="chroma-slogan-card">
+          <div class="slogan-header">
+            <span class="slogan-star">✦</span>
+            <span class="slogan-title">OFFICIAL MOTTO</span>
+          </div>
+          <blockquote class="slogan-quote">
+            “Rooted in Deen. Driven by Purpose.”
+          </blockquote>
+          <span class="slogan-sub">The defining wearable statement of the Generational Confluence.</span>
+        </div>
+
+        <!-- 3 Tactile Chromatic Specification Tiles -->
+        <div class="chroma-specs-grid">
           
-          <h2 class="garment-title">
-            White <span class="title-sticker-badge">#T-SHIRT</span>
-          </h2>
-
-          <!-- Official Slogan Callout -->
-          <div class="slogan-callout">
-            <span class="slogan-label">OFFICIAL SLOGAN</span>
-            <blockquote class="slogan-quote">
-              “Rooted in Deen. Driven by Purpose.”
-            </blockquote>
+          <div class="chroma-spec-tile tile-blue">
+            <div class="spec-header">
+              <span class="spec-icon">🧵</span>
+              <span class="spec-label">FABRIC</span>
+            </div>
+            <span class="spec-value">240 GSM Combed Cotton</span>
+            <span class="spec-sub">100% Bio-Washed Organic</span>
           </div>
 
-          <!-- 3 Essential Specs (One-liner chips) -->
-          <div class="compact-specs-row">
-            <div class="spec-pill">
-              <span class="sp-k">Fabric</span>
-              <span class="sp-v">240 GSM Combed Cotton</span>
+          <div class="chroma-spec-tile tile-yellow">
+            <div class="spec-header">
+              <span class="spec-icon">✂️</span>
+              <span class="spec-label">CUT</span>
             </div>
-            <div class="spec-pill">
-              <span class="sp-k">Cut</span>
-              <span class="sp-v">Drop-Shoulder Oversized</span>
-            </div>
-            <div class="spec-pill">
-              <span class="sp-k">Color</span>
-              <span class="sp-v">Crisp White</span>
-            </div>
+            <span class="spec-value">Drop-Shoulder Oversized</span>
+            <span class="spec-sub">Relaxed Streetwear Drape</span>
           </div>
 
-          <!-- Dual Tactile Action Buttons -->
-          <div class="action-buttons-row">
-            <button
-              type="button"
-              class="btn-action-dark"
-              data-product-id="white-tshirt"
-            >
-              <span class="btn-star">✦</span>
-              <span>Quick View Details</span>
-            </button>
-
-            <a
-              href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20ordering%20the%20official%20GEN%20M%20White%20T-Shirt."
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-action-whatsapp"
-              aria-label="Enquire about White T-Shirt on WhatsApp"
-            >
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z" />
-              </svg>
-              <span>Enquire on WhatsApp</span>
-            </a>
+          <div class="chroma-spec-tile tile-green">
+            <div class="spec-header">
+              <span class="spec-icon">🎨</span>
+              <span class="spec-label">COLOR</span>
+            </div>
+            <span class="spec-value">Crisp Optical White</span>
+            <span class="spec-sub">Silkscreen Blue-Violet</span>
           </div>
 
+        </div>
+
+        <!-- High-Contrast 3D Action Buttons -->
+        <div class="chroma-cta-cluster">
+          <button
+            type="button"
+            class="btn-chroma-dark"
+            data-product-id="white-tshirt"
+          >
+            <span class="btn-sparkle">✦</span>
+            <span>Quick View Details</span>
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+
+          <a
+            href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20ordering%20the%20official%20GEN%20M%20White%20T-Shirt."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-chroma-whatsapp"
+            aria-label="Enquire about White T-Shirt on WhatsApp"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z" />
+            </svg>
+            <span>Enquire on WhatsApp</span>
+          </a>
         </div>
 
       </div>
@@ -143,561 +200,648 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
 
 <style>
   /* ═══════════════════════════════════════════════════════════
-     COMPACT, BRIEF & COLORFUL POP ART STYLING
+     CHROMATIC CAPSULE DROP STYLING — VIBRANT & STREETWEAR LUXE
      ═══════════════════════════════════════════════════════════ */
-  .pop-signature-section {
+  .chromatic-signature-section {
     position: relative;
     width: 100%;
     background: #ffffff;
-    padding-bottom: clamp(32px, 5vw, 64px);
+    padding-bottom: clamp(40px, 6vw, 80px);
     overflow: hidden;
   }
 
-  /* 1. Slogan Marquee Ticker */
-  .pop-ticker-wrapper {
+  /* 1. Chromatic Marquee Ticker */
+  .chroma-ticker-wrapper {
     width: 100%;
     background: #E7EEAC;
     border-top: 3px solid #0f172a;
     border-bottom: 3px solid #0f172a;
-    padding: 10px 0;
+    padding: 12px 0;
     overflow: hidden;
     white-space: nowrap;
-    box-shadow: 0 3px 0 rgba(15, 23, 42, 0.08);
+    box-shadow: 0 4px 0 rgba(15, 23, 42, 0.1);
   }
 
-  .pop-ticker-track {
+  .chroma-ticker-track {
     display: inline-flex;
     align-items: center;
-    gap: 18px;
-    animation: tickerFlow 24s linear infinite;
+    gap: 20px;
+    animation: chromaScroll 28s linear infinite;
     will-change: transform;
   }
 
-  .ticker-text {
+  .ticker-highlight {
     font-family: 'Neoverse', 'Poppins', sans-serif;
-    font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+    font-size: 0.85rem;
     font-weight: 900;
+    letter-spacing: 0.12em;
+    background: #0f172a;
+    color: #E7EEAC;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+
+  .ticker-item {
+    font-family: 'Neoverse', 'Poppins', sans-serif;
+    font-size: clamp(0.85rem, 1.1vw, 0.98rem);
+    font-weight: 800;
     letter-spacing: 0.1em;
     color: #0f172a;
   }
 
   .ticker-star {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #174ee8;
   }
 
-  @keyframes tickerFlow {
+  @keyframes chromaScroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
 
-  /* 2. Container Shell */
-  .pop-signature-shell {
-    max-width: 1180px;
+  /* 2. Main Shell & Capsule Deck */
+  .chroma-shell {
+    max-width: 1240px;
     margin: 0 auto;
-    padding: clamp(24px, 4vw, 44px) 16px 0;
+    padding: clamp(32px, 5vw, 60px) 20px 0;
   }
 
-  /* Pop Signature Card */
-  .pop-signature-card {
-    background: #f8fafc;
-    border: 3px solid #0f172a;
-    border-radius: 28px;
-    padding: clamp(20px, 3.5vw, 36px);
-    box-shadow: 
-      8px 10px 0 #0f172a,
-      0 20px 40px rgba(23, 78, 232, 0.08);
-  }
-
-  /* Header Row */
-  .card-header-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    border-bottom: 2px dashed #cbd5e1;
-    padding-bottom: 14px;
-  }
-
-  .kicker-badge-pair {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .pill-signature {
-    background: #E7EEAC;
-    color: #0f172a;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    padding: 4px 12px;
-    border-radius: 9999px;
-    border: 2px solid #0f172a;
-    box-shadow: 2px 2px 0 #0f172a;
-  }
-
-  .pill-category {
-    background: #dbeafe;
-    color: #174ee8;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: 0.06em;
-    padding: 4px 12px;
-    border-radius: 9999px;
-    border: 1.5px solid #174ee8;
-  }
-
-  .edition-tag {
-    font-family: 'Space Grotesk', monospace;
-    font-size: 0.74rem;
-    font-weight: 800;
-    color: #64748b;
-    letter-spacing: 0.06em;
-  }
-
-  /* Grid Layout */
-  .card-content-grid {
+  .chroma-capsule-deck {
     display: grid;
-    grid-template-columns: 0.95fr 1.05fr;
-    gap: clamp(24px, 4vw, 44px);
+    grid-template-columns: 1fr 1.15fr;
+    gap: clamp(32px, 5vw, 60px);
     align-items: center;
-  }
-
-  /* Left Garment Visual */
-  .garment-visual-wrap {
-    display: flex;
-    justify-content: center;
-  }
-
-  .garment-stage-box {
-    position: relative;
-    width: 100%;
-    max-width: 420px;
-    aspect-ratio: 1;
-    background: #ffffff;
-    border: 3px solid #0f172a;
-    border-radius: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    box-shadow: 4px 5px 0 #0f172a;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    overflow: hidden;
-  }
-
-  .garment-stage-box:hover {
-    transform: translateY(-3px);
-    box-shadow: 6px 8px 0 #0f172a;
   }
 
   /* ═══════════════════════════════════════════════════════════
-     LIQUID (FLUID) DESIGN ANIMATION
+     LEFT: SCULPTED CHROMATIC STAGE
      ═══════════════════════════════════════════════════════════ */
-  .liquid-fluid-stage {
-    position: absolute;
-    inset: -15%;
-    width: 130%;
-    height: 130%;
+  .chroma-stage-col {
+    display: flex;
+    justify-content: center;
+  }
+
+  .chroma-stage-card {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 0.95;
+    background: linear-gradient(145deg, #174ee8 0%, #1e40af 100%);
+    border: 3.5px solid #0f172a;
+    border-radius: 36px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+      12px 14px 0 #0f172a,
+      0 30px 60px rgba(23, 78, 232, 0.25);
+    cursor: pointer;
     overflow: hidden;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+  }
+
+  .chroma-stage-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 
+      16px 18px 0 #0f172a,
+      0 35px 70px rgba(23, 78, 232, 0.35);
+  }
+
+  /* Liquid Aurora Background */
+  .chroma-liquid-aurora {
+    position: absolute;
+    inset: -20%;
+    width: 140%;
+    height: 140%;
     pointer-events: none;
+    filter: blur(28px);
+    opacity: 0.75;
     z-index: 1;
-    filter: blur(16px);
-    opacity: 0.88;
-    transition: opacity 0.3s ease, filter 0.3s ease;
   }
 
-  .garment-stage-box:hover .liquid-fluid-stage {
-    opacity: 1;
-    filter: blur(12px);
-  }
-
-  .liquid-blob {
+  .liquid-fluid-orb {
     position: absolute;
     border-radius: 50%;
     will-change: transform, border-radius;
   }
 
-  /* Blob 1: Deep Electric Royal Blue Fluid */
-  .liquid-blob-primary {
-    width: 280px;
-    height: 280px;
-    top: 10%;
-    left: 10%;
-    background: radial-gradient(circle, rgba(23, 78, 232, 0.45) 0%, rgba(23, 78, 232, 0.05) 75%);
-    animation: liquidMorph1 12s infinite ease-in-out alternate;
-  }
-
-  /* Blob 2: Sunshine Pale Yellow Fluid */
-  .liquid-blob-secondary {
+  .orb-yellow {
     width: 240px;
     height: 240px;
-    bottom: 8%;
-    right: 8%;
-    background: radial-gradient(circle, rgba(231, 238, 172, 0.65) 0%, rgba(231, 238, 172, 0.05) 70%);
-    animation: liquidMorph2 15s infinite ease-in-out alternate;
-  }
-
-  /* Blob 3: Pop Cyan Fluid Accent */
-  .liquid-blob-accent {
-    width: 190px;
-    height: 190px;
-    top: 25%;
+    top: 15%;
     right: 15%;
-    background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(56, 189, 248, 0.05) 70%);
-    animation: liquidMorph3 10s infinite ease-in-out alternate;
+    background: radial-gradient(circle, rgba(231, 238, 172, 0.85) 0%, transparent 70%);
+    animation: orbFloat1 10s infinite ease-in-out alternate;
   }
 
-  .liquid-glass-refraction {
+  .orb-cyan {
+    width: 220px;
+    height: 220px;
+    bottom: 10%;
+    left: 10%;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.75) 0%, transparent 70%);
+    animation: orbFloat2 12s infinite ease-in-out alternate;
+  }
+
+  .orb-blue {
+    width: 280px;
+    height: 280px;
+    top: 40%;
+    left: 30%;
+    background: radial-gradient(circle, rgba(23, 78, 232, 0.9) 0%, transparent 70%);
+    animation: orbFloat3 8s infinite ease-in-out alternate;
+  }
+
+  @keyframes orbFloat1 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-30px, 25px) scale(1.15); }
+  }
+
+  @keyframes orbFloat2 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(25px, -30px) scale(1.1); }
+  }
+
+  @keyframes orbFloat3 {
+    0% { transform: translate(0, 0) scale(0.95); }
+    100% { transform: translate(15px, 20px) scale(1.08); }
+  }
+
+  /* Rotating Circular Typographic Stamp */
+  .chroma-stamp-badge {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, transparent 60%);
-    mix-blend-mode: overlay;
+    top: 18px;
+    right: 18px;
+    width: 90px;
+    height: 90px;
+    z-index: 4;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  @keyframes liquidMorph1 {
-    0% {
-      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-      transform: translate(0, 0) rotate(0deg) scale(1);
-    }
-    33% {
-      border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%;
-      transform: translate(18px, -15px) rotate(120deg) scale(1.08);
-    }
-    66% {
-      border-radius: 70% 30% 50% 50% / 30% 40% 60% 70%;
-      transform: translate(-15px, 20px) rotate(240deg) scale(0.94);
-    }
-    100% {
-      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-      transform: translate(0, 0) rotate(360deg) scale(1);
-    }
-  }
-
-  @keyframes liquidMorph2 {
-    0% {
-      border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
-      transform: translate(0, 0) rotate(0deg) scale(1);
-    }
-    50% {
-      border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%;
-      transform: translate(-20px, -20px) rotate(-180deg) scale(1.12);
-    }
-    100% {
-      border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
-      transform: translate(0, 0) rotate(-360deg) scale(1);
-    }
-  }
-
-  @keyframes liquidMorph3 {
-    0% {
-      border-radius: 50% 50% 40% 60% / 40% 60% 50% 50%;
-      transform: scale(0.95);
-    }
-    50% {
-      border-radius: 60% 40% 60% 40% / 60% 30% 70% 40%;
-      transform: translate(15px, 15px) scale(1.1);
-    }
-    100% {
-      border-radius: 50% 50% 40% 60% / 40% 60% 50% 50%;
-      transform: scale(0.95);
-    }
-  }
-
-  .garment-img {
+  .stamp-svg {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    transition: transform 0.3s ease;
+    animation: stampRotate 18s linear infinite;
+    transform-origin: center center;
+  }
+
+  .stamp-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    fill: #E7EEAC;
+    text-transform: uppercase;
+  }
+
+  .stamp-center-icon {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #E7EEAC;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 900;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.3);
+  }
+
+  @keyframes stampRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Garment Presentation */
+  .chroma-garment-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 2;
   }
 
-  .garment-stage-box:hover .garment-img {
-    transform: scale(1.05);
+  .chroma-tee-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 16px 32px rgba(15, 23, 42, 0.35));
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  .corner-spec-chip {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    background: #E7EEAC;
-    border: 1.5px solid #0f172a;
-    color: #0f172a;
-    font-family: 'Space Grotesk', monospace;
-    font-size: 0.7rem;
-    font-weight: 800;
-    padding: 3px 8px;
-    border-radius: 6px;
-    z-index: 3;
+  .chroma-stage-card:hover .chroma-tee-img {
+    transform: scale(1.06) translateY(-4px);
   }
 
-  .hover-inspect-cue {
+  /* GSM Pill */
+  .chroma-badge-pill-gsm {
     position: absolute;
-    bottom: 12px;
-    background: rgba(15, 23, 42, 0.9);
+    bottom: 20px;
+    left: 20px;
+    background: #0f172a;
     color: #ffffff;
+    border: 2px solid #E7EEAC;
+    border-radius: 9999px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    z-index: 3;
+    box-shadow: 2px 3px 0 #0f172a;
+  }
+
+  .pill-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #E7EEAC;
+    box-shadow: 0 0 8px #E7EEAC;
+  }
+
+  /* Inspect Cue */
+  .chroma-inspect-cue {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #0f172a;
+    border: 2px solid #0f172a;
+    border-radius: 9999px;
+    padding: 6px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-family: 'Poppins', sans-serif;
     font-size: 0.72rem;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 9999px;
+    font-weight: 800;
     z-index: 3;
-    opacity: 0.9;
-    transition: opacity 0.2s ease;
+    box-shadow: 2px 3px 0 #0f172a;
+    transition: all 0.2s ease;
   }
 
-  .garment-stage-box:hover .hover-inspect-cue {
-    opacity: 1;
-    background: #174ee8;
+  .chroma-stage-card:hover .chroma-inspect-cue {
+    background: #E7EEAC;
+    transform: translateY(-2px);
   }
 
-  /* Right Info Column */
-  .garment-info-wrap {
+  /* ═══════════════════════════════════════════════════════════
+     RIGHT: VIBRANT EDITORIAL INFO BOARD
+     ═══════════════════════════════════════════════════════════ */
+  .chroma-info-col {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .garment-title {
-    font-family: 'Space Grotesk', 'Poppins', sans-serif;
-    font-size: clamp(2.2rem, 4vw, 3.2rem);
-    font-weight: 900;
-    letter-spacing: -0.03em;
-    color: #0f172a;
-    line-height: 1.05;
-    margin: 0 0 16px;
+  .chroma-tag-ribbon {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
   }
 
-  .title-sticker-badge {
-    display: inline-block;
+  .tag-chip {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 2px solid #0f172a;
+    box-shadow: 2px 2px 0 #0f172a;
+  }
+
+  .tag-chip.tag-yellow {
     background: #E7EEAC;
     color: #0f172a;
-    border: 2.5px solid #0f172a;
-    border-radius: 12px;
-    padding: 0 12px;
+  }
+
+  .tag-chip.tag-blue {
+    background: #dbeafe;
+    color: #174ee8;
+  }
+
+  .tag-chip.tag-cyan {
+    background: #cffafe;
+    color: #0891b2;
+  }
+
+  /* Headline */
+  .chroma-headline {
+    font-family: 'Space Grotesk', 'Poppins', -apple-system, sans-serif;
+    font-size: clamp(2.4rem, 4.4vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: #0f172a;
+    margin: 0 0 18px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .headline-light {
+    color: #64748b;
+    font-weight: 700;
+  }
+
+  .headline-hero {
+    color: #0f172a;
+  }
+
+  .headline-accent-pill {
+    font-size: 0.95rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    background: #174ee8;
+    color: #ffffff;
+    border: 2px solid #0f172a;
+    padding: 4px 14px;
+    border-radius: 9999px;
     box-shadow: 3px 3px 0 #0f172a;
-    transform: rotate(2deg);
-    vertical-align: middle;
+    transform: rotate(-3deg);
   }
 
-  /* Slogan Callout */
-  .slogan-callout {
+  /* Slogan Card */
+  .chroma-slogan-card {
     width: 100%;
-    background: #eff6ff;
-    border-left: 5px solid #174ee8;
-    border-radius: 0 14px 14px 0;
-    padding: 12px 18px;
-    margin-bottom: 20px;
-    box-shadow: 2px 3px 0 rgba(23, 78, 232, 0.1);
+    background: #fffbeb;
+    border: 2.5px solid #0f172a;
+    border-radius: 18px;
+    padding: 16px 20px;
+    margin-bottom: 22px;
+    box-shadow: 4px 5px 0 #0f172a;
   }
 
-  .slogan-label {
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.66rem;
+  .slogan-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .slogan-star {
+    color: #f59e0b;
+    font-size: 0.9rem;
+  }
+
+  .slogan-title {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.68rem;
     font-weight: 800;
     letter-spacing: 0.12em;
-    color: #174ee8;
-    display: block;
-    margin-bottom: 3px;
+    color: #b45309;
   }
 
   .slogan-quote {
     font-family: 'Poppins', sans-serif;
-    font-size: clamp(1rem, 1.4vw, 1.25rem);
-    font-weight: 800;
-    color: #1e3a8a;
-    margin: 0;
-    line-height: 1.35;
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-weight: 900;
+    color: #0f172a;
+    margin: 0 0 4px;
+    line-height: 1.3;
   }
 
-  /* Compact Specs Row */
-  .compact-specs-row {
-    width: 100%;
+  .slogan-sub {
+    font-size: 0.84rem;
+    color: #78716c;
+  }
+
+  /* Chromatic Spec Grid */
+  .chroma-specs-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 24px;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 26px;
   }
 
-  .spec-pill {
-    background: #ffffff;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 12px;
-    padding: 8px 12px;
+  .chroma-spec-tile {
+    border: 2.5px solid #0f172a;
+    border-radius: 16px;
+    padding: 12px 14px;
     display: flex;
     flex-direction: column;
     gap: 2px;
+    box-shadow: 3px 4px 0 #0f172a;
+    transition: transform 0.15s ease;
   }
 
-  .sp-k {
+  .chroma-spec-tile:hover {
+    transform: translateY(-2px);
+  }
+
+  .chroma-spec-tile.tile-blue {
+    background: #eff6ff;
+    border-top: 5px solid #174ee8;
+  }
+
+  .chroma-spec-tile.tile-yellow {
+    background: #fefce8;
+    border-top: 5px solid #eab308;
+  }
+
+  .chroma-spec-tile.tile-green {
+    background: #f0fdf4;
+    border-top: 5px solid #10b981;
+  }
+
+  .spec-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .spec-icon {
+    font-size: 0.85rem;
+  }
+
+  .spec-label {
     font-family: 'Space Grotesk', monospace;
     font-size: 0.65rem;
-    font-weight: 700;
+    font-weight: 800;
+    letter-spacing: 0.08em;
     color: #64748b;
-    text-transform: uppercase;
   }
 
-  .sp-v {
+  .spec-value {
     font-family: 'Poppins', sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.88rem;
     font-weight: 800;
     color: #0f172a;
     line-height: 1.25;
   }
 
+  .spec-sub {
+    font-size: 0.72rem;
+    color: #64748b;
+    margin-top: 1px;
+  }
+
   /* Action Buttons Row */
-  .action-buttons-row {
+  .chroma-cta-cluster {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     flex-wrap: wrap;
     width: 100%;
   }
 
-  .btn-action-dark {
+  .btn-chroma-dark {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     background: #0f172a;
     color: #ffffff;
     font-family: 'Poppins', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    padding: 12px 22px;
+    padding: 14px 26px;
     border-radius: 9999px;
-    border: 2px solid #0f172a;
+    border: 2.5px solid #0f172a;
     cursor: pointer;
-    box-shadow: 3px 3px 0 #174ee8;
-    transition: all 0.15s ease;
+    box-shadow: 4px 5px 0 #174ee8;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .btn-action-dark:hover {
+  .btn-chroma-dark:hover {
     background: #174ee8;
     border-color: #174ee8;
     transform: translateY(-2px);
-    box-shadow: 3px 5px 0 #0f172a;
+    box-shadow: 4px 7px 0 #0f172a;
   }
 
-  .btn-star {
+  .btn-sparkle {
     color: #E7EEAC;
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1;
   }
 
-  .btn-action-whatsapp {
+  .btn-chroma-whatsapp {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     background: #25D366;
     color: #ffffff;
     font-family: 'Poppins', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    padding: 12px 22px;
+    padding: 14px 26px;
     border-radius: 9999px;
-    border: 2px solid #0f172a;
+    border: 2.5px solid #0f172a;
     text-decoration: none;
-    box-shadow: 3px 3px 0 #0f172a;
-    transition: all 0.15s ease;
+    box-shadow: 4px 5px 0 #0f172a;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .btn-action-whatsapp:hover {
+  .btn-chroma-whatsapp:hover {
     background: #1eb956;
     transform: translateY(-2px);
-    box-shadow: 3px 5px 0 #0f172a;
+    box-shadow: 4px 7px 0 #0f172a;
   }
 
   /* ═══════════════════════════════════════════════════════════
-     RESPONSIVE MEDIA QUERIES (PERFECT FOR MOBILE)
+     RESPONSIVE MEDIA QUERIES
      ═══════════════════════════════════════════════════════════ */
-  @media (max-width: 820px) {
-    .card-content-grid {
+  @media (max-width: 960px) {
+    .chroma-capsule-deck {
       grid-template-columns: 1fr;
-      gap: 22px;
+      gap: 36px;
     }
 
-    .garment-stage-box {
-      max-width: 320px;
+    .chroma-stage-card {
+      max-width: 420px;
     }
 
-    .compact-specs-row {
-      grid-template-columns: 1fr 1fr 1fr;
+    .chroma-specs-grid {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  @media (max-width: 580px) {
-    .pop-signature-shell {
-      padding: 16px 12px 0;
+  @media (max-width: 640px) {
+    .chroma-shell {
+      padding: 24px 14px 0;
     }
 
-    .pop-signature-card {
-      padding: 18px 14px;
-      border-radius: 20px;
-      box-shadow: 5px 6px 0 #0f172a;
+    .chroma-stage-card {
+      max-width: 100%;
+      aspect-ratio: 1;
+      padding: 16px;
+      border-radius: 24px;
+      box-shadow: 8px 10px 0 #0f172a;
     }
 
-    .card-header-row {
-      margin-bottom: 14px;
-      padding-bottom: 10px;
+    .chroma-stamp-badge {
+      width: 72px;
+      height: 72px;
+      top: 12px;
+      right: 12px;
     }
 
-    .pill-signature,
-    .pill-category {
-      font-size: 0.68rem;
-      padding: 3px 9px;
+    .stamp-text {
+      font-size: 9px;
     }
 
-    .garment-stage-box {
-      max-width: 260px;
-      padding: 14px;
-      border-radius: 16px;
+    .chroma-badge-pill-gsm {
+      font-size: 0.66rem;
+      padding: 4px 10px;
+      bottom: 12px;
+      left: 12px;
     }
 
-    .garment-title {
-      font-size: 2rem;
-      margin-bottom: 12px;
+    .chroma-inspect-cue {
+      font-size: 0.66rem;
+      padding: 4px 10px;
+      bottom: 12px;
+      right: 12px;
     }
 
-    .slogan-callout {
-      padding: 10px 14px;
-      margin-bottom: 14px;
+    .chroma-headline {
+      font-size: 2.2rem;
     }
 
-    .slogan-quote {
-      font-size: 0.95rem;
-    }
-
-    .compact-specs-row {
+    .chroma-specs-grid {
       grid-template-columns: 1fr;
-      gap: 6px;
-      margin-bottom: 18px;
-    }
-
-    .spec-pill {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 10px;
-    }
-
-    .action-buttons-row {
-      flex-direction: column;
       gap: 8px;
     }
 
-    .btn-action-dark,
-    .btn-action-whatsapp {
+    .chroma-spec-tile {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+    }
+
+    .spec-sub {
+      display: none;
+    }
+
+    .chroma-cta-cluster {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .btn-chroma-dark,
+    .btn-chroma-whatsapp {
       width: 100%;
       justify-content: center;
-      font-size: 0.86rem;
-      padding: 11px 18px;
+      padding: 12px 20px;
     }
   }
 </style>
