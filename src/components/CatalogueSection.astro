@@ -1,504 +1,851 @@
 ---
-import { PRODUCTS } from '../data/products';
+import { PRODUCTS, CATEGORIES } from '../data/products';
+
+// Chapter definitions for Apple/Nike-style editorial storytelling
+const CHAPTERS = [
+  {
+    num: '01',
+    slug: 'everyday-essentials',
+    title: 'Everyday Essentials',
+    subtitle: 'Tactile artifacts engineered for study, daily reflection, and purposeful campus presence.',
+    badge: '04 ARTIFACTS',
+  },
+  {
+    num: '02',
+    slug: 'drinkware',
+    title: 'Drinkware',
+    subtitle: 'Minimalist vessels sculpted from fluted crystal, insulated steel, and glazed ceramic.',
+    badge: '03 ARTIFACTS',
+  },
+  {
+    num: '03',
+    slug: 'wear-and-carry',
+    title: 'Wear & Carry',
+    subtitle: 'Signature apparel, headwear, and modular utility gear bearing the GEN M movement.',
+    badge: '03 ARTIFACTS',
+  },
+  {
+    num: '04',
+    slug: 'lifestyle-accessories',
+    title: 'Lifestyle Accessories',
+    subtitle: 'Sculptural desk, vehicle, and ambient accents communicating understated elegance.',
+    badge: '03 ARTIFACTS',
+  },
+];
+
+// Helper to get formatted 2-digit index (01/13 .. 13/13)
+function getGlobalIndex(productId: string): string {
+  const index = PRODUCTS.findIndex((p) => p.id === productId);
+  return String(index + 1).padStart(2, '0');
+}
 ---
 
 <!-- ═══════════════════════════════════════════════════════════
-     CATALOGUE SECTION — ALL 13 OFFICIAL PRODUCTS
+     SHOWCASE GALLERY — APPLE & NIKE EDITORIAL ARCHIVE
      ═══════════════════════════════════════════════════════════ -->
-<section class="section-catalogue" id="catalogue">
-  <div class="catalogue-shell">
-    
-    <!-- Header -->
-    <div class="catalogue-header-center">
-      <span class="catalogue-eyebrow">THE COMPLETE COLLECTION</span>
-      <h2 class="catalogue-title">The 13 Official Pieces</h2>
-      <p class="catalogue-subtitle">
-        Explore the full merchandise range created exclusively for GEN M Kerala 2026.
+<section class="section-showcase" id="catalogue">
+  
+  <!-- Subtle Ambient Glow Orbs -->
+  <div class="showcase-glow-backdrop" aria-hidden="true">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+
+  <div class="showcase-shell">
+
+    <!-- ─── Editorial Header (Apple Keynote & Nike Exhibition Style) ─── -->
+    <header class="showcase-hero-header">
+      <div class="showcase-eyebrow-pill">
+        <span class="eyebrow-spark">✦</span>
+        <span>THE OFFICIAL ARCHIVE • 13 PIECES</span>
+        <span class="eyebrow-spark">✦</span>
+      </div>
+
+      <h2 class="showcase-main-title">
+        The 13 Artifacts of Purpose.
+      </h2>
+
+      <p class="showcase-lead-text">
+        Every piece in the GEN M collection was engineered from the ground up — selecting tailored weights, authentic materials, and architectural silhouettes designed to endure far beyond the event.
       </p>
-    </div>
 
-    <!-- Filter Tabs -->
-    <div class="catalogue-filter-bar">
-      <button type="button" class="mogo-filter-tab is-active" data-filter="all">All 13 Items</button>
-      <button type="button" class="mogo-filter-tab" data-filter="everyday-essentials">Everyday Essentials (4)</button>
-      <button type="button" class="mogo-filter-tab" data-filter="drinkware">Drinkware (3)</button>
-      <button type="button" class="mogo-filter-tab" data-filter="wear-and-carry">Wear & Carry (3)</button>
-      <button type="button" class="mogo-filter-tab" data-filter="lifestyle-accessories">Lifestyle Accessories (3)</button>
-    </div>
+      <!-- Apple-Grade Segmented Pill Switcher Dock -->
+      <nav class="showcase-segmented-nav" aria-label="Filter artifacts by category">
+        <button
+          type="button"
+          class="mogo-filter-tab showcase-tab is-active"
+          data-filter="all"
+        >
+          <span class="tab-label">All 13 Pieces</span>
+          <span class="tab-count">13</span>
+        </button>
 
-    <!-- ─── Category Group 1: Everyday Essentials ─── -->
-    <div class="category-block-group" id="everyday-essentials" data-group="everyday-essentials">
-      <div class="category-block-head">
-        <div class="head-info">
-          <span class="head-num">CHAPTER 01</span>
-          <h3 class="head-name">Everyday Essentials</h3>
-        </div>
-        <span class="head-pill">4 Products</span>
-      </div>
+        <button
+          type="button"
+          class="mogo-filter-tab showcase-tab"
+          data-filter="everyday-essentials"
+        >
+          <span class="tab-label">Everyday Essentials</span>
+          <span class="tab-count">04</span>
+        </button>
 
-      <div class="products-grid">
-        {PRODUCTS.filter((p) => p.categorySlug === 'everyday-essentials').map((product) => (
-          <div class="pop-product-card" data-category={product.categorySlug}>
-            <div class="product-visual-stage">
-              <img
-                src={product.image}
-                alt={product.name}
-                class="product-img"
-                width="340"
-                height="340"
-                loading="lazy"
-              />
-              <span class="pop-category-badge">{product.category}</span>
-            </div>
-            <div class="product-info-box">
-              <h4 class="product-title">{product.name}</h4>
-              <p class="product-short-desc">{product.shortDesc}</p>
-              <div class="product-cta-pair">
-                <button
-                  type="button"
-                  class="btn-pop-details"
-                  data-product-id={product.id}
-                >
-                  <span>View Details</span>
-                </button>
-                <button
-                  type="button"
-                  class="btn-pop-enquire"
-                  data-product-id={product.id}
-                  aria-label={`Enquire about ${product.name}`}
-                >
-                  Enquire
-                </button>
+        <button
+          type="button"
+          class="mogo-filter-tab showcase-tab"
+          data-filter="drinkware"
+        >
+          <span class="tab-label">Drinkware</span>
+          <span class="tab-count">03</span>
+        </button>
+
+        <button
+          type="button"
+          class="mogo-filter-tab showcase-tab"
+          data-filter="wear-and-carry"
+        >
+          <span class="tab-label">Wear & Carry</span>
+          <span class="tab-count">03</span>
+        </button>
+
+        <button
+          type="button"
+          class="mogo-filter-tab showcase-tab"
+          data-filter="lifestyle-accessories"
+        >
+          <span class="tab-label">Lifestyle</span>
+          <span class="tab-count">03</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- ─── Editorial Showcase Chapters ─── -->
+    <div class="showcase-chapters-stream">
+      {CHAPTERS.map((chapter) => {
+        const chapterProducts = PRODUCTS.filter((p) => p.categorySlug === chapter.slug);
+
+        return (
+          <section
+            class="category-block-group showcase-chapter-block"
+            id={chapter.slug}
+            data-group={chapter.slug}
+          >
+            <!-- Chapter Billboard Intro -->
+            <div class="chapter-billboard">
+              <div class="chapter-meta-line">
+                <span class="chapter-index">CHAPTER {chapter.num}</span>
+                <span class="chapter-divider">/</span>
+                <span class="chapter-badge">{chapter.badge}</span>
+              </div>
+
+              <div class="chapter-headline-row">
+                <h3 class="chapter-title">{chapter.title}</h3>
+                <p class="chapter-subtext">{chapter.subtitle}</p>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
 
-    <!-- ─── Category Group 2: Drinkware ─── -->
-    <div class="category-block-group" id="drinkware" data-group="drinkware">
-      <div class="category-block-head">
-        <div class="head-info">
-          <span class="head-num">CHAPTER 02</span>
-          <h3 class="head-name">Drinkware</h3>
-        </div>
-        <span class="head-pill">3 Products</span>
-      </div>
+            <!-- Showcase Artifacts Grid -->
+            <div class="showcase-artifacts-grid">
+              {chapterProducts.map((product) => {
+                const globalNum = getGlobalIndex(product.id);
+                const isSignature = product.isFeatured;
 
-      <div class="products-grid">
-        {PRODUCTS.filter((p) => p.categorySlug === 'drinkware').map((product) => (
-          <div class="pop-product-card" data-category={product.categorySlug}>
-            <div class="product-visual-stage">
-              <img
-                src={product.image}
-                alt={product.name}
-                class="product-img"
-                width="340"
-                height="340"
-                loading="lazy"
-              />
-              <span class="pop-category-badge">{product.category}</span>
-            </div>
-            <div class="product-info-box">
-              <h4 class="product-title">{product.name}</h4>
-              <p class="product-short-desc">{product.shortDesc}</p>
-              <div class="product-cta-pair">
-                <button
-                  type="button"
-                  class="btn-pop-details"
-                  data-product-id={product.id}
-                >
-                  <span>View Details</span>
-                </button>
-                <button
-                  type="button"
-                  class="btn-pop-enquire"
-                  data-product-id={product.id}
-                  aria-label={`Enquire about ${product.name}`}
-                >
-                  Enquire
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+                return (
+                  <article
+                    class={`showcase-card ${isSignature ? 'is-flagship-piece' : ''}`}
+                    data-category={product.categorySlug}
+                    data-product-id={product.id}
+                  >
+                    <!-- Card Top Header: Numbering & Status Tag -->
+                    <div class="card-status-bar">
+                      <span class="card-num-stamp">#{globalNum} <span class="num-of">/ 13</span></span>
+                      {isSignature ? (
+                        <span class="card-pill-tag tag-flagship">★ FLAGSHIP DROP</span>
+                      ) : (
+                        <span class="card-pill-tag tag-standard">{product.category}</span>
+                      )}
+                    </div>
 
-    <!-- ─── Category Group 3: Wear & Carry ─── -->
-    <div class="category-block-group" id="wear-and-carry" data-group="wear-and-carry">
-      <div class="category-block-head">
-        <div class="head-info">
-          <span class="head-num">CHAPTER 03</span>
-          <h3 class="head-name">Wear & Carry</h3>
-        </div>
-        <span class="head-pill">3 Products</span>
-      </div>
+                    <!-- Sculptural Product Stage (Pedestal with Ambient Studio Glow) -->
+                    <div class="card-pedestal-stage" data-product-id={product.id}>
+                      <div class="pedestal-glow" aria-hidden="true"></div>
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        class="pedestal-product-img"
+                        width="460"
+                        height="460"
+                        loading="lazy"
+                      />
 
-      <div class="products-grid">
-        {PRODUCTS.filter((p) => p.categorySlug === 'wear-and-carry').map((product) => (
-          <div class={`pop-product-card ${product.isFeatured ? 'is-signature' : ''}`} data-category={product.categorySlug}>
-            <div class="product-visual-stage">
-              <img
-                src={product.image}
-                alt={product.name}
-                class="product-img"
-                width="340"
-                height="340"
-                loading="lazy"
-              />
-              <span class="pop-category-badge">{product.category}</span>
-              {product.isFeatured && (
-                <span class="pop-star-pill">Signature Slogan</span>
-              )}
-            </div>
-            <div class="product-info-box">
-              <h4 class="product-title">{product.name}</h4>
-              <p class="product-short-desc">{product.shortDesc}</p>
-              <div class="product-cta-pair">
-                <button
-                  type="button"
-                  class="btn-pop-details"
-                  data-product-id={product.id}
-                >
-                  <span>View Details</span>
-                </button>
-                <button
-                  type="button"
-                  class="btn-pop-enquire"
-                  data-product-id={product.id}
-                  aria-label={`Enquire about ${product.name}`}
-                >
-                  Enquire
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+                      <!-- Interactive Quick Glance Pill Cue -->
+                      <div class="pedestal-quick-cue">
+                        <span>Quick Glance</span>
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                          <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </div>
+                    </div>
 
-    <!-- ─── Category Group 4: Lifestyle Accessories ─── -->
-    <div class="category-block-group" id="lifestyle-accessories" data-group="lifestyle-accessories">
-      <div class="category-block-head">
-        <div class="head-info">
-          <span class="head-num">CHAPTER 04</span>
-          <h3 class="head-name">Lifestyle Accessories</h3>
-        </div>
-        <span class="head-pill">3 Products</span>
-      </div>
+                    <!-- Editorial Content Box -->
+                    <div class="card-editorial-body">
+                      
+                      <!-- Title & Slogan Accent -->
+                      <div class="card-title-group">
+                        <h4 class="card-title">{product.name}</h4>
+                        {product.slogan && (
+                          <span class="card-slogan-inline">“{product.slogan}”</span>
+                        )}
+                      </div>
 
-      <div class="products-grid">
-        {PRODUCTS.filter((p) => p.categorySlug === 'lifestyle-accessories').map((product) => (
-          <div class="pop-product-card" data-category={product.categorySlug}>
-            <div class="product-visual-stage">
-              <img
-                src={product.image}
-                alt={product.name}
-                class="product-img"
-                width="340"
-                height="340"
-                loading="lazy"
-              />
-              <span class="pop-category-badge">{product.category}</span>
+                      <p class="card-narrative">{product.shortDesc}</p>
+
+                      <!-- Apple-Style Key Specs Strip -->
+                      {product.specs && product.specs.length > 0 && (
+                        <div class="card-specs-strip">
+                          {product.specs.slice(0, 2).map((spec) => (
+                            <div class="spec-capsule">
+                              <span class="spec-k">{spec.label}:</span>
+                              <span class="spec-v">{spec.value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <!-- Sleek Showcase Action Bar -->
+                      <div class="card-action-bar">
+                        <button
+                          type="button"
+                          class="btn-showcase-inspect"
+                          data-product-id={product.id}
+                          aria-label={`Inspect ${product.name} details`}
+                        >
+                          <span>Explore Specs</span>
+                          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </button>
+
+                        <a
+                          href={`https://wa.me/919495123456?text=${encodeURIComponent(`Hello MSM Kerala, I would like to enquire about ordering the official GEN M ${product.name} (Artifact #${globalNum}).`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="btn-showcase-whatsapp"
+                          aria-label={`Enquire about ${product.name} on WhatsApp`}
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z" />
+                          </svg>
+                          <span>Enquire</span>
+                        </a>
+                      </div>
+
+                    </div>
+                  </article>
+                );
+              })}
             </div>
-            <div class="product-info-box">
-              <h4 class="product-title">{product.name}</h4>
-              <p class="product-short-desc">{product.shortDesc}</p>
-              <div class="product-cta-pair">
-                <button
-                  type="button"
-                  class="btn-pop-details"
-                  data-product-id={product.id}
-                >
-                  <span>View Details</span>
-                </button>
-                <button
-                  type="button"
-                  class="btn-pop-enquire"
-                  data-product-id={product.id}
-                  aria-label={`Enquire about ${product.name}`}
-                >
-                  Enquire
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+          </section>
+        );
+      })}
     </div>
 
   </div>
 </section>
 
 <style>
-  .section-catalogue {
+  /* ═══════════════════════════════════════════════════════════
+     SHOWCASE GALLERY STYLING — APPLE × NIKE ARCHITECTURAL FINISH
+     ═══════════════════════════════════════════════════════════ */
+  .section-showcase {
+    position: relative;
     width: 100%;
-    padding: clamp(60px, 8vw, 100px) 24px;
-    background: #174ee8;
+    padding: clamp(80px, 9vw, 130px) 24px clamp(90px, 10vw, 140px);
+    background: #090e1a; /* Deep obsidian gallery space */
     color: #ffffff;
+    overflow: hidden;
   }
 
-  .catalogue-shell {
-    max-width: 1360px;
+  /* Ambient Backdrop Glows */
+  .showcase-glow-backdrop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.18;
+  }
+
+  .orb-1 {
+    width: 600px;
+    height: 600px;
+    top: 5%;
+    left: -10%;
+    background: radial-gradient(circle, #174ee8 0%, transparent 70%);
+  }
+
+  .orb-2 {
+    width: 700px;
+    height: 700px;
+    top: 40%;
+    right: -15%;
+    background: radial-gradient(circle, #38bdf8 0%, transparent 70%);
+  }
+
+  .orb-3 {
+    width: 500px;
+    height: 500px;
+    bottom: 5%;
+    left: 20%;
+    background: radial-gradient(circle, #E7EEAC 0%, transparent 70%);
+  }
+
+  .showcase-shell {
+    position: relative;
+    max-width: 1380px;
     margin: 0 auto;
+    z-index: 1;
   }
 
-  .catalogue-header-center {
+  /* ─── Hero Header ─── */
+  .showcase-hero-header {
     text-align: center;
-    margin-bottom: clamp(32px, 5vw, 54px);
+    max-width: 860px;
+    margin: 0 auto clamp(50px, 7vw, 84px);
   }
 
-  .catalogue-eyebrow {
-    font-family: 'Neoverse', 'Poppins', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0.18em;
+  .showcase-eyebrow-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    padding: 7px 18px;
+    border-radius: 9999px;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
     color: #E7EEAC;
-    display: block;
-    margin-bottom: 8px;
     text-transform: uppercase;
+    margin-bottom: 20px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   }
 
-  .catalogue-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(2.4rem, 4.5vw, 4rem);
+  .eyebrow-spark {
+    color: #38bdf8;
+    font-size: 0.8rem;
+  }
+
+  .showcase-main-title {
+    font-family: 'Space Grotesk', 'Poppins', sans-serif;
+    font-size: clamp(2.5rem, 5.2vw, 4.4rem);
     font-weight: 900;
-    letter-spacing: -0.03em;
+    line-height: 1.06;
+    letter-spacing: -0.04em;
     color: #ffffff;
-    margin-bottom: 12px;
+    margin: 0 0 18px;
   }
 
-  .catalogue-subtitle {
-    font-size: 1.1rem;
-    color: #dbeafe;
-    max-width: 580px;
-    margin: 0 auto;
+  .showcase-lead-text {
+    font-family: 'Poppins', -apple-system, sans-serif;
+    font-size: clamp(1rem, 1.35vw, 1.18rem);
+    line-height: 1.6;
+    color: #94a3b8;
+    max-width: 720px;
+    margin: 0 auto clamp(36px, 5vw, 48px);
   }
 
-  /* Filter Tabs */
-  .catalogue-filter-bar {
-    display: flex;
+  /* ─── Segmented Pill Switcher Dock (Apple Style) ─── */
+  .showcase-segmented-nav {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: clamp(36px, 5vw, 60px);
+    gap: 6px;
+    padding: 6px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1.5px solid rgba(255, 255, 255, 0.14);
+    border-radius: 9999px;
+    backdrop-filter: blur(20px);
+    box-shadow: 
+      0 12px 30px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
 
-  .mogo-filter-tab {
-    font-family: 'Neoverse', 'Poppins', sans-serif;
-    font-size: 0.88rem;
+  .showcase-segmented-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .showcase-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 9999px;
+    color: #94a3b8;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.86rem;
     font-weight: 700;
-    padding: 10px 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .showcase-tab:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .showcase-tab.is-active {
+    background: #E7EEAC;
+    color: #090e1a;
+    box-shadow: 0 4px 16px rgba(231, 238, 172, 0.4);
+  }
+
+  .showcase-tab .tab-count {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 2px 7px;
     border-radius: 9999px;
     background: rgba(255, 255, 255, 0.12);
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
-    color: #ffffff;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    color: currentColor;
+    transition: background 0.2s ease;
   }
 
-  .mogo-filter-tab:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
+  .showcase-tab.is-active .tab-count {
+    background: rgba(9, 14, 26, 0.15);
   }
 
-  .mogo-filter-tab.is-active {
-    background: #E7EEAC;
-    color: #0f172a;
-    border-color: #E7EEAC;
-    box-shadow: 0 4px 12px rgba(231, 238, 172, 0.45);
-  }
-
-  /* Category Block Groups */
-  .category-block-group {
-    margin-bottom: clamp(48px, 6vw, 80px);
-  }
-
-  .category-block-head {
+  /* ─── Chapters Stream ─── */
+  .showcase-chapters-stream {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-    padding-bottom: 16px;
-    margin-bottom: 28px;
+    flex-direction: column;
+    gap: clamp(64px, 8vw, 100px);
   }
 
-  .head-num {
-    font-family: 'Neoverse', 'Poppins', sans-serif;
+  .showcase-chapter-block {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(28px, 4vw, 42px);
+  }
+
+  /* Chapter Billboard */
+  .chapter-billboard {
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .chapter-meta-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Space Grotesk', monospace;
     font-size: 0.78rem;
     font-weight: 800;
-    color: #E7EEAC;
     letter-spacing: 0.14em;
-    display: block;
-    margin-bottom: 4px;
   }
 
-  .head-name {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
-    font-weight: 800;
+  .chapter-index {
+    color: #E7EEAC;
+  }
+
+  .chapter-divider {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .chapter-badge {
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.1);
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+  }
+
+  .chapter-headline-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .chapter-title {
+    font-family: 'Space Grotesk', 'Poppins', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
     color: #ffffff;
     margin: 0;
   }
 
-  .head-pill {
+  .chapter-subtext {
     font-family: 'Poppins', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #bfdbfe;
-    background: rgba(255, 255, 255, 0.12);
-    padding: 6px 14px;
+    font-size: 0.96rem;
+    color: #94a3b8;
+    max-width: 520px;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ─── Showcase Artifacts Grid ─── */
+  .showcase-artifacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: clamp(24px, 3.2vw, 36px);
+  }
+
+  /* ─── The Showcase Card (Apple Industrial × Nike SNKRS) ─── */
+  .showcase-card {
+    position: relative;
+    background: rgba(15, 23, 42, 0.65);
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 28px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(14px);
+    box-shadow: 
+      0 12px 32px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+                border-color 0.28s ease,
+                box-shadow 0.28s ease;
+    overflow: hidden;
+  }
+
+  .showcase-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 
+      0 20px 48px rgba(0, 0, 0, 0.5),
+      0 0 30px rgba(56, 189, 248, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  /* Flagship Piece Emphasis */
+  .showcase-card.is-flagship-piece {
+    border-color: rgba(231, 238, 172, 0.45);
+    background: linear-gradient(180deg, rgba(23, 78, 232, 0.18) 0%, rgba(15, 23, 42, 0.75) 100%);
+  }
+
+  .showcase-card.is-flagship-piece:hover {
+    border-color: #E7EEAC;
+    box-shadow: 
+      0 20px 48px rgba(0, 0, 0, 0.55),
+      0 0 36px rgba(231, 238, 172, 0.25);
+  }
+
+  /* Card Status Bar */
+  .card-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    z-index: 2;
+  }
+
+  .card-num-stamp {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #ffffff;
+  }
+
+  .card-num-stamp .num-of {
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  .card-pill-tag {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    padding: 4px 11px;
     border-radius: 9999px;
   }
 
-  /* Product Cards Grid */
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 24px;
+  .card-pill-tag.tag-flagship {
+    background: #E7EEAC;
+    color: #090e1a;
+    box-shadow: 0 2px 8px rgba(231, 238, 172, 0.35);
   }
 
-  /* Pop Art Product Card */
-  .pop-product-card {
-    background: #ffffff;
-    border: 3px solid #0f172a;
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 6px 8px 0 #0f172a;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    display: flex;
-    flex-direction: column;
+  .card-pill-tag.tag-standard {
+    background: rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  .pop-product-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 8px 12px 0 #0f172a;
-  }
-
-  .pop-product-card.is-signature {
-    border-color: #0f172a;
-    background: #fffbeb;
-  }
-
-  .product-visual-stage {
+  /* ─── Sculptural Product Pedestal ─── */
+  .card-pedestal-stage {
     position: relative;
-    background: #f1f5f9;
-    padding: 20px;
-    aspect-ratio: 1;
+    width: 100%;
+    aspect-ratio: 1.05;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 2px solid #e2e8f0;
+    padding: 24px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    overflow: hidden;
   }
 
-  .product-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transition: transform 0.3s ease;
-  }
-
-  .pop-product-card:hover .product-img {
-    transform: scale(1.05);
-  }
-
-  .pop-category-badge {
+  .pedestal-glow {
     position: absolute;
-    top: 14px;
-    left: 14px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, transparent 70%);
+    filter: blur(24px);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+
+  .showcase-card:hover .pedestal-glow {
+    transform: scale(1.3);
+    opacity: 0.35;
+  }
+
+  .showcase-card.is-flagship-piece .pedestal-glow {
+    background: radial-gradient(circle, rgba(231, 238, 172, 0.25) 0%, transparent 70%);
+  }
+
+  .pedestal-product-img {
+    width: 86%;
+    height: 86%;
+    object-fit: contain;
+    z-index: 1;
+    filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.45));
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .showcase-card:hover .pedestal-product-img {
+    transform: translateY(-6px) scale(1.06);
+  }
+
+  /* Interactive Quick Glance Cue */
+  .pedestal-quick-cue {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
     background: rgba(15, 23, 42, 0.85);
-    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 9999px;
+    padding: 4px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-family: 'Poppins', sans-serif;
     font-size: 0.68rem;
     font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 9999px;
-    letter-spacing: 0.04em;
+    color: #e2e8f0;
+    z-index: 2;
+    backdrop-filter: blur(8px);
+    opacity: 0.75;
+    transition: all 0.2s ease;
   }
 
-  .pop-star-pill {
-    position: absolute;
-    top: 14px;
-    right: 14px;
+  .showcase-card:hover .pedestal-quick-cue {
+    opacity: 1;
     background: #E7EEAC;
-    color: #0f172a;
-    font-family: 'Neoverse', 'Poppins', sans-serif;
-    font-size: 0.68rem;
-    font-weight: 800;
-    padding: 4px 10px;
-    border-radius: 9999px;
-    border: 1.5px solid #0f172a;
+    color: #090e1a;
+    border-color: #E7EEAC;
   }
 
-  .product-info-box {
-    padding: 20px;
+  /* ─── Editorial Body ─── */
+  .card-editorial-body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
   }
 
-  .product-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #0f172a;
-    margin-bottom: 6px;
-    letter-spacing: -0.02em;
+  .card-title-group {
+    margin-bottom: 8px;
   }
 
-  .product-short-desc {
+  .card-title {
+    font-family: 'Space Grotesk', 'Poppins', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin: 0 0 4px;
+    transition: color 0.2s ease;
+  }
+
+  .showcase-card:hover .card-title {
+    color: #E7EEAC;
+  }
+
+  .card-slogan-inline {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #38bdf8;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .card-narrative {
+    font-family: 'Poppins', sans-serif;
     font-size: 0.88rem;
-    line-height: 1.45;
-    color: #64748b;
-    margin-bottom: 18px;
+    line-height: 1.5;
+    color: #94a3b8;
+    margin: 0 0 16px;
     flex-grow: 1;
   }
 
-  .product-cta-pair {
+  /* Apple-Style Key Specs Strip */
+  .card-specs-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .spec-capsule {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.7rem;
+  }
+
+  .spec-k {
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  .spec-v {
+    color: #cbd5e1;
+    font-weight: 700;
+  }
+
+  /* ─── Showcase Action Bar ─── */
+  .card-action-bar {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-top: auto;
   }
 
-  .btn-pop-details {
+  .btn-showcase-inspect {
     flex: 1;
-    background: #f1f5f9;
-    color: #0f172a;
-    border: 2px solid #cbd5e1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    padding: 10px 16px;
+    color: #ffffff;
     font-family: 'Poppins', sans-serif;
     font-size: 0.84rem;
     font-weight: 700;
-    padding: 10px 14px;
-    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  .btn-pop-details:hover {
-    background: #0f172a;
-    color: #ffffff;
-    border-color: #0f172a;
+  .btn-showcase-inspect:hover {
+    background: #ffffff;
+    color: #090e1a;
+    border-color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
   }
 
-  .btn-pop-enquire {
+  .btn-showcase-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     background: #E7EEAC;
-    color: #0f172a;
-    border: 2px solid #9ca54b;
-    font-family: 'Neoverse', 'Poppins', sans-serif;
+    border: 1px solid #d4dc86;
+    border-radius: 12px;
+    padding: 10px 18px;
+    color: #090e1a;
+    font-family: 'Space Grotesk', 'Poppins', sans-serif;
     font-size: 0.84rem;
     font-weight: 800;
-    padding: 10px 16px;
-    border-radius: 10px;
-    box-shadow: 2px 3px 0 #9ca54b;
+    text-decoration: none;
     cursor: pointer;
-    transition: all 0.12s ease;
+    box-shadow: 0 4px 12px rgba(231, 238, 172, 0.35);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    white-space: nowrap;
   }
 
-  .btn-pop-enquire:hover {
-    transform: translateY(1px);
-    box-shadow: 1px 2px 0 #9ca54b;
+  .btn-showcase-whatsapp:hover {
+    transform: translateY(-2px);
+    background: #f2f7c0;
+    box-shadow: 0 6px 18px rgba(231, 238, 172, 0.5);
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     RESPONSIVE BREAKPOINTS
+     ═══════════════════════════════════════════════════════════ */
+  @media (max-width: 900px) {
+    .showcase-artifacts-grid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .chapter-headline-row {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .section-showcase {
+      padding: 60px 16px 80px;
+    }
+
+    .showcase-card {
+      padding: 18px;
+      border-radius: 22px;
+    }
+
+    .showcase-artifacts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .showcase-segmented-nav {
+      justify-content: flex-start;
+      border-radius: 18px;
+      width: 100%;
+    }
+
+    .showcase-tab {
+      padding: 8px 14px;
+      font-size: 0.8rem;
+    }
   }
 </style>
