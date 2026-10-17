@@ -56,7 +56,13 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
         <!-- Left Visual: Garment Showcase with Ambient Glow -->
         <div class="garment-visual-wrap">
           <div class="garment-stage-box" data-product-id="white-tshirt">
-            <div class="radial-glow" aria-hidden="true"></div>
+            <!-- Liquid (Fluid) Design Animation Backdrop -->
+            <div class="liquid-fluid-stage" aria-hidden="true">
+              <div class="liquid-blob liquid-blob-primary"></div>
+              <div class="liquid-blob liquid-blob-secondary"></div>
+              <div class="liquid-blob liquid-blob-accent"></div>
+              <div class="liquid-glass-refraction"></div>
+            </div>
             <img
               src={product.image}
               alt="Official GEN M White T-Shirt"
@@ -292,13 +298,117 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
     box-shadow: 6px 8px 0 #0f172a;
   }
 
-  .radial-glow {
+  /* ═══════════════════════════════════════════════════════════
+     LIQUID (FLUID) DESIGN ANIMATION
+     ═══════════════════════════════════════════════════════════ */
+  .liquid-fluid-stage {
     position: absolute;
+    inset: -15%;
+    width: 130%;
+    height: 130%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(16px);
+    opacity: 0.88;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+  }
+
+  .garment-stage-box:hover .liquid-fluid-stage {
+    opacity: 1;
+    filter: blur(12px);
+  }
+
+  .liquid-blob {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform, border-radius;
+  }
+
+  /* Blob 1: Deep Electric Royal Blue Fluid */
+  .liquid-blob-primary {
+    width: 280px;
+    height: 280px;
+    top: 10%;
+    left: 10%;
+    background: radial-gradient(circle, rgba(23, 78, 232, 0.45) 0%, rgba(23, 78, 232, 0.05) 75%);
+    animation: liquidMorph1 12s infinite ease-in-out alternate;
+  }
+
+  /* Blob 2: Sunshine Pale Yellow Fluid */
+  .liquid-blob-secondary {
     width: 240px;
     height: 240px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(23, 78, 232, 0.12) 0%, rgba(255, 255, 255, 0) 70%);
-    pointer-events: none;
+    bottom: 8%;
+    right: 8%;
+    background: radial-gradient(circle, rgba(231, 238, 172, 0.65) 0%, rgba(231, 238, 172, 0.05) 70%);
+    animation: liquidMorph2 15s infinite ease-in-out alternate;
+  }
+
+  /* Blob 3: Pop Cyan Fluid Accent */
+  .liquid-blob-accent {
+    width: 190px;
+    height: 190px;
+    top: 25%;
+    right: 15%;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(56, 189, 248, 0.05) 70%);
+    animation: liquidMorph3 10s infinite ease-in-out alternate;
+  }
+
+  .liquid-glass-refraction {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, transparent 60%);
+    mix-blend-mode: overlay;
+  }
+
+  @keyframes liquidMorph1 {
+    0% {
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    33% {
+      border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%;
+      transform: translate(18px, -15px) rotate(120deg) scale(1.08);
+    }
+    66% {
+      border-radius: 70% 30% 50% 50% / 30% 40% 60% 70%;
+      transform: translate(-15px, 20px) rotate(240deg) scale(0.94);
+    }
+    100% {
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      transform: translate(0, 0) rotate(360deg) scale(1);
+    }
+  }
+
+  @keyframes liquidMorph2 {
+    0% {
+      border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+      transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    50% {
+      border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%;
+      transform: translate(-20px, -20px) rotate(-180deg) scale(1.12);
+    }
+    100% {
+      border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+      transform: translate(0, 0) rotate(-360deg) scale(1);
+    }
+  }
+
+  @keyframes liquidMorph3 {
+    0% {
+      border-radius: 50% 50% 40% 60% / 40% 60% 50% 50%;
+      transform: scale(0.95);
+    }
+    50% {
+      border-radius: 60% 40% 60% 40% / 60% 30% 70% 40%;
+      transform: translate(15px, 15px) scale(1.1);
+    }
+    100% {
+      border-radius: 50% 50% 40% 60% / 40% 60% 50% 50%;
+      transform: scale(0.95);
+    }
   }
 
   .garment-img {

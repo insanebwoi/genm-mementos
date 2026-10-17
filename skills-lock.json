@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "arena": {
+      "source": "cursor/plugins",
+      "sourceType": "github",
+      "skillPath": "harness/pstack/claude-code/skills/arena/SKILL.md",
+      "computedHash": "3aa014f84d599fe2b8fa72be8cf59d8e9a07279bbc077cf9954e52812d9970c9"
+    }
+  }
+}
