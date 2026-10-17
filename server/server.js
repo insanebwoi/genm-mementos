@@ -284,8 +284,8 @@ setInterval(flushSyncQueue, 15000);
 // GOOGLE SHEETS API V4 CLIENT (LIVE READ VIA API KEY)
 // ─────────────────────────────────────────────────────────────
 
-async function fetchSheetValues(range) {
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(range)}?key=${GOOGLE_API_KEY}`;
+async function fetchSheetValues(range, renderOption = 'FORMATTED_VALUE') {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(range)}?valueRenderOption=${renderOption}&key=${GOOGLE_API_KEY}`;
   const response = await fetch(url);
   if (!response.ok) {
     const errorText = await response.text();
@@ -293,6 +293,63 @@ async function fetchSheetValues(range) {
   }
   const data = await response.json();
   return data.values || [];
+}
+
+/**
+ * Normalizes direct URLs, Google Drive file share links, and images for web display
+ */
+function normalizeImageUrl(url) {
+  if (!url) return null;
+  let clean = String(url).trim().replace(/^["']|["']$/g, '');
+  if (!clean) return null;
+
+  // Google Drive File links:
+  // 1. https://drive.google.com/file/d/FILE_ID/view...
+  const driveFileMatch = clean.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/i);
+  if (driveFileMatch && driveFileMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${driveFileMatch[1]}`;
+  }
+
+  // 2. https://drive.google.com/open?id=FILE_ID or uc?id=FILE_ID
+  const driveIdMatch = clean.match(/drive\.google\.com\/(?:open|uc)\?(?:[^&]*&)*id=([a-zA-Z0-9_-]+)/i);
+  if (driveIdMatch && driveIdMatch[1]) {
+    return `https://lh3.googleusercontent.com/d/${driveIdMatch[1]}`;
+  }
+
+  if (/^(https?:\/\/|\/)/i.test(clean)) {
+    return clean;
+  }
+
+  return null;
+}
+
+/**
+ * Extracts clean image URL from Google Sheets cell:
+ * Supports =IMAGE("url"), =HYPERLINK("url"), direct URLs, or Google Drive links
+ */
+function extractImageUrl(cellVal) {
+  if (!cellVal) return null;
+  const s = String(cellVal).trim();
+  if (!s) return null;
+
+  // 1. Formula: =IMAGE("url") or =IMAGE("url", mode)
+  const imgFormulaMatch = s.match(/^=IMAGE\(\s*["']([^"']+)["']/i);
+  if (imgFormulaMatch && imgFormulaMatch[1]) {
+    return normalizeImageUrl(imgFormulaMatch[1]);
+  }
+
+  // 2. Formula: =HYPERLINK("url", "label")
+  const linkFormulaMatch = s.match(/^=HYPERLINK\(\s*["']([^"']+)["']/i);
+  if (linkFormulaMatch && linkFormulaMatch[1]) {
+    return normalizeImageUrl(linkFormulaMatch[1]);
+  }
+
+  // 3. Direct http/https link or drive link
+  if (/^https?:\/\//i.test(s) || s.includes('drive.google.com')) {
+    return normalizeImageUrl(s);
+  }
+
+  return null;
 }
 
 // Check if Service Account is available
@@ -1111,8 +1168,11 @@ app.delete('/api/data/:rowNumber', authenticateToken, async (req, res) => {
 
 app.get('/api/inventory', authenticateToken, async (req, res) => {
   try {
-    const raw = await fetchSheetValues('Inventory & Availability!A5:G20');
-    const sh1Raw = await fetchSheetValues('Sheet1!A6:N20');
+    const [raw, sh1Raw, sh1Formulas] = await Promise.all([
+      fetchSheetValues('Inventory & Availability!A5:G20'),
+      fetchSheetValues('Sheet1!A6:N20', 'FORMATTED_VALUE'),
+      fetchSheetValues('Sheet1!A6:N20', 'FORMULA')
+    ]);
 
     // Calculate real-time booked units across Form Responses 1 & 2 + overlay
     const overlay = readOverlay();
@@ -1148,15 +1208,50 @@ app.get('/api/inventory', authenticateToken, async (req, res) => {
       });
     } catch (e) {}
 
+    // Map local catalog images by item slug
+    const localFallbackMap = {
+      'white-t-shirt': '/products/white_tshirt.jpg',
+      'white-tshirt': '/products/white_tshirt.jpg',
+      'embroidered-cap': '/products/cap.jpg',
+      'cap': '/products/cap.jpg',
+      'cross-bag': '/products/cross_bag.jpg',
+      'water-bottle': '/products/water_bottle.jpg',
+      'coffee-mug': '/products/coffee_mug.jpg',
+      'diary': '/products/diary.jpg',
+      'pen': '/products/pen.jpg',
+      'keychain': '/products/keychain.jpg',
+      'bag-tag': '/products/bag_tag.jpg',
+      'glass-set': '/products/glass_set.jpg',
+      'mobile-stand': '/products/mobile_stand.jpg',
+      'tissue': '/products/tissue.jpg',
+      'car-perfume': '/products/car_perfume.jpg'
+    };
+
+    // Parse Sheet1 (Product Catalog) including Column C (Product Sample) and Column B (Concept Design)
     const metaMap = {};
-    sh1Raw.forEach(row => {
+    sh1Raw.forEach((row, idx) => {
       if (!row || !row[0]) return;
-      metaMap[row[0].trim()] = {
+      const name = row[0].trim();
+      const fRow = (sh1Formulas && sh1Formulas[idx]) || [];
+
+      // Column C (index 2): Product Sample
+      const sampleCell = (fRow[2] !== undefined && fRow[2] !== '') ? fRow[2] : (row[2] || '');
+      // Column B (index 1): Concept Design
+      const conceptCell = (fRow[1] !== undefined && fRow[1] !== '') ? fRow[1] : (row[1] || '');
+
+      const sampleImage = extractImageUrl(sampleCell);
+      const conceptImage = extractImageUrl(conceptCell);
+
+      metaMap[name] = {
         unitCost: parseFloat((row[3] || '0').replace(/[^0-9.]/g, '')) || 0,
         sellingPrice: parseFloat((row[4] || '0').replace(/[^0-9.]/g, '')) || 0,
         status: row[10] || 'In Review',
         dealer: row[11] || '',
-        connection: row[13] || ''
+        connection: row[13] || '',
+        sampleImage,
+        conceptImage,
+        rawSampleCell: sampleCell,
+        rawConceptCell: conceptCell
       };
     });
 
@@ -1183,7 +1278,18 @@ app.get('/api/inventory', authenticateToken, async (req, res) => {
       totalBookedUnits += booked;
       totalAvailableUnits += available;
 
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const localFallback = localFallbackMap[slug] || '/products/white_tshirt.jpg';
+
+      // Hierarchy:
+      // 1. Live Product Sample from Sheet1 Column C (requested by user)
+      // 2. Concept Design from Sheet1 Column B
+      // 3. Local high-res catalog image
+      const activeImage = meta.sampleImage || meta.conceptImage || localFallback;
+      const hasLiveSample = Boolean(meta.sampleImage);
+
       items.push({
+        id: slug,
         item: name,
         category,
         totalStock,
@@ -1194,7 +1300,13 @@ app.get('/api/inventory', authenticateToken, async (req, res) => {
         unitCost: meta.unitCost,
         sellingPrice: meta.sellingPrice,
         dealer: meta.dealer,
-        connection: meta.connection
+        connection: meta.connection,
+        image: activeImage,
+        sampleImage: meta.sampleImage || null,
+        conceptImage: meta.conceptImage || null,
+        fallbackImage: localFallback,
+        hasLiveSampleImage: hasLiveSample,
+        imageSource: meta.sampleImage ? 'Sheet 1 (Product Sample)' : (meta.conceptImage ? 'Sheet 1 (Concept Design)' : 'Local Catalog Asset')
       });
     });
 

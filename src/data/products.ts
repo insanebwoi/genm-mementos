@@ -32,7 +32,7 @@ export const CATEGORIES: { name: ProductCategory; slug: string; desc: string }[]
   {
     name: 'Wear & Carry',
     slug: 'wear-and-carry',
-    desc: 'Signature apparel, headwear, and utility bags built around the GEN M generational movement.'
+    desc: 'Signature apparel, headwear, and utility bags built around the MSM GEN M movement.'
   },
   {
     name: 'Lifestyle Accessories',

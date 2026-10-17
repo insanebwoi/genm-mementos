@@ -75,14 +75,16 @@
     <!-- ─── 2. MAIN SWAG RIG (ANGLED COMPOSITION) ─── -->
     <g class="main-swag-rig" filter="url(#mogoShadow)">
 
-      <!-- 2A. CARTOON SLEEVE & GLOVE EXTENDING FROM TOP -->
+      <!-- 2A. CARTOON SLEEVE & GLOVE EXTENDING FROM TOP CEILING -->
       <g class="arm-glove-assembly">
-        <!-- Light Blue Sleeve coming from top ceiling -->
+        <!-- Light Blue Sleeve extending seamlessly up through the ceiling -->
         <path
-          d="M 345 -10 
-             C 345 50, 360 90, 385 125 
+          d="M 345 -60 
+             L 345 50 
+             C 360 90, 385 125, 385 125 
              L 412 118 
-             C 390 80, 375 40, 372 -10 Z"
+             C 390 80, 375 40, 372 50 
+             L 372 -60 Z"
           fill="#38bdf8"
           stroke="#0f172a"
           stroke-width="5"
@@ -119,187 +121,258 @@
         </g>
       </g>
 
-      <!-- 2B. TOTE BAG HANDLES -->
-      <path
-        d="M 378 165 
-           C 355 205, 350 250, 368 285 
-           L 384 278 
-           C 368 248, 372 205, 392 168 Z"
-        fill="#ffffff"
-        stroke="#0f172a"
-        stroke-width="4.5"
-      />
-      <path
-        d="M 416 160 
-           C 438 195, 465 225, 498 248 
-           L 508 232 
-           C 478 210, 452 178, 430 154 Z"
-        fill="#ffffff"
-        stroke="#0f172a"
-        stroke-width="4.5"
-      />
+      <!-- 2B. HANGING BAG ASSEMBLY (Suspended from glove grip) -->
+      <g class="hanging-bag-assembly">
 
-      <!-- 2C. ITEMS BURSTING OUT OF THE BAG MOUTH (BEHIND BAG FRONT) -->
-      <g class="bursting-items-stage">
-
-        <!-- Retro Orange Screen Robot Mascot with Waving Arm -->
-        <g class="retro-robot" transform="translate(485, 125) rotate(16)">
-          <!-- Body -->
-          <rect x="0" y="0" width="62" height="74" rx="14" fill="#ea580c" stroke="#0f172a" stroke-width="4.5" />
-          <!-- Screen Face -->
-          <rect x="8" y="10" width="46" height="46" rx="9" fill="#38bdf8" stroke="#0f172a" stroke-width="3.5" />
-          <!-- Waving Cartoon Arm -->
-          <path d="M 58 18 C 82 8, 92 -8, 88 -20" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" fill="none" />
-          <circle cx="89" cy="-22" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="3.5" />
-          <!-- Eyes on screen -->
-          <circle cx="22" cy="30" r="4" fill="#ffffff" />
-          <circle cx="38" cy="30" r="4" fill="#ffffff" />
-          <path d="M 26 42 Q 30 46 34 42" stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round" />
+        <!-- Tote Bag Handles (White Straps) -->
+        <g class="bag-handles">
+          <path
+            d="M 378 165 
+               C 355 205, 350 250, 368 285 
+               L 384 278 
+               C 368 248, 372 205, 392 168 Z"
+            fill="#ffffff"
+            stroke="#0f172a"
+            stroke-width="4.5"
+          />
+          <path
+            d="M 416 160 
+               C 438 195, 465 225, 498 248 
+               L 508 232 
+               C 478 210, 452 178, 430 154 Z"
+            fill="#ffffff"
+            stroke="#0f172a"
+            stroke-width="4.5"
+          />
         </g>
 
-        <!-- Cool Cyan Character Mascot (Taking Selfie in Bag) -->
-        <g class="selfie-mascot" transform="translate(425, 175)">
-          <!-- Cyan Blob Body -->
-          <ellipse cx="60" cy="70" rx="46" ry="54" fill="#38bdf8" stroke="#0f172a" stroke-width="5" />
-          
-          <!-- Cap (Deep Blue with Yellow Visor) -->
-          <g class="mascot-cap" transform="translate(18, -4)">
+        <!-- 2C. ITEMS BURSTING OUT OF THE BAG MOUTH (BEHIND BAG FRONT) -->
+        <g class="bursting-items-stage">
+
+          <!-- Retro Orange Screen Robot Mascot with Waving Arm -->
+          <g class="retro-robot" transform="translate(485, 125) rotate(16)">
+            <!-- Body -->
+            <rect x="0" y="0" width="62" height="74" rx="14" fill="#ea580c" stroke="#0f172a" stroke-width="4.5" />
+            <!-- Screen Face -->
+            <rect x="8" y="10" width="46" height="46" rx="9" fill="#38bdf8" stroke="#0f172a" stroke-width="3.5" />
+            <!-- Waving Cartoon Arm -->
+            <g class="robot-waving-arm">
+              <path d="M 58 18 C 82 8, 92 -8, 88 -20" stroke="#0f172a" stroke-width="4.5" stroke-linecap="round" fill="none" />
+              <circle cx="89" cy="-22" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="3.5" />
+            </g>
+            <!-- Eyes on screen -->
+            <circle cx="22" cy="30" r="4" fill="#ffffff" />
+            <circle cx="38" cy="30" r="4" fill="#ffffff" />
+            <path d="M 26 42 Q 30 46 34 42" stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round" />
+          </g>
+
+          <!-- Cool Cyan Character Mascot (Taking Selfie in Bag) -->
+          <g class="selfie-mascot" transform="translate(425, 175)">
+            <!-- Cyan Blob Body -->
+            <ellipse cx="60" cy="70" rx="46" ry="54" fill="#38bdf8" stroke="#0f172a" stroke-width="5" />
+            
+            <!-- Cap (Deep Blue with Yellow Visor) -->
+            <g class="mascot-cap" transform="translate(18, -4)">
+              <path
+                d="M 12 40 C 10 12, 70 8, 80 38 Z"
+                fill="#232863"
+                stroke="#0f172a"
+                stroke-width="4.5"
+              />
+              <path
+                d="M 10 40 C -2 44, -14 52, -6 60 C 12 60, 48 46, 54 42 Z"
+                fill="#E7EEAC"
+                stroke="#0f172a"
+                stroke-width="4"
+              />
+              <text x="48" y="32" font-family="'Space Grotesk Variable', sans-serif" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle">GEN M</text>
+            </g>
+
+            <!-- White DJ Headphones -->
+            <circle cx="16" cy="65" r="13" fill="#ffffff" stroke="#0f172a" stroke-width="4" />
+            <path d="M 16 52 C 22 26, 85 24, 94 48" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" fill="none" />
+            <circle cx="94" cy="65" r="13" fill="#ffffff" stroke="#0f172a" stroke-width="4" />
+
+            <!-- Cool Gold Sunglasses -->
+            <g class="sunglasses" transform="translate(32, 45)">
+              <polygon points="0,6 22,4 24,22 2,26" fill="#f59e0b" stroke="#0f172a" stroke-width="3.5" />
+              <line x1="22" y1="8" x2="36" y2="8" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
+              <polygon points="36,4 58,6 56,26 34,22" fill="#f59e0b" stroke="#0f172a" stroke-width="3.5" />
+              <!-- Lens Reflections -->
+              <line x1="4" y1="11" x2="18" y2="9" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+              <line x1="40" y1="9" x2="54" y2="11" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+            </g>
+
+            <!-- Smug Smile -->
+            <path d="M 54 78 C 60 84, 70 82, 74 76" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round" fill="none" />
+
+            <!-- Hand Holding White Phone -->
+            <g transform="translate(6, 70) rotate(-18)">
+              <rect x="0" y="0" width="24" height="42" rx="6" fill="#ffffff" stroke="#0f172a" stroke-width="3.5" />
+              <rect x="3" y="5" width="18" height="32" rx="4" fill="#38bdf8" />
+              <circle cx="3" cy="20" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="3" />
+            </g>
+          </g>
+
+          <!-- Yellow Coffee Cup with Straw & Lid -->
+          <g class="pop-coffee-cup" transform="translate(370, 275) rotate(-24)">
+            <!-- Lid Rim -->
+            <ellipse cx="30" cy="14" rx="28" ry="10" fill="#f97316" stroke="#0f172a" stroke-width="4" />
+            <ellipse cx="30" cy="10" rx="22" ry="7" fill="#ea580c" stroke="#0f172a" stroke-width="3" />
+            <!-- Angled Straw with subtle wobble -->
+            <g class="coffee-straw-assembly">
+              <line x1="30" y1="10" x2="30" y2="-22" stroke="#0f172a" stroke-width="5.5" stroke-linecap="round" />
+              <line x1="30" y1="-22" x2="46" y2="-36" stroke="#0f172a" stroke-width="5.5" stroke-linecap="round" />
+            </g>
+            <!-- Cup Body (Yellow) -->
             <path
-              d="M 12 40 C 10 12, 70 8, 80 38 Z"
-              fill="#232863"
-              stroke="#0f172a"
-              stroke-width="4.5"
-            />
-            <path
-              d="M 10 40 C -2 44, -14 52, -6 60 C 12 60, 48 46, 54 42 Z"
-              fill="#E7EEAC"
+              d="M 6 14 L 14 82 C 14 88, 46 88, 46 82 L 54 14 Z"
+              fill="url(#cupYellow)"
               stroke="#0f172a"
               stroke-width="4"
             />
-            <text x="48" y="32" font-family="'Space Grotesk Variable', sans-serif" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle">GEN M</text>
+            <!-- Cup Sleeve / Band -->
+            <path d="M 9 38 L 12 58 L 48 58 L 51 38 Z" fill="#232863" stroke="#0f172a" stroke-width="3" />
+            <text x="30" y="51" font-family="'Space Grotesk Variable', sans-serif" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle">GEN M</text>
           </g>
 
-          <!-- White DJ Headphones -->
-          <circle cx="16" cy="65" r="13" fill="#ffffff" stroke="#0f172a" stroke-width="4" />
-          <path d="M 16 52 C 22 26, 85 24, 94 48" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" fill="none" />
-          <circle cx="94" cy="65" r="13" fill="#ffffff" stroke="#0f172a" stroke-width="4" />
-
-          <!-- Cool Gold Sunglasses -->
-          <g class="sunglasses" transform="translate(32, 45)">
-            <polygon points="0,6 22,4 24,22 2,26" fill="#f59e0b" stroke="#0f172a" stroke-width="3.5" />
-            <line x1="22" y1="8" x2="36" y2="8" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
-            <polygon points="36,4 58,6 56,26 34,22" fill="#f59e0b" stroke="#0f172a" stroke-width="3.5" />
-            <!-- Lens Reflections -->
-            <line x1="4" y1="11" x2="18" y2="9" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
-            <line x1="40" y1="9" x2="54" y2="11" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+          <!-- Folded Merch Fabric / White T-shirt Over Rim -->
+          <g class="folded-apparel" transform="translate(325, 340) rotate(-20)">
+            <!-- Orange Folded Layer -->
+            <path
+              d="M 0 0 C 20 -15, 60 -10, 75 10 L 65 40 C 45 25, 15 20, -5 30 Z"
+              fill="#f97316"
+              stroke="#0f172a"
+              stroke-width="4"
+              stroke-linejoin="round"
+            />
+            <!-- Yellow Folded Layer -->
+            <path
+              d="M 10 22 C 28 8, 65 14, 80 30 L 70 54 C 55 40, 25 35, 5 44 Z"
+              fill="#E7EEAC"
+              stroke="#0f172a"
+              stroke-width="4"
+              stroke-linejoin="round"
+            />
           </g>
 
-          <!-- Smug Smile -->
-          <path d="M 54 78 C 60 84, 70 82, 74 76" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round" fill="none" />
+        </g> <!-- end bursting-items-stage -->
 
-          <!-- Hand Holding White Phone -->
-          <g transform="translate(6, 70) rotate(-18)">
-            <rect x="0" y="0" width="24" height="42" rx="6" fill="#ffffff" stroke="#0f172a" stroke-width="3.5" />
-            <rect x="3" y="5" width="18" height="32" rx="4" fill="#38bdf8" />
-            <circle cx="3" cy="20" r="9" fill="#ffffff" stroke="#0f172a" stroke-width="3" />
-          </g>
-        </g>
-
-        <!-- Yellow Coffee Cup with Straw & Lid -->
-        <g class="pop-coffee-cup" transform="translate(370, 275) rotate(-24)">
-          <!-- Lid Rim -->
-          <ellipse cx="30" cy="14" rx="28" ry="10" fill="#f97316" stroke="#0f172a" stroke-width="4" />
-          <ellipse cx="30" cy="10" rx="22" ry="7" fill="#ea580c" stroke="#0f172a" stroke-width="3" />
-          <!-- Angled Straw -->
-          <line x1="30" y1="10" x2="30" y2="-22" stroke="#0f172a" stroke-width="5.5" stroke-linecap="round" />
-          <line x1="30" y1="-22" x2="46" y2="-36" stroke="#0f172a" stroke-width="5.5" stroke-linecap="round" />
-          <!-- Cup Body (Yellow) -->
-          <path
-            d="M 6 14 L 14 82 C 14 88, 46 88, 46 82 L 54 14 Z"
-            fill="url(#cupYellow)"
+        <!-- 2D. THE GIANT ANGLED TOTE BAG (FRONT & SIDE FACES) -->
+        <g class="tote-bag-geometry" transform="translate(390, 245) rotate(-18)">
+          
+          <!-- Bag Interior Dark Opening -->
+          <polygon
+            points="0,30 160,-30 250,15 90,80"
+            fill="#172554"
             stroke="#0f172a"
-            stroke-width="4"
+            stroke-width="5"
+            stroke-linejoin="round"
           />
-          <!-- Cup Sleeve / Band -->
-          <path d="M 9 38 L 12 58 L 48 58 L 51 38 Z" fill="#232863" stroke="#0f172a" stroke-width="3" />
-          <text x="30" y="51" font-family="'Space Grotesk Variable', sans-serif" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle">GEN M</text>
-        </g>
 
-        <!-- Folded Merch Fabric / White T-shirt Over Rim -->
-        <g class="folded-apparel" transform="translate(325, 340) rotate(-20)">
-          <!-- Orange Folded Layer -->
-          <path
-            d="M 0 0 C 20 -15, 60 -10, 75 10 L 65 40 C 45 25, 15 20, -5 30 Z"
-            fill="#f97316"
+          <!-- Side Depth / Left Gusset -->
+          <polygon
+            points="0,30 90,80 65,300 -25,240"
+            fill="#e2e8f0"
+            stroke="#0f172a"
+            stroke-width="5"
+            stroke-linejoin="round"
+          />
+          <!-- Gusset Shadow Crease -->
+          <polygon
+            points="10,55 90,80 65,300 0,265"
+            fill="rgba(15, 23, 42, 0.08)"
+          />
+
+          <!-- Bag Main Front Face (Pure White Body) -->
+          <polygon
+            points="90,80 250,15 225,235 65,300"
+            fill="#ffffff"
+            stroke="#0f172a"
+            stroke-width="5.5"
+            stroke-linejoin="round"
+          />
+
+          <!-- Centered Inset Diagonal Striped Panel (The Iconic MOGO Tote Pattern!) -->
+          <polygon
+            points="110,95 230,45 210,215 90,265"
+            fill="url(#cyanStripesPattern)"
             stroke="#0f172a"
             stroke-width="4"
             stroke-linejoin="round"
           />
-          <!-- Yellow Folded Layer -->
-          <path
-            d="M 10 22 C 28 8, 65 14, 80 30 L 70 54 C 55 40, 25 35, 5 44 Z"
-            fill="#E7EEAC"
-            stroke="#0f172a"
-            stroke-width="4"
-            stroke-linejoin="round"
-          />
+
+          <!-- Bottom Gusset Corner Line -->
+          <path d="M 65 300 L 52 276" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
         </g>
 
-      </g> <!-- end bursting-items-stage -->
-
-
-      <!-- 2D. THE GIANT ANGLED TOTE BAG (FRONT & SIDE FACES) -->
-      <g class="tote-bag-geometry" transform="translate(390, 245) rotate(-18)">
-        
-        <!-- Bag Interior Dark Opening -->
-        <polygon
-          points="0,30 160,-30 250,15 90,80"
-          fill="#172554"
-          stroke="#0f172a"
-          stroke-width="5"
-          stroke-linejoin="round"
-        />
-
-        <!-- Side Depth / Left Gusset -->
-        <polygon
-          points="0,30 90,80 65,300 -25,240"
-          fill="#e2e8f0"
-          stroke="#0f172a"
-          stroke-width="5"
-          stroke-linejoin="round"
-        />
-        <!-- Gusset Shadow Crease -->
-        <polygon
-          points="10,55 90,80 65,300 0,265"
-          fill="rgba(15, 23, 42, 0.08)"
-        />
-
-        <!-- Bag Main Front Face (Pure White Body) -->
-        <polygon
-          points="90,80 250,15 225,235 65,300"
-          fill="#ffffff"
-          stroke="#0f172a"
-          stroke-width="5.5"
-          stroke-linejoin="round"
-        />
-
-        <!-- Centered Inset Diagonal Striped Panel (The Iconic MOGO Tote Pattern!) -->
-        <polygon
-          points="110,95 230,45 210,215 90,265"
-          fill="url(#cyanStripesPattern)"
-          stroke="#0f172a"
-          stroke-width="4"
-          stroke-linejoin="round"
-        />
-
-        <!-- Bottom Gusset Corner Line -->
-        <path d="M 65 300 L 52 276" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
-      </g>
+      </g> <!-- end hanging-bag-assembly -->
 
     </g> <!-- end main-swag-rig -->
 
   </svg>
 </div>
+
+<script>
+  // Progressive enhancement: interactive spring nudge on hover & tap
+  function initHangingBagPhysics() {
+    const stage = document.querySelector('.pop-swag-stage') as HTMLElement | null;
+    if (!stage) return;
+
+    let targetTilt = 0;
+    let currentTilt = 0;
+    let isTapped = false;
+    let rafId: number | null = null;
+
+    function animate() {
+      // Smooth spring lerp for pointer follow
+      const diff = targetTilt - currentTilt;
+      currentTilt += diff * 0.08;
+
+      if (stage) {
+        stage.style.setProperty('--pointer-tilt', `${currentTilt.toFixed(2)}deg`);
+      }
+
+      if (Math.abs(diff) > 0.01 || Math.abs(currentTilt) > 0.01) {
+        rafId = requestAnimationFrame(animate);
+      } else {
+        currentTilt = 0;
+        if (stage) stage.style.setProperty('--pointer-tilt', '0deg');
+        rafId = null;
+      }
+    }
+
+    stage.addEventListener('pointermove', (e: PointerEvent) => {
+      const rect = stage.getBoundingClientRect();
+      const relativeX = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+      targetTilt = relativeX * 7.0; // max ±3.5deg nudge
+      if (!rafId) rafId = requestAnimationFrame(animate);
+    });
+
+    stage.addEventListener('pointerleave', () => {
+      targetTilt = 0;
+      if (!rafId) rafId = requestAnimationFrame(animate);
+    });
+
+    stage.addEventListener('click', () => {
+      if (isTapped) return;
+      isTapped = true;
+      stage.classList.add('is-spring-tapped');
+      setTimeout(() => {
+        stage.classList.remove('is-spring-tapped');
+        isTapped = false;
+      }, 1200);
+    });
+  }
+
+  // Initialize on load and Astro view transitions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHangingBagPhysics);
+  } else {
+    initHangingBagPhysics();
+  }
+  document.addEventListener('astro:page-load', initHangingBagPhysics);
+</script>
 
 <style>
   .pop-swag-stage {
@@ -311,6 +384,12 @@
     justify-content: center;
     position: relative;
     user-select: none;
+    cursor: grab;
+    --pointer-tilt: 0deg;
+  }
+
+  .pop-swag-stage:active {
+    cursor: grabbing;
   }
 
   .pop-swag-svg {
@@ -318,11 +397,127 @@
     height: auto;
     overflow: visible;
     filter: drop-shadow(0 20px 30px rgba(10, 29, 96, 0.35));
+    transform-origin: 360px 0px;
+    transform: rotate(var(--pointer-tilt, 0deg));
+    transition: transform 0.15s ease-out;
+    will-change: transform;
   }
 
-  /* ─── Playful Bobbing Float Animation on Charms ─── */
+  /* ═══════════════════════════════════════════════════════════
+     1. PRIMARY HANGING PENDULUM SWAY (Arm + Rig Suspended from Ceiling)
+     Anchored at (358px, 0px) - where the arm enters the scene
+     ═══════════════════════════════════════════════════════════ */
+  .main-swag-rig {
+    transform-box: view-box;
+    transform-origin: 358px 0px;
+    animation: hangingArmPendulum 5.2s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+    will-change: transform;
+  }
+
+  @keyframes hangingArmPendulum {
+    0% {
+      transform: rotate(-3.8deg);
+    }
+    50% {
+      transform: rotate(3.8deg);
+    }
+    100% {
+      transform: rotate(-3.8deg);
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     2. SECONDARY HANGING BAG SWAY (Compound Pendulum from Glove Grip)
+     Anchored at (395px, 165px) - where glove fingers grip handles
+     ═══════════════════════════════════════════════════════════ */
+  .hanging-bag-assembly {
+    transform-box: view-box;
+    transform-origin: 395px 165px;
+    animation: hangingBagDangle 5.2s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+    will-change: transform;
+  }
+
+  @keyframes hangingBagDangle {
+    0% {
+      /* Left apex: bag lags slightly behind arm, tilted left */
+      transform: rotate(-3.0deg) translateY(0px);
+    }
+    24% {
+      /* Passing center moving right: downward gravity tension */
+      transform: rotate(0.8deg) translateY(4px);
+    }
+    50% {
+      /* Right apex: bag tilted right, slight arc rise */
+      transform: rotate(3.0deg) translateY(0px);
+    }
+    74% {
+      /* Passing center moving left: downward gravity tension */
+      transform: rotate(-0.8deg) translateY(4px);
+    }
+    100% {
+      transform: rotate(-3.0deg) translateY(0px);
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     3. HANDLE STRAP TENSION (Slight elasticity under gravity)
+     ═══════════════════════════════════════════════════════════ */
+  .bag-handles {
+    transform-box: view-box;
+    transform-origin: 395px 165px;
+    animation: handleTensionPulse 5.2s ease-in-out infinite;
+  }
+
+  @keyframes handleTensionPulse {
+    0%, 50%, 100% {
+      transform: scaleY(1);
+    }
+    24%, 74% {
+      transform: scaleY(1.02);
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     4. ROBOT MASCOT WAVING CARTOON ARM
+     ═══════════════════════════════════════════════════════════ */
+  .robot-waving-arm {
+    transform-box: fill-box;
+    transform-origin: 10% 90%;
+    animation: robotFriendlyWave 2.6s ease-in-out infinite alternate;
+  }
+
+  @keyframes robotFriendlyWave {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(-24deg);
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     5. COFFEE CUP STRAW SUBTLE WOBBLE
+     ═══════════════════════════════════════════════════════════ */
+  .coffee-straw-assembly {
+    transform-box: fill-box;
+    transform-origin: 30% 90%;
+    animation: strawWobble 3.6s ease-in-out infinite alternate;
+  }
+
+  @keyframes strawWobble {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(-6deg);
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     6. PLAYFUL FLOATING CHARMS & CONFETTI
+     ═══════════════════════════════════════════════════════════ */
   .float-item {
-    animation: charmBob 3.5s ease-in-out infinite alternate;
+    animation: charmBob 3.6s ease-in-out infinite alternate;
   }
 
   .charm-donut {
@@ -355,17 +550,65 @@
       transform: translateY(0px) rotate(0deg);
     }
     100% {
-      transform: translateY(-10px) rotate(4deg);
+      transform: translateY(-12px) rotate(5deg);
     }
   }
 
-  /* ─── Gentle Hover Float on Entire Bag Rig ─── */
-  .main-swag-rig {
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    transform-origin: 390px 120px;
+  /* ═══════════════════════════════════════════════════════════
+     7. TAP / CLICK SPRING WOBBLE REACTION
+     ═══════════════════════════════════════════════════════════ */
+  .is-spring-tapped .hanging-bag-assembly {
+    animation: bagTapSpring 1.2s cubic-bezier(0.36, 0.07, 0.19, 0.97) !important;
   }
 
+  @keyframes bagTapSpring {
+    0% {
+      transform: rotate(0deg);
+    }
+    15% {
+      transform: rotate(9deg) translateY(5px);
+    }
+    30% {
+      transform: rotate(-7deg) translateY(2px);
+    }
+    45% {
+      transform: rotate(5deg) translateY(4px);
+    }
+    60% {
+      transform: rotate(-3deg) translateY(1px);
+    }
+    75% {
+      transform: rotate(1.5deg) translateY(2px);
+    }
+    100% {
+      transform: rotate(0deg) translateY(0px);
+    }
+  }
+
+  /* Hover gentle amplification */
   .pop-swag-stage:hover .main-swag-rig {
-    transform: translateY(-8px) rotate(1.2deg);
+    animation-duration: 4.4s;
+  }
+
+  .pop-swag-stage:hover .hanging-bag-assembly {
+    animation-duration: 4.4s;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     8. ACCESSIBILITY: PREFERS-REDUCED-MOTION
+     ═══════════════════════════════════════════════════════════ */
+  @media (prefers-reduced-motion: reduce) {
+    .main-swag-rig,
+    .hanging-bag-assembly,
+    .bag-handles,
+    .robot-waving-arm,
+    .coffee-straw-assembly,
+    .float-item {
+      animation: none !important;
+      transform: none !important;
+    }
+    .pop-swag-svg {
+      transform: none !important;
+    }
   }
 </style>

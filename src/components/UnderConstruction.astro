@@ -6,13 +6,15 @@ interface Props {
   message?: string;
   submessage?: string;
   badgeText?: string;
+  previewUrl?: string;
 }
 
 const {
-  title = "Page Under Construction",
-  message = "The development of new functions is stepping up, and it is expected to be online soon.",
-  submessage = "Please be patient.",
-  badgeText = "ONLINE SOON"
+  title = "Official Swag Store Under Development",
+  message = "The development of the official GEN M merchandise platform is stepping up, and it is expected to be online soon.",
+  submessage = "Rooted in Deen. Driven by Purpose. Please be patient.",
+  badgeText = "ONLINE SOON • GEN M 2026",
+  previewUrl = "/store"
 } = Astro.props;
 ---
 
@@ -53,6 +55,18 @@ const {
       <br />
       {submessage}
     </p>
+
+    <!-- Optional Preview Action -->
+    {previewUrl && (
+      <div class="stage-actions">
+        <a href={previewUrl} class="btn-preview-store">
+          <span>Preview In-Progress Store</span>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    )}
 
   </div>
 </div>
@@ -230,6 +244,43 @@ const {
     margin: 0;
     font-weight: 400;
     max-width: 480px;
+  }
+
+  /* ─── Preview Store Button Action ─── */
+  .stage-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .btn-preview-store {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 24px;
+    background: #174ee8;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 16px rgba(23, 78, 232, 0.25);
+  }
+
+  .btn-preview-store:hover {
+    background: #1e40af;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(23, 78, 232, 0.35);
+  }
+
+  .btn-preview-store svg {
+    transition: transform 0.2s ease;
+  }
+
+  .btn-preview-store:hover svg {
+    transform: translateX(3px);
   }
 
   /* ─── Keyframe Animations ─── */
