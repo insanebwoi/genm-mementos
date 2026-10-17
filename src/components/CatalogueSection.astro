@@ -1,0 +1,504 @@
+---
+import { PRODUCTS } from '../data/products';
+---
+
+<!-- ═══════════════════════════════════════════════════════════
+     CATALOGUE SECTION — ALL 13 OFFICIAL PRODUCTS
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section-catalogue" id="catalogue">
+  <div class="catalogue-shell">
+    
+    <!-- Header -->
+    <div class="catalogue-header-center">
+      <span class="catalogue-eyebrow">THE COMPLETE COLLECTION</span>
+      <h2 class="catalogue-title">The 13 Official Pieces</h2>
+      <p class="catalogue-subtitle">
+        Explore the full merchandise range created exclusively for GEN M Kerala 2026.
+      </p>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="catalogue-filter-bar">
+      <button type="button" class="mogo-filter-tab is-active" data-filter="all">All 13 Items</button>
+      <button type="button" class="mogo-filter-tab" data-filter="everyday-essentials">Everyday Essentials (4)</button>
+      <button type="button" class="mogo-filter-tab" data-filter="drinkware">Drinkware (3)</button>
+      <button type="button" class="mogo-filter-tab" data-filter="wear-and-carry">Wear & Carry (3)</button>
+      <button type="button" class="mogo-filter-tab" data-filter="lifestyle-accessories">Lifestyle Accessories (3)</button>
+    </div>
+
+    <!-- ─── Category Group 1: Everyday Essentials ─── -->
+    <div class="category-block-group" id="everyday-essentials" data-group="everyday-essentials">
+      <div class="category-block-head">
+        <div class="head-info">
+          <span class="head-num">CHAPTER 01</span>
+          <h3 class="head-name">Everyday Essentials</h3>
+        </div>
+        <span class="head-pill">4 Products</span>
+      </div>
+
+      <div class="products-grid">
+        {PRODUCTS.filter((p) => p.categorySlug === 'everyday-essentials').map((product) => (
+          <div class="pop-product-card" data-category={product.categorySlug}>
+            <div class="product-visual-stage">
+              <img
+                src={product.image}
+                alt={product.name}
+                class="product-img"
+                width="340"
+                height="340"
+                loading="lazy"
+              />
+              <span class="pop-category-badge">{product.category}</span>
+            </div>
+            <div class="product-info-box">
+              <h4 class="product-title">{product.name}</h4>
+              <p class="product-short-desc">{product.shortDesc}</p>
+              <div class="product-cta-pair">
+                <button
+                  type="button"
+                  class="btn-pop-details"
+                  data-product-id={product.id}
+                >
+                  <span>View Details</span>
+                </button>
+                <button
+                  type="button"
+                  class="btn-pop-enquire"
+                  data-product-id={product.id}
+                  aria-label={`Enquire about ${product.name}`}
+                >
+                  Enquire
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- ─── Category Group 2: Drinkware ─── -->
+    <div class="category-block-group" id="drinkware" data-group="drinkware">
+      <div class="category-block-head">
+        <div class="head-info">
+          <span class="head-num">CHAPTER 02</span>
+          <h3 class="head-name">Drinkware</h3>
+        </div>
+        <span class="head-pill">3 Products</span>
+      </div>
+
+      <div class="products-grid">
+        {PRODUCTS.filter((p) => p.categorySlug === 'drinkware').map((product) => (
+          <div class="pop-product-card" data-category={product.categorySlug}>
+            <div class="product-visual-stage">
+              <img
+                src={product.image}
+                alt={product.name}
+                class="product-img"
+                width="340"
+                height="340"
+                loading="lazy"
+              />
+              <span class="pop-category-badge">{product.category}</span>
+            </div>
+            <div class="product-info-box">
+              <h4 class="product-title">{product.name}</h4>
+              <p class="product-short-desc">{product.shortDesc}</p>
+              <div class="product-cta-pair">
+                <button
+                  type="button"
+                  class="btn-pop-details"
+                  data-product-id={product.id}
+                >
+                  <span>View Details</span>
+                </button>
+                <button
+                  type="button"
+                  class="btn-pop-enquire"
+                  data-product-id={product.id}
+                  aria-label={`Enquire about ${product.name}`}
+                >
+                  Enquire
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- ─── Category Group 3: Wear & Carry ─── -->
+    <div class="category-block-group" id="wear-and-carry" data-group="wear-and-carry">
+      <div class="category-block-head">
+        <div class="head-info">
+          <span class="head-num">CHAPTER 03</span>
+          <h3 class="head-name">Wear & Carry</h3>
+        </div>
+        <span class="head-pill">3 Products</span>
+      </div>
+
+      <div class="products-grid">
+        {PRODUCTS.filter((p) => p.categorySlug === 'wear-and-carry').map((product) => (
+          <div class={`pop-product-card ${product.isFeatured ? 'is-signature' : ''}`} data-category={product.categorySlug}>
+            <div class="product-visual-stage">
+              <img
+                src={product.image}
+                alt={product.name}
+                class="product-img"
+                width="340"
+                height="340"
+                loading="lazy"
+              />
+              <span class="pop-category-badge">{product.category}</span>
+              {product.isFeatured && (
+                <span class="pop-star-pill">Signature Slogan</span>
+              )}
+            </div>
+            <div class="product-info-box">
+              <h4 class="product-title">{product.name}</h4>
+              <p class="product-short-desc">{product.shortDesc}</p>
+              <div class="product-cta-pair">
+                <button
+                  type="button"
+                  class="btn-pop-details"
+                  data-product-id={product.id}
+                >
+                  <span>View Details</span>
+                </button>
+                <button
+                  type="button"
+                  class="btn-pop-enquire"
+                  data-product-id={product.id}
+                  aria-label={`Enquire about ${product.name}`}
+                >
+                  Enquire
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- ─── Category Group 4: Lifestyle Accessories ─── -->
+    <div class="category-block-group" id="lifestyle-accessories" data-group="lifestyle-accessories">
+      <div class="category-block-head">
+        <div class="head-info">
+          <span class="head-num">CHAPTER 04</span>
+          <h3 class="head-name">Lifestyle Accessories</h3>
+        </div>
+        <span class="head-pill">3 Products</span>
+      </div>
+
+      <div class="products-grid">
+        {PRODUCTS.filter((p) => p.categorySlug === 'lifestyle-accessories').map((product) => (
+          <div class="pop-product-card" data-category={product.categorySlug}>
+            <div class="product-visual-stage">
+              <img
+                src={product.image}
+                alt={product.name}
+                class="product-img"
+                width="340"
+                height="340"
+                loading="lazy"
+              />
+              <span class="pop-category-badge">{product.category}</span>
+            </div>
+            <div class="product-info-box">
+              <h4 class="product-title">{product.name}</h4>
+              <p class="product-short-desc">{product.shortDesc}</p>
+              <div class="product-cta-pair">
+                <button
+                  type="button"
+                  class="btn-pop-details"
+                  data-product-id={product.id}
+                >
+                  <span>View Details</span>
+                </button>
+                <button
+                  type="button"
+                  class="btn-pop-enquire"
+                  data-product-id={product.id}
+                  aria-label={`Enquire about ${product.name}`}
+                >
+                  Enquire
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .section-catalogue {
+    width: 100%;
+    padding: clamp(60px, 8vw, 100px) 24px;
+    background: #174ee8;
+    color: #ffffff;
+  }
+
+  .catalogue-shell {
+    max-width: 1360px;
+    margin: 0 auto;
+  }
+
+  .catalogue-header-center {
+    text-align: center;
+    margin-bottom: clamp(32px, 5vw, 54px);
+  }
+
+  .catalogue-eyebrow {
+    font-family: 'Neoverse', 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: #E7EEAC;
+    display: block;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .catalogue-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin-bottom: 12px;
+  }
+
+  .catalogue-subtitle {
+    font-size: 1.1rem;
+    color: #dbeafe;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  /* Filter Tabs */
+  .catalogue-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: clamp(36px, 5vw, 60px);
+  }
+
+  .mogo-filter-tab {
+    font-family: 'Neoverse', 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mogo-filter-tab:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .mogo-filter-tab.is-active {
+    background: #E7EEAC;
+    color: #0f172a;
+    border-color: #E7EEAC;
+    box-shadow: 0 4px 12px rgba(231, 238, 172, 0.45);
+  }
+
+  /* Category Block Groups */
+  .category-block-group {
+    margin-bottom: clamp(48px, 6vw, 80px);
+  }
+
+  .category-block-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+  }
+
+  .head-num {
+    font-family: 'Neoverse', 'Poppins', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #E7EEAC;
+    letter-spacing: 0.14em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .head-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  .head-pill {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #bfdbfe;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 6px 14px;
+    border-radius: 9999px;
+  }
+
+  /* Product Cards Grid */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  /* Pop Art Product Card */
+  .pop-product-card {
+    background: #ffffff;
+    border: 3px solid #0f172a;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 6px 8px 0 #0f172a;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pop-product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 8px 12px 0 #0f172a;
+  }
+
+  .pop-product-card.is-signature {
+    border-color: #0f172a;
+    background: #fffbeb;
+  }
+
+  .product-visual-stage {
+    position: relative;
+    background: #f1f5f9;
+    padding: 20px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+
+  .pop-product-card:hover .product-img {
+    transform: scale(1.05);
+  }
+
+  .pop-category-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(15, 23, 42, 0.85);
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    letter-spacing: 0.04em;
+  }
+
+  .pop-star-pill {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: #E7EEAC;
+    color: #0f172a;
+    font-family: 'Neoverse', 'Poppins', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    border: 1.5px solid #0f172a;
+  }
+
+  .product-info-box {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .product-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+
+  .product-short-desc {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: #64748b;
+    margin-bottom: 18px;
+    flex-grow: 1;
+  }
+
+  .product-cta-pair {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-pop-details {
+    flex: 1;
+    background: #f1f5f9;
+    color: #0f172a;
+    border: 2px solid #cbd5e1;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 700;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-pop-details:hover {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+  }
+
+  .btn-pop-enquire {
+    background: #E7EEAC;
+    color: #0f172a;
+    border: 2px solid #9ca54b;
+    font-family: 'Neoverse', 'Poppins', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 800;
+    padding: 10px 16px;
+    border-radius: 10px;
+    box-shadow: 2px 3px 0 #9ca54b;
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+
+  .btn-pop-enquire:hover {
+    transform: translateY(1px);
+    box-shadow: 1px 2px 0 #9ca54b;
+  }
+</style>

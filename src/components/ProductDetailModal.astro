@@ -348,17 +348,19 @@ import { PRODUCTS } from '../data/products';
 
     if (!modal) return;
 
-    // Attach click listener to all "View Product" or "Enquire" buttons
-    const triggerButtons = document.querySelectorAll('[data-product-id]');
-    triggerButtons.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const id = btn.getAttribute('data-product-id');
-        const product = PRODUCTS.find((p) => p.id === id);
-        if (product) {
-          openModalWithProduct(product);
-        }
-      });
+    // Attach delegated click listener to all "View Product" or "Enquire" buttons
+    document.addEventListener('click', (e) => {
+      const trigger = (e.target as HTMLElement)?.closest('[data-product-id]');
+      if (!trigger) return;
+      // Do not intercept if it's an external whatsapp link
+      if (trigger.tagName === 'A' && (trigger as HTMLAnchorElement).href.includes('wa.me')) return;
+      
+      e.preventDefault();
+      const id = trigger.getAttribute('data-product-id');
+      const product = PRODUCTS.find((p) => p.id === id);
+      if (product) {
+        openModalWithProduct(product);
+      }
     });
 
     function openModalWithProduct(product: any) {
