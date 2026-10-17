@@ -119,50 +119,6 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
           <span class="headline-accent-pill">#FLAGSHIP</span>
         </h2>
 
-        <!-- Vibrant Slogan Banner -->
-        <div class="chroma-slogan-card">
-          <div class="slogan-header">
-            <span class="slogan-star">✦</span>
-            <span class="slogan-title">OFFICIAL MOTTO</span>
-          </div>
-          <blockquote class="slogan-quote">
-            “Rooted in Deen. Driven by Purpose.”
-          </blockquote>
-          <span class="slogan-sub">The defining wearable statement of the Generational Confluence.</span>
-        </div>
-
-        <!-- 3 Tactile Chromatic Specification Tiles -->
-        <div class="chroma-specs-grid">
-          
-          <div class="chroma-spec-tile tile-blue">
-            <div class="spec-header">
-              <span class="spec-icon">🧵</span>
-              <span class="spec-label">FABRIC</span>
-            </div>
-            <span class="spec-value">240 GSM Combed Cotton</span>
-            <span class="spec-sub">100% Bio-Washed Organic</span>
-          </div>
-
-          <div class="chroma-spec-tile tile-yellow">
-            <div class="spec-header">
-              <span class="spec-icon">✂️</span>
-              <span class="spec-label">CUT</span>
-            </div>
-            <span class="spec-value">Drop-Shoulder Oversized</span>
-            <span class="spec-sub">Relaxed Streetwear Drape</span>
-          </div>
-
-          <div class="chroma-spec-tile tile-green">
-            <div class="spec-header">
-              <span class="spec-icon">🎨</span>
-              <span class="spec-label">COLOR</span>
-            </div>
-            <span class="spec-value">Crisp Optical White</span>
-            <span class="spec-sub">Silkscreen Blue-Violet</span>
-          </div>
-
-        </div>
-
         <!-- High-Contrast 3D Action Buttons -->
         <div class="chroma-cta-cluster">
           <button
@@ -549,7 +505,7 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
     line-height: 1.05;
     letter-spacing: -0.04em;
     color: #0f172a;
-    margin: 0 0 18px;
+    margin: 0 0 28px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -576,122 +532,6 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
     border-radius: 9999px;
     box-shadow: 3px 3px 0 #0f172a;
     transform: rotate(-3deg);
-  }
-
-  /* Slogan Card */
-  .chroma-slogan-card {
-    width: 100%;
-    background: #fffbeb;
-    border: 2.5px solid #0f172a;
-    border-radius: 18px;
-    padding: 16px 20px;
-    margin-bottom: 22px;
-    box-shadow: 4px 5px 0 #0f172a;
-  }
-
-  .slogan-header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 4px;
-  }
-
-  .slogan-star {
-    color: #f59e0b;
-    font-size: 0.9rem;
-  }
-
-  .slogan-title {
-    font-family: 'Space Grotesk', monospace;
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    color: #b45309;
-  }
-
-  .slogan-quote {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
-    font-weight: 900;
-    color: #0f172a;
-    margin: 0 0 4px;
-    line-height: 1.3;
-  }
-
-  .slogan-sub {
-    font-size: 0.84rem;
-    color: #78716c;
-  }
-
-  /* Chromatic Spec Grid */
-  .chroma-specs-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    width: 100%;
-    margin-bottom: 26px;
-  }
-
-  .chroma-spec-tile {
-    border: 2.5px solid #0f172a;
-    border-radius: 16px;
-    padding: 12px 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    box-shadow: 3px 4px 0 #0f172a;
-    transition: transform 0.15s ease;
-  }
-
-  .chroma-spec-tile:hover {
-    transform: translateY(-2px);
-  }
-
-  .chroma-spec-tile.tile-blue {
-    background: #eff6ff;
-    border-top: 5px solid #174ee8;
-  }
-
-  .chroma-spec-tile.tile-yellow {
-    background: #fefce8;
-    border-top: 5px solid #eab308;
-  }
-
-  .chroma-spec-tile.tile-green {
-    background: #f0fdf4;
-    border-top: 5px solid #10b981;
-  }
-
-  .spec-header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .spec-icon {
-    font-size: 0.85rem;
-  }
-
-  .spec-label {
-    font-family: 'Space Grotesk', monospace;
-    font-size: 0.65rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    color: #64748b;
-  }
-
-  .spec-value {
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 800;
-    color: #0f172a;
-    line-height: 1.25;
-  }
-
-  .spec-sub {
-    font-size: 0.72rem;
-    color: #64748b;
-    margin-top: 1px;
   }
 
   /* Action Buttons Row */
