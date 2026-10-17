@@ -9,40 +9,55 @@ function getGlobalIndex(productId: string): string {
 ---
 
 <!-- ═══════════════════════════════════════════════════════════
-     SHOWCASE GALLERY — APPLE & NIKE INTERACTIVE SHOWCASE
+     LIGHT THEME LIFESTYLE SHOWCASE (PAUCEK STUDIO INSPIRED)
      ═══════════════════════════════════════════════════════════ -->
-<section class="section-showcase" id="catalogue">
+<section class="section-showcase-light" id="catalogue">
   
-  <!-- Subtle Ambient Glow Orbs -->
-  <div class="showcase-glow-backdrop" aria-hidden="true">
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-    <div class="glow-orb orb-3"></div>
+  <!-- Subtle Topographic / Contour Line Ripples (as seen in reference design) -->
+  <div class="topographic-wave-backdrop" aria-hidden="true">
+    <!-- Top-Left Contour Ripples -->
+    <svg class="topo-svg topo-top-left" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M-50,80 C50,20 120,140 220,100 C320,60 380,180 420,240" stroke="#264639" stroke-width="1.5" stroke-opacity="0.1" />
+      <path d="M-60,110 C40,50 110,170 210,130 C310,90 370,210 410,270" stroke="#264639" stroke-width="1.5" stroke-opacity="0.1" />
+      <path d="M-70,140 C30,80 100,200 200,160 C300,120 360,240 400,300" stroke="#264639" stroke-width="1.5" stroke-opacity="0.1" />
+      <path d="M-80,170 C20,110 90,230 190,190 C290,150 350,270 390,330" stroke="#264639" stroke-width="1.5" stroke-opacity="0.1" />
+      <path d="M-90,200 C10,140 80,260 180,220 C280,180 340,300 380,360" stroke="#264639" stroke-width="1.5" stroke-opacity="0.1" />
+      <path d="M-100,230 C0,170 70,290 170,250 C270,210 330,330 370,390" stroke="#264639" stroke-width="1.5" stroke-opacity="0.1" />
+    </svg>
+
+    <!-- Bottom-Right Contour Ripples -->
+    <svg class="topo-svg topo-bottom-right" viewBox="0 0 450 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M480,220 C380,280 310,160 210,200 C110,240 50,120 10,60" stroke="#264639" stroke-width="1.5" stroke-opacity="0.1" />
+      <path d="M490,250 C390,310 320,190 220,230 C120,270 60,150 20,90" stroke="#264639" stroke-width="1.5" stroke-opacity="0.1" />
+      <path d="M500,280 C400,340 330,220 230,260 C130,300 70,180 30,120" stroke="#264639" stroke-width="1.5" stroke-opacity="0.1" />
+      <path d="M510,310 C410,370 340,250 240,290 C140,330 80,210 40,150" stroke="#264639" stroke-width="1.5" stroke-opacity="0.1" />
+      <path d="M520,340 C420,400 350,280 250,320 C150,360 90,240 50,180" stroke="#264639" stroke-width="1.5" stroke-opacity="0.1" />
+    </svg>
   </div>
 
   <div class="showcase-shell">
 
-    <!-- ─── Editorial Header (Apple Keynote & Nike Exhibition Style) ─── -->
-    <header class="showcase-hero-header">
-      <div class="showcase-eyebrow-pill">
-        <span class="eyebrow-spark">✦</span>
+    <!-- ─── Editorial Header (Light Lifestyle Aesthetics) ─── -->
+    <header class="showcase-light-header">
+      <div class="light-eyebrow-pill">
+        <span class="eyebrow-dot"></span>
         <span>THE OFFICIAL ARCHIVE • 13 PIECES</span>
-        <span class="eyebrow-spark">✦</span>
+        <span class="eyebrow-dot"></span>
       </div>
 
-      <h2 class="showcase-main-title">
+      <h2 class="showcase-light-title">
         The 13 Artifacts of Purpose.
       </h2>
 
-      <p class="showcase-lead-text">
-        Not an ordinary store. An exhibition of craft. Each piece in the GEN M collection was engineered from the ground up — selecting tailored weights, authentic materials, and architectural silhouettes designed to endure.
+      <p class="showcase-light-desc">
+        Designed with organic textures, heavyweight cotton, and architectural finishes. Explore the complete collection crafted exclusively for MSM GEN M Kerala 2026.
       </p>
 
-      <!-- Apple-Grade Segmented Pill Switcher Dock -->
-      <nav class="showcase-segmented-nav" aria-label="Filter artifacts by category">
+      <!-- Organic Light Segmented Tabs Dock -->
+      <nav class="light-segmented-nav" aria-label="Filter artifacts by category">
         <button
           type="button"
-          class="mogo-filter-tab showcase-tab is-active"
+          class="mogo-filter-tab light-tab is-active"
           data-filter="all"
         >
           <span class="tab-label">All 13 Pieces</span>
@@ -51,7 +66,7 @@ function getGlobalIndex(productId: string): string {
 
         <button
           type="button"
-          class="mogo-filter-tab showcase-tab"
+          class="mogo-filter-tab light-tab"
           data-filter="everyday-essentials"
         >
           <span class="tab-label">Everyday Essentials</span>
@@ -60,7 +75,7 @@ function getGlobalIndex(productId: string): string {
 
         <button
           type="button"
-          class="mogo-filter-tab showcase-tab"
+          class="mogo-filter-tab light-tab"
           data-filter="drinkware"
         >
           <span class="tab-label">Drinkware</span>
@@ -69,7 +84,7 @@ function getGlobalIndex(productId: string): string {
 
         <button
           type="button"
-          class="mogo-filter-tab showcase-tab"
+          class="mogo-filter-tab light-tab"
           data-filter="wear-and-carry"
         >
           <span class="tab-label">Wear & Carry</span>
@@ -78,7 +93,7 @@ function getGlobalIndex(productId: string): string {
 
         <button
           type="button"
-          class="mogo-filter-tab showcase-tab"
+          class="mogo-filter-tab light-tab"
           data-filter="lifestyle-accessories"
         >
           <span class="tab-label">Lifestyle</span>
@@ -87,112 +102,138 @@ function getGlobalIndex(productId: string): string {
       </nav>
     </header>
 
-    <!-- ─── Interactive Apple Keynote Spotlight Deck ─── -->
-    <div class="spotlight-interactive-stage" id="spotlight-deck">
-      <div class="spotlight-meta-header">
-        <span class="spotlight-kicker">INTERACTIVE SHOWCASE // SELECT ANY PIECE</span>
-        <span class="spotlight-indicator-tag" id="spotlight-active-counter">ARTIFACT #01 OF 13</span>
+
+    <!-- ─── Bento Showcase Stage (Matching Attached Design Layout) ─── -->
+    <div class="light-showcase-stage" id="spotlight-deck">
+      
+      <!-- Top Stage Meta Bar -->
+      <div class="stage-top-meta">
+        <div class="stage-brand-badge">
+          <span class="brand-badge-icon">✦</span>
+          <span class="brand-badge-text">GEN M STUDIO • 2026</span>
+        </div>
+        <div class="stage-counter-pill" id="spotlight-active-counter">
+          ARTIFACT #01 OF 13
+        </div>
       </div>
 
-      <div class="spotlight-featurette-card" id="spotlight-card">
-        <!-- Spotlight Visual Pedestal (Animated Floating Stage) -->
-        <div class="spotlight-pedestal-col" id="spotlight-pedestal" data-product-id="diary">
-          <div class="spotlight-halo-aura" id="spotlight-halo" aria-hidden="true"></div>
+      <!-- Main Bento Grid (Dark Forest Pod + Crisp White Story Pod) -->
+      <div class="bento-feature-split">
+        
+        <!-- Left: Deep Forest Pine Pedestal Card (with large rounded corners) -->
+        <div class="bento-pedestal-card" id="spotlight-pedestal" data-product-id="diary">
           
-          <!-- Rotating Typographic Seal -->
-          <div class="spotlight-seal-badge" aria-hidden="true">
-            <svg class="seal-svg" viewBox="0 0 100 100">
-              <path id="spotlightSealPath" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
-              <text class="seal-text">
-                <textPath href="#spotlightSealPath">★ MSM KERALA • GEN M 2026 • OFFICIAL ARTIFACT ★</textPath>
-              </text>
-            </svg>
-            <span class="seal-star">✦</span>
+          <!-- Top Category Header Strip -->
+          <div class="pedestal-card-header">
+            <span class="pedestal-cat-name" id="spotlight-cat-tag">Everyday Essentials</span>
+            <span class="pedestal-item-num" id="spotlight-num-tag">#01 // 13</span>
           </div>
 
-          <div class="spotlight-img-wrap">
+          <!-- Rotating Typographic Seal Stamp -->
+          <div class="pedestal-seal-stamp" aria-hidden="true">
+            <svg class="seal-svg" viewBox="0 0 100 100">
+              <path id="lightSealPath" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
+              <text class="seal-text">
+                <textPath href="#lightSealPath">★ MSM KERALA • GEN M 2026 • OFFICIAL ARTIFACT ★</textPath>
+              </text>
+            </svg>
+            <span class="seal-center-star">✦</span>
+          </div>
+
+          <!-- Floating Product Visual -->
+          <div class="pedestal-image-wrap">
             <img
               src="/products/diary.jpg"
               alt="Spotlight product"
               id="spotlight-img"
-              class="spotlight-product-img"
+              class="pedestal-floating-img"
               width="500"
               height="500"
             />
           </div>
 
-          <!-- Floating Inspection Cue -->
-          <div class="spotlight-inspect-chip" id="spotlight-inspect-trigger">
-            <span>Click to Inspect Full Details</span>
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+          <!-- Bottom Big Number / Tag (matches the bold price/spec style in attached image) -->
+          <div class="pedestal-bottom-row">
+            <div class="pedestal-bold-number" id="spotlight-bold-number">ITEM #01</div>
+            <div class="pedestal-quick-cue">
+              <span>Click to Inspect ↗</span>
+            </div>
           </div>
         </div>
 
-        <!-- Spotlight Editorial Info Column -->
-        <div class="spotlight-info-col">
-          <div class="spotlight-tag-row">
-            <span class="spotlight-badge-cat" id="spotlight-cat-tag">Everyday Essentials</span>
-            <span class="spotlight-badge-num" id="spotlight-num-tag">#01 // 13</span>
+        <!-- Right: Crisp White & Cream Editorial Story Pod -->
+        <div class="bento-editorial-pod">
+          
+          <!-- Vertical Sideways Accent Tag (Matches attached image "Enamel Pin | $18.00") -->
+          <div class="editorial-vertical-ribbon" aria-hidden="true">
+            <span class="ribbon-text" id="spotlight-sideways-tag">OFFICIAL EDITION • 2026</span>
           </div>
 
-          <h3 class="spotlight-product-name" id="spotlight-title">Diary</h3>
-          <p class="spotlight-product-slogan" id="spotlight-slogan" style="display: none;"></p>
-          <p class="spotlight-product-desc" id="spotlight-desc">
-            A thoughtfully crafted daily planner and notebook designed for reflective thoughts, lecture notes, and purposeful goal setting. Features acid-free ruled pages, bookmark ribbon, and lay-flat binding.
-          </p>
+          <div class="editorial-content-inner">
+            <div class="editorial-header-row">
+              <span class="editorial-kicker" id="spotlight-kicker">FEATURED ARTIFACT</span>
+              <span class="editorial-archive-badge">ARCHIVE DROP</span>
+            </div>
 
-          <!-- Specifications Pill Bar -->
-          <div class="spotlight-specs-grid" id="spotlight-specs">
-            <div class="spotlight-spec-pill">
-              <span class="spec-k">Binding:</span>
-              <span class="spec-v">Hardcover Case Bound</span>
+            <h3 class="editorial-title" id="spotlight-title">Diary</h3>
+            <p class="editorial-slogan" id="spotlight-slogan" style="display: none;"></p>
+
+            <p class="editorial-description" id="spotlight-desc">
+              A thoughtfully crafted daily planner and notebook designed for reflective thoughts, lecture notes, and purposeful goal setting. Features acid-free ruled pages, bookmark ribbon, and lay-flat binding.
+            </p>
+
+            <!-- Specifications Pill Grid -->
+            <div class="editorial-specs-grid" id="spotlight-specs">
+              <div class="light-spec-card">
+                <span class="spec-k">Binding</span>
+                <span class="spec-v">Hardcover Case Bound</span>
+              </div>
+              <div class="light-spec-card">
+                <span class="spec-k">Paper</span>
+                <span class="spec-v">80 GSM Ivory Ruled</span>
+              </div>
+              <div class="light-spec-card">
+                <span class="spec-k">Size</span>
+                <span class="spec-v">A5 (148 × 210 mm)</span>
+              </div>
             </div>
-            <div class="spotlight-spec-pill">
-              <span class="spec-k">Paper:</span>
-              <span class="spec-v">80 GSM Ivory Ruled</span>
+
+            <!-- Action Buttons Pair -->
+            <div class="editorial-actions-cluster">
+              <button
+                type="button"
+                class="btn-forest-inspect"
+                id="spotlight-view-modal-btn"
+                data-product-id="diary"
+              >
+                <span>Explore Specifications</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+
+              <a
+                href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20ordering%20the%20official%20GEN%20M%20Diary."
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-cream-whatsapp"
+                id="spotlight-whatsapp-btn"
+                aria-label="Enquire on WhatsApp"
+              >
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z" />
+                </svg>
+                <span>Enquire on WhatsApp</span>
+              </a>
             </div>
-            <div class="spotlight-spec-pill">
-              <span class="spec-k">Size:</span>
-              <span class="spec-v">A5 (148 × 210 mm)</span>
-            </div>
+
           </div>
-
-          <!-- Dual Action Buttons -->
-          <div class="spotlight-actions-row">
-            <button
-              type="button"
-              class="btn-spotlight-modal"
-              id="spotlight-view-modal-btn"
-              data-product-id="diary"
-            >
-              <span>Explore Specifications</span>
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </button>
-
-            <a
-              href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20ordering%20the%20official%20GEN%20M%20Diary."
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-spotlight-whatsapp"
-              id="spotlight-whatsapp-btn"
-              aria-label="Enquire on WhatsApp"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z" />
-              </svg>
-              <span>Enquire via WhatsApp</span>
-            </a>
-          </div>
-
         </div>
+
       </div>
 
-      <!-- Interactive 13-Piece Scrub Reel Dock (Apple Watch Style) -->
-      <div class="spotlight-scrub-reel" role="tablist" aria-label="13 Official Pieces quick selector" id="spotlight-scrub-reel">
+      <!-- Interactive 13-Piece Scrub Reel Dock (Light Theme Matching Attached Image) -->
+      <div class="light-scrub-dock" role="tablist" aria-label="13 Official Pieces quick selector" id="spotlight-scrub-reel">
         {PRODUCTS.map((p, idx) => {
           const num = String(idx + 1).padStart(2, '0');
           const isFirst = idx === 0;
@@ -200,21 +241,52 @@ function getGlobalIndex(productId: string): string {
           return (
             <button
               type="button"
-              class={`scrub-item-chip ${isFirst ? 'is-active' : ''}`}
+              class={`light-scrub-chip ${isFirst ? 'is-active' : ''}`}
               data-spotlight-id={p.id}
               data-category={p.categorySlug}
               role="tab"
               aria-selected={isFirst ? 'true' : 'false'}
             >
-              <img src={p.image} alt={p.name} class="scrub-item-thumb" width="40" height="40" loading="lazy" />
-              <div class="scrub-item-meta">
-                <span class="scrub-num">#{num}</span>
-                <span class="scrub-name">{p.name}</span>
+              <img src={p.image} alt={p.name} class="light-scrub-thumb" width="42" height="42" loading="lazy" />
+              <div class="light-scrub-meta">
+                <span class="chip-num">#{num}</span>
+                <span class="chip-name">{p.name}</span>
               </div>
             </button>
           );
         })}
       </div>
+
+      <!-- Bottom Contact Pill Dock (Directly matches the green bar in the attached design) -->
+      <div class="showcase-bottom-dock-pill">
+        <a
+          href="https://wa.me/919495123456"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="dock-pill-item"
+        >
+          <span class="dock-pill-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z" />
+            </svg>
+          </span>
+          <span>+91 94951 23456</span>
+        </a>
+
+        <span class="dock-pill-separator"></span>
+
+        <div class="dock-pill-item">
+          <span class="dock-pill-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </span>
+          <span>Official MSM Kerala Merchandise Archive</span>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -222,19 +294,25 @@ function getGlobalIndex(productId: string): string {
 
 <style>
   /* ═══════════════════════════════════════════════════════════
-     SHOWCASE GALLERY STYLING — APPLE & NIKE EDITORIAL ARCHIVE
+     LIGHT THEME LIFESTYLE SHOWCASE — PAUCEK STUDIO INSPIRATION
+     Palette:
+     - Warm Sand / Cream Background: #F3EFE6
+     - Deep Forest Pine Block: #264639
+     - Crisp Optical White: #FFFFFF
+     - Sage / Lime Accent: #E7EEAC / #7E9F6E
+     - Deep Slate Text: #16241D
      ═══════════════════════════════════════════════════════════ */
-  .section-showcase {
+  .section-showcase-light {
     position: relative;
     width: 100%;
-    padding: clamp(80px, 9vw, 130px) 24px clamp(90px, 10vw, 140px);
-    background: #0b1536; /* Deep GEN M midnight royal blue stage */
-    color: #ffffff;
+    padding: clamp(70px, 8vw, 120px) 24px clamp(80px, 9vw, 130px);
+    background-color: #F3EFE6; /* Warm organic sand/cream as in attached design */
+    color: #16241D;
     overflow: hidden;
   }
 
-  /* Ambient Backdrop Glows */
-  .showcase-glow-backdrop {
+  /* Topographic Contour Watermark Background */
+  .topographic-wave-backdrop {
     position: absolute;
     inset: 0;
     pointer-events: none;
@@ -242,128 +320,103 @@ function getGlobalIndex(productId: string): string {
     overflow: hidden;
   }
 
-  .glow-orb {
+  .topo-svg {
     position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.18;
-    animation: auraPulse 12s infinite alternate ease-in-out;
+    pointer-events: none;
+    width: 480px;
+    height: 480px;
+    opacity: 0.75;
   }
 
-  .orb-1 {
-    width: 650px;
-    height: 650px;
-    top: 5%;
-    left: -10%;
-    background: radial-gradient(circle, #174ee8 0%, transparent 70%);
+  .topo-top-left {
+    top: -60px;
+    left: -60px;
   }
 
-  .orb-2 {
-    width: 750px;
-    height: 750px;
-    top: 45%;
-    right: -15%;
-    background: radial-gradient(circle, #174ee8 0%, transparent 70%);
-    animation-delay: -4s;
-  }
-
-  .orb-3 {
-    width: 550px;
-    height: 550px;
-    bottom: 5%;
-    left: 20%;
-    background: radial-gradient(circle, #E7EEAC 0%, transparent 70%);
-    animation-delay: -8s;
-  }
-
-  @keyframes auraPulse {
-    0% { transform: scale(0.95) translate(0, 0); opacity: 0.15; }
-    50% { transform: scale(1.1) translate(20px, -20px); opacity: 0.28; }
-    100% { transform: scale(1.02) translate(-15px, 15px); opacity: 0.2; }
+  .topo-bottom-right {
+    bottom: -80px;
+    right: -60px;
   }
 
   .showcase-shell {
     position: relative;
-    max-width: 1360px;
+    max-width: 1320px;
     margin: 0 auto;
     z-index: 1;
   }
 
-  /* ─── Hero Header ─── */
-  .showcase-hero-header {
+  /* ─── Light Editorial Header ─── */
+  .showcase-light-header {
     text-align: center;
-    max-width: 860px;
-    margin: 0 auto clamp(40px, 6vw, 64px);
+    max-width: 840px;
+    margin: 0 auto clamp(36px, 5vw, 56px);
   }
 
-  .showcase-eyebrow-pill {
+  .light-eyebrow-pill {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    padding: 7px 18px;
+    gap: 8px;
+    background: rgba(38, 70, 57, 0.08);
+    border: 1.5px solid rgba(38, 70, 57, 0.16);
+    padding: 6px 18px;
     border-radius: 9999px;
     font-family: 'Space Grotesk', monospace;
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    color: #E7EEAC;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: #264639;
     text-transform: uppercase;
-    margin-bottom: 20px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    margin-bottom: 18px;
   }
 
-  .eyebrow-spark {
-    color: #E7EEAC;
-    font-size: 0.8rem;
+  .eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #264639;
   }
 
-  .showcase-main-title {
+  .showcase-light-title {
     font-family: 'Space Grotesk', 'Poppins', sans-serif;
-    font-size: clamp(2.5rem, 5.2vw, 4.4rem);
+    font-size: clamp(2.4rem, 4.8vw, 4rem);
     font-weight: 900;
-    line-height: 1.06;
-    letter-spacing: -0.04em;
-    color: #ffffff;
-    margin: 0 0 18px;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    color: #16241D;
+    margin: 0 0 16px;
   }
 
-  .showcase-lead-text {
+  .showcase-light-desc {
     font-family: 'Poppins', -apple-system, sans-serif;
-    font-size: clamp(1rem, 1.35vw, 1.18rem);
+    font-size: clamp(0.98rem, 1.3vw, 1.15rem);
     line-height: 1.6;
-    color: #94a3b8;
-    max-width: 720px;
-    margin: 0 auto clamp(32px, 4vw, 44px);
+    color: #4A5F53;
+    max-width: 680px;
+    margin: 0 auto clamp(28px, 4vw, 40px);
   }
 
-  /* ─── Segmented Pill Switcher Dock (Apple Style) ─── */
-  .showcase-segmented-nav {
+  /* ─── Light Segmented Navigation Dock ─── */
+  .light-segmented-nav {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
     padding: 6px;
-    background: rgba(15, 23, 42, 0.85);
-    border: 1.5px solid rgba(255, 255, 255, 0.14);
+    background: #EAE5D9;
+    border: 1.5px solid #DDD7CA;
     border-radius: 9999px;
-    backdrop-filter: blur(20px);
-    box-shadow: 
-      0 12px 30px rgba(0, 0, 0, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 16px rgba(38, 70, 57, 0.06);
     max-width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
 
-  .showcase-segmented-nav::-webkit-scrollbar {
+  .light-segmented-nav::-webkit-scrollbar {
     display: none;
   }
 
-  .showcase-tab {
+  .light-tab {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -371,127 +424,148 @@ function getGlobalIndex(productId: string): string {
     border: none;
     padding: 10px 18px;
     border-radius: 9999px;
-    color: #94a3b8;
+    color: #4D6356;
     font-family: 'Poppins', sans-serif;
     font-size: 0.86rem;
     font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
-    transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  .showcase-tab:hover {
+  .light-tab:hover {
+    color: #16241D;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .light-tab.is-active {
+    background: #264639; /* Deep Forest Pine */
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 14px rgba(38, 70, 57, 0.25);
   }
 
-  .showcase-tab.is-active {
-    background: #E7EEAC;
-    color: #090e1a;
-    box-shadow: 0 4px 16px rgba(231, 238, 172, 0.4);
-  }
-
-  .showcase-tab .tab-count {
+  .light-tab .tab-count {
     font-family: 'Space Grotesk', monospace;
     font-size: 0.72rem;
     font-weight: 800;
     padding: 2px 7px;
     border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.2);
     color: currentColor;
   }
 
-  .showcase-tab.is-active .tab-count {
-    background: rgba(9, 14, 26, 0.16);
+  .light-tab.is-active .tab-count {
+    background: #E7EEAC;
+    color: #16241D;
   }
 
   /* ═══════════════════════════════════════════════════════════
-     INTERACTIVE APPLE KEYNOTE SPOTLIGHT DECK
+     BENTO SHOWCASE STAGE (INSPIRED BY PAUCEK STUDIO DESIGN)
      ═══════════════════════════════════════════════════════════ */
-  .spotlight-interactive-stage {
-    background: linear-gradient(135deg, rgba(23, 78, 232, 0.15) 0%, rgba(11, 21, 54, 0.95) 100%);
-    border: 2px solid rgba(231, 238, 172, 0.3);
+  .light-showcase-stage {
+    background: #FAF8F4;
+    border: 2px solid #E3DDD0;
     border-radius: 36px;
     padding: clamp(24px, 4vw, 44px);
-    backdrop-filter: blur(20px);
     box-shadow: 
-      0 24px 60px rgba(0, 0, 0, 0.6),
-      0 0 40px rgba(23, 78, 232, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      0 20px 48px rgba(38, 70, 57, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.04);
   }
 
-  .spotlight-meta-header {
+  .stage-top-meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-bottom: 20px;
-    margin-bottom: 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 28px;
+    border-bottom: 1.5px solid #EAE5D9;
     font-family: 'Space Grotesk', monospace;
-    font-size: 0.76rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
   }
 
-  .spotlight-kicker {
-    color: #E7EEAC;
+  .stage-brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #264639;
   }
 
-  .spotlight-indicator-tag {
-    color: #E7EEAC;
-    background: rgba(231, 238, 172, 0.12);
+  .brand-badge-icon {
+    color: #7E9F6E;
+  }
+
+  .stage-counter-pill {
+    color: #264639;
+    background: #EAE5D9;
+    border: 1px solid #DDD7CA;
     padding: 4px 12px;
     border-radius: 9999px;
-    border: 1px solid rgba(231, 238, 172, 0.3);
   }
 
-  /* Spotlight Featurette Split */
-  .spotlight-featurette-card {
+  /* Bento Feature Split */
+  .bento-feature-split {
     display: grid;
     grid-template-columns: 1fr 1.15fr;
-    gap: clamp(32px, 5vw, 64px);
-    align-items: center;
+    gap: clamp(28px, 4vw, 56px);
+    align-items: stretch;
     margin-bottom: clamp(28px, 4vw, 40px);
   }
 
-  .spotlight-pedestal-col {
+  /* ─── Left: Deep Forest Pine Pedestal Card ─── */
+  .bento-pedestal-card {
     position: relative;
-    width: 100%;
-    aspect-ratio: 1.05;
-    background: radial-gradient(circle, rgba(23, 78, 232, 0.35) 0%, rgba(11, 21, 54, 0.7) 100%);
-    border: 1.5px solid rgba(231, 238, 172, 0.2);
-    border-radius: 28px;
+    background: #264639; /* Deep Forest Green as in reference image */
+    border-radius: 32px;
+    padding: clamp(24px, 3.5vw, 36px);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #ffffff;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 16px 36px rgba(38, 70, 57, 0.22);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
   }
 
-  .spotlight-pedestal-col:hover {
-    border-color: #E7EEAC;
-    transform: scale(1.01);
+  .bento-pedestal-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 48px rgba(38, 70, 57, 0.3);
   }
 
-  .spotlight-halo-aura {
+  .pedestal-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+  }
+
+  .pedestal-cat-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    background: rgba(255, 255, 255, 0.14);
+    padding: 5px 14px;
+    border-radius: 9999px;
+    color: #E7EEAC;
+  }
+
+  .pedestal-item-num {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* Rotating Seal Stamp */
+  .pedestal-seal-stamp {
     position: absolute;
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(23, 78, 232, 0.6) 0%, rgba(231, 238, 172, 0.2) 55%, transparent 70%);
-    filter: blur(36px);
-    animation: auraPulse 6s infinite alternate ease-in-out;
-  }
-
-  /* Rotating Seal on Spotlight */
-  .spotlight-seal-badge {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 84px;
-    height: 84px;
+    top: 20px;
+    right: 20px;
+    width: 82px;
+    height: 82px;
     z-index: 3;
     pointer-events: none;
     display: flex;
@@ -515,196 +589,243 @@ function getGlobalIndex(productId: string): string {
     font-size: 10.5px;
     font-weight: 800;
     fill: #E7EEAC;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.14em;
   }
 
-  .seal-star {
+  .seal-center-star {
     position: absolute;
     color: #E7EEAC;
     font-size: 0.85rem;
   }
 
-  .spotlight-img-wrap {
+  /* Product Floating Image */
+  .pedestal-image-wrap {
     position: relative;
-    width: 88%;
-    height: 88%;
+    width: 100%;
+    aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px;
     z-index: 2;
   }
 
-  .spotlight-product-img {
-    width: 100%;
-    height: 100%;
+  .pedestal-floating-img {
+    width: 88%;
+    height: 88%;
     object-fit: contain;
-    filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.55));
+    filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.35));
     animation: appleLevitate 5s ease-in-out infinite;
     transition: opacity 0.25s ease, transform 0.3s ease;
   }
 
   @keyframes appleLevitate {
     0%, 100% {
-      transform: translateY(0px) rotate(0deg);
+      transform: translateY(0px);
     }
     50% {
-      transform: translateY(-14px) rotate(1deg);
+      transform: translateY(-12px);
     }
   }
 
-  .spotlight-inspect-chip {
-    position: absolute;
-    bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(15, 23, 42, 0.88);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 9999px;
-    padding: 6px 14px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.74rem;
-    font-weight: 700;
+  .pedestal-bottom-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    z-index: 2;
+  }
+
+  /* Bold display number matching the $25.00 / $18.00 in user's image */
+  .pedestal-bold-number {
+    font-family: 'Space Grotesk', 'Poppins', sans-serif;
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
     color: #ffffff;
-    z-index: 3;
-    backdrop-filter: blur(10px);
+  }
+
+  .pedestal-quick-cue {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 800;
+    background: #E7EEAC;
+    color: #16241D;
+    padding: 6px 14px;
+    border-radius: 9999px;
     transition: all 0.2s ease;
   }
 
-  .spotlight-pedestal-col:hover .spotlight-inspect-chip {
-    background: #E7EEAC;
-    color: #090e1a;
-    border-color: #E7EEAC;
+  .bento-pedestal-card:hover .pedestal-quick-cue {
+    background: #ffffff;
+    transform: translateY(-2px);
   }
 
-  /* Spotlight Info Col */
-  .spotlight-info-col {
+  /* ─── Right: Crisp White & Cream Editorial Story Pod ─── */
+  .bento-editorial-pod {
+    position: relative;
+    background: #FFFFFF;
+    border: 1.5px solid #E5DFD2;
+    border-radius: 32px;
+    padding: clamp(24px, 4vw, 40px);
+    display: flex;
+    box-shadow: 0 10px 28px rgba(38, 70, 57, 0.05);
+  }
+
+  /* Vertical Sideways Ribbon (like "Enamel Pin | $18.00" in reference image) */
+  .editorial-vertical-ribbon {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    padding-right: 18px;
+    margin-right: 20px;
+    border-right: 1.5px solid #EAE5D9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ribbon-text {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: #7E9F6E;
+    text-transform: uppercase;
+  }
+
+  .editorial-content-inner {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    justify-content: center;
+    flex-grow: 1;
   }
 
-  .spotlight-tag-row {
+  .editorial-header-row {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
-  .spotlight-badge-cat {
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    padding: 4px 12px;
-    border-radius: 9999px;
-    background: #E7EEAC;
-    color: #090e1a;
-  }
-
-  .spotlight-badge-num {
+  .editorial-kicker {
     font-family: 'Space Grotesk', monospace;
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     font-weight: 800;
-    color: #94a3b8;
+    letter-spacing: 0.12em;
+    color: #264639;
   }
 
-  .spotlight-product-name {
+  .editorial-archive-badge {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    background: #F3EFE6;
+    color: #4D6356;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    border: 1px solid #DDD7CA;
+  }
+
+  .editorial-title {
     font-family: 'Space Grotesk', 'Poppins', sans-serif;
-    font-size: clamp(2.4rem, 4.4vw, 3.6rem);
+    font-size: clamp(2.4rem, 4.4vw, 3.4rem);
     font-weight: 900;
     line-height: 1.08;
-    letter-spacing: -0.03em;
-    color: #ffffff;
-    margin: 0 0 8px;
+    letter-spacing: -0.035em;
+    color: #16241D;
+    margin: 0 0 10px;
   }
 
-  .spotlight-product-slogan {
+  .editorial-slogan {
     font-family: 'Poppins', sans-serif;
     font-size: 1rem;
     font-weight: 700;
-    color: #E7EEAC;
+    color: #264639;
     margin: 0 0 12px;
   }
 
-  .spotlight-product-desc {
+  .editorial-description {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.06rem;
+    font-size: 1rem;
     line-height: 1.6;
-    color: #94a3b8;
+    color: #4D6356;
     margin: 0 0 24px;
-    max-width: 580px;
+    max-width: 540px;
   }
 
-  .spotlight-specs-grid {
-    display: flex;
-    flex-wrap: wrap;
+  /* Specifications Grid */
+  .editorial-specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 10px;
     margin-bottom: 30px;
   }
 
-  .spotlight-spec-pill {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
-    padding: 6px 14px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+  .light-spec-card {
+    background: #F8F6F0;
+    border: 1px solid #EAE5D9;
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .light-spec-card .spec-k {
     font-family: 'Space Grotesk', monospace;
-    font-size: 0.78rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #7E9F6E;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
-  .spotlight-spec-pill .spec-k {
-    color: #64748b;
-  }
-
-  .spotlight-spec-pill .spec-v {
-    color: #cbd5e1;
+  .light-spec-card .spec-v {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.86rem;
     font-weight: 700;
+    color: #16241D;
   }
 
-  .spotlight-actions-row {
+  /* Action Buttons Cluster */
+  .editorial-actions-cluster {
     display: flex;
     align-items: center;
     gap: 14px;
     flex-wrap: wrap;
   }
 
-  .btn-spotlight-modal {
+  .btn-forest-inspect {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: #174ee8;
+    background: #264639; /* Deep Forest Pine */
     color: #ffffff;
-    border: 2px solid #174ee8;
+    border: none;
     border-radius: 14px;
     padding: 13px 24px;
     font-family: 'Poppins', sans-serif;
     font-size: 0.92rem;
     font-weight: 800;
     cursor: pointer;
+    box-shadow: 0 4px 16px rgba(38, 70, 57, 0.25);
     transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 6px 18px rgba(23, 78, 232, 0.35);
   }
 
-  .btn-spotlight-modal:hover {
-    background: #ffffff;
-    color: #174ee8;
-    border-color: #ffffff;
+  .btn-forest-inspect:hover {
+    background: #1B3229;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.35);
+    box-shadow: 0 8px 22px rgba(38, 70, 57, 0.35);
   }
 
-  .btn-spotlight-whatsapp {
+  .btn-cream-whatsapp {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: #E7EEAC;
-    color: #0f172a;
-    border: 2px solid #E7EEAC;
+    background: #E7EEAC; /* Warm Yellow-Cream */
+    color: #16241D;
+    border: 1.5px solid #D2DA91;
     text-decoration: none;
     border-radius: 14px;
     padding: 13px 22px;
@@ -712,115 +833,192 @@ function getGlobalIndex(productId: string): string {
     font-size: 0.92rem;
     font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(231, 238, 172, 0.35);
+    box-shadow: 0 4px 14px rgba(231, 238, 172, 0.45);
     transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  .btn-spotlight-whatsapp:hover {
+  .btn-cream-whatsapp:hover {
     transform: translateY(-2px);
-    background: #f4f8cb;
-    border-color: #f4f8cb;
-    box-shadow: 0 8px 24px rgba(231, 238, 172, 0.5);
+    background: #F0F6B8;
+    box-shadow: 0 6px 18px rgba(231, 238, 172, 0.6);
   }
 
-  /* ─── 13-Piece Scrub Reel Dock ─── */
-  .spotlight-scrub-reel {
+  /* ─── Light Scrubber Reel Dock ─── */
+  .light-scrub-dock {
     display: flex;
     align-items: center;
     gap: 10px;
     overflow-x: auto;
-    padding: 12px 4px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 14px 4px;
+    border-top: 1.5px solid #EAE5D9;
+    margin-bottom: 24px;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    scrollbar-color: #D2DA91 transparent;
   }
 
-  .scrub-item-chip {
+  .light-scrub-chip {
     flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #FFFFFF;
+    border: 1.5px solid #E5DFD2;
     border-radius: 14px;
     padding: 6px 14px;
-    color: #94a3b8;
+    color: #4D6356;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  .scrub-item-chip:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.25);
+  .light-scrub-chip:hover {
+    background: #F3EFE6;
+    color: #16241D;
+    border-color: #264639;
     transform: translateY(-2px);
   }
 
-  .scrub-item-chip.is-active {
-    background: #E7EEAC;
-    color: #090e1a;
-    border-color: #E7EEAC;
-    box-shadow: 0 4px 14px rgba(231, 238, 172, 0.4);
+  .light-scrub-chip.is-active {
+    background: #264639;
+    color: #ffffff;
+    border-color: #264639;
+    box-shadow: 0 4px 14px rgba(38, 70, 57, 0.25);
   }
 
-  .scrub-item-thumb {
-    width: 34px;
-    height: 34px;
+  .light-scrub-thumb {
+    width: 36px;
+    height: 36px;
     object-fit: contain;
     border-radius: 8px;
-    background: rgba(0, 0, 0, 0.2);
+    background: #F3EFE6;
     padding: 2px;
   }
 
-  .scrub-item-meta {
+  .light-scrub-chip.is-active .light-scrub-thumb {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .light-scrub-meta {
     display: flex;
     flex-direction: column;
     text-align: left;
   }
 
-  .scrub-num {
+  .chip-num {
     font-family: 'Space Grotesk', monospace;
     font-size: 0.65rem;
     font-weight: 800;
-    opacity: 0.8;
+    color: #7E9F6E;
   }
 
-  .scrub-name {
+  .light-scrub-chip.is-active .chip-num {
+    color: #E7EEAC;
+  }
+
+  .chip-name {
     font-family: 'Poppins', sans-serif;
     font-size: 0.82rem;
     font-weight: 700;
     white-space: nowrap;
   }
 
+  /* ─── Bottom Contact Pill Bar (Matches Attached Design Green Bar) ─── */
+  .showcase-bottom-dock-pill {
+    background: #5E8A53; /* Medium Forest Sage matching the reference bar */
+    color: #ffffff;
+    border-radius: 9999px;
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    box-shadow: 0 6px 18px rgba(94, 138, 83, 0.25);
+    margin: 8px auto 0;
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  .dock-pill-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Space Grotesk', 'Poppins', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .dock-pill-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #5E8A53;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dock-pill-separator {
+    width: 1px;
+    height: 18px;
+    background: rgba(255, 255, 255, 0.35);
+  }
+
   /* ═══════════════════════════════════════════════════════════
      RESPONSIVE BREAKPOINTS
      ═══════════════════════════════════════════════════════════ */
   @media (max-width: 960px) {
-    .spotlight-featurette-card {
+    .bento-feature-split {
       grid-template-columns: 1fr;
-      gap: 28px;
+      gap: 24px;
+    }
+
+    .editorial-vertical-ribbon {
+      display: none;
     }
   }
 
   @media (max-width: 640px) {
-    .section-showcase {
-      padding: 60px 16px 80px;
+    .section-showcase-light {
+      padding: 50px 16px 70px;
     }
 
-    .spotlight-interactive-stage {
-      padding: 20px 16px;
+    .light-showcase-stage {
+      padding: 18px 14px;
       border-radius: 24px;
     }
 
-    .showcase-segmented-nav {
+    .bento-pedestal-card {
+      padding: 20px 16px;
+      border-radius: 22px;
+    }
+
+    .bento-editorial-pod {
+      padding: 20px 16px;
+      border-radius: 22px;
+    }
+
+    .light-segmented-nav {
       justify-content: flex-start;
       border-radius: 18px;
       width: 100%;
     }
 
-    .showcase-tab {
+    .light-tab {
       padding: 8px 14px;
       font-size: 0.8rem;
+    }
+
+    .showcase-bottom-dock-pill {
+      border-radius: 20px;
+      gap: 12px;
+      padding: 10px 18px;
+    }
+
+    .dock-pill-separator {
+      display: none;
     }
   }
 </style>
@@ -828,14 +1026,17 @@ function getGlobalIndex(productId: string): string {
 <script>
   import { PRODUCTS } from '../data/products';
 
-  function initSpotlightDeck() {
-    const tabs = document.querySelectorAll('.showcase-tab');
-    const chips = document.querySelectorAll('.scrub-item-chip');
+  function initLightSpotlight() {
+    const tabs = document.querySelectorAll('.light-tab');
+    const chips = document.querySelectorAll('.light-scrub-chip');
     const titleEl = document.getElementById('spotlight-title');
     const descEl = document.getElementById('spotlight-desc');
     const sloganEl = document.getElementById('spotlight-slogan');
     const catTagEl = document.getElementById('spotlight-cat-tag');
     const numTagEl = document.getElementById('spotlight-num-tag');
+    const boldNumEl = document.getElementById('spotlight-bold-number');
+    const sidewaysTagEl = document.getElementById('spotlight-sideways-tag');
+    const kickerEl = document.getElementById('spotlight-kicker');
     const imgEl = document.getElementById('spotlight-img') as HTMLImageElement;
     const specsEl = document.getElementById('spotlight-specs');
     const modalBtn = document.getElementById('spotlight-view-modal-btn');
@@ -877,7 +1078,10 @@ function getGlobalIndex(productId: string): string {
       if (descEl) descEl.textContent = product.description || product.shortDesc;
       if (catTagEl) catTagEl.textContent = product.category;
       if (numTagEl) numTagEl.textContent = `#${numStr} // 13`;
+      if (boldNumEl) boldNumEl.textContent = `ITEM #${numStr}`;
+      if (sidewaysTagEl) sidewaysTagEl.textContent = `${product.name.toUpperCase()} • ARTIFACT #${numStr}`;
       if (counterEl) counterEl.textContent = `ARTIFACT #${numStr} OF 13`;
+      if (kickerEl) kickerEl.textContent = product.category.toUpperCase();
 
       if (sloganEl) {
         if (product.slogan) {
@@ -892,7 +1096,7 @@ function getGlobalIndex(productId: string): string {
         specsEl.innerHTML = product.specs
           .map(
             (s: any) =>
-              `<div class="spotlight-spec-pill"><span class="spec-k">${s.label}:</span><span class="spec-v">${s.value}</span></div>`
+              `<div class="light-spec-card"><span class="spec-k">${s.label}</span><span class="spec-v">${s.value}</span></div>`
           )
           .join('');
       }
@@ -949,5 +1153,5 @@ function getGlobalIndex(productId: string): string {
     });
   }
 
-  document.addEventListener('DOMContentLoaded', initSpotlightDeck);
+  document.addEventListener('DOMContentLoaded', initLightSpotlight);
 </script>

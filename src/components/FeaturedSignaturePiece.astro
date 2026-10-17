@@ -161,7 +161,7 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
   .chromatic-signature-section {
     position: relative;
     width: 100%;
-    background: #ffffff;
+    background: #FAF7F2;
     padding-bottom: clamp(40px, 6vw, 80px);
     overflow: hidden;
   }
@@ -207,7 +207,7 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
 
   .ticker-star {
     font-size: 1.1rem;
-    color: #174ee8;
+    color: #264639;
   }
 
   @keyframes chromaScroll {
@@ -242,16 +242,16 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
     width: 100%;
     max-width: 480px;
     aspect-ratio: 0.95;
-    background: linear-gradient(145deg, #174ee8 0%, #1e40af 100%);
-    border: 3.5px solid #0f172a;
+    background: #264639;
+    border: 3.5px solid #16241D;
     border-radius: 36px;
     padding: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 
-      12px 14px 0 #0f172a,
-      0 30px 60px rgba(23, 78, 232, 0.25);
+      12px 14px 0 #16241D,
+      0 24px 50px rgba(38, 70, 57, 0.22);
     cursor: pointer;
     overflow: hidden;
     transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
@@ -260,8 +260,8 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
   .chroma-stage-card:hover {
     transform: translateY(-4px) scale(1.01);
     box-shadow: 
-      16px 18px 0 #0f172a,
-      0 35px 70px rgba(23, 78, 232, 0.35);
+      16px 18px 0 #16241D,
+      0 30px 60px rgba(38, 70, 57, 0.3);
   }
 
   /* Liquid Aurora Background */
@@ -488,8 +488,9 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
   }
 
   .tag-chip.tag-blue {
-    background: #dbeafe;
-    color: #174ee8;
+    background: #FFFFFF;
+    color: #264639;
+    border-color: #264639;
   }
 
   .tag-chip.tag-cyan {
@@ -525,12 +526,12 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
     font-size: 0.95rem;
     font-weight: 900;
     letter-spacing: 0.04em;
-    background: #174ee8;
+    background: #264639;
     color: #ffffff;
-    border: 2px solid #0f172a;
+    border: 2px solid #16241D;
     padding: 4px 14px;
     border-radius: 9999px;
-    box-shadow: 3px 3px 0 #0f172a;
+    box-shadow: 3px 3px 0 #16241D;
     transform: rotate(-3deg);
   }
 
@@ -547,24 +548,24 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: #0f172a;
+    background: #264639;
     color: #ffffff;
     font-family: 'Poppins', sans-serif;
     font-size: 0.95rem;
     font-weight: 700;
     padding: 14px 26px;
     border-radius: 9999px;
-    border: 2.5px solid #0f172a;
+    border: 2.5px solid #16241D;
     cursor: pointer;
-    box-shadow: 4px 5px 0 #174ee8;
+    box-shadow: 4px 5px 0 #16241D;
     transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .btn-chroma-dark:hover {
-    background: #174ee8;
-    border-color: #174ee8;
+    background: #16241D;
+    border-color: #16241D;
     transform: translateY(-2px);
-    box-shadow: 4px 7px 0 #0f172a;
+    box-shadow: 4px 7px 0 #16241D;
   }
 
   .btn-sparkle {

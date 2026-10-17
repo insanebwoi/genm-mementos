@@ -113,44 +113,44 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
               preserveAspectRatio="xMidYMid meet"
             >
               <defs>
-                <linearGradient id="dockRibbonYellow" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#E7EEAC" />
-                  <stop offset="50%" stop-color="#d4dc86" />
-                  <stop offset="100%" stop-color="#E7EEAC" />
+                <linearGradient id="dockRibbonForest" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#264639" />
+                  <stop offset="50%" stop-color="#3D6855" />
+                  <stop offset="100%" stop-color="#264639" />
                 </linearGradient>
-                <linearGradient id="dockRibbonCyan" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#38bdf8" />
-                  <stop offset="50%" stop-color="#0284c7" />
-                  <stop offset="100%" stop-color="#38bdf8" />
+                <linearGradient id="dockRibbonSage" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#81A773" />
+                  <stop offset="50%" stop-color="#E7EEAC" />
+                  <stop offset="100%" stop-color="#81A773" />
                 </linearGradient>
                 <filter id="dockRibbonGlow" x="-10%" y="-10%" width="120%" height="120%">
-                  <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#0a1d60" flood-opacity="0.3" />
+                  <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#16241D" flood-opacity="0.12" />
                 </filter>
               </defs>
 
-              <!-- ─── DUAL ARCH RIBBON: Yellow Outer / Cyan Inner ─── -->
-              <!-- Outer Yellow Band -->
+              <!-- ─── DUAL ARCH RIBBON: Forest Outer / Sage Inner ─── -->
+              <!-- Outer Forest Band -->
               <path
                 d="M 100 145 
                    C 140 50, 220 15, 320 15 
                    C 430 15, 470 135, 550 135 
                    C 630 135, 670 15, 780 15 
                    C 880 15, 960 50, 1000 145"
-                stroke="url(#dockRibbonYellow)"
+                stroke="url(#dockRibbonForest)"
                 stroke-width="15"
                 stroke-linecap="round"
                 fill="none"
                 filter="url(#dockRibbonGlow)"
               />
 
-              <!-- Inner Cyan Band -->
+              <!-- Inner Sage Band -->
               <path
                 d="M 100 160 
                    C 140 65, 220 30, 320 30 
                    C 430 30, 470 150, 550 150 
                    C 630 150, 670 30, 780 30 
                    C 880 30, 960 65, 1000 160"
-                stroke="url(#dockRibbonCyan)"
+                stroke="url(#dockRibbonSage)"
                 stroke-width="14"
                 stroke-linecap="round"
                 fill="none"
@@ -159,26 +159,26 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
               <!-- Node Pins on the Arches -->
               <!-- Node 1: Left (Everyday Essentials) -->
               <g class="dock-svg-node" transform="translate(160, 90)">
-                <circle cx="0" cy="0" r="10" fill="#174ee8" stroke="#38bdf8" stroke-width="3.5" />
-                <circle cx="0" cy="0" r="4" fill="#E7EEAC" />
+                <circle cx="0" cy="0" r="10" fill="#264639" stroke="#E7EEAC" stroke-width="3" />
+                <circle cx="0" cy="0" r="4" fill="#ffffff" />
               </g>
 
               <!-- Node 2: Peak 1 (Drinkware) -->
               <g class="dock-svg-node" transform="translate(320, 15)">
-                <circle cx="0" cy="0" r="10" fill="#174ee8" stroke="#E7EEAC" stroke-width="3.5" />
+                <circle cx="0" cy="0" r="10" fill="#264639" stroke="#E7EEAC" stroke-width="3" />
                 <circle cx="0" cy="0" r="4" fill="#ffffff" />
               </g>
 
               <!-- Node 3: Peak 2 (Wear & Carry) -->
               <g class="dock-svg-node" transform="translate(780, 15)">
-                <circle cx="0" cy="0" r="10" fill="#174ee8" stroke="#E7EEAC" stroke-width="3.5" />
+                <circle cx="0" cy="0" r="10" fill="#264639" stroke="#E7EEAC" stroke-width="3" />
                 <circle cx="0" cy="0" r="4" fill="#ffffff" />
               </g>
 
               <!-- Node 4: Right (Lifestyle) -->
               <g class="dock-svg-node" transform="translate(940, 90)">
-                <circle cx="0" cy="0" r="10" fill="#174ee8" stroke="#38bdf8" stroke-width="3.5" />
-                <circle cx="0" cy="0" r="4" fill="#E7EEAC" />
+                <circle cx="0" cy="0" r="10" fill="#264639" stroke="#E7EEAC" stroke-width="3" />
+                <circle cx="0" cy="0" r="4" fill="#ffffff" />
               </g>
             </svg>
 
@@ -337,16 +337,16 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
 
 <style>
   /* ═══════════════════════════════════════════════════════════
-     MOGO VIBRANT ELECTRIC ROYAL BLUE DESIGN SYSTEM
-     Canvas: #174ee8 / #1653e6
-     Accents: #E7EEAC (Brand Sage Cream / Lime-Yellow), #38bdf8 (Cyan)
+     PAUCEK STUDIO LIGHT THEME DESIGN SYSTEM
+     Canvas: #F4EFE6 (Warm Sand)
+     Accents: #264639 (Deep Forest Pine), #E7EEAC (Sage Cream), #81A773 (Sage)
      ═══════════════════════════════════════════════════════════ */
 
   .mogo-page-canvas {
     width: 100%;
     min-height: 100vh;
-    background-color: #174ee8;
-    color: #ffffff;
+    background-color: #F4EFE6;
+    color: #16241D;
     overflow-x: hidden;
   }
 
@@ -357,10 +357,10 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
   .mogo-single-screen-hero {
     width: 100%;
     min-height: 100vh;
-    background-color: #174ee8;
+    background-color: #F4EFE6;
     background-image: 
-      radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.28) 0%, transparent 45%),
-      radial-gradient(circle at 15% 75%, rgba(30, 64, 175, 0.45) 0%, transparent 55%);
+      radial-gradient(circle at 85% 15%, rgba(38, 70, 57, 0.06) 0%, transparent 45%),
+      radial-gradient(circle at 15% 75%, rgba(129, 167, 115, 0.08) 0%, transparent 55%);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -408,27 +408,30 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     z-index: 2;
   }
 
-  /* Eyebrow Tag (matches "ADVERTISING AGENCY") */
+  /* Eyebrow Tag */
   .mogo-eyebrow-tag {
     display: inline-block;
     font-family: 'Neoverse', 'Poppins', sans-serif;
     font-size: clamp(0.72rem, 1vw, 0.86rem);
     font-weight: 800;
-    letter-spacing: 0.18em;
-    color: #E7EEAC;
+    letter-spacing: 0.16em;
+    color: #264639;
+    background: #E7EEAC;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    border: 1.5px solid #264639;
     text-transform: uppercase;
   }
 
-  /* Massive Display Headline (matches "EVERY PIXEL MATTERS") */
+  /* Massive Display Headline */
   .mogo-main-headline {
     font-family: 'Neoverse', 'Poppins', 'Space Grotesk Variable', sans-serif;
     font-size: clamp(2.6rem, 5vw, 5.2rem);
     font-weight: 900;
     line-height: 0.94;
     letter-spacing: -0.04em;
-    color: #ffffff;
+    color: #16241D;
     text-transform: uppercase;
-    text-shadow: 0 4px 20px rgba(10, 29, 96, 0.25);
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -437,11 +440,12 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
   .headline-line-1 {
     display: block;
     margin-right: 0.2em;
+    color: #16241D;
   }
 
   .headline-line-2 {
     display: block;
-    color: #ffffff;
+    color: #264639;
   }
 
   /* Supporting Paragraph */
@@ -449,7 +453,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     font-family: 'Inter', sans-serif;
     font-size: clamp(0.95rem, 1.25vw, 1.15rem);
     line-height: 1.5;
-    color: #dbeafe;
+    color: #4A6354;
     max-width: 480px;
     margin: 0;
   }
@@ -468,13 +472,13 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid rgba(255, 255, 255, 0.28);
+    border: 1.5px solid #E2DCCF;
     border-radius: 9999px;
     padding: 5px 6px;
-    box-shadow: 0 6px 20px rgba(10, 29, 96, 0.2);
+    box-shadow: 0 4px 16px rgba(38, 70, 57, 0.08);
   }
 
   .mogo-pill-btn {
@@ -483,7 +487,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     gap: 8px;
     padding: 7px 14px;
     border-radius: 9999px;
-    color: #ffffff;
+    color: #16241D;
     text-decoration: none;
     font-family: 'Neoverse', 'Poppins', sans-serif;
     font-size: 0.86rem;
@@ -492,7 +496,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
   }
 
   .mogo-pill-btn:hover {
-    background: rgba(255, 255, 255, 0.22);
+    background: rgba(38, 70, 57, 0.08);
     transform: translateY(-1px);
   }
 
@@ -500,19 +504,19 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: #ffffff;
+    background: #264639;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 5px rgba(38, 70, 57, 0.2);
   }
 
   .pill-icon-circle.icon-play {
-    color: #174ee8;
+    color: #E7EEAC;
   }
 
   .pill-icon-circle.icon-star {
-    color: #0284c7;
+    color: #E7EEAC;
   }
 
   /* ─── Tactile 3D Sunshine Yellow Button (matches [Get started!]) ─── */
@@ -521,28 +525,28 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     align-items: center;
     justify-content: center;
     background: #E7EEAC;
-    color: #0f172a;
+    color: #16241D;
     font-family: 'Neoverse', 'Poppins', sans-serif;
     font-size: clamp(0.95rem, 1.2vw, 1.15rem);
     font-weight: 800;
     padding: 13px 28px;
     border-radius: 12px;
     text-decoration: none;
-    box-shadow: 0 5px 0 #9ca54b, 0 10px 20px rgba(156, 165, 75, 0.28);
+    border: 2px solid #264639;
+    box-shadow: 0 5px 0 #264639, 0 10px 20px rgba(38, 70, 57, 0.15);
     transition: transform 0.12s ease, box-shadow 0.12s ease;
-    border: none;
     cursor: pointer;
     white-space: nowrap;
   }
 
   .btn-3d-yellow-cta:hover {
     transform: translateY(2px);
-    box-shadow: 0 3px 0 #9ca54b, 0 6px 12px rgba(156, 165, 75, 0.2);
+    box-shadow: 0 3px 0 #264639, 0 6px 12px rgba(38, 70, 57, 0.15);
   }
 
   .btn-3d-yellow-cta:active {
     transform: translateY(5px);
-    box-shadow: 0 0 0 #9ca54b;
+    box-shadow: 0 0 0 #264639;
   }
 
   /* ─── Hero Illustration Column ─── */
@@ -586,9 +590,8 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     font-size: clamp(1.4rem, 2.2vw, 2rem);
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: #ffffff;
+    color: #16241D;
     margin: 0;
-    text-shadow: 0 3px 12px rgba(10, 29, 96, 0.25);
   }
 
   .dock-ribbon-wrap {
@@ -620,31 +623,29 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
   }
 
   .dock-station-pill {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: #FFFFFF;
+    border: 1.5px solid #E2DCCF;
     border-radius: 14px;
     padding: 8px 12px;
     text-decoration: none;
-    color: #ffffff;
+    color: #16241D;
     display: flex;
     align-items: center;
     gap: 10px;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 14px rgba(10, 29, 96, 0.15);
+    box-shadow: 0 4px 14px rgba(38, 70, 57, 0.06);
   }
 
   .dock-station-pill:hover {
-    background: rgba(255, 255, 255, 0.22);
+    background: #F4EFE6;
     transform: translateY(-2px);
-    border-color: #E7EEAC;
-    box-shadow: 0 8px 20px rgba(10, 29, 96, 0.25);
+    border-color: #264639;
+    box-shadow: 0 8px 20px rgba(38, 70, 57, 0.12);
   }
 
   .station-badge {
-    background: #E7EEAC;
-    color: #0f172a;
+    background: #264639;
+    color: #E7EEAC;
     font-family: 'Neoverse', 'Poppins', sans-serif;
     font-size: 0.72rem;
     font-weight: 800;
@@ -665,7 +666,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     font-family: 'Neoverse', 'Poppins', sans-serif;
     font-size: 0.84rem;
     font-weight: 700;
-    color: #ffffff;
+    color: #16241D;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -673,7 +674,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
 
   .station-sub {
     font-size: 0.68rem;
-    color: #bfdbfe;
+    color: #4D6356;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -692,8 +693,8 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
   .mogo-final-cta-section {
     width: 100%;
     padding: clamp(60px, 8vw, 100px) 24px;
-    background: #ffffff;
-    color: #0f172a;
+    background: #F4EFE6;
+    color: #16241D;
   }
 
   .final-cta-shell {
@@ -702,13 +703,13 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
   }
 
   .final-cta-box {
-    background: #174ee8;
+    background: #264639;
     color: #ffffff;
-    border: 3px solid #0f172a;
+    border: 3.5px solid #16241D;
     border-radius: 36px;
     padding: clamp(40px, 6vw, 72px) clamp(24px, 4vw, 48px);
     text-align: center;
-    box-shadow: 12px 16px 0 #0f172a;
+    box-shadow: 12px 14px 0 #16241D;
   }
 
   .cta-pill-eyebrow {
@@ -727,11 +728,12 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     font-weight: 900;
     letter-spacing: -0.03em;
     margin-bottom: 16px;
+    color: #ffffff;
   }
 
   .cta-desc {
     font-size: 1.15rem;
-    color: #dbeafe;
+    color: #D6E4DB;
     max-width: 620px;
     margin: 0 auto 36px;
     line-height: 1.6;
@@ -749,7 +751,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     font-family: 'Poppins', sans-serif;
     font-size: 1.05rem;
@@ -757,13 +759,13 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     padding: 16px 32px;
     border-radius: 14px;
     text-decoration: none;
-    border: 2px solid #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.4);
     transition: all 0.2s ease;
   }
 
   .btn-ghost-white-cta:hover {
     background: #ffffff;
-    color: #174ee8;
+    color: #16241D;
     transform: translateY(-2px);
   }
 
@@ -773,10 +775,10 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
      ═══════════════════════════════════════════════════════════ */
   .mogo-footer {
     width: 100%;
-    background: #0f172a;
+    background: #16241D;
     color: #ffffff;
     padding: clamp(60px, 8vw, 90px) 24px 32px;
-    border-top: 3px solid #1e293b;
+    border-top: 2px solid #264639;
   }
 
   .footer-shell {
@@ -826,7 +828,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
   .footer-about {
     font-size: 0.88rem;
     line-height: 1.6;
-    color: #94a3b8;
+    color: #9EAF9F;
     max-width: 380px;
   }
 
@@ -835,7 +837,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     font-size: 0.8rem;
     font-weight: 800;
     letter-spacing: 0.12em;
-    color: #cbd5e1;
+    color: #E7EEAC;
     display: block;
     margin-bottom: 18px;
   }
@@ -848,7 +850,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
   }
 
   .footer-links a {
-    color: #94a3b8;
+    color: #BAC7BC;
     font-size: 0.9rem;
     text-decoration: none;
     transition: color 0.15s ease;
@@ -860,7 +862,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
 
   .footer-desk-desc {
     font-size: 0.88rem;
-    color: #94a3b8;
+    color: #9EAF9F;
     line-height: 1.5;
     margin-bottom: 16px;
   }
@@ -870,7 +872,7 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
     align-items: center;
     gap: 8px;
     background: #E7EEAC;
-    color: #0f172a;
+    color: #16241D;
     font-family: 'Poppins', sans-serif;
     font-size: 0.85rem;
     font-weight: 700;
@@ -888,13 +890,13 @@ import { PRODUCTS, CATEGORIES } from '../data/products';
   }
 
   .footer-bottom-line {
-    border-top: 1px solid #1e293b;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
     padding-top: 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-size: 0.82rem;
-    color: #64748b;
+    color: #798E7B;
     flex-wrap: wrap;
     gap: 12px;
   }
