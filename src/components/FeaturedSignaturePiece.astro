@@ -9,254 +9,324 @@ const { productId = 'white-tshirt' } = Astro.props;
 const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) => p.id === 'white-tshirt')!;
 ---
 
-<section class="story-signature-section" id="featured-piece" aria-label="Signature Piece Story">
+<section class="pop-signature-section" id="featured-piece" aria-label="Signature Piece Showcase">
   
   <!-- ═══════════════════════════════════════════════════════════
-       1. SUBTLE MINIMALIST MARQUEE BAND (CLEAN TICKER)
+       1. VIBRANT SUNSHINE YELLOW MARQUEE TICKER BAND
        ═══════════════════════════════════════════════════════════ -->
-  <div class="story-ticker" aria-hidden="true">
-    <div class="story-ticker-track">
-      <span>ROOTED IN DEEN. DRIVEN BY PURPOSE.</span>
-      <span class="ticker-bullet">✦</span>
-      <span>13 OFFICIAL MERCHANDISE PIECES</span>
-      <span class="ticker-bullet">✦</span>
-      <span>MSM KERALA • GEN M 2026</span>
-      <span class="ticker-bullet">✦</span>
-      <span>KOZHIKODE • 13–15 NOVEMBER 2026</span>
-      <span class="ticker-bullet">✦</span>
-      <span>ROOTED IN DEEN. DRIVEN BY PURPOSE.</span>
-      <span class="ticker-bullet">✦</span>
-      <span>13 OFFICIAL MERCHANDISE PIECES</span>
-      <span class="ticker-bullet">✦</span>
-      <span>MSM KERALA • GEN M 2026</span>
-      <span class="ticker-bullet">✦</span>
-      <span>KOZHIKODE • 13–15 NOVEMBER 2026</span>
-      <span class="ticker-bullet">✦</span>
+  <div class="pop-ticker-wrapper" aria-hidden="true">
+    <div class="pop-ticker-track">
+      <span class="ticker-text">ROOTED IN DEEN. DRIVEN BY PURPOSE.</span>
+      <span class="ticker-star">★</span>
+      <span class="ticker-text">13 OFFICIAL MERCHANDISE PIECES</span>
+      <span class="ticker-star">★</span>
+      <span class="ticker-text">MSM KERALA • GEN M 2026</span>
+      <span class="ticker-star">★</span>
+      <span class="ticker-text">KOZHIKODE • 13-14-15 NOVEMBER 2026</span>
+      <span class="ticker-star">★</span>
+      <span class="ticker-text">ROOTED IN DEEN. DRIVEN BY PURPOSE.</span>
+      <span class="ticker-star">★</span>
+      <span class="ticker-text">13 OFFICIAL MERCHANDISE PIECES</span>
+      <span class="ticker-star">★</span>
+      <span class="ticker-text">MSM KERALA • GEN M 2026</span>
+      <span class="ticker-star">★</span>
+      <span class="ticker-text">KOZHIKODE • 13-14-15 NOVEMBER 2026</span>
+      <span class="ticker-star">★</span>
     </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════
-       2. STORY PROGRESS LINEAR SCROLL INDICATOR
+       2. VIBRANT WINDING TEXT RIBBON WITH LINEAR SCROLL PARALLAX
        ═══════════════════════════════════════════════════════════ -->
-  <div class="story-progress-wrapper" aria-hidden="true">
-    <div class="story-progress-bar" id="storyProgressBar"></div>
+  <div class="pop-ribbon-stage" aria-hidden="true">
+    <svg class="pop-ribbon-svg" viewBox="0 0 1440 980" fill="none" preserveAspectRatio="none">
+      <defs>
+        <!-- Smooth S-curve path routed through whitespace so text is never obscured -->
+        <path
+          id="popWindingPath"
+          d="M -40,920 C 180,840 320,700 480,640 C 680,570 940,630 1140,490 C 1280,380 1350,180 1480,30"
+        />
+        
+        <!-- Multi-stop Vibrant Blue to Cyan Gradient -->
+        <linearGradient id="popRibbonGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#1d4ed8" />
+          <stop offset="50%" stop-color="#174ee8" />
+          <stop offset="100%" stop-color="#0284c7" />
+        </linearGradient>
+      </defs>
+
+      <!-- 3D Pop Shadow Stroke -->
+      <use
+        href="#popWindingPath"
+        class="ribbon-shadow"
+        stroke="#0f172a"
+        stroke-width="58"
+        stroke-linecap="round"
+      />
+
+      <!-- Main Vibrant Colored Band -->
+      <use
+        href="#popWindingPath"
+        class="ribbon-band"
+        stroke="url(#popRibbonGrad)"
+        stroke-width="50"
+        stroke-linecap="round"
+      />
+
+      <!-- Neon Lime Stitch Line -->
+      <use
+        href="#popWindingPath"
+        class="ribbon-neon-stitch"
+        stroke="#E7EEAC"
+        stroke-width="3"
+        stroke-dasharray="14 10"
+        stroke-linecap="round"
+      />
+
+      <!-- Running Linear Scroll Text (Always Upright & Legible) -->
+      <text class="ribbon-text-content" dy="5">
+        <textPath
+          id="popRibbonText"
+          href="#popWindingPath"
+          startOffset="0%"
+          method="align"
+          spacing="auto"
+        >
+          ROOTED IN DEEN • DRIVEN BY PURPOSE • 13 OFFICIAL PIECES • MSM KERALA • GEN M 2026 • KOZHIKODE • ROOTED IN DEEN • DRIVEN BY PURPOSE • 13 OFFICIAL PIECES • MSM KERALA • GEN M 2026 • KOZHIKODE • ROOTED IN DEEN • DRIVEN BY PURPOSE • 13 OFFICIAL PIECES • MSM KERALA • GEN M 2026 •
+        </textPath>
+      </text>
+    </svg>
   </div>
 
-  <div class="story-shell">
-
-    <!-- ═══════════════════════════════════════════════════════════
-         3. CHAPTER HEADER (EDITORIAL LOOKBOOK STYLE)
-         ═══════════════════════════════════════════════════════════ -->
-    <header class="story-header">
-      <div class="story-kicker-row">
-        <span class="story-chapter-badge">SIGNATURE PIECE 01</span>
-        <span class="story-kicker-dot">•</span>
-        <span class="story-category-tag">WEAR & CARRY • ITEM #10</span>
-      </div>
-
-      <div class="story-title-row">
-        <h2 class="story-title">White T-Shirt</h2>
-        <span class="story-year-badge">MSM GEN M // 2026</span>
-      </div>
-
-      <p class="story-lead">
-        The defining statement piece of the GEN M movement. Engineered in Kerala for those who walk with conviction.
-      </p>
-    </header>
-
-    <!-- ═══════════════════════════════════════════════════════════
-         4. STORY SHOWCASE: STUDIO GARMENT CANVAS WITH HOTSPOTS
-         ═══════════════════════════════════════════════════════════ -->
-    <div class="story-stage-grid">
+  <!-- ═══════════════════════════════════════════════════════════
+       3. COLORFUL EDITORIAL POP CONTENT
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="pop-shell">
+    
+    <!-- Top Grid: Left Editorial Narrative | Right: 3D Isometric Pop Stage -->
+    <div class="pop-main-grid">
       
-      <!-- Center Visual Studio Pedestal with Interactive Hotspots -->
-      <div class="story-visual-canvas" id="storyVisualCanvas">
-        <div class="studio-ambient-circle" aria-hidden="true"></div>
+      <!-- Left Narrative Column -->
+      <div class="pop-text-col">
+        
+        <!-- Colorful Eyebrow Badges -->
+        <div class="pop-kicker-cluster">
+          <span class="kicker-pill yellow">
+            <span class="kicker-star">★</span> SIGNATURE PIECE 01
+          </span>
+          <span class="kicker-pill blue">
+            WEAR & CARRY • ITEM #10
+          </span>
+        </div>
 
-        <!-- Garment Image -->
-        <div class="studio-img-wrap">
-          <img
-            src={product.image}
-            alt="Official GEN M White T-Shirt"
-            class="studio-tee-img"
-            width="640"
-            height="640"
-            loading="lazy"
-            id="storyGarmentImg"
-          />
+        <!-- High-Impact Display Headline with Tilted Highlighter Badge -->
+        <h2 class="pop-headline">
+          The <span class="pop-sticker-pill lime rotate-left">#SECRET</span><br />
+          to purposeful<br />
+          streetwear?
+        </h2>
 
-          <!-- Interactive Hotspot 1: Collar -->
-          <div class="story-hotspot hotspot-collar" data-target="step-craft" style="top: 18%; left: 50%;">
-            <button type="button" class="hotspot-pulse-btn" aria-label="Inspect 1-inch ribbed collar">
-              <span class="hotspot-ring"></span>
-              <span class="hotspot-dot"></span>
-            </button>
-            <div class="hotspot-tooltip">
-              <span class="tt-step">01 // COLLAR</span>
-              <span class="tt-desc">1-Inch Ribbed Neck Drape</span>
-            </div>
+        <!-- Slogan Banner Box with Bold Pop Art Border -->
+        <div class="pop-slogan-card">
+          <span class="slogan-tag">OFFICIAL SLOGAN</span>
+          <blockquote class="slogan-text">
+            “Rooted in Deen. Driven by Purpose.”
+          </blockquote>
+        </div>
+
+        <!-- Editorial Description with Vibrant Accents -->
+        <p class="pop-description">
+          The defining piece of the <strong class="hl-blue">GEN M collection</strong>. Cut in an oversized, relaxed streetwear silhouette from <strong class="hl-dark">240 GSM organic combed cotton</strong>. Features the official emblem and slogan across the chest.
+        </p>
+
+        <!-- Colorful Specification Chips Grid -->
+        <div class="pop-spec-grid">
+          <div class="spec-card fabric">
+            <span class="sc-label">FABRIC</span>
+            <span class="sc-val">240 GSM Combed Cotton</span>
           </div>
-
-          <!-- Interactive Hotspot 2: Chest Slogan -->
-          <div class="story-hotspot hotspot-chest" data-target="step-slogan" style="top: 36%; left: 49%;">
-            <button type="button" class="hotspot-pulse-btn" aria-label="Inspect official slogan print">
-              <span class="hotspot-ring"></span>
-              <span class="hotspot-dot"></span>
-            </button>
-            <div class="hotspot-tooltip">
-              <span class="tt-step">02 // EMBLEM</span>
-              <span class="tt-desc">Silkscreen: “Rooted in Deen”</span>
-            </div>
+          <div class="spec-card cut">
+            <span class="sc-label">CUT</span>
+            <span class="sc-val">Oversized Drop-Shoulder</span>
           </div>
-
-          <!-- Interactive Hotspot 3: Drop Shoulder -->
-          <div class="story-hotspot hotspot-shoulder" data-target="step-fit" style="top: 28%; left: 24%;">
-            <button type="button" class="hotspot-pulse-btn" aria-label="Inspect drop shoulder silhouette">
-              <span class="hotspot-ring"></span>
-              <span class="hotspot-dot"></span>
-            </button>
-            <div class="hotspot-tooltip">
-              <span class="tt-step">03 // SILHOUETTE</span>
-              <span class="tt-desc">Relaxed Drop-Shoulder</span>
-            </div>
-          </div>
-
-          <!-- Interactive Hotspot 4: Bio-Washed Cotton Hem -->
-          <div class="story-hotspot hotspot-hem" data-target="step-cotton" style="top: 80%; left: 62%;">
-            <button type="button" class="hotspot-pulse-btn" aria-label="Inspect 240 GSM organic cotton">
-              <span class="hotspot-ring"></span>
-              <span class="hotspot-dot"></span>
-            </button>
-            <div class="hotspot-tooltip">
-              <span class="tt-step">04 // FABRIC</span>
-              <span class="tt-desc">240 GSM Bio-Washed Cotton</span>
-            </div>
+          <div class="spec-card color">
+            <span class="sc-label">COLOR</span>
+            <span class="sc-val">Crisp White</span>
           </div>
         </div>
 
-        <!-- Quick View Prompt Pill -->
-        <button
-          type="button"
-          class="studio-inspect-prompt"
-          data-product-id="white-tshirt"
-          aria-label="Open detailed inspection modal for White T-Shirt"
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            <line x1="11" y1="8" x2="11" y2="14"></line>
-            <line x1="8" y1="11" x2="14" y2="11"></line>
-          </svg>
-          <span>Click to Inspect Garment Details</span>
-        </button>
+        <!-- Tactile 3D Action Buttons -->
+        <div class="pop-cta-row">
+          <button
+            type="button"
+            class="btn-pop-dark-pill"
+            data-product-id="white-tshirt"
+          >
+            <span class="btn-sparkle">✦</span>
+            <span>Quick View Details</span>
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+
+          <a
+            href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20ordering%20the%20official%20GEN%20M%20White%20T-Shirt."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-pop-green-pill"
+            aria-label="Enquire about White T-Shirt on WhatsApp"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z" />
+            </svg>
+            <span>Enquire on WhatsApp</span>
+          </a>
+        </div>
 
       </div>
 
-      <!-- Right Column: Clean Story Mode Timeline Cards -->
-      <div class="story-narrative-col">
+      <!-- Right Column: 3D Isometric Pop Showcase Pedestal -->
+      <div class="pop-visual-col" id="popVisualCol">
         
-        <!-- Story Step 1: The Motto & Purpose -->
-        <article class="story-card" id="step-slogan">
-          <div class="card-num-row">
-            <span class="card-step-index">01</span>
-            <span class="card-step-name">THE STATEMENT</span>
+        <div class="pop-isometric-stage" id="popIsometricStage">
+          
+          <!-- Top Console Control Bar -->
+          <div class="stage-console-header">
+            <div class="console-dots">
+              <span class="ctrl-dot red"></span>
+              <span class="ctrl-dot yellow"></span>
+              <span class="ctrl-dot green"></span>
+            </div>
+            <span class="console-title">MSM // GEN M 2026 FLAGSHIP</span>
+            <span class="console-gsm-badge">240 GSM</span>
           </div>
-          <h3 class="card-headline">“Rooted in Deen. Driven by Purpose.”</h3>
-          <p class="card-body">
-            More than apparel, this tee is a wearable identity for thousands of students and delegates congregating in Kozhikode. It reflects deep faith anchoring every ambition.
-          </p>
-        </article>
 
-        <!-- Story Step 2: The 240 GSM Fabric -->
-        <article class="story-card" id="step-cotton">
-          <div class="card-num-row">
-            <span class="card-step-index">02</span>
-            <span class="card-step-name">THE MATERIAL</span>
-          </div>
-          <h3 class="card-headline">240 GSM Bio-Washed Combed Cotton</h3>
-          <p class="card-body">
-            Specially woven from 100% organic long-staple combed yarns. Pre-shrunk and bio-treated to deliver a luxuriously soft hand-feel that retains structure through countless wears.
-          </p>
-        </article>
+          <!-- Product Screen Frame -->
+          <div class="stage-screen-box">
+            
+            <!-- Top Floating Sticker: 100% Cotton -->
+            <div class="floating-badge top-left">
+              <span class="badge-icon">✦</span>
+              <span>100% ORGANIC COMBED COTTON</span>
+            </div>
 
-        <!-- Story Step 3: The Silhouette & Cut -->
-        <article class="story-card" id="step-fit">
-          <div class="card-num-row">
-            <span class="card-step-index">03</span>
-            <span class="card-step-name">THE SILHOUETTE</span>
+            <!-- T-Shirt Image with Ambient Radial Glow -->
+            <div class="garment-showcase-wrap">
+              <div class="ambient-glow" aria-hidden="true"></div>
+              <img
+                src={product.image}
+                alt="Official GEN M White T-Shirt"
+                class="garment-img"
+                width="540"
+                height="540"
+                loading="lazy"
+                id="popGarmentImg"
+              />
+            </div>
+
+            <!-- Interactive Screen Inspection Prompt -->
+            <button
+              type="button"
+              class="stage-inspect-overlay"
+              data-product-id="white-tshirt"
+              aria-label="Inspect White T-Shirt in 360 detailed modal"
+            >
+              <div class="inspect-play-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <span class="inspect-text">Quick View Details</span>
+            </button>
+
+            <!-- Bottom Floating Sticker: Official Print -->
+            <div class="floating-badge bottom-right">
+              <span class="badge-icon">★</span>
+              <span>OFFICIAL EMBLEM PRINT</span>
+            </div>
+
           </div>
-          <h3 class="card-headline">Oversized Drop-Shoulder Cut</h3>
-          <p class="card-body">
-            Tailored in a contemporary streetwear silhouette featuring an unstructured drop-shoulder, clean drape, and a dense 1-inch ribbed neckline.
-          </p>
-        </article>
+
+          <!-- Console Footer Bar -->
+          <div class="stage-console-footer">
+            <div class="cf-item">
+              <span class="cf-k">FIT</span>
+              <span class="cf-v">Drop-Shoulder</span>
+            </div>
+            <div class="cf-divider"></div>
+            <div class="cf-item">
+              <span class="cf-k">RIB</span>
+              <span class="cf-v">1-inch Collar</span>
+            </div>
+            <div class="cf-divider"></div>
+            <div class="cf-item">
+              <span class="cf-k">EVENT</span>
+              <span class="cf-v">Kozhikode 2026</span>
+            </div>
+          </div>
+
+        </div>
 
       </div>
 
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════
-         5. CLEAN SPECIFICATIONS BAR
+         4. LOWER PUNCHLINE BRIDGE (MATCHING "BRING ON #THEMAGIC")
          ═══════════════════════════════════════════════════════════ -->
-    <div class="story-specs-bar">
-      <div class="spec-cell">
-        <span class="spec-label">FABRIC</span>
-        <span class="spec-value">240 GSM Combed Cotton</span>
-      </div>
-      <div class="spec-divider"></div>
-      <div class="spec-cell">
-        <span class="spec-label">CUT</span>
-        <span class="spec-value">Oversized Drop-Shoulder</span>
-      </div>
-      <div class="spec-divider"></div>
-      <div class="spec-cell">
-        <span class="spec-label">COLOR</span>
-        <span class="spec-value">Crisp Optical White</span>
-      </div>
-      <div class="spec-divider"></div>
-      <div class="spec-cell">
-        <span class="spec-label">CONFLUENCE</span>
-        <span class="spec-value">Kozhikode • Nov 2026</span>
-      </div>
-    </div>
+    <div class="pop-lower-bridge">
+      
+      <!-- Left Punchline with Tilted Sticker -->
+      <div class="lower-headline-box">
+        <h3 class="lower-title">
+          Bring<br />
+          on <span class="pop-sticker-pill lime rotate-right">#THEMAGIC</span>
+        </h3>
+        <p class="lower-desc">
+          Official GEN M statement piece crafted for student leaders and state delegates across Kerala.
+        </p>
+        <div class="lower-buttons">
+          <a
+            href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20ordering%20the%20official%20GEN%20M%20White%20T-Shirt."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-pop-dark-pill"
+          >
+            <span>Order On WhatsApp</span>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
 
-    <!-- ═══════════════════════════════════════════════════════════
-         6. REFINED ACTION ROW
-         ═══════════════════════════════════════════════════════════ -->
-    <div class="story-actions-footer">
-      <div class="actions-left">
-        <button
-          type="button"
-          class="btn-story-quickview"
-          data-product-id="white-tshirt"
-        >
-          <span>Quick View Details</span>
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M 3 8 L 13 8 M 9 4 L 13 8 L 9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </button>
-
-        <a
-          href="https://wa.me/919495123456?text=Hello%20MSM%20Kerala%2C%20I%20would%20like%20to%20enquire%20about%20ordering%20the%20official%20GEN%20M%20White%20T-Shirt."
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-story-whatsapp"
-        >
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.071.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z" />
-          </svg>
-          <span>Enquire on WhatsApp</span>
-        </a>
+          <button
+            type="button"
+            class="btn-pop-white-pill"
+            data-product-id="white-tshirt"
+          >
+            <span>View Full Specs</span>
+          </button>
+        </div>
       </div>
 
-      <div class="actions-right">
-        <a href="#catalogue" class="link-catalogue-peek">
-          <span>Discover 12 other pieces</span>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M 8 3 L 8 13 M 4 9 L 8 13 L 12 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
+      <!-- Right Curved Transition Card leading to Catalogue -->
+      <div class="lower-curved-card">
+        <div class="lcc-header">
+          <span class="lcc-eyebrow">MSM MERCHANDISE SUITE</span>
+          <h4 class="lcc-title">13 Official Pieces Awaiting</h4>
+        </div>
+        <p class="lcc-body">
+          Explore the full curated merchandise collection: bags, drinkware, caps, notebooks, and lifestyle essentials.
+        </p>
+        <div class="lcc-footer">
+          <a href="#catalogue" class="lcc-link">
+            <span>Explore All 13 Pieces Below</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M 8 3 L 8 13 M 4 9 L 8 13 L 12 9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
       </div>
+
     </div>
 
   </div>
@@ -265,187 +335,499 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
 
 <style>
   /* ═══════════════════════════════════════════════════════════
-     STORY MODE SIGNATURE PIECE: CLEAN, LIGHTWEIGHT & EDITORIAL
+     COLORFUL POP ART STYLING — VIBRANT, ENERGETIC & EDITORIAL
      ═══════════════════════════════════════════════════════════ */
-  .story-signature-section {
+  .pop-signature-section {
     position: relative;
     width: 100%;
     background: #ffffff;
     color: #0f172a;
-    padding: 0 0 clamp(60px, 8vw, 110px);
     overflow: hidden;
+    padding-bottom: clamp(60px, 8vw, 110px);
   }
 
-  /* 1. Minimal Clean Marquee Ticker */
-  .story-ticker {
+  /* 1. Vibrant Sunshine Yellow Marquee Ticker */
+  .pop-ticker-wrapper {
     width: 100%;
-    background: #fafbfc;
-    border-top: 1px solid #e2e8f0;
-    border-bottom: 1px solid #e2e8f0;
-    padding: 12px 0;
+    background: #E7EEAC;
+    border-top: 3px solid #0f172a;
+    border-bottom: 3px solid #0f172a;
+    padding: 13px 0;
     overflow: hidden;
     white-space: nowrap;
+    position: relative;
+    z-index: 5;
+    box-shadow: 0 4px 0 rgba(15, 23, 42, 0.1);
   }
 
-  .story-ticker-track {
+  .pop-ticker-track {
     display: inline-flex;
     align-items: center;
-    gap: 20px;
-    font-family: 'Poppins', -apple-system, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: #475569;
-    animation: storyTickerSlide 32s linear infinite;
+    gap: 22px;
+    animation: tickerScroll 26s linear infinite;
     will-change: transform;
   }
 
-  .ticker-bullet {
-    color: #174ee8;
-    font-size: 0.75rem;
+  .ticker-text {
+    font-family: 'Neoverse', 'Poppins', -apple-system, sans-serif;
+    font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: #0f172a;
   }
 
-  @keyframes storyTickerSlide {
+  .ticker-star {
+    font-size: 1.15rem;
+    color: #174ee8;
+    line-height: 1;
+  }
+
+  @keyframes tickerScroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
 
-  /* 2. Linear Story Progress Bar */
-  .story-progress-wrapper {
+  /* 2. Winding Serpentine Ribbon with Scroll Parallax */
+  .pop-ribbon-stage {
+    position: absolute;
+    top: 60px;
+    left: 0;
     width: 100%;
-    height: 3px;
-    background: #f1f5f9;
+    height: calc(100% - 60px);
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
   }
 
-  .story-progress-bar {
-    width: 0%;
+  .pop-ribbon-svg {
+    width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, #174ee8, #38bdf8);
-    transition: width 0.1s linear;
+    display: block;
+    overflow: visible;
   }
 
-  /* 3. Container Shell */
-  .story-shell {
-    max-width: 1240px;
+  .ribbon-shadow {
+    opacity: 0.2;
+    transform: translate(6px, 10px);
+  }
+
+  .ribbon-band {
+    opacity: 0.98;
+    filter: drop-shadow(0 8px 16px rgba(23, 78, 232, 0.3));
+  }
+
+  .ribbon-neon-stitch {
+    opacity: 0.9;
+  }
+
+  .ribbon-text-content {
+    fill: #ffffff;
+    font-family: 'Poppins', 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    user-select: none;
+    will-change: transform;
+  }
+
+  /* 3. Main Container Shell */
+  .pop-shell {
+    position: relative;
+    z-index: 3;
+    max-width: 1260px;
     margin: 0 auto;
     padding: clamp(48px, 6vw, 76px) 24px 0;
   }
 
-  /* Header Section */
-  .story-header {
-    margin-bottom: clamp(36px, 5vw, 56px);
+  /* Top Main Grid */
+  .pop-main-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
+    margin-bottom: clamp(56px, 7vw, 100px);
   }
 
-  .story-kicker-row {
+  /* Left Editorial Narrative */
+  .pop-text-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Eyebrow Kicker Pills */
+  .pop-kicker-cluster {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
   }
 
-  .story-chapter-badge {
+  .kicker-pill {
     font-family: 'Poppins', sans-serif;
     font-size: 0.74rem;
     font-weight: 800;
-    letter-spacing: 0.1em;
-    color: #174ee8;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    padding: 4px 10px;
-    border-radius: 6px;
-  }
-
-  .story-kicker-dot {
-    color: #94a3b8;
-    font-size: 0.8rem;
-  }
-
-  .story-category-tag {
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.74rem;
-    font-weight: 700;
     letter-spacing: 0.08em;
-    color: #64748b;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    border: 2px solid #0f172a;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 2px 3px 0 #0f172a;
   }
 
-  .story-title-row {
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
-  }
-
-  .story-title {
-    font-family: 'Poppins', -apple-system, sans-serif;
-    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
-    font-weight: 900;
-    letter-spacing: -0.03em;
+  .kicker-pill.yellow {
+    background: #E7EEAC;
     color: #0f172a;
-    line-height: 1.05;
+  }
+
+  .kicker-pill.blue {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .kicker-star {
+    color: #174ee8;
+    font-size: 0.85rem;
+  }
+
+  /* Display Headline */
+  .pop-headline {
+    font-family: 'Space Grotesk', 'Poppins', -apple-system, sans-serif;
+    font-size: clamp(2.8rem, 5.2vw, 4.6rem);
+    font-weight: 900;
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+    color: #0f172a;
+    margin: 0 0 24px;
+  }
+
+  /* Tilted Highlighter Sticker Pills */
+  .pop-sticker-pill {
+    display: inline-block;
+    padding: 0 16px;
+    margin: 0 4px;
+    border-radius: 14px;
+    border: 3px solid #0f172a;
+    font-family: 'Space Grotesk', 'Poppins', sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    box-shadow: 4px 5px 0 #0f172a;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: center center;
+    vertical-align: middle;
+  }
+
+  .pop-sticker-pill.lime {
+    background: #E7EEAC;
+    color: #0f172a;
+  }
+
+  .pop-sticker-pill.rotate-left {
+    transform: rotate(-3.5deg);
+  }
+
+  .pop-sticker-pill.rotate-right {
+    transform: rotate(2.8deg);
+  }
+
+  .pop-sticker-pill:hover {
+    transform: rotate(0deg) scale(1.05);
+  }
+
+  /* Slogan Callout Box */
+  .pop-slogan-card {
+    background: #eff6ff;
+    border: 2.5px solid #174ee8;
+    border-left: 6px solid #174ee8;
+    border-radius: 0 16px 16px 0;
+    padding: 14px 20px;
+    margin-bottom: 22px;
+    max-width: 520px;
+    box-shadow: 4px 5px 0 rgba(23, 78, 232, 0.15);
+  }
+
+  .slogan-tag {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: #174ee8;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .slogan-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+    font-weight: 800;
+    color: #1e3a8a;
     margin: 0;
+    line-height: 1.35;
   }
 
-  .story-year-badge {
-    font-family: 'Space Grotesk', monospace;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #94a3b8;
-    letter-spacing: 0.08em;
-  }
-
-  .story-lead {
-    font-size: clamp(1rem, 1.25vw, 1.15rem);
-    line-height: 1.6;
+  /* Description Body */
+  .pop-description {
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
+    line-height: 1.68;
     color: #475569;
-    max-width: 620px;
-    margin: 0;
+    margin: 0 0 24px;
+    max-width: 530px;
+  }
+
+  .hl-blue {
+    color: #174ee8;
+    font-weight: 800;
+  }
+
+  .hl-dark {
+    color: #0f172a;
+    font-weight: 800;
+  }
+
+  /* Specification Chips Grid */
+  .pop-spec-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+    width: 100%;
+    max-width: 530px;
+  }
+
+  .spec-card {
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    box-shadow: 3px 3px 0 #0f172a;
+    transition: transform 0.15s ease;
+  }
+
+  .spec-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .spec-card.fabric { border-top: 5px solid #174ee8; }
+  .spec-card.cut { border-top: 5px solid #0284c7; }
+  .spec-card.color { border-top: 5px solid #10b981; }
+
+  .sc-label {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.06em;
+  }
+
+  .sc-val {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #0f172a;
+  }
+
+  /* Tactile Action Buttons */
+  .pop-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn-pop-dark-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #0f172a;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 13px 26px;
+    border-radius: 9999px;
+    border: 2px solid #0f172a;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #174ee8;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .btn-pop-dark-pill:hover {
+    background: #174ee8;
+    border-color: #174ee8;
+    transform: translateY(-2px);
+    box-shadow: 4px 6px 0 #0f172a;
+  }
+
+  .btn-sparkle {
+    color: #E7EEAC;
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .btn-pop-green-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 13px 26px;
+    border-radius: 9999px;
+    border: 2px solid #0f172a;
+    text-decoration: none;
+    box-shadow: 4px 4px 0 #0f172a;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .btn-pop-green-pill:hover {
+    background: #1eb956;
+    transform: translateY(-2px);
+    box-shadow: 4px 6px 0 #0f172a;
   }
 
   /* ═══════════════════════════════════════════════════════════
-     4. STUDIO VISUAL CANVAS & NARRATIVE GRID
+     RIGHT COLUMN: 3D ISOMETRIC POP SHOWCASE PEDESTAL
      ═══════════════════════════════════════════════════════════ */
-  .story-stage-grid {
-    display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: clamp(32px, 5vw, 64px);
+  .pop-visual-col {
+    perspective: 1200px;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    margin-bottom: clamp(40px, 5vw, 64px);
+    position: relative;
+    z-index: 4;
   }
 
-  /* Studio Visual Canvas */
-  .story-visual-canvas {
+  .pop-isometric-stage {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    background: #ffffff;
+    border: 3.5px solid #0f172a;
+    border-radius: 36px;
+    overflow: hidden;
+    box-shadow: 
+      12px 16px 0 #0f172a,
+      0 24px 48px rgba(23, 78, 232, 0.15);
+    transform: rotateY(-6deg) rotateX(4deg) translateY(var(--parallax-y, 0px));
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+    will-change: transform;
+  }
+
+  .pop-isometric-stage:hover {
+    transform: rotateY(-2deg) rotateX(2deg) translateY(calc(var(--parallax-y, 0px) - 6px));
+    box-shadow: 
+      16px 22px 0 #0f172a,
+      0 32px 64px rgba(23, 78, 232, 0.25);
+  }
+
+  /* Console Top Bar */
+  .stage-console-header {
+    background: #E7EEAC;
+    border-bottom: 3px solid #0f172a;
+    padding: 13px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .console-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ctrl-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid #0f172a;
+  }
+
+  .ctrl-dot.red { background: #ef4444; }
+  .ctrl-dot.yellow { background: #f59e0b; }
+  .ctrl-dot.green { background: #10b981; }
+
+  .console-title {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: 0.08em;
+  }
+
+  .console-gsm-badge {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #ffffff;
+    background: #0f172a;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  /* Stage Screen Box */
+  .stage-screen-box {
     position: relative;
     background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 28px;
-    padding: clamp(32px, 5vw, 56px) 24px;
+    padding: 36px 24px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 480px;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
-    transition: border-color 0.25s ease;
+    min-height: 420px;
+    overflow: hidden;
   }
 
-  .story-visual-canvas:hover {
-    border-color: #cbd5e1;
-  }
-
-  .studio-ambient-circle {
+  /* Floating Pop Badges */
+  .floating-badge {
     position: absolute;
-    width: 320px;
-    height: 320px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(23, 78, 232, 0.08) 0%, rgba(248, 250, 252, 0) 70%);
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    border-radius: 9999px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #0f172a;
+    box-shadow: 3px 3px 0 #0f172a;
+    z-index: 3;
     pointer-events: none;
   }
 
-  .studio-img-wrap {
+  .floating-badge.top-left {
+    top: 18px;
+    left: 20px;
+    background: #E7EEAC;
+  }
+
+  .floating-badge.bottom-right {
+    bottom: 22px;
+    right: 20px;
+    background: #e0f2fe;
+    color: #0369a1;
+  }
+
+  .badge-icon {
+    color: #174ee8;
+    font-size: 0.85rem;
+  }
+
+  /* Showcase Image & Ambient Glow */
+  .garment-showcase-wrap {
     position: relative;
     width: 100%;
-    max-width: 440px;
+    max-width: 380px;
     aspect-ratio: 1;
     display: flex;
     align-items: center;
@@ -453,442 +835,316 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
     z-index: 2;
   }
 
-  .studio-tee-img {
+  .ambient-glow {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(23, 78, 232, 0.18) 0%, rgba(248, 250, 252, 0) 70%);
+    pointer-events: none;
+  }
+
+  .garment-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     display: block;
-    filter: drop-shadow(0 16px 32px rgba(15, 23, 42, 0.12));
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    filter: drop-shadow(0 14px 28px rgba(15, 23, 42, 0.15));
+    transition: transform 0.35s ease;
   }
 
-  .story-visual-canvas:hover .studio-tee-img {
-    transform: translateY(-4px) scale(1.02);
+  .pop-isometric-stage:hover .garment-img {
+    transform: scale(1.04) translateY(-4px);
   }
 
-  /* Interactive Hotspots */
-  .story-hotspot {
+  /* Interactive Screen Overlay CTA */
+  .stage-inspect-overlay {
     position: absolute;
-    transform: translate(-50%, -50%);
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 9999px;
+    padding: 8px 20px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.3);
+    transition: all 0.2s ease;
     z-index: 4;
   }
 
-  .hotspot-pulse-btn {
-    position: relative;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: transparent;
-    border: none;
-    cursor: pointer;
+  .stage-inspect-overlay:hover {
+    background: #174ee8;
+    transform: translateX(-50%) translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 26px rgba(23, 78, 232, 0.45);
+  }
+
+  .inspect-play-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
+    color: #E7EEAC;
   }
 
-  .hotspot-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #174ee8;
-    border: 2px solid #ffffff;
-    box-shadow: 0 0 0 2px #174ee8;
-    transition: transform 0.2s ease, background 0.2s ease;
-  }
-
-  .hotspot-ring {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 1.5px solid #174ee8;
-    opacity: 0.7;
-    animation: hotspotPulse 2.4s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  @keyframes hotspotPulse {
-    0% { transform: scale(0.6); opacity: 0.9; }
-    100% { transform: scale(1.8); opacity: 0; }
-  }
-
-  .hotspot-pulse-btn:hover .hotspot-dot,
-  .story-hotspot.is-active .hotspot-dot {
-    transform: scale(1.3);
-    background: #0f172a;
-    box-shadow: 0 0 0 3px #0f172a;
-  }
-
-  /* Tooltip */
-  .hotspot-tooltip {
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%) translateY(4px);
-    background: #0f172a;
-    color: #ffffff;
-    padding: 6px 12px;
-    border-radius: 8px;
+  .inspect-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
     white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.2);
+  }
+
+  /* Console Footer Bar */
+  .stage-console-footer {
+    background: #ffffff;
+    border-top: 3px solid #0f172a;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .cf-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    z-index: 10;
   }
 
-  .hotspot-tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 5px solid transparent;
-    border-top-color: #0f172a;
-  }
-
-  .story-hotspot:hover .hotspot-tooltip,
-  .story-hotspot.is-active .hotspot-tooltip {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  .tt-step {
+  .cf-k {
     font-family: 'Space Grotesk', monospace;
     font-size: 0.65rem;
     font-weight: 700;
-    color: #93c5fd;
+    color: #94a3b8;
     letter-spacing: 0.08em;
   }
 
-  .tt-desc {
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.74rem;
-    font-weight: 700;
-    color: #ffffff;
-  }
-
-  /* Click to Inspect Prompt Pill */
-  .studio-inspect-prompt {
-    position: absolute;
-    bottom: 20px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #ffffff;
-    border: 1px solid #cbd5e1;
-    color: #0f172a;
+  .cf-v {
     font-family: 'Poppins', sans-serif;
     font-size: 0.78rem;
-    font-weight: 700;
-    padding: 8px 18px;
-    border-radius: 9999px;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
-    transition: all 0.2s ease;
-  }
-
-  .studio-inspect-prompt:hover {
-    background: #0f172a;
-    color: #ffffff;
-    border-color: #0f172a;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     RIGHT COLUMN: CLEAN STORY MODE NARRATIVE CARDS
-     ═══════════════════════════════════════════════════════════ */
-  .story-narrative-col {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .story-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 20px;
-    padding: 24px 28px;
-    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-    position: relative;
-  }
-
-  .story-card::before {
-    content: '';
-    position: absolute;
-    top: 24px;
-    bottom: 24px;
-    left: 0;
-    width: 3px;
-    background: transparent;
-    border-radius: 0 4px 4px 0;
-    transition: background 0.25s ease;
-  }
-
-  .story-card:hover,
-  .story-card.is-highlighted {
-    border-color: #cbd5e1;
-    background: #fafbfc;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
-    transform: translateX(4px);
-  }
-
-  .story-card:hover::before,
-  .story-card.is-highlighted::before {
-    background: #174ee8;
-  }
-
-  .card-num-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  .card-step-index {
-    font-family: 'Space Grotesk', monospace;
-    font-size: 0.75rem;
-    font-weight: 800;
-    color: #174ee8;
-  }
-
-  .card-step-name {
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    color: #94a3b8;
-  }
-
-  .card-headline {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: #0f172a;
-    margin: 0 0 8px;
-    line-height: 1.35;
-  }
-
-  .card-body {
-    font-size: 0.92rem;
-    line-height: 1.6;
-    color: #64748b;
-    margin: 0;
-  }
-
-  /* ═══════════════════════════════════════════════════════════
-     5. MINIMALIST SPECIFICATIONS BAR
-     ═══════════════════════════════════════════════════════════ */
-  .story-specs-bar {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 18px;
-    padding: 18px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 32px;
-  }
-
-  .spec-cell {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .spec-label {
-    font-family: 'Space Grotesk', monospace;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: #94a3b8;
-  }
-
-  .spec-value {
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.88rem;
     font-weight: 800;
     color: #0f172a;
   }
 
-  .spec-divider {
-    width: 1px;
-    height: 32px;
+  .cf-divider {
+    width: 2px;
+    height: 22px;
     background: #e2e8f0;
   }
 
   /* ═══════════════════════════════════════════════════════════
-     6. REFINED ACTION ROW
+     4. LOWER PUNCHLINE BRIDGE (MATCHING "BRING ON #THEMAGIC")
      ═══════════════════════════════════════════════════════════ */
-  .story-actions-footer {
-    display: flex;
+  .pop-lower-bridge {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 5vw, 64px);
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
+    background: #f8fafc;
+    border: 3px solid #0f172a;
+    border-radius: 36px;
+    padding: clamp(32px, 5vw, 56px);
+    box-shadow: 12px 14px 0 #0f172a;
+    position: relative;
+    z-index: 4;
   }
 
-  .actions-left {
+  .lower-title {
+    font-family: 'Space Grotesk', 'Poppins', -apple-system, sans-serif;
+    font-size: clamp(2.4rem, 4.4vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: #0f172a;
+    margin: 0 0 16px;
+  }
+
+  .lower-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0 0 24px;
+    max-width: 440px;
+  }
+
+  .lower-buttons {
     display: flex;
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
   }
 
-  .btn-story-quickview {
+  .btn-pop-white-pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: #0f172a;
-    color: #ffffff;
+    background: #ffffff;
+    color: #0f172a;
+    border: 2px solid #0f172a;
     font-family: 'Poppins', sans-serif;
     font-size: 0.92rem;
     font-weight: 700;
-    padding: 13px 26px;
+    padding: 11px 22px;
     border-radius: 9999px;
-    border: none;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
-    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .btn-story-quickview:hover {
-    background: #174ee8;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(23, 78, 232, 0.3);
-  }
-
-  .btn-story-whatsapp {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    color: #15803d;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.92rem;
-    font-weight: 700;
-    padding: 12px 24px;
-    border-radius: 9999px;
-    text-decoration: none;
+    box-shadow: 3px 3px 0 #0f172a;
     transition: all 0.2s ease;
   }
 
-  .btn-story-whatsapp:hover {
-    background: #25D366;
-    color: #ffffff;
-    border-color: #25D366;
+  .btn-pop-white-pill:hover {
+    background: #E7EEAC;
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.25);
   }
 
-  .actions-right {
-    display: flex;
-    align-items: center;
+  /* Lower Curved Card */
+  .lower-curved-card {
+    background: #ffffff;
+    border: 2.5px solid #0f172a;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 6px 8px 0 rgba(15, 23, 42, 0.1);
   }
 
-  .link-catalogue-peek {
+  .lcc-eyebrow {
+    font-family: 'Space Grotesk', monospace;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #174ee8;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .lcc-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 12px;
+  }
+
+  .lcc-body {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #64748b;
+    margin: 0 0 20px;
+  }
+
+  .lcc-link {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 700;
+    gap: 8px;
     color: #174ee8;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
     text-decoration: none;
     transition: gap 0.2s ease;
   }
 
-  .link-catalogue-peek:hover {
-    gap: 10px;
-    text-decoration: underline;
+  .lcc-link:hover {
+    gap: 12px;
   }
 
   /* ═══════════════════════════════════════════════════════════
      RESPONSIVE MEDIA QUERIES
      ═══════════════════════════════════════════════════════════ */
   @media (max-width: 991px) {
-    .story-stage-grid {
+    .pop-main-grid {
       grid-template-columns: 1fr;
-      gap: 36px;
+      gap: 40px;
     }
 
-    .story-specs-bar {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    .pop-visual-col {
+      order: 2;
     }
 
-    .spec-divider {
-      display: none;
+    .pop-text-col {
+      order: 1;
+    }
+
+    .pop-lower-bridge {
+      grid-template-columns: 1fr;
+      padding: 32px 24px;
     }
   }
 
   @media (max-width: 640px) {
-    .story-shell {
-      padding: 32px 16px 0;
+    .pop-shell {
+      padding: 36px 16px 0;
     }
 
-    .story-title {
-      font-size: 2.2rem;
+    .pop-headline {
+      font-size: clamp(2.2rem, 9vw, 2.9rem);
+      margin-bottom: 18px;
     }
 
-    .story-visual-canvas {
-      min-height: 360px;
-      padding: 24px 16px;
-      border-radius: 20px;
-    }
-
-    .story-card {
-      padding: 20px;
-    }
-
-    .story-specs-bar {
+    .pop-spec-grid {
       grid-template-columns: 1fr;
-      gap: 12px;
-      padding: 16px 20px;
+      gap: 8px;
     }
 
-    .actions-left {
-      width: 100%;
+    .pop-cta-row {
       flex-direction: column;
+      width: 100%;
     }
 
-    .btn-story-quickview,
-    .btn-story-whatsapp {
+    .btn-pop-dark-pill,
+    .btn-pop-green-pill {
       width: 100%;
       justify-content: center;
     }
 
-    .actions-right {
+    .pop-isometric-stage {
+      transform: none !important;
+      box-shadow: 8px 10px 0 #0f172a;
+    }
+
+    .stage-screen-box {
+      min-height: 320px;
+      padding: 24px 16px;
+    }
+
+    .floating-badge {
+      display: none;
+    }
+
+    .lower-title {
+      font-size: clamp(2rem, 8vw, 2.5rem);
+    }
+
+    .lower-buttons {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .btn-pop-white-pill {
       width: 100%;
       justify-content: center;
-      margin-top: 8px;
     }
   }
 </style>
 
 <script>
   // ═══════════════════════════════════════════════════════════
-  // LIGHTWEIGHT STORY MODE SCROLL & HOTSPOT CONTROLLER
+  // LINEAR SCROLL PARALLAX SCRIPT
   // ═══════════════════════════════════════════════════════════
-  function setupStoryMode() {
+  function setupPopScrollParallax() {
     const section = document.getElementById('featured-piece');
-    const progressBar = document.getElementById('storyProgressBar');
-    const hotspots = document.querySelectorAll('.story-hotspot');
-    const cards = document.querySelectorAll('.story-card');
+    const ribbonText = document.getElementById('popRibbonText');
+    const stage = document.getElementById('popIsometricStage');
+    const col = document.getElementById('popVisualCol');
 
-    if (!section || !progressBar) return;
+    if (!section || !ribbonText) return;
 
     let ticking = false;
 
-    // Linear scroll progress listener
-    function onStoryScroll() {
+    function onScroll() {
       if (!ticking) {
         requestAnimationFrame(() => {
           const rect = section.getBoundingClientRect();
@@ -896,8 +1152,17 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
 
           if (rect.top <= vh && rect.bottom >= 0) {
             const travel = vh + rect.height;
-            const progress = Math.min(Math.max((vh - rect.top) / travel, 0), 1);
-            progressBar.style.width = `${progress * 100}%`;
+            const progress = (vh - rect.top) / travel;
+
+            // Shift text dynamically along the curve
+            const offset = -25 + progress * 55;
+            ribbonText.setAttribute('startOffset', `${offset}%`);
+
+            // Subtle parallax depth on 3D isometric card
+            if (stage && window.innerWidth > 768) {
+              const parallaxY = (progress - 0.5) * -36;
+              stage.style.setProperty('--parallax-y', `${parallaxY}px`);
+            }
           }
 
           ticking = false;
@@ -906,41 +1171,37 @@ const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS.find((p) =>
       }
     }
 
-    window.addEventListener('scroll', onStoryScroll, { passive: true });
-    onStoryScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
-    // Hotspot interaction: highlight matching narrative card
-    hotspots.forEach((hs) => {
-      const targetId = hs.getAttribute('data-target');
-      const targetCard = targetId ? document.getElementById(targetId) : null;
+    // 3D Pointer reaction
+    if (col && stage && window.innerWidth > 768) {
+      col.addEventListener('mousemove', (e) => {
+        const rect = col.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-      hs.addEventListener('mouseenter', () => {
-        hotspots.forEach((h) => h.classList.remove('is-active'));
-        cards.forEach((c) => c.classList.remove('is-highlighted'));
-        hs.classList.add('is-active');
-        if (targetCard) targetCard.classList.add('is-highlighted');
+        stage.style.transform = `
+          rotateY(${x * 12 - 4}deg) 
+          rotateX(${-y * 10 + 3}deg) 
+          translateY(var(--parallax-y, 0px))
+        `;
       });
 
-      hs.addEventListener('mouseleave', () => {
-        hs.classList.remove('is-active');
-        if (targetCard) targetCard.classList.remove('is-highlighted');
+      col.addEventListener('mouseleave', () => {
+        stage.style.transform = `
+          rotateY(-6deg) 
+          rotateX(4deg) 
+          translateY(var(--parallax-y, 0px))
+        `;
       });
-
-      hs.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (targetCard) {
-          targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          targetCard.classList.add('is-highlighted');
-          setTimeout(() => targetCard.classList.remove('is-highlighted'), 2000);
-        }
-      });
-    });
+    }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupStoryMode);
+    document.addEventListener('DOMContentLoaded', setupPopScrollParallax);
   } else {
-    setupStoryMode();
+    setupPopScrollParallax();
   }
-  document.addEventListener('astro:page-load', setupStoryMode);
+  document.addEventListener('astro:page-load', setupPopScrollParallax);
 </script>
